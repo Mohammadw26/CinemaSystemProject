@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ShowCatalogController">
+   <children>
+      <TableView fx:id="listToTable" layoutX="14.0" layoutY="47.0" prefHeight="341.0" prefWidth="775.0">
+        <columns>
+          <TableColumn fx:id="posterCol" prefWidth="109.60000610351562" text="Poster" />
+            <TableColumn fx:id="titleCol" prefWidth="96.0" text="Movie Title" />
+            <TableColumn fx:id="actorsCol" prefWidth="97.5999755859375" text="Starring" />
+            <TableColumn fx:id="productionCol" minWidth="0.0" prefWidth="97.60003662109375" text="Producer" />
+          <TableColumn fx:id="descriptionCol" prefWidth="102.39996337890625" text="Description" />
+            <TableColumn fx:id="costCol" prefWidth="114.39996337890625" text="Cost per Ticket" />
+            <TableColumn fx:id="timesCol" prefWidth="156.00006103515625" text="Screenings times" />
+        </columns>
+      </TableView>
+      <ToolBar prefHeight="40.0" prefWidth="800.0">
+        <items>
+          <Button fx:id="homeBtn" mnemonicParsing="false" text="Home Page" />
+            <Button fx:id="EditBtn" mnemonicParsing="false" text="Edit content" />
+        </items>
+      </ToolBar>
+   </children>
+</AnchorPane>

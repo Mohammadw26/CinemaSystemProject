@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.EditMovieScreeningsController">
+   <children>
+      <Label fx:id="TitleField" layoutX="385.0" layoutY="14.0" prefHeight="38.0" prefWidth="132.0" text="Movie Title" underline="true">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Label layoutX="197.0" layoutY="75.0" text="Current Screening Times:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font></Label>
+      <Label layoutX="40.0" layoutY="361.0" text="Enter new date:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font></Label>
+      <Label layoutX="362.0" layoutY="361.0" text="Enter new time:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font></Label>
+      <Button fx:id="applyBtn" layoutX="834.0" layoutY="642.0" mnemonicParsing="false" onAction="#ApplyChanges" text="Apply" />
+      <Button fx:id="cancelBtn" layoutX="723.0" layoutY="642.0" mnemonicParsing="false" onAction="#ReturnToCatalog" text="Cancel request" />
+      <ComboBox fx:id="hourField" disable="true" layoutX="512.0" layoutY="383.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <ComboBox fx:id="minuteField" disable="true" layoutX="512.0" layoutY="435.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <Label layoutX="473.0" layoutY="387.0" prefHeight="18.0" prefWidth="36.0" text="Hour:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font></Label>
+      <Label layoutX="456.0" layoutY="439.0" prefHeight="18.0" prefWidth="56.0" text="Minutes:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font></Label>
+      <TableView fx:id="screeningsTable" layoutX="195.0" layoutY="100.0" onMouseClicked="#setCelltoField" prefHeight="173.0" prefWidth="565.0">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="48.0" text="ID" />
+          <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" text="Date" />
+            <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" text="Time" />
+            <TableColumn fx:id="branchCol" prefWidth="176.79998779296875" text="Branch" />
+        </columns>
+      </TableView>
+      <TextField fx:id="idField" layoutX="472.0" layoutY="230.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
+      <Label layoutX="134.0" layoutY="439.0" prefHeight="18.0" prefWidth="47.0" text="Month:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="147.0" layoutY="387.0" prefHeight="18.0" prefWidth="36.0" text="Day:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="140.0" layoutY="491.0" prefHeight="18.0" prefWidth="36.0" text="Year:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="dayField" disable="true" layoutX="195.0" layoutY="383.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <ComboBox fx:id="monthField" disable="true" layoutX="195.0" layoutY="435.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <ComboBox fx:id="yearField" disable="true" layoutX="195.0" layoutY="487.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <Label layoutX="40.0" layoutY="303.0" text="Please choose an option:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="optionField" layoutX="197.0" layoutY="300.0" onAction="#getOptionField" prefWidth="150.0" promptText="Select" />
+      <Label layoutX="637.0" layoutY="361.0" text="Enter new branch:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="priceField" disable="true" layoutX="782.0" layoutY="435.0" prefHeight="26.0" prefWidth="76.0" promptText="00.00" />
+      <Label layoutX="674.0" layoutY="439.0" text="Enter new price:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="branchField" disable="true" layoutX="779.0" layoutY="383.0" onAction="#ChooseBranch" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
+      <Label layoutX="729.0" layoutY="387.0" prefHeight="18.0" prefWidth="47.0" text="Branch:">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="editMessage" layoutX="153.0" layoutY="329.0" prefHeight="18.0" prefWidth="238.0" text="Please click on the screening you would like to edit" textFill="RED" visible="false">
+         <font>
+            <Font name="Comic Sans MS" size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="deleteMessage" layoutX="154.0" layoutY="331.0" text="Please click on the screening you want to delete" textFill="RED" visible="false">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="10.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="datePick" disable="true" layoutX="369.0" layoutY="551.0" />
+   </children>
+</AnchorPane>

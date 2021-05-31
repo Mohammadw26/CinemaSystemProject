@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayMovieInfoController">
+   <children>
+      <ImageView fx:id="imageField" fitHeight="100.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox prefHeight="282.0" prefWidth="542.0">
+         <children>
+            <Label fx:id="titleField" alignment="BOTTOM_CENTER" contentDisplay="CENTER" prefHeight="77.0" prefWidth="470.0" text="Movie Title" underline="true">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="66.0" prefWidth="361.0" vbarPolicy="ALWAYS">
+               <content>
+                  <Label fx:id="descriptionField" alignment="TOP_LEFT" prefHeight="146.0" prefWidth="340.0" text="Description" textOverrun="CLIP" wrapText="true" />
+               </content>
+            </ScrollPane>
+            <Label fx:id="ProducersField" text="Producers" />
+            <Label fx:id="starsField" text="Starring actors" />
+            <Label fx:id="costField" text="Cost per ticket" />
+            <Label fx:id="screeningField" prefHeight="26.0" prefWidth="462.0" text="Screening times" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

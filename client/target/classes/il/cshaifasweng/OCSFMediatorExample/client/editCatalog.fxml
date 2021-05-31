@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.EditCatalogController">
+   <children>
+      <TableView layoutX="98.0" layoutY="63.0" prefHeight="228.0" prefWidth="603.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Image" />
+          <TableColumn prefWidth="75.0" text="Name" />
+            <TableColumn prefWidth="75.0" text="Producer" />
+            <TableColumn prefWidth="75.0" text="Cast" />
+            <TableColumn prefWidth="75.0" text="Date" />
+            <TableColumn prefWidth="75.0" text="Time" />
+            <TableColumn prefWidth="75.0" text="Cinema" />
+            <TableColumn prefWidth="75.0" text="Description" />
+        </columns>
+      </TableView>
+      <Button fx:id="homeBtn" layoutX="338.0" layoutY="322.0" mnemonicParsing="false" onAction="#goHome" text="Home Page" />
+      <Label layoutX="217.0" layoutY="27.0" prefHeight="18.0" prefWidth="365.0" text="Please double click on the movie to edit">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
