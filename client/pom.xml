@@ -26,24 +26,12 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>${javafx.version}</version>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>win</classifier>
-		</dependency>
-		<dependency>
- 			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>linux</classifier>
-		</dependency>
-		<dependency>
-			<groupId>org.openjfx</groupId>
-			<artifactId>javafx-graphics</artifactId>
-			<version>${javafx.version}</version>
-			<classifier>mac</classifier>
-		</dependency> -->
+		<!-- <dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics</artifactId> 
+			<version>${javafx.version}</version> <classifier>win</classifier> </dependency> 
+			<dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics</artifactId> 
+			<version>${javafx.version}</version> <classifier>linux</classifier> </dependency> 
+			<dependency> <groupId>org.openjfx</groupId> <artifactId>javafx-graphics</artifactId> 
+			<version>${javafx.version}</version> <classifier>mac</classifier> </dependency> -->
 		<dependency>
 			<groupId>org.greenrobot</groupId>
 			<artifactId>eventbus</artifactId>
@@ -52,6 +40,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>entities</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/de.jensd/fontawesomefx-fontawesome -->
+		<dependency>
+			<groupId>de.jensd</groupId>
+			<artifactId>fontawesomefx-fontawesome</artifactId>
+			<version>4.7.0-9.1.2</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -76,7 +70,8 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>il.cshaifasweng.OCSFMediatorExample.client.Main</mainClass>
 								</transformer>
 							</transformers>
