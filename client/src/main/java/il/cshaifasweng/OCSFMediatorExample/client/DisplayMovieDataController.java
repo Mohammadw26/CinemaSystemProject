@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+
 
 public class DisplayMovieDataController {
 	private Movie movie;
@@ -47,14 +49,17 @@ public class DisplayMovieDataController {
     @FXML // fx:id="screeningField"
     private Label screeningField; // Value injected by FXMLLoader
 
-    @FXML // fx:id="editBtn"
-    private Button editBtn; // Value injected by FXMLLoader
+//    @FXML // fx:id="editBtn"
+//    private Button editBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="addBtn"
     private Button addBtn; // Value injected by FXMLLoader
+    
+    @FXML
+    private FontAwesomeIconView editBtn;
 
-    @FXML // fx:id="deleteBtn"
-    private Button deleteBtn; // Value injected by FXMLLoader
+    @FXML
+    private FontAwesomeIconView deleteBtn;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -126,14 +131,27 @@ public class DisplayMovieDataController {
 //		}
 //    }
 
-    @FXML
-    void uploadEditScreening(ActionEvent event) {
-    	EditMovieScreeningsController.setMovie(movie);
+	@FXML
+    void uploadEditScreening(MouseEvent event) {
+		EditMovieScreeningsController.setMovie(movie);
     	try {
 			SimpleClient.getClient().sendToServer("#BranchesListRequest");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-}
+	}
+
+	}
+	
+//    @FXML
+//    void uploadEditScreening(ActionEvent event) {
+//    	EditMovieScreeningsController.setMovie(movie);
+//    	try {
+//			SimpleClient.getClient().sendToServer("#BranchesListRequest");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    }
+//}
