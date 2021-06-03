@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import javafx.scene.control.Label;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -17,6 +18,28 @@ public class PrimaryController {
 
 	@FXML
 	private Button showCatalog;
+	
+
+    @FXML
+    private Label welcomeLabel;
+
+    @FXML
+    private Label cinemaLabel;
+
+    @FXML
+    private Button adminLabel;
+
+    @FXML
+    void adminLogin(ActionEvent event) {
+    	try {
+			App.setRoot("adminPanel");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+
+    }
 
 	@FXML
 	void sendCatalogRequest(ActionEvent event) {

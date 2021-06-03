@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,10 +12,30 @@
    <children>
       <ImageView fitHeight="695.0" fitWidth="918.0" layoutY="-5.0" pickOnBounds="true">
          <image>
-            <Image url="@SirtyaWelcome.PNG" />
+            <Image url="@SirtyaWelcome.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="showCatalog" layoutX="398.0" layoutY="399.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" text="show catalog">
+      <Button fx:id="showCatalog" layoutX="398.0" layoutY="399.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="show catalog">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="14.0" />
+         </font></Button>
+      <Label fx:id="welcomeLabel" layoutX="366.0" layoutY="108.0" text="Welcome" textFill="WHITE">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="48.0" />
+         </font>
+         <effect>
+            <Glow level="0.86" />
+         </effect>
+      </Label>
+      <Label fx:id="cinemaLabel" layoutX="241.0" layoutY="201.0" text="The Sirtya Cinema" textFill="WHITE">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="48.0" />
+         </font>
+         <effect>
+            <Glow level="0.86" />
+         </effect>
+      </Label>
+      <Button fx:id="adminLabel" layoutX="400.0" layoutY="447.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Admin Login">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font></Button>
