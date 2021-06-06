@@ -24,16 +24,16 @@ public class Complaint implements Serializable {
 	//private static final long serialVersionUID = ??;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private string sentDate;
-	private string answerDate;
-	private string workerName;
-	private string description;
+	private String sentDate;
+	private String answerDate;
+	private String workerName;
+	private String description;
 	private Client client;
 	//private 
 	
-	public Ticket() {}
+	public Complaint() {}
 	
-	public Ticket(string _sentDate,string _answerDate,string _workerName,string _description,Client _client){
+	public Complaint (String _sentDate,String _answerDate,String _workerName,String _description,Client _client){
 		this.sentDate = _sentDate;
 		this.answerDate = _answerDate;
 		this.workerName = _workerName;
@@ -41,35 +41,35 @@ public class Complaint implements Serializable {
 		this.client = _client;
 	}
 	
-	public string getsentDate(){
+	public String getsentDate(){
 		return this.sentDate;
 	}
 	
-	public void setsentDate(int _sentDate){
+	public void setsentDate(String _sentDate){
 		this.sentDate = _sentDate;
 	}
 	
-	public string getanswerDate(){
+	public String getanswerDate(){
 		return this.answerDate;
 	}
 	
-	public void setanswerDate(int _answerDate){
+	public void setanswerDate(String _answerDate){
 		this.answerDate = _answerDate;
 	}
 	
-	public string getworkerName(){
+	public String getworkerName(){
 		return this.workerName;
 	}
 	
-	public void setworkerName(int _workerName){
+	public void setworkerName(String _workerName){
 		this.workerName = _workerName;
 	}
 	
-	public string getDescription(){
-		return this.Description;
+	public String getDescription(){
+		return this.description;
 	}
 	
-	public void setDescription(string _description){
+	public void setDescription(String _description){
 		this.description = _description;
 	}
 	
@@ -77,9 +77,10 @@ public class Complaint implements Serializable {
 		return this.client;
 	}
 	
-	public void setClient(int _client){
+	public void setClient(Client _client){
 		this.client = _client;
 	}
+}
 	
 
 	

@@ -24,8 +24,8 @@ public class Ticket implements Serializable {
 	//private static final long serialVersionUID = ??;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private string date;
-	private string movieName;
+	private String date;
+	private String movieName;
 	private int hallNumber;
 	private int seatNum;
 	private double price;
@@ -33,7 +33,7 @@ public class Ticket implements Serializable {
 	
 	public Ticket() {}
 	
-	public Ticket(string _date, string _movieName, int _hallNumber, int _seatNum, double _price,Client _client){
+	public Ticket(String _date, String _movieName, int _hallNumber, int _seatNum, double _price,Client _client){
 		this.date = _date;
 		this.movieName = _movieName;
 		this.hallNumber = _hallNumber;
@@ -42,19 +42,19 @@ public class Ticket implements Serializable {
 		this.client = _client;
 	}
 	
-	public string getDate(){
+	public String getDate(){
 		return this.date;
 	}
 	
-	public void setDate(int _date){
+	public void setDate(String _date){
 		this.date = _date;
 	}
 	
-	public string getMovieName(){
+	public String getMovieName(){
 		return this.movieName;
 	}
 	
-	public void setMovieName(int _movieName){
+	public void setMovieName(String _movieName){
 		this.movieName = _movieName;
 	}
 	
@@ -86,9 +86,10 @@ public class Ticket implements Serializable {
 		return this.client;
 	}
 	
-	public void setClient(int _client){
+	public void setClient(Client _client){
 		this.client = _client;
 	}
+}
 	
 
 	

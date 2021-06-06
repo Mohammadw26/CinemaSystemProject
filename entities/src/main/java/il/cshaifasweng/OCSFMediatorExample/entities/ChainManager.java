@@ -24,11 +24,11 @@ public class ChainManager extends Worker {
 	//private static final long serialVersionUID = ??;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private list<refund> refunds;
+	private List<Refund> refunds;
 	
 	public ChainManager() {}
 	
-	public ChainManager (list <refund> _refunds){
+	public ChainManager (List <Refund> _refunds){
 		this.refunds = _refunds;
 	}
 	
@@ -36,6 +36,7 @@ public class ChainManager extends Worker {
 		return this.refunds;
 	}
 	
-	public void setRefunds(list <refund> _refunds){
+	public void setRefunds(List <Refund> _refunds){
 		this.refunds = _refunds;
 	}
+}

@@ -24,35 +24,35 @@ public class Order implements Serializable {
 	//private static final long serialVersionUID = ??;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private list <Ticket> ticketList;
+	private List <Ticket> ticketList;
 	private int totalPrice;
-	private string orderDate;
+	private String orderDate;
 	private Client client;
 	//private 
 	
 	public Order() {}
 	
-	public Order(list <Ticket> _ticketList,int _totalPrice,string _orderDate,Client _client){
+	public Order(List <Ticket> _ticketList,int _totalPrice,String _orderDate,Client _client){
 		this.ticketList = _ticketList;
 		this.totalPrice = _totalPrice;
 		this.orderDate = _orderDate;
 		this.client = _client;
 	}
 	
-	public list<Ticket> getTicketList(){
+	public List<Ticket> getTicketList(){
 		return this.ticketList;
 	}
 	
-	public void setTicketList(int _ticketList){
+	public void setTicketList(List<Ticket> _ticketList){
 		this.ticketList = _ticketList;
 	}
 	
 	
-	public string getOrderDate(){
+	public String getOrderDate(){
 		return this.orderDate;
 	}
 	
-	public void setOrderDate(int _orderDate){
+	public void setOrderDate(String _orderDate){
 		this.orderDate = _orderDate;
 	}
 	
@@ -68,9 +68,10 @@ public class Order implements Serializable {
 		return this.client;
 	}
 	
-	public void setClient(int _client){
+	public void setClient(Client _client){
 		this.client = _client;
 	}
+}
 	
 
 	

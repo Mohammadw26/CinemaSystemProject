@@ -25,12 +25,12 @@ public class Worker implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int workerId;
-	private string workerName;
-	private string workerPassword;
+	private String workerName;
+	private String workerPassword;
 	
 	public Worker() {}
 	
-	public Worker (int iD,string name, string password){
+	public Worker (int iD, String name, String password){
 		this.workerId = iD;
 		this.workerName = name;
 		this.workerPassword = password;
@@ -44,22 +44,23 @@ public class Worker implements Serializable {
 		this.workerId = _ID;
 	}
 	
-	public int getWorkerName(){
+	public String getWorkerName(){
 		return this.workerName;
 	}
 	
-	public void setWorkerName(int _name){
+	public void setWorkerName(String _name){
 		this.workerName = _name;
 	}
 	
-	public int getWorkerPassword(){
+	public String getWorkerPassword(){
 		return this.workerPassword;
 	}
 	
-	public void setWorkerPassword(int _pass){
+	public void setWorkerPassword(String _pass){
 		this.workerPassword = _pass;
 	}
 	
+}
 
 	
 	

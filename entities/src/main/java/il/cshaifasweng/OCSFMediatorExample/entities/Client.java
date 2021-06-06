@@ -25,13 +25,13 @@ public class Client implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ClientId;
-	private string ClientName;
+	private String ClientName;
 	private int ClientAge;
-	private list<order> orders;
+	private List<Order> orders;
 	private int NumOfOrders;
-	private list<complaint> Complaints;
+	private List<Complaint> Complaints;
 	private int NumOfComplaints;
-	private bool Hastab;
+	private Boolean Hastab;
 	private Tab ClientTab;
 	private double WalletFunds;
 	private CreditCard ClientCard;
@@ -39,7 +39,8 @@ public class Client implements Serializable {
 	
 	public Client() {}
 	
-	public Client(int _ClientId, string _ClientName, int _ClientAge, list<order> _orders , int _NumOfOrders , list<complaint> _Complaints , int _NumOfComplaints, bool _Hastab, Tab _ClientTab, double _WalletFunds , CreditCard _ClientCard){
+	public Client(int _ClientId, String _ClientName, int _ClientAge, List<Order> _orders , int _NumOfOrders ,
+					List<Complaint> _Complaints , int _NumOfComplaints, Boolean _Hastab, Tab _ClientTab, double _WalletFunds , CreditCard _ClientCard){
 		this.ClientId =  _ClientId;
 		this.ClientName = _ClientName;
 		this.ClientAge =  _ClientAge;
@@ -61,11 +62,11 @@ public class Client implements Serializable {
 		this.ClientId = _ClientId;
 	}
 	
-	public string getClientName(){
+	public String getClientName(){
 		return this.ClientName;
 	}
 	
-	public void setClientName(string _ClientName){
+	public void setClientName(String _ClientName){
 		this.ClientName = _ClientName;
 	}
 	
@@ -77,11 +78,11 @@ public class Client implements Serializable {
 		this.ClientAge = _ClientAge;
 	}
 	
-	public list<order> getOrders(){
+	public List<Order> getOrders(){
 		return this.orders;
 	}
 	
-	public void setOrders(list<order> _orders){
+	public void setOrders(List<Order> _orders){
 		this.orders = _orders;
 	}
 	
@@ -93,11 +94,11 @@ public class Client implements Serializable {
 		this.NumOfOrders = _NumOfOrders;
 	}
 	
-	public list<complaint> getComplaints(){
+	public List<Complaint> getComplaints(){
 		return this.Complaints;
 	}
 	
-	public void setComplaints(list<complaint> _Complaints){
+	public void setComplaints(List<Complaint> _Complaints){
 		this.Complaints = _Complaints;
 	}
 	public int getNumOfComplaints(){
@@ -107,11 +108,11 @@ public class Client implements Serializable {
 	public void setNumOfComplaints(int _NumOfComplaints){
 		this.NumOfComplaints = _NumOfComplaints;
 	}
-	public bool getHastab(){
+	public Boolean getHastab(){
 		return this.Hastab;
 	}
 	
-	public void setHastab(bool _Hastab){
+	public void setHastab(Boolean _Hastab){
 		this.Hastab = _Hastab;
 	}
 	public Tab getClientTab(){
@@ -135,3 +136,4 @@ public class Client implements Serializable {
 	public void setClientCard(CreditCard _ClientCard){
 		this.ClientCard = _ClientCard;
 	}
+}
