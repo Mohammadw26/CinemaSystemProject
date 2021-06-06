@@ -25,14 +25,14 @@ public class CreditCard implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cvv;
-	private string cardNum;
-	private string cardOwner;
-	private string validDate;
-	private bool isValid;
+	private String cardNum;
+	private String cardOwner;
+	private String validDate;
+	private Boolean isValid;
 	
 	public CreditCard() {}
 	
-	public CreditCard (int _cvv, string _cardNum, string _validDate, bool _isValid){
+	public CreditCard (int _cvv, String _cardNum,String _cardOwner, String _validDate, Boolean _isValid){
 		this.cvv = _cvv;
 		this.cardOwner = _cardOwner;
 		this.validDate = _validDate;
@@ -47,29 +47,30 @@ public class CreditCard implements Serializable {
 		this.cvv = _cvv;
 	}
 	
-	public int getCardOwner(){
+	public String getCardOwner(){
 		return this.cardOwner;
 	}
 	
-	public void setCardOwner(int _cardOwner){
+	public void setCardOwner(String _cardOwner){
 		this.cardOwner = _cardOwner;
 	}
 	
-	public int getValidDate(){
+	public String getValidDate(){
 		return this.validDate;
 	}
 	
-	public void setValidDate(int _validDate){
+	public void setValidDate(String _validDate){
 		this.validDate = _validDate;
 	}
 	
-	public int getIsValid(){
+	public Boolean getIsValid(){
 		return this.isValid;
 	}
 	
-	public void setIsValid(int _isValid){
+	public void setIsValid(Boolean _isValid){
 		this.isValid = _isValid;
 	}
+}
 	
 
 	

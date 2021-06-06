@@ -24,12 +24,12 @@ public class Hall implements Serializable {
 	//private static final long serialVersionUID = ??;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private list<seat> SeatsOfHall;
-	private string cinema_name;
+	private List<Seat> SeatsOfHall;
+	private String cinema_name;
 	private int numOfSeats;
 	private static int seaters=0;
-	private string movie_screening;
-	private bool isOccupied;
+	private String movie_screening;
+	private Boolean isOccupied;
 
 
 	
@@ -41,7 +41,7 @@ public class Hall implements Serializable {
 	
 	public Hall(){}
 	
-	public Hall(list<seat> SeatsOfHall,string cinema_name,int numOfSeats,int seaters,string movie_screening,bool isOccupied){
+	public Hall(List<Seat> SeatsOfHall,String cinema_name,int numOfSeats,int seaters,String movie_screening,boolean isOccupied){
 		this.SeatsOfHall = SeatsOfHall;
 		this.cinema_name = cinema_name;
 		this.numOfSeats = numOfSeats;
@@ -51,62 +51,61 @@ public class Hall implements Serializable {
 		
 	}
 	
-	Public void setHallNum(int num)
+	public void setHallNum(int num)
 	{ 
 		this.Hall_number = num;
 		
 	}
 	
-	Public int getHallNum()
+	public int getHallNum()
 	{ 
-		return this.Hall_num;
+		return this.Hall_number;
 	}
 			
-	Public void setCinemaName(string name)
+	public void setCinemaName(String name)
 	{
 		this.cinema_name = name;
 	}	
 	
-	Public string getCinemaName()
+	public String getCinemaName()
 	{
 		return this.cinema_name; 
 	}
 	
-	Public void setNumSeats(int Number)
+	public void setNumSeats(int Number)
 	{
-		this.numofseats=Number; 
+		this.numOfSeats=Number; 
 	}
 	
-	Public int getNumSeats()
+	public int getNumSeats()
 	{
-		return this.numofseats;   
+		return this.numOfSeats;   
 	}
 	
-	Public void setMovieScreening(string movieScr)
+	public void setMovieScreening(String movieScr)
 	{
 		this.movie_screening = movieScr;  
 	}
 	
-	Public string getMovieScreening()
+	public String getMovieScreening()
 	{
 		return this.movie_screening; 
 	}
 	
-	Public void addPerson()
+	public void addPerson()
 	{ 
 		if (seaters==numOfSeats)
-		{
-			throw exception();
-		} //exception which returns a message "error"
+		
 		
 		seaters++;
 	}
-	
-	Public void removePerson()
+
+	void removePerson()
 	{
-		if (seaters<=0) {throw exception(); } //
+		if (seaters<=0) //
 		
 		seaters--;
 	
 	}
+}
 	
