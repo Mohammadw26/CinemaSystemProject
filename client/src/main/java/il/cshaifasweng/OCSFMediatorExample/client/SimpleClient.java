@@ -27,6 +27,9 @@ public class SimpleClient extends AbstractClient {
 		else if (msgString.startsWith("#BranchesList")) {
 			EventBus.getDefault().post(new BranchesReceivedEvent((Message) msg));
 		}
+		else if (msgString.startsWith("#WorkersList")) {
+			EventBus.getDefault().post(new WorkersReceivedEvent((Message) msg));
+		}
 		else if (msgString.startsWith("#RefreshAdd")) {
 			EditMovieScreeningsController.setMovie((Movie) ((Message) msg).getObject());
 			try {

@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
 /**
  * JavaFX App
@@ -98,6 +99,20 @@ public class App extends Application {
 			e.printStackTrace();
 		}
     }
+	
+	@SuppressWarnings("unchecked")
+	@Subscribe
+    public void onWorkersReceivedEvent(WorkersReceivedEvent event) {
+    	AdminPanelController.setAllWorkers((List<Worker>) event.getWorkersList());
+		try {
+			App.setRoot("adminPanel");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+	
+	
 
 	public static void main(String[] args) {
         launch();

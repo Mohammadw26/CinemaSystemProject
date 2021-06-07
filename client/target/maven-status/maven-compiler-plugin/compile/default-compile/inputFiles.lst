@@ -2,7 +2,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\App.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SecondaryController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMovieScreeningController.java
-C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\adminPanelController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AdminPanelController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\DisplayMovieDataController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableClient.java
@@ -15,6 +15,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BranchesReceivedEvent.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\MoviesReceivedEvent.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\WarningEvent.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\WorkersReceivedEvent.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SimpleClient.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableSWRClient.java

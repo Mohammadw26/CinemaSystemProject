@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "creditcards")
 public class CreditCard implements Serializable {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = -4452427083653886194L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int cvv;

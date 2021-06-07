@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customerserviceemployee")
 public class CustomerServiceEmployee extends Worker {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = 4791474992620673727L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private List<Complaint> unansweredComplaints;

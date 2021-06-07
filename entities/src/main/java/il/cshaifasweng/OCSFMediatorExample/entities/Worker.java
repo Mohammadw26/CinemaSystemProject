@@ -18,29 +18,37 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "workers")
 public class Worker implements Serializable {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = -4521913046405040845L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int workerId;
+	private int id;
+	private String workerId;
 	private String workerName;
 	private String workerPassword;
+	private String wokerUsername;
+	private String workerEmail;
+	private String workerRole;
 	
 	public Worker() {}
 	
-	public Worker (int iD, String name, String password){
+	public Worker (String iD, String name, String password, String username, String email, String role){
 		this.workerId = iD;
 		this.workerName = name;
 		this.workerPassword = password;
+		this.wokerUsername = username;
+		this.workerEmail = email;
+		this.workerRole = role;
 	}
 	
-	public int getWorkerID(){
+	public String getWorkerID(){
 		return this.workerId;
 	}
 	
-	public void setWorkerID(int _ID){
+	public void setWorkerID(String _ID){
 		this.workerId = _ID;
 	}
 	
@@ -58,6 +66,30 @@ public class Worker implements Serializable {
 	
 	public void setWorkerPassword(String _pass){
 		this.workerPassword = _pass;
+	}
+
+	public String getWorkerRole() {
+		return workerRole;
+	}
+
+	public void setWorkerRole(String workerRole) {
+		this.workerRole = workerRole;
+	}
+
+	public String getWorkerEmail() {
+		return workerEmail;
+	}
+
+	public void setWorkerEmail(String workerEmail) {
+		this.workerEmail = workerEmail;
+	}
+
+	public String getWokerUsername() {
+		return wokerUsername;
+	}
+
+	public void setWokerUsername(String wokerUsername) {
+		this.wokerUsername = wokerUsername;
 	}
 	
 }
