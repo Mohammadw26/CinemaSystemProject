@@ -82,26 +82,23 @@ public class AdminPanelController {
 
     @FXML
     void LoginAction(ActionEvent event) {
-		try {
-			SimpleClient.getClient().sendToServer("#WorkersRequest");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		for(Worker worker: allWorkers) {
-			if(worker.getWokerUsername() == usernameField.getText()) {
-				if(worker.getWorkerPassword() == passwordBar.getText()) {
+			if(worker.getWokerUsername().equals(usernameField.getText())) {
+				if(worker.getWorkerPassword().equals(passwordBar.getText())) {
 					try {
-						App.setRoot("DisplayList");
+						SimpleClient.getClient().sendToServer("#CatalogRequest");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
+			else {
+				fuckText.setVisible(true);
+				
+			}
 			
 		}
-		fuckText.setVisible(true);
 		
     }
     

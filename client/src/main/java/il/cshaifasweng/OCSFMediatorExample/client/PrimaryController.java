@@ -32,13 +32,11 @@ public class PrimaryController {
     @FXML
     void adminLogin(ActionEvent event) {
     	try {
-			App.setRoot("adminPanel");
+			SimpleClient.getClient().sendToServer("#WorkersRequest");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
-
     }
 
 	@FXML
@@ -54,6 +52,7 @@ public class PrimaryController {
 	@FXML
 	void initialize() {
 		assert showCatalog != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
+		assert adminLabel != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 
 	}
 }
