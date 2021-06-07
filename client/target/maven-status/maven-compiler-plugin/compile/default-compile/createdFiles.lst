@@ -14,8 +14,8 @@ il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableSWRClient.class
 il\cshaifasweng\OCSFMediatorExample\client\SimpleClient.class
 il\cshaifasweng\OCSFMediatorExample\client\MoviesReceivedEvent.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableClient.class
-il\cshaifasweng\OCSFMediatorExample\client\adminPanelController.class
 il\cshaifasweng\OCSFMediatorExample\client\ShowCatalogController.class
+il\cshaifasweng\OCSFMediatorExample\client\AdminPanelController.class
 il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.class
 il\cshaifasweng\OCSFMediatorExample\client\SecondaryController.class
