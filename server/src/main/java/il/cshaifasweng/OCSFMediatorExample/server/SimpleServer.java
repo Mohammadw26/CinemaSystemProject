@@ -26,6 +26,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
+import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
@@ -241,6 +243,10 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(SirtyaBranch.class);
 		configuration.addAnnotatedClass(Image.class);
 		configuration.addAnnotatedClass(Worker.class);
+		configuration.addAnnotatedClass(GeneralManager.class);
+		configuration.addAnnotatedClass(CustomerServiceEmployee.class);
+
+
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -392,8 +398,19 @@ public class SimpleServer extends AbstractServer {
 		session.save(screening_9);
 		session.flush();
 		
-		Worker worker_1 = new Worker("206794018","Mohammad Wattad","wawa","Mohammadw26","Mo@gmail.com","Director");
-		Worker worker_2 = new Worker("318156171","Jerry AbuAyoub","juju","Jerry98","Jerry@gmail.com","Admin");
+		Worker worker_1 = new GeneralManager();
+		worker_1.setWokerUsername("Mohammadw26");
+		worker_1.setWorkerEmail("Mohammadw996@gmail.com");
+		worker_1.setWorkerID("206794018");
+		worker_1.setWorkerName("Mohammad Wattad");
+		worker_1.setWorkerPassword("wa7wa7");
+		
+		Worker worker_2 = new CustomerServiceEmployee();
+		worker_2.setWokerUsername("Jerry98");
+		worker_2.setWorkerEmail("Mohammadw996@gmail.com");
+		worker_2.setWorkerID("206794018");
+		worker_2.setWorkerName("Jerry wa7wa7");
+		worker_2.setWorkerPassword("wa7wa7");
 		session.save(worker_1);
 		session.save(worker_2);
 		session.flush();

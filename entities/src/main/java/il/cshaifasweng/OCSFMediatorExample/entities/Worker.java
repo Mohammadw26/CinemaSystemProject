@@ -1,5 +1,4 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.InheritanceType;
 
 @Entity
-@Table(name = "workers")
+@Inheritance
+
 public class Worker implements Serializable {
 
 	/**
@@ -31,17 +33,15 @@ public class Worker implements Serializable {
 	private String workerPassword;
 	private String wokerUsername;
 	private String workerEmail;
-	private String workerRole;
 	
 	public Worker() {}
 	
-	public Worker (String iD, String name, String password, String username, String email, String role){
+	public Worker (String iD, String name, String password, String username, String email){
 		this.workerId = iD;
 		this.workerName = name;
 		this.workerPassword = password;
 		this.wokerUsername = username;
 		this.workerEmail = email;
-		this.workerRole = role;
 	}
 	
 	public String getWorkerID(){
@@ -68,14 +68,7 @@ public class Worker implements Serializable {
 		this.workerPassword = _pass;
 	}
 
-	public String getWorkerRole() {
-		return workerRole;
-	}
-
-	public void setWorkerRole(String workerRole) {
-		this.workerRole = workerRole;
-	}
-
+	
 	public String getWorkerEmail() {
 		return workerEmail;
 	}

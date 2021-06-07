@@ -14,40 +14,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "generalmanagers")
 public class GeneralManager extends Worker {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1144430600127201426L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private List<SirtyaBranch> cinemas;
-	private List<Movie> movies;
+	
 	
 	public GeneralManager() {}
 	
-	public GeneralManager (List <SirtyaBranch> _cinemas, List<Movie> _movies){
-		this.cinemas = _cinemas;
-		this.movies = _movies;
-	}
-	
-	public List<SirtyaBranch> getCinemas(){
-		return this.cinemas;
-	}
-	
-	public void setCinemas(List <SirtyaBranch> _cinemas){
-		this.cinemas = _cinemas;
-	}
-	
-	public List<Movie> getMovies(){
-		return this.movies;
-	}
-	
-	public void setMovies(List <Movie> _movies){
-		this.movies = _movies;
-	}
 }

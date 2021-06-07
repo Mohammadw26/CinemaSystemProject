@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Tooltip;
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 
 public class AdminPanelController {
 	private static List<Worker> allWorkers;
@@ -49,12 +50,18 @@ public class AdminPanelController {
     
     @FXML // fx:id="homePage"
     private Button homePage; // Value injected by FXMLLoader
-    
+
     @FXML
-    private Label fuckText;
+    private Label invalidText;
 
     @FXML
     private TextField usernameField;
+    
+    @FXML
+    void hideError(MouseEvent event) {
+    	invalidText.setVisible(false);
+
+    }
 
     @FXML
     void showPassword(ActionEvent event) {
@@ -85,6 +92,7 @@ public class AdminPanelController {
 		for(Worker worker: allWorkers) {
 			if(worker.getWokerUsername().equals(usernameField.getText())) {
 				if(worker.getWorkerPassword().equals(passwordBar.getText())) {
+					DisplayListController.setWorker(worker);
 					try {
 						SimpleClient.getClient().sendToServer("#CatalogRequest");
 					} catch (IOException e) {
@@ -92,9 +100,12 @@ public class AdminPanelController {
 						e.printStackTrace();
 					}
 				}
+				else {
+					invalidText.setVisible(true);
+				}
 			}
 			else {
-				fuckText.setVisible(true);
+				invalidText.setVisible(true);
 				
 			}
 			
@@ -110,7 +121,9 @@ public class AdminPanelController {
         assert LoginBtn != null : "fx:id=\"LoginBtn\" was not injected: check your FXML file 'adminPanel.fxml'.";
         assert homePage != null : "fx:id=\"homePage\" was not injected: check your FXML file 'adminPanel.fxml'.";
         assert usernameField != null : "fx:id=\"usernameField\" was not injected: check your FXML file 'adminPanel.fxml'.";
-        assert fuckText != null : "fx:id=\"fuckText\" was not injected: check your FXML file 'adminPanel.fxml'.";
+        assert invalidText != null : "fx:id=\"invalidText\" was not injected: check your FXML file 'adminPanel.fxml'.";
+        assert passText != null : "fx:id=\"passText\" was not injected: check your FXML file 'adminPanel.fxml'.";
+        assert passToggle != null : "fx:id=\"passToggle\" was not injected: check your FXML file 'adminPanel.fxml'.";
 
 
     }

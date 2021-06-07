@@ -78,7 +78,6 @@ public class App extends Application {
     @SuppressWarnings("unchecked")
 	@Subscribe
     public void onMovieReceivedEvent(MoviesReceivedEvent event) {
-    	ShowCatalogController.setCatalog((List<Movie>) event.getMovieCatalog());
     	DisplayListController.setMovieList((List<Movie>) event.getMovieCatalog());
 		try {
 			App.setRoot("displayList");

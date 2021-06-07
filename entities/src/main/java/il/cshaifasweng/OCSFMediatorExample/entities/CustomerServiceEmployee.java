@@ -14,40 +14,36 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "customerserviceemployee")
 public class CustomerServiceEmployee extends Worker {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4791474992620673727L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private List<Complaint> unansweredComplaints;
-	private List<Complaint> answeredComplaints;
+	
+	
+//	private List<Complaint> unansweredComplaints = null;
+//	private List<Complaint> answeredComplaints = null;
 	
 	public CustomerServiceEmployee() {}
 	
-	public CustomerServiceEmployee (List <Complaint> _unansweredComplaints, List<Complaint> _answeredComplaints){
-		this.unansweredComplaints = _unansweredComplaints;
-		this.answeredComplaints = _answeredComplaints;
-	}
 	
-	public List<Complaint> getUnanswered(){
-		return this.unansweredComplaints;
-	}
-	
-	public void setUnanswered(List <Complaint> _unansweredComplaints){
-		this.unansweredComplaints = _unansweredComplaints;
-	}
-	
-	public List<Complaint> getAnswered(){
-		return this.answeredComplaints;
-	}
-	
-	public void setAnswered(List <Complaint> _answeredComplaints){
-		this.answeredComplaints = _answeredComplaints;
-	}
+//	public List<Complaint> getUnanswered(){
+//		return this.unansweredComplaints;
+//	}
+//	
+//	public void setUnanswered(List <Complaint> _unansweredComplaints){
+//		this.unansweredComplaints = _unansweredComplaints;
+//	}
+//	
+//	public List<Complaint> getAnswered(){
+//		return this.answeredComplaints;
+//	}
+//	
+//	public void setAnswered(List <Complaint> _answeredComplaints){
+//		this.answeredComplaints = _answeredComplaints;
+//	}
 }
