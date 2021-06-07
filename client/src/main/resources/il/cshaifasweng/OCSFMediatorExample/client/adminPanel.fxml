@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.adminPanelController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AdminPanelController">
    <children>
       <ImageView fitHeight="695.0" fitWidth="918.0" layoutY="-5.0" pickOnBounds="true">
          <image>
@@ -19,24 +19,35 @@
          </image>
       </ImageView>
       <PasswordField fx:id="passwordBar" layoutX="344.0" layoutY="372.0" prefHeight="26.0" prefWidth="227.0" promptText="Password" />
-      <TextField layoutX="344.0" layoutY="335.0" prefHeight="26.0" prefWidth="227.0" promptText="Username" />
+      <TextField fx:id="usernameField" layoutX="344.0" layoutY="335.0" prefHeight="26.0" prefWidth="227.0" promptText="Username" />
       <FontAwesomeIconView fx:id="userIcon" fill="WHITE" glyphName="USER" layoutX="313.0" layoutY="357.0" size="25" />
       <FontAwesomeIconView fx:id="passwordICon" fill="WHITE" glyphName="LOCK" layoutX="313.0" layoutY="394.0" size="25" text="" />
-      <Button fx:id="LoginBtn" layoutX="426.0" layoutY="430.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="64.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Log in">
+      <Button fx:id="LoginBtn" layoutX="344.0" layoutY="412.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="33.0" prefWidth="88.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Log in">
          <font>
-            <Font name="Comic Sans MS Bold Italic" size="14.0" />
+            <Font name="Comic Sans MS Bold Italic" size="10.0" />
          </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="SIGN_IN" size="20" />
+         </graphic>
       </Button>
-      <Label fx:id="wrongPassword" layoutX="411.0" layoutY="421.0" text="Invalid Password" textFill="RED" visible="false">
-         <font>
-            <Font name="Comic Sans MS Bold Italic" size="12.0" />
-         </font>
-      </Label>
       <CheckBox fx:id="passToggle" layoutX="585.0" layoutY="377.0" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="WHITE">
          <font>
             <Font size="10.0" />
          </font>
       </CheckBox>
       <TextField fx:id="passText" layoutX="344.0" layoutY="372.0" prefHeight="26.0" prefWidth="227.0" visible="false" />
+      <Button fx:id="homePage" layoutX="464.0" layoutY="412.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="34.0" prefWidth="106.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Home Page">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="10.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIconView glyphName="HOME" size="20" />
+         </graphic>
+      </Button>
+      <Label fx:id="fuckText" layoutX="344.0" layoutY="182.0" prefHeight="102.0" prefWidth="191.0" text="fuck you" textFill="WHITE" visible="false">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

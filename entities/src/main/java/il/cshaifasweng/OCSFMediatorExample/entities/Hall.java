@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,7 +22,7 @@ public class Hall implements Serializable {
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = 8548182575097380508L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private List<Seat> SeatsOfHall;
@@ -36,8 +37,7 @@ public class Hall implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "Hall")
 	private int Hall_number;
 	
-	@ManyToMany(mappedBy = "Hall",
-	cascade = {CascadeType.PERSIST, CascadeType.MERGE},	targetEntity = SirtyaBranch.class)
+	
 	
 	public Hall(){}
 	
@@ -47,7 +47,7 @@ public class Hall implements Serializable {
 		this.numOfSeats = numOfSeats;
 		this.seaters = seaters;
 		this.movie_screening = movie_screening;
-		this.isOccupied = isOccupied;
+		this.setIsOccupied(isOccupied);
 		
 	}
 	
@@ -106,6 +106,14 @@ public class Hall implements Serializable {
 		
 		seaters--;
 	
+	}
+
+	public Boolean getIsOccupied() {
+		return isOccupied;
+	}
+
+	public void setIsOccupied(Boolean isOccupied) {
+		this.isOccupied = isOccupied;
 	}
 }
 	

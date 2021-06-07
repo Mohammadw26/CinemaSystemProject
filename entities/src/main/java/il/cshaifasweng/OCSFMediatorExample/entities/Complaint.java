@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "complaints")
 public class Complaint implements Serializable {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = -2475537423268969676L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String sentDate;

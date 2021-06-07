@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "clients")
 public class Client implements Serializable {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = 5898828320028652376L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ClientId;

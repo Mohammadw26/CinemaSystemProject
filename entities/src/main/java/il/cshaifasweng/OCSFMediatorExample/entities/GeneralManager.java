@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "generalmanagers")
 public class GeneralManager extends Worker {
+	
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = -1144430600127201426L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private List<SirtyaBranch> cinemas;

@@ -18,10 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "cancelled")
 public class CancelledOrder implements Serializable {
+
 	/**
 	 * 
 	 */
-	//private static final long serialVersionUID = ??;
+	private static final long serialVersionUID = -5541945372013277387L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private List <Order> ordersList;

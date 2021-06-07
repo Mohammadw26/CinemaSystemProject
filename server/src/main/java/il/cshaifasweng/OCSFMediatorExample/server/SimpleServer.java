@@ -28,6 +28,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
 
 public class SimpleServer extends AbstractServer {
@@ -88,7 +89,7 @@ public class SimpleServer extends AbstractServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-}
+		}
 		else if(msgString.startsWith("#DeleteScreening")) {
 			deleteScreening((ScreeningsUpdateRequest) ((Message) msg).getObject(), client);
 		}
@@ -102,6 +103,21 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		else if (msgString.startsWith("#WorkersRequest")) {
+		try {
+			session = sessionFactory.openSession();
+			ArrayList<Worker> workersList = getAllWorkers();
+			
+			client.sendToClient(new Message("#WorkersList",workersList));
+			session.close();
+		}catch(IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}
 		
 	}
@@ -224,7 +240,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Screening.class);
 		configuration.addAnnotatedClass(SirtyaBranch.class);
 		configuration.addAnnotatedClass(Image.class);
-
+		configuration.addAnnotatedClass(Worker.class);
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
 
@@ -376,6 +392,11 @@ public class SimpleServer extends AbstractServer {
 		session.save(screening_9);
 		session.flush();
 		
+		Worker worker_1 = new Worker("206794018","Mohammad Wattad","wawa","Mohammadw26","Mo@gmail.com","Director");
+		Worker worker_2 = new Worker("318156171","Jerry AbuAyoub","juju","Jerry98","Jerry@gmail.com","Admin");
+		session.save(worker_1);
+		session.save(worker_2);
+		session.flush();
 		session.getTransaction().commit();
 
 	}
@@ -418,6 +439,17 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<Screening> query = builder.createQuery(Screening.class);
 		query.from(Screening.class);
 		ArrayList<Screening> data = (ArrayList<Screening>) session.createQuery(query).getResultList();
+		/*for(SirtyaBranch movie : data) {
+			
+		}*/
+		return data;
+	}
+	
+	static ArrayList<Worker> getAllWorkers() throws Exception{
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Worker> query = builder.createQuery(Worker.class);
+		query.from(Worker.class);
+		ArrayList<Worker> data = (ArrayList<Worker>) session.createQuery(query).getResultList();
 		/*for(SirtyaBranch movie : data) {
 			
 		}*/
