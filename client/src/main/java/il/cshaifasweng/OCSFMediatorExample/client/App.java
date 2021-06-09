@@ -16,6 +16,7 @@ import java.util.List;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
@@ -78,7 +79,7 @@ public class App extends Application {
     @SuppressWarnings("unchecked")
 	@Subscribe
     public void onMovieReceivedEvent(MoviesReceivedEvent event) {
-    	DisplayListController.setMovieList((List<Movie>) event.getMovieCatalog());
+    	DisplayListController.setMovieList((List<CinemaMovie>) event.getMovieCatalog());
 		try {
 			App.setRoot("displayList");
 		} catch (IOException e) {

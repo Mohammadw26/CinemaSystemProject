@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
@@ -13,15 +14,15 @@ import javafx.scene.control.TextField;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 
 public class DeleteMovieScreeningController {
-	private static Movie movie;
+	private static CinemaMovie movie;
 	private int counter = 0;
 	private String temp = "";
 
-    public static Movie getMovie() {
+    public static CinemaMovie getMovie() {
 		return movie;
 	}
 
-	public static void setMovie(Movie set) {
+	public static void setMovie(CinemaMovie set) {
 		movie = set;
 	}
 

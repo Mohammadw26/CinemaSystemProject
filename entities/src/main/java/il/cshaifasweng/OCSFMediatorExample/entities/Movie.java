@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "movies")
+@Inheritance
 public class Movie implements Serializable {
 	/**
 	 * 
@@ -25,32 +27,34 @@ public class Movie implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String movieTitle;
-	private String movieProducer;
-	private String starringActors;
-	private String movieDescription;
-	private double ticketCost;
+	protected String movieTitle;
+	protected String movieTitleHeb;
+	protected String movieProducer;
+	protected String starringActors;
+	protected String movieDescription;
+//	private double ticketCost;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
-	private List<Screening> screenings;
+//	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
+//	private List<Screening> screenings;
 	
 	@ManyToMany(mappedBy = "movies",
 	cascade = {CascadeType.PERSIST, CascadeType.MERGE},	targetEntity = SirtyaBranch.class)
-	private List<SirtyaBranch> sirtyaBranch;
+	protected List<SirtyaBranch> sirtyaBranch;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,targetEntity = Image.class)
 	private Image image;
 	
 	public Movie() {}
 	
-	public Movie (String title, String producer, String actors, String description, double cost,Image image) {
+	public Movie (String title,String titleHeb, String producer, String actors, String description,Image image) {
 		this.movieTitle = title;
+		this.movieTitleHeb = titleHeb;
 		this.movieProducer = producer;
 		this.starringActors = actors;
 		this.movieDescription = description;
-		this.ticketCost = cost;
+//		this.ticketCost = cost;
 		this.setImage(image);
-		this.screenings = new ArrayList<Screening>();
+//		this.screenings = new ArrayList<Screening>();
 		this.sirtyaBranch = new ArrayList<SirtyaBranch>();
 	}
 
@@ -64,6 +68,14 @@ public class Movie implements Serializable {
 
 	public void setMovieTitle(String movieTitle) {
 		this.movieTitle = movieTitle;
+	}
+
+	public String getMovieTitleHeb() {
+		return movieTitleHeb;
+	}
+	
+	public void setMovieTitleHeb(String movieTitle) {
+		this.movieTitleHeb = movieTitle;
 	}
 
 	public String getMovieProducer() {
@@ -90,17 +102,17 @@ public class Movie implements Serializable {
 		this.movieDescription = movieDescription;
 	}
 
-	public double getTicketCost() {
-		return ticketCost;
-	}
-
-	public void setTicketCost(double ticketCost) {
-		this.ticketCost = ticketCost;
-	}
-
-	public List<Screening> getScreenings() {
-		return screenings;
-	}
+//	public double getTicketCost() {
+//		return ticketCost;
+//	}
+//
+//	public void setTicketCost(double ticketCost) {
+//		this.ticketCost = ticketCost;
+//	}
+//
+//	public List<Screening> getScreenings() {
+//		return screenings;
+//	}
 
 	/*public void addScreenings(Screening...screenings) {
 		for (Screening screening : screenings) {
@@ -108,9 +120,9 @@ public class Movie implements Serializable {
 		}
 	}*/
 	
-	public void setScreenings(List<Screening> screenings) {
-		this.screenings = screenings;
-	}
+//	public void setScreenings(List<Screening> screenings) {
+//		this.screenings = screenings;
+//	}
 	
 	public List<SirtyaBranch> getSirtyaBranch() {
 		return sirtyaBranch;

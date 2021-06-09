@@ -26,6 +26,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
@@ -36,7 +38,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 public class SimpleServer extends AbstractServer {
 	private static SessionFactory sessionFactory = getSessionFactory();
 	private static Session session;
-	private static List<Movie> moviesList;
+	private static List<CinemaMovie> moviesList;
 	private static List<Screening> screeningsList;
 	private static List<SirtyaBranch> branchesList;
 
@@ -64,7 +66,7 @@ public class SimpleServer extends AbstractServer {
 					//movieList.setMoviesList(getAll(Movie.class));
 				try {
 					session = sessionFactory.openSession();
-					ArrayList<Movie> movieList = getAllMovies();
+					ArrayList<CinemaMovie> movieList = getAll(CinemaMovie.class);
 					
 					client.sendToClient(new Message("#SendMovies",movieList));
 				}catch(IOException e) {
@@ -146,7 +148,7 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 		session.getTransaction().commit();
 		try {
-			moviesList = getAllMovies();
+			moviesList = getAll(CinemaMovie.class);
 			for (Movie movie : moviesList) {
 				if (movie.getId()==request.getMovieID()) {
 					client.sendToClient(new Message("#RefreshDelete",movie));
@@ -174,7 +176,7 @@ public class SimpleServer extends AbstractServer {
 				session.flush();
 				session.getTransaction().commit();
 				try {
-					moviesList = getAllMovies();
+					moviesList = getAll(CinemaMovie.class);
 					for (Movie movie : moviesList) {
 						if (movie.getId()==request.getMovieID()) {
 							client.sendToClient(new Message("#RefreshEdit",movie));
@@ -245,6 +247,10 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Worker.class);
 		configuration.addAnnotatedClass(GeneralManager.class);
 		configuration.addAnnotatedClass(CustomerServiceEmployee.class);
+		//configuration.addAnnotatedClass(Movie.class);
+		configuration.addAnnotatedClass(ComingSoonMovie.class);
+		configuration.addAnnotatedClass(CinemaMovie.class);
+
 
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
@@ -330,33 +336,33 @@ public class SimpleServer extends AbstractServer {
 		session.save(image_5);
 		session.flush();
 
-		Movie movie1 = new Movie("Haunt", "Eli Roth", "Katie Stevens",
+		CinemaMovie movie1 = new CinemaMovie("Haunt","רדוף", "Eli Roth", "Katie Stevens",
 				"On Halloween, a group of friends encounter an extreme haunted house that promises to feed on their darkest fears. The night turns deadly as they come to the horrifying realization that some nightmares are real.",
 				44.90, image_1);
 		session.save(movie1);
 		session.flush();
 
-		Movie movie2 = new Movie("Us", "Jason Blum", "Lupita Nyong'o",
+		CinemaMovie movie2 = new CinemaMovie("Us","אנחנו", "Jason Blum", "Lupita Nyong'o",
 				"A family's serene beach vacation turns to chaos when their doppelgängers appear and begin to terrorize them.",
 				49.90, image_2);
 		session.save(movie2);
 		session.flush();
 		
-		Movie movie3 = new Movie("A Beaultiful Mind", "Brian Grazer, Ron Howard", "Russell Crowe, Ed Harris, Jennifer Connelly",
+		CinemaMovie movie3 = new CinemaMovie("A Beaultiful Mind","נפלאות התבונה", "Brian Grazer, Ron Howard", "Russell Crowe, Ed Harris, Jennifer Connelly",
 				"After John Nash, a brilliant but asocial mathematician, accepts secret work in cryptography, his life takes a turn for the nightmarish.",
 				30.00, image_3);
 		session.save(movie3);
 		session.flush();
 		
-		Movie movie4 = new Movie("The Lion King", "Don Hahn", "Matthew Broderick, Jeremy Irons, James Earl Jones",
+		CinemaMovie movie4 = new CinemaMovie("The Lion King","מלך האריות", "Don Hahn", "Matthew Broderick, Jeremy Irons, James Earl Jones",
 				"Lion prince Simba and his father are targeted by his bitter uncle, who wants to ascend the throne himself.",
 				36.00, image_4);
 		session.save(movie4);
 		session.flush();
 		
-		Movie movie5 = new Movie("Ice Age", "Lori Forte", "Denis Leary, John Leguizamo, Ray Romano",
+		ComingSoonMovie movie5 = new ComingSoonMovie("Ice Age","עידן הקרח", "Lori Forte", "Denis Leary, John Leguizamo, Ray Romano",
 				"The story revolves around sub-zero heroes: a woolly mammoth, a saber-toothed tiger, a sloth and a prehistoric combination of a squirrel and rat, known as Scrat.",
-				39.90, image_5);
+				image_5);
 		session.save(movie5);
 		session.flush();
 		
@@ -386,7 +392,7 @@ public class SimpleServer extends AbstractServer {
 		Screening screening_6 = new Screening("02/06/2021", "23:45", movie2, branch3);
 		Screening screening_7 = new Screening("02/06/2021", "20:45", movie3, branch1);
 		Screening screening_8 = new Screening("03/06/2021", "16:45", movie4, branch3);
-		Screening screening_9 = new Screening("03/06/2021", "19:00", movie5, branch3);
+//		Screening screening_9 = new Screening("03/06/2021", "19:00", movie5, branch3);
 		session.save(screening_1);
 		session.save(screening_2);
 		session.save(screening_3);
@@ -395,7 +401,7 @@ public class SimpleServer extends AbstractServer {
 		session.save(screening_6);
 		session.save(screening_7);
 		session.save(screening_8);
-		session.save(screening_9);
+//		session.save(screening_9);
 		session.flush();
 		
 		Worker worker_1 = new GeneralManager();
@@ -418,15 +424,13 @@ public class SimpleServer extends AbstractServer {
 
 	}
 	
-//	public static <T> List<T> getAll(Class<T> object)  {
-//		CriteriaBuilder builder = session.getCriteriaBuilder();
-//		CriteriaQuery<T> criteriaQuery = builder.createQuery(object);
-//		Root<T> rootEntry = criteriaQuery.from(object);
-//		CriteriaQuery<T> allCriteriaQuery = criteriaQuery.select(rootEntry);
-//
-//		TypedQuery<T> allQuery = session.createQuery(allCriteriaQuery);
-//		return allQuery.getResultList();
-//	}
+	public static <T> ArrayList<T> getAll(Class<T> object)  {
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<T> query = builder.createQuery(object);
+		query.from(object);
+		ArrayList<T> data = (ArrayList<T>) session.createQuery(query).getResultList();
+		return data;
+	}
 
 	
 	static ArrayList<Movie> getAllMovies() throws Exception{

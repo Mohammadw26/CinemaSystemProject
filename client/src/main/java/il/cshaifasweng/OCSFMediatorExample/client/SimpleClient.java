@@ -6,8 +6,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 
 
 public class SimpleClient extends AbstractClient {
@@ -31,7 +32,7 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new WorkersReceivedEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#RefreshAdd")) {
-			EditMovieScreeningsController.setMovie((Movie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
@@ -40,7 +41,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		else if (msgString.startsWith("#RefreshEdit")) {
-			EditMovieScreeningsController.setMovie((Movie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
@@ -49,7 +50,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		else if (msgString.startsWith("#RefreshDelete")) {
-			EditMovieScreeningsController.setMovie((Movie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
