@@ -12,7 +12,7 @@ public class ScreeningsUpdateRequest implements Serializable{
 	private String date;
 	private String time;
 	private int branchID;
-	private Movie movie;
+	private CinemaMovie movie;
 	private int movieID;
 	public int getMovieID() {
 		return movieID;
@@ -31,11 +31,11 @@ public class ScreeningsUpdateRequest implements Serializable{
 		this.branch = branch;
 	}
 
-	public Movie getMovie() {
+	public CinemaMovie getMovie() {
 		return movie;
 	}
 
-	public void setMovie(Movie movie) {
+	public void setMovie(CinemaMovie movie) {
 		this.movie = movie;
 	}
 	

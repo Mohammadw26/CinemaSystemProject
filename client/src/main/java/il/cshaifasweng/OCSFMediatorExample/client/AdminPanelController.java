@@ -95,6 +95,7 @@ public class AdminPanelController {
 					DisplayListController.setWorker(worker);
 					try {
 						SimpleClient.getClient().sendToServer("#CatalogRequest");
+						break;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

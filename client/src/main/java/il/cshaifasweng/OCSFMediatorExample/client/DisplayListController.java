@@ -22,6 +22,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
@@ -42,7 +43,7 @@ import javafx.scene.control.Label;
 
 public class DisplayListController {
 	private static Worker worker;
-	public static List<Movie> movieList;
+	public static List<CinemaMovie> movieList;
 	private static int rowsNum = 2;
 	private static int colsNum = 2;
 	private int page = 1;
@@ -56,12 +57,12 @@ public class DisplayListController {
 		return worker;
 	}
 
-	public static List<Movie> getMovieList() {
+	public static List<CinemaMovie> getMovieList() {
 		return movieList;
 	}
 
-	public static void setMovieList(List<Movie> movieList) {
-		DisplayListController.movieList = movieList;
+	public static void setMovieList(List<CinemaMovie> list) {
+		DisplayListController.movieList = list;
 	}
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
@@ -152,7 +153,7 @@ public class DisplayListController {
 					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
 					if (index >= movieList.size())
 						break;
-					Movie item = movieList.get(index);
+					CinemaMovie item = movieList.get(index);
 					controller.setMovie(item);
 					controller.setDisplay();
 					gridList.add(itemCell, j, i);
@@ -170,6 +171,17 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+    void addMovie(ActionEvent event) {
+		try {
+			App.setRoot("addMovePage");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
@@ -205,7 +217,7 @@ public class DisplayListController {
 					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
 					if (index >= movieList.size())
 						break;
-					Movie item = movieList.get(index);
+					CinemaMovie item = movieList.get(index);
 					controller.setMovie(item);
 					controller.setDisplay();
 					gridList.add(itemCell, j, i);

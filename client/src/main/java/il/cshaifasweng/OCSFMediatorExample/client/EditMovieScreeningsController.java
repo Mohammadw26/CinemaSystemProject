@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.List;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -24,7 +25,7 @@ import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 
 public class EditMovieScreeningsController {
-	private static Movie movie;
+	private static CinemaMovie movie;
 
 	private static List<SirtyaBranch> allBranches;
 	private static SirtyaBranch branch;
@@ -46,11 +47,11 @@ public class EditMovieScreeningsController {
 		}
 	}
 
-	public static Movie getMovie() {
+	public static CinemaMovie getMovie() {
 		return movie;
 	}
 
-	public static void setMovie(Movie set) {
+	public static void setMovie(CinemaMovie set) {
 		movie = set;
 	}
 

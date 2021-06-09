@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ import javafx.scene.input.MouseEvent;
 
 
 public class DisplayMovieDataController {
-	private Movie movie;
+	private CinemaMovie movie;
 	private int counter;
 	private String temp = "Screening times:\n";
 	
@@ -52,14 +53,17 @@ public class DisplayMovieDataController {
 //    @FXML // fx:id="editBtn"
 //    private Button editBtn; // Value injected by FXMLLoader
 
-    @FXML // fx:id="addBtn"
-    private Button addBtn; // Value injected by FXMLLoader
-    
+    @FXML
+    private FontAwesomeIconView addToCartBtn;
+
     @FXML
     private FontAwesomeIconView editBtn;
 
     @FXML
     private FontAwesomeIconView deleteBtn;
+    
+    @FXML
+    private Label titleField2;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -70,13 +74,14 @@ public class DisplayMovieDataController {
         assert starsField != null : "fx:id=\"starsField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert costField != null : "fx:id=\"costField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert screeningField != null : "fx:id=\"screeningField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
+        assert addToCartBtn != null : "fx:id=\"addToCartBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert editBtn != null : "fx:id=\"editBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
-        assert addBtn != null : "fx:id=\"addBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert deleteBtn != null : "fx:id=\"deleteBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
     }
     
 	public void setDisplay () {
 		titleField.setText(movie.getMovieTitle());
+		titleField2.setText(movie.getMovieTitleHeb());
 		descriptionField.setText("" + movie.getMovieDescription());
 		ProducersField.setText("Movie Producers: " +movie.getMovieProducer());
 		starsField.setText("Starring Actors: " +movie.getStarringActors());
@@ -101,11 +106,11 @@ public class DisplayMovieDataController {
 		}*/
 	}
 
-	public Movie getMovie() {
+	public CinemaMovie getMovie() {
 		return movie;
 	}
 
-	public void setMovie(Movie movie) {
+	public void setMovie(CinemaMovie movie) {
 		this.movie = movie;
 	}
 	

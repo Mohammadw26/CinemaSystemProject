@@ -26,7 +26,7 @@ public class Screening implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_movie")
-	private Movie movie;
+	private CinemaMovie movie;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
@@ -34,11 +34,11 @@ public class Screening implements Serializable {
 	
 	public Screening() {}
 	
-	public Screening(String date, String time,Movie movie,SirtyaBranch inBranch) {
+	public Screening(String date, String time,CinemaMovie movie2,SirtyaBranch inBranch) {
 		this.screeningDate = date;
 		this.screeningTime = time;
-		this.movie = movie;
-		movie.getScreenings().add(this);
+		this.movie = movie2;
+		movie2.getScreenings().add(this);
 		this.inBranch = inBranch;
 		inBranch.getScreenings().add(this);
 		this.screeningBranch = inBranch.getAddress();
@@ -59,10 +59,10 @@ public class Screening implements Serializable {
 	public void setScreeningTime(String screeningTime) {
 		this.screeningTime = screeningTime;
 	}
-	public Movie getMovie() {
+	public CinemaMovie getMovie() {
 		return movie;
 	}
-	public void setMovie(Movie movie) {
+	public void setMovie(CinemaMovie movie) {
 		this.movie = movie;
 		movie.getScreenings().add(this);
 	}
