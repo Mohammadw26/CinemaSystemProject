@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.File;
+import javafx.scene.input.MouseEvent;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.util.ResourceBundle;
 
 import javax.security.auth.RefreshFailedException;
 import javax.security.auth.Refreshable;
+
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -44,8 +48,8 @@ import javafx.scene.control.Label;
 public class DisplayListController {
 	private static Worker worker;
 	public static List<CinemaMovie> movieList;
-	private static int rowsNum = 2;
-	private static int colsNum = 2;
+	private static int rowsNum = 1;
+	private static int colsNum = 3;
 	private int page = 1;
 	private int pages = 1;
 
@@ -80,14 +84,11 @@ public class DisplayListController {
 	@FXML // fx:id="gridList"
 	private GridPane gridList; // Value injected by FXMLLoader
 
-	@FXML
-	private Label pagesLabel;
+	 @FXML
+	    private FontAwesomeIconView prevBtn;
 
-	@FXML
-	private Button nxtBtn;
-
-	@FXML
-	private Button prevBtn;
+	    @FXML
+	    private FontAwesomeIconView nxtBtn;
 
 	@FXML
 	private AnchorPane anchorpane;
@@ -111,15 +112,15 @@ public class DisplayListController {
 	private Button logOutBtn;
 
 	@FXML
-	void nextPage(ActionEvent event) throws IOException {
-		if (page < movieList.size() / 4 + 1) {
+	void nextPage(MouseEvent  event) throws IOException {
+		if (page < movieList.size() / 3 + 1) {
 			page++;
 			fillGrids();
 		}
 	}
 
 	@FXML
-	void prevPage(ActionEvent event) throws IOException {
+	void prevPage(MouseEvent  event) throws IOException {
 		if (page > 1) {
 			page--;
 			fillGrids();
@@ -137,7 +138,6 @@ public class DisplayListController {
 	}
 
 	private void fillGrids() throws IOException {
-		pagesLabel.setText("page " + page + " out of " + pages);
 		Platform.runLater(() -> {
 			gridList.getChildren().clear();
 			for (int i = 0; i < rowsNum; i++) {
@@ -200,8 +200,7 @@ public class DisplayListController {
 		}
 //    	gridList.setBackground(
 //    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
-		pages = movieList.size() / 4 + 1;
-		pagesLabel.setText("page " + page + " out of " + pages);
+		pages = movieList.size() / 3 + 1;
 		Platform.runLater(() -> {
 			gridList.getChildren().clear();
 			for (int i = 0; i < rowsNum; i++) {
