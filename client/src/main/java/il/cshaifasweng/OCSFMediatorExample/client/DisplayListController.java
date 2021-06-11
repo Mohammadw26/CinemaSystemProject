@@ -185,19 +185,19 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		File imagfile1 = new File(System.getProperty("user.dir") + "/woodbackground.jpg");
-		FileInputStream Image1pixels;
-		try {
-			Image1pixels = new FileInputStream(imagfile1);
-			Image image = new Image(Image1pixels);
-			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
-					BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)));
-			gridList.setPadding(new Insets(50, 0, 50, 0));
-
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
+//		FileInputStream Image1pixels;
+//		try {
+//			Image1pixels = new FileInputStream(imagfile1);
+//			Image image = new Image(Image1pixels);
+//			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
+//					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+//			gridList.setPadding(new Insets(50, 0, 50, 0));
+//			
+//		} catch (FileNotFoundException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 //    	gridList.setBackground(
 //    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
 		pages = movieList.size() / 3 + 1;
