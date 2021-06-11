@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,6 +28,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
@@ -48,6 +50,7 @@ import javafx.scene.control.Label;
 public class DisplayListController {
 	private static Worker worker;
 	public static List<CinemaMovie> movieList;
+	public static List<ComingSoonMovie> soonList;
 	private static int rowsNum = 1;
 	private static int colsNum = 3;
 	private int page = 1;
@@ -64,9 +67,17 @@ public class DisplayListController {
 	public static List<CinemaMovie> getMovieList() {
 		return movieList;
 	}
+	
+	public static List<ComingSoonMovie> getSoonList() {
+		return soonList;
+	}
 
 	public static void setMovieList(List<CinemaMovie> list) {
 		DisplayListController.movieList = list;
+	}
+	
+	public static void setSoonList(List<ComingSoonMovie> list) {
+		DisplayListController.soonList = list;
 	}
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
@@ -83,12 +94,18 @@ public class DisplayListController {
 
 	@FXML // fx:id="gridList"
 	private GridPane gridList; // Value injected by FXMLLoader
+	
+    @FXML
+    private GridPane gridList2;
+    
+    @FXML
+    private GridPane gridList3;
 
-	 @FXML
-	    private FontAwesomeIconView prevBtn;
+	@FXML
+	private FontAwesomeIconView prevBtn;
 
-	    @FXML
-	    private FontAwesomeIconView nxtBtn;
+	@FXML
+	private FontAwesomeIconView nxtBtn;
 
 	@FXML
 	private AnchorPane anchorpane;
@@ -115,7 +132,11 @@ public class DisplayListController {
 	void nextPage(MouseEvent  event) throws IOException {
 		if (page < movieList.size() / 3 + 1) {
 			page++;
-			fillGrids();
+			fillGrids(gridList,1);
+			prevBtn.setVisible(true);
+		} 
+		if (page == movieList.size() / 3 + 1) {
+			nxtBtn.setVisible(false);
 		}
 	}
 
@@ -123,7 +144,11 @@ public class DisplayListController {
 	void prevPage(MouseEvent  event) throws IOException {
 		if (page > 1) {
 			page--;
-			fillGrids();
+			fillGrids(gridList,1);
+			nxtBtn.setVisible(true);
+		}
+		if (page == 1) {
+			prevBtn.setVisible(false);
 		}
 	}
 
@@ -137,7 +162,7 @@ public class DisplayListController {
 		}
 	}
 
-	private void fillGrids() throws IOException {
+	private void fillGrids(GridPane gridList, int listNum ) throws IOException {
 		Platform.runLater(() -> {
 			gridList.getChildren().clear();
 			for (int i = 0; i < rowsNum; i++) {
@@ -145,16 +170,25 @@ public class DisplayListController {
 					Pair<Parent, Object> viewData = null;
 					try {
 						viewData = LayoutManager.getInstance().getFXML("displayMovieData");
+						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					Node itemCell = viewData.getKey();
 					DisplayMovieDataController controller = (DisplayMovieDataController) viewData.getValue();
 					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
-					if (index >= movieList.size())
+					if (listNum==1 && index >= movieList.size() || listNum==3 && index >= soonList.size() )
 						break;
-					CinemaMovie item = movieList.get(index);
-					controller.setMovie(item);
+					if (listNum==1) {
+						CinemaMovie item = movieList.get(index);
+						controller.setType(listNum);
+						controller.setMovie(item);
+					}
+					if (listNum==3) {
+						ComingSoonMovie item = soonList.get(index);
+						controller.setType(listNum);
+						controller.setMovie(item);
+					}
 					controller.setDisplay();
 					gridList.add(itemCell, j, i);
 				}
@@ -185,6 +219,9 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+		pages = movieList.size() / 3 + 1;
+		prevBtn.setVisible(false);
+		nxtBtn.setVisible(pages>1);
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;
 //		try {
@@ -200,29 +237,14 @@ public class DisplayListController {
 //		}
 //    	gridList.setBackground(
 //    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
-		pages = movieList.size() / 3 + 1;
-		Platform.runLater(() -> {
-			gridList.getChildren().clear();
-			for (int i = 0; i < rowsNum; i++) {
-				for (int j = 0; j < colsNum; j++) {
-					Pair<Parent, Object> viewData = null;
-					try {
-						viewData = LayoutManager.getInstance().getFXML("displayMovieData");
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					Node itemCell = viewData.getKey();
-					DisplayMovieDataController controller = (DisplayMovieDataController) viewData.getValue();
-					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
-					if (index >= movieList.size())
-						break;
-					CinemaMovie item = movieList.get(index);
-					controller.setMovie(item);
-					controller.setDisplay();
-					gridList.add(itemCell, j, i);
-				}
-			}
-		});
+		try {
+			fillGrids(gridList, 1);
+			fillGrids(gridList3, 3);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (worker != null) {
 			compliantsBtn.setVisible(true);
 			addMovieBtn.setVisible(true);

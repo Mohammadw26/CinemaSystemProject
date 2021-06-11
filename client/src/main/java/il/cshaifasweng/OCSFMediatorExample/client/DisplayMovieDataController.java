@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,9 +29,11 @@ import javafx.scene.layout.BackgroundSize;
 
 
 public class DisplayMovieDataController {
-	private CinemaMovie movie;
+	private int typeIndex; // 1 - Cinema Movie || 2 - On-Demand || 3 - Coming soon
+	private Movie movie;
 	private int counter;
 	private String temp = "Screening times:\n";
+	
 	
     @FXML
     private ImageView backgrndImg;
@@ -56,8 +59,8 @@ public class DisplayMovieDataController {
     @FXML // fx:id="ProducersField"
     private Label ProducersField; // Value injected by FXMLLoader
 
-    @FXML // fx:id="starsField"
-    private Label starsField; // Value injected by FXMLLoader
+    /*@FXML // fx:id="starsField"
+    private Label starsField; // Value injected by FXMLLoader*/
 
     @FXML // fx:id="costField"
     private Label costField; // Value injected by FXMLLoader
@@ -90,7 +93,7 @@ public class DisplayMovieDataController {
         assert titleField != null : "fx:id=\"titleField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert descriptionField != null : "fx:id=\"descriptionField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert ProducersField != null : "fx:id=\"ProducersField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
-        assert starsField != null : "fx:id=\"starsField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
+        //assert starsField != null : "fx:id=\"starsField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert costField != null : "fx:id=\"costField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert screeningField != null : "fx:id=\"screeningField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert addToCartBtn != null : "fx:id=\"addToCartBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
@@ -102,16 +105,20 @@ public class DisplayMovieDataController {
 		titleField.setText(movie.getMovieTitle());
 		titleField2.setText(movie.getMovieTitleHeb());
 		descriptionField.setText("" + movie.getMovieDescription());
-		ProducersField.setText("Movie Producers: " +movie.getMovieProducer());
-		starsField.setText("Starring Actors: " +movie.getStarringActors());
-		costField.setText("Cost per Ticket: " +movie.getTicketCost() + "$");
-		counter = movie.getScreenings().size();
-		for (int i = 0 ; i < counter; i++) {
-			temp += movie.getScreenings().get(i).getScreeningDate() + " ";
-			temp += movie.getScreenings().get(i).getScreeningTime() + " at ";
-			temp += movie.getScreenings().get(i).getBranch().getAddress() + "\n";
-		screeningField.setText(temp);
+		ProducersField.setText("Movie Producers: " + movie.getMovieProducer() + "\n"  + "Starring Actors: " +movie.getStarringActors());
+		//starsField.setText("Starring Actors: " +movie.getStarringActors());
+		if (typeIndex == 1 ) {
+			CinemaMovie tempCast = (CinemaMovie) movie;
+			costField.setText("Cost per Ticket: " + tempCast.getTicketCost() + "$");
+			counter = tempCast.getScreenings().size();
+			for (int i = 0 ; i < counter; i++) {
+				temp += tempCast.getScreenings().get(i).getScreeningDate() + " ";
+				temp += tempCast.getScreenings().get(i).getScreeningTime() + " at ";
+				temp += tempCast.getScreenings().get(i).getBranch().getAddress() + "\n";
+			screeningField.setText(temp);
+			}
 		}
+
 		//try {
 			/*InputStream stream = new FileInputStream(movie.getImage().getImgURL());
 			Image image = new Image(stream);*/
@@ -125,12 +132,18 @@ public class DisplayMovieDataController {
 		}*/
 	}
 
-	public CinemaMovie getMovie() {
+	public Movie getMovie() {
 		return movie;
 	}
 
-	public void setMovie(CinemaMovie movie) {
+	public void setMovie(Movie movie) {
 		this.movie = movie;
+	}
+
+	
+	
+	public void setType(int typeIndex) {
+		this.typeIndex = typeIndex;
 	}
 	
 //    @FXML
@@ -157,7 +170,7 @@ public class DisplayMovieDataController {
 
 	@FXML
     void uploadEditScreening(MouseEvent event) {
-		EditMovieScreeningsController.setMovie(movie);
+		EditMovieScreeningsController.setMovie((CinemaMovie) movie);
     	try {
 			SimpleClient.getClient().sendToServer("#BranchesListRequest");
 		} catch (IOException e) {

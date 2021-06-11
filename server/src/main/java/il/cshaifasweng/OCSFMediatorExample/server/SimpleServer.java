@@ -66,9 +66,10 @@ public class SimpleServer extends AbstractServer {
 					//movieList.setMoviesList(getAll(Movie.class));
 				try {
 					session = sessionFactory.openSession();
-					ArrayList<CinemaMovie> movieList = getAll(CinemaMovie.class);
+					ArrayList<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
+					ArrayList<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
 					
-					client.sendToClient(new Message("#SendMovies",movieList));
+					client.sendToClient(new Message("#SendLists",cinMovieList,soonMovieList));
 				}catch(IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

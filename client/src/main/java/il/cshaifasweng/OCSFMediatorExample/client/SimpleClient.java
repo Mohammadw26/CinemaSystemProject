@@ -22,7 +22,7 @@ public class SimpleClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		String msgString = ((Message) msg).getMessage();
-		if (msgString.startsWith("#SendMovies")) {
+		if (msgString.startsWith("#SendLists")) {
 			EventBus.getDefault().post(new MoviesReceivedEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#BranchesList")) {

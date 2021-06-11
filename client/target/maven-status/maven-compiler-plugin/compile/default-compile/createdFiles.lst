@@ -1,4 +1,5 @@
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\AbstractClient.class
+il\cshaifasweng\OCSFMediatorExample\client\WorkersReceivedEvent.class
 il\cshaifasweng\OCSFMediatorExample\client\PrimaryController.class
 il\cshaifasweng\OCSFMediatorExample\client\App.class
 il\cshaifasweng\OCSFMediatorExample\client\AddMovieScreeningController.class
@@ -13,6 +14,7 @@ il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableSWRClient.class
 il\cshaifasweng\OCSFMediatorExample\client\SimpleClient.class
 il\cshaifasweng\OCSFMediatorExample\client\MoviesReceivedEvent.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableClient.class
+il\cshaifasweng\OCSFMediatorExample\client\AddMoviePageController.class
 il\cshaifasweng\OCSFMediatorExample\client\AdminPanelController.class
 il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.class

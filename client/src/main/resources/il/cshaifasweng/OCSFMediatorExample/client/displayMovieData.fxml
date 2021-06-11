@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.6" prefWidth="360.2" style="-fx-border-radius: 15; -fx-background-radius: 15px; -fx-border-color: white; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayMovieDataController">
+<AnchorPane fx:id="anchPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.6" prefWidth="360.2" style="-fx-border-radius: 15; -fx-background-radius: 15px; -fx-border-color: white; -fx-border-width: 2px;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayMovieDataController">
    <children>
-      <Label fx:id="titleField" alignment="CENTER" layoutX="158.0" layoutY="11.0" prefHeight="27.0" prefWidth="186.0" style="-fx-text-fill: white;" text="Movie Title" textFill="WHITE">
+      <Label fx:id="titleField" alignment="CENTER" layoutX="158.0" layoutY="11.0" prefHeight="27.0" prefWidth="186.0" style="-fx-text-fill: White;" text="Movie Title" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>
@@ -25,7 +25,7 @@
             <FontAwesomeIconView fx:id="addToCartBtn" fill="WHITE" glyphName="SHOPPING_CART" size="25" textAlignment="CENTER" wrappingWidth="30.0" />
          </children>
       </HBox>
-      <Label fx:id="titleField2" alignment="CENTER" layoutX="158.0" layoutY="38.0" prefHeight="26.0" prefWidth="186.0" style="-fx-text-fill: white;" text="Movie Title" textFill="WHITE">
+      <Label fx:id="titleField2" alignment="CENTER" layoutX="158.0" layoutY="38.0" prefHeight="26.0" prefWidth="186.0" style="-fx-text-fill: White;" text="Movie Title" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="16.0" />
          </font>
@@ -36,9 +36,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollPane hbarPolicy="NEVER" layoutX="39.0" layoutY="17.0" prefHeight="113.0" prefWidth="256.0" style="-fx-background-color: silver;" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane hbarPolicy="NEVER" layoutX="39.0" layoutY="17.0" prefHeight="113.0" prefWidth="256.0" style="-fx-background-color: transparent;" vbarPolicy="ALWAYS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <Label fx:id="descriptionField" alignment="TOP_LEFT" prefHeight="112.0" prefWidth="334.0" style="-fx-text-fill: white;" text="Description" textFill="WHITE" textOverrun="CLIP" wrapText="true" />
+                              <Label fx:id="descriptionField" alignment="TOP_LEFT" prefHeight="174.0" prefWidth="331.0" style="-fx-text-fill: #181212;" text="Description" textFill="#181212" textOverrun="CLIP" wrapText="true" />
                            </content>
                         </ScrollPane>
                      </children>
@@ -49,9 +49,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollPane hbarPolicy="NEVER" layoutX="117.0" layoutY="1.0" prefHeight="171.2" prefWidth="256.0" style="-fx-background-color: silver;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane hbarPolicy="NEVER" layoutX="117.0" layoutY="1.0" prefHeight="171.2" prefWidth="256.0" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <Label fx:id="screeningField" alignment="TOP_LEFT" prefHeight="166.0" prefWidth="322.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-text-fill: black;" text="Screening times" textFill="WHITE" />
+                              <Label fx:id="screeningField" alignment="TOP_LEFT" prefHeight="166.0" prefWidth="332.0" style="-fx-text-fill: #181212;" text="Screening times" textFill="WHITE" />
                            </content>
                         </ScrollPane>
                      </children>
@@ -60,8 +60,13 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="starsField" layoutX="150.0" layoutY="84.0" style="-fx-text-fill: blacwhitek;" text="Starring actors" textFill="WHITE" />
-      <Label fx:id="costField" layoutX="151.0" layoutY="102.0" style="-fx-text-fill: white;" text="Cost per ticket" textFill="WHITE" />
-      <Label fx:id="ProducersField" layoutX="151.0" layoutY="64.0" style="-fx-text-fill: white;" text="Producers" textFill="#fdfdfd" />
+      <Label fx:id="costField" layoutX="151.0" layoutY="139.0" style="-fx-text-fill: white;" text="Cost per ticket" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Label fx:id="ProducersField" alignment="TOP_LEFT" layoutX="151.0" layoutY="64.0" prefHeight="73.0" prefWidth="196.0" style="-fx-text-fill: White;" text="Producers" textFill="#fdfdfd" wrapText="true">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>

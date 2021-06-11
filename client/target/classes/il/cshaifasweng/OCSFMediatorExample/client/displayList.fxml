@@ -17,31 +17,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayListController" >
+<ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayListController">
    <content>
-      <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: transparent;">
+      <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1331.0" prefWidth="1280.0" style="-fx-background-color: transparent;">
          <children>
-            <Text fontSmoothingType="LCD" layoutX="98.0" layoutY="102.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Sirtya branches:">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-               <fill>
-                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.5627167820930481" green="1.0" blue="0.10999999940395355" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.8982658982276917" green="1.0" blue="0.20000000298023224" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </RadialGradient>
-               </fill></Text>
-            <ImageView blendMode="SRC_ATOP" fitHeight="802.0" fitWidth="1281.0" pickOnBounds="true">
+            <ImageView blendMode="SRC_ATOP" fitHeight="1365.0" fitWidth="1281.0" pickOnBounds="true">
                <image>
                   <Image url="@woodbackground.jpg" />
                </image>
@@ -106,8 +86,102 @@
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </opaqueInsets>
             </GridPane>
-            <FontAwesomeIconView fx:id="prevBtn" glyphName="ANGLE_DOUBLE_LEFT" layoutX="51.0" layoutY="283.0" onMouseClicked="#prevPage" size="30" text="" />
-            <FontAwesomeIconView fx:id="nxtBtn" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1213.0" layoutY="295.0" onMouseClicked="#nextPage" size="30" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="303.0" onMouseClicked="#prevPage" size="50" text="" />
+            <FontAwesomeIconView fx:id="nxtBtn" fill="WHITE" glyphName="angle-double-right" layoutX="1216.0" layoutY="315.0" onMouseClicked="#nextPage" size="50" text="" wrappingWidth="14.285714149475098" />
+            <GridPane fx:id="gridList2" hgap="15.0" layoutX="81.0" layoutY="521.0" prefHeight="340.0" prefWidth="1119.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <padding>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </opaqueInsets>
+            </GridPane>
+            <Text fontSmoothingType="LCD" layoutX="98.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies available On-Demand">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.5627167820930481" green="1.0" blue="0.10999999940395355" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8982658982276917" green="1.0" blue="0.20000000298023224" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Text>
+            <Text fontSmoothingType="LCD" layoutX="97.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Sirtya branches:">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.5627167820930481" green="1.0" blue="0.10999999940395355" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8982658982276917" green="1.0" blue="0.20000000298023224" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill></Text>
+            <GridPane fx:id="gridList3" hgap="15.0" layoutX="80.0" layoutY="920.0" prefHeight="340.0" prefWidth="1119.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <padding>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </padding>
+               <opaqueInsets>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </opaqueInsets>
+            </GridPane>
+            <Text fontSmoothingType="LCD" layoutX="99.0" layoutY="904.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coming soon">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.5627167820930481" green="1.0" blue="0.10999999940395355" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.8982658982276917" green="1.0" blue="0.20000000298023224" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </fill>
+            </Text>
          </children>
       </AnchorPane>
    </content>
