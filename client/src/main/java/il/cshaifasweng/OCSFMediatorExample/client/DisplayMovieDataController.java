@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,17 +12,31 @@ import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 
 
 public class DisplayMovieDataController {
 	private CinemaMovie movie;
 	private int counter;
 	private String temp = "Screening times:\n";
+	
+    @FXML
+    private ImageView backgrndImg;
+
+    @FXML // fx:id="anchPane"
+    private AnchorPane anchPane; // Value injected by FXMLLoader
 	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -65,8 +80,12 @@ public class DisplayMovieDataController {
     @FXML
     private Label titleField2;
 
+    @FXML
+    private TabPane tabPane;
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	tabPane.getStyleClass().add("floating");
         assert imageField != null : "fx:id=\"imageField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert titleField != null : "fx:id=\"titleField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert descriptionField != null : "fx:id=\"descriptionField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
