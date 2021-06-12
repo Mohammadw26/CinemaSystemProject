@@ -204,7 +204,12 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 		session.getTransaction().commit();
 		try {
-			client.sendToClient(new Message("#RefreshAdd",request.getMovie()));
+			moviesList = getAll(CinemaMovie.class);
+			for (Movie movie : moviesList) {
+				if (movie.getId()==request.getMovieID()) {
+					client.sendToClient(new Message("#RefreshAdd",request.getMovie()));
+				}
+			}
 		}catch(IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

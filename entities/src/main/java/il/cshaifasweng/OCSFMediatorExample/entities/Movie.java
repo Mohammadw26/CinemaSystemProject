@@ -114,7 +114,7 @@ public class Movie implements Serializable {
 //		return screenings;
 //	}
 
-	/*public void addScreenings(Screening...screenings) {
+	/*public void addScreening(Screening newScreening) {
 		for (Screening screening : screenings) {
 			this.getScreenings().add(screening);
 		}

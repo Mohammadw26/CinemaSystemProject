@@ -183,11 +183,15 @@ public class DisplayListController {
 						CinemaMovie item = movieList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
+						if (worker != null)
+							controller.setWorkerMode();
 					}
 					if (listNum==3) {
 						ComingSoonMovie item = soonList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
+						if (worker != null)
+							controller.setWorkerMode();
 					}
 					controller.setDisplay();
 					gridList.add(itemCell, j, i);

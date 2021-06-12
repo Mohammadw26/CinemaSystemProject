@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "screenings")
 public class Screening implements Serializable {
@@ -38,10 +39,11 @@ public class Screening implements Serializable {
 		this.screeningDate = date;
 		this.screeningTime = time;
 		this.movie = movie2;
-		movie2.getScreenings().add(this);
 		this.inBranch = inBranch;
 		inBranch.getScreenings().add(this);
 		this.screeningBranch = inBranch.getAddress();
+		movie2.getScreenings().add(this);
+		//movie2.addScreening(this);
 	}
 	
 	public int getId() {
@@ -81,6 +83,44 @@ public class Screening implements Serializable {
 	public void setScreeningBranch(String screeningBranch) {
 		this.screeningBranch = screeningBranch;
 	}
-
+	
+	public Boolean isEalierThan(Screening another) {
+		int i,j;
+		String temp = this.getScreeningDate();
+		String temp2 = another.getScreeningDate();
+		i = Integer.parseInt(temp.substring(6, 9));
+		j = Integer.parseInt(temp2.substring(6, 9));
+		if (i < j)
+			return true;
+		else if (i > j)
+			return false;
+		i = Integer.parseInt(temp.substring(3, 4));
+		j = Integer.parseInt(temp2.substring(3, 4));
+		if (i < j)
+			return true;
+		else if (i > j)
+			return false;
+		i = Integer.parseInt(temp.substring(0, 1));
+		j = Integer.parseInt(temp2.substring(0, 1));
+		if (i < j)
+			return true;
+		else if (i > j)
+			return false;
+		temp = this.getScreeningTime();
+		temp2 = another.getScreeningTime();
+		i = Integer.parseInt(temp.substring(0, 1));
+		j = Integer.parseInt(temp2.substring(0, 1));
+		if (i < j)
+			return true;
+		else if (i > j)
+			return false;
+		i = Integer.parseInt(temp.substring(3, 4));
+		j = Integer.parseInt(temp2.substring(3, 4));
+		if (i < j)
+			return true;
+		else if (i > j)
+			return false;
+		return true;
+	}
 	
 }

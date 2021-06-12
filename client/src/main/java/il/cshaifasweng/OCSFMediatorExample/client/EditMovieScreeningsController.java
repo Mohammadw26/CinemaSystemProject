@@ -152,6 +152,7 @@ public class EditMovieScreeningsController {
 		}
 		else if(optionField.getValue() == "Add screening" ){
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
+			String temp = datePick.getEditor().getText();
 			request.setDate(datePick.getEditor().getText());
 			request.setTime(hourField.getValue() + ":" + minuteField.getValue());
 	    	request.setMovie(movie);

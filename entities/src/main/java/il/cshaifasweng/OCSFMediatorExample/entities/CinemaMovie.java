@@ -50,5 +50,14 @@ public class CinemaMovie extends Movie {
 	public void setScreenings(List<Screening> screenings) {
 		this.screenings = screenings;
 	}
+	
+	public void addScreening (Screening newScreening) {
+		int counter = 0;
+		for (Screening screening : screenings) {
+			if (newScreening.isEalierThan(screening)) {
+				this.screenings.add(counter, newScreening);
+			}
+		}
+	}
 
 }
