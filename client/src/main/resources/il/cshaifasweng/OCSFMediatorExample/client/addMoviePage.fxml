@@ -1,26 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
    <children>
-      <VBox layoutX="459.0" layoutY="145.0" spacing="15.0">
+      <VBox layoutX="186.0" layoutY="136.0" spacing="15.0">
          <children>
-            <TextField fx:id="engMovieTitle" prefHeight="36.0" prefWidth="268.0" promptText="Add movie title in English" />
-            <TextField fx:id="hebMovieTitle" prefHeight="36.0" prefWidth="268.0" promptText="Add movie title in Hebrew" />
-            <TextField fx:id="descriptionField" alignment="TOP_LEFT" prefHeight="98.0" prefWidth="268.0" promptText="Add movie desrciption" />
-            <TextField fx:id="producersField" prefHeight="36.0" prefWidth="268.0" promptText="Add movie producers" />
-            <TextField fx:id="costField" prefHeight="36.0" prefWidth="268.0" promptText="Add cost per ticket" />
-            <TextField fx:id="actorsField" prefHeight="36.0" prefWidth="268.0" promptText="Add movie starring actors" />
-            <TextField fx:id="urlField" prefHeight="36.0" prefWidth="268.0" promptText="Add image URL" />
+            <TextField fx:id="engMovieTitle" onKeyTyped="#setEngTitle" prefHeight="36.0" prefWidth="268.0" promptText="Add movie title in English" />
+            <TextField fx:id="hebMovieTitle" onKeyTyped="#setHebTitle" prefHeight="36.0" prefWidth="268.0" promptText="Add movie title in Hebrew" />
+            <TextField fx:id="descriptionField" alignment="TOP_LEFT" onKeyTyped="#setDescription" prefHeight="98.0" prefWidth="268.0" promptText="Add movie desrciption" />
+            <TextField fx:id="producersField" onKeyTyped="#setProducers" prefHeight="36.0" prefWidth="268.0" promptText="Add movie producers" />
+            <TextField fx:id="actorsField" onKeyTyped="#setActors" prefHeight="36.0" prefWidth="268.0" promptText="Add movie starring actors" />
+            <TextField fx:id="urlField" onKeyTyped="#setImageURL" prefHeight="36.0" prefWidth="268.0" promptText="Add image URL" />
          </children>
       </VBox>
-      <ImageView fx:id="movieImage" fitHeight="406.0" fitWidth="296.0" layoutX="146.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="541.0" layoutY="586.0" mnemonicParsing="false" text="Approve" />
-      <Button layoutX="294.0" layoutY="586.0" mnemonicParsing="false" text="Cancle" />
+      <AnchorPane layoutX="482.0" layoutY="136.0" prefHeight="354.0" prefWidth="360.0" style="-fx-border-image-width: 3px; -fx-border-color: black;">
+         <children>
+            <ImageView fx:id="showImage" fitHeight="158.0" fitWidth="129.0" layoutX="6.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="showProducers" layoutX="140.0" layoutY="84.0" prefHeight="18.0" prefWidth="218.0" text="showProducers" />
+            <Label fx:id="showActors" layoutX="140.0" layoutY="115.0" prefHeight="18.0" prefWidth="218.0" text="showActors" />
+            <Label fx:id="showEngTitle" layoutX="139.0" layoutY="14.0" prefHeight="22.0" prefWidth="218.0" text="showEngTitle" textAlignment="CENTER">
+               <font>
+                  <Font name="Comic Sans MS Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="showHebTitle" layoutX="139.0" layoutY="40.0" prefHeight="22.0" prefWidth="218.0" text="showHebTitle" textAlignment="CENTER">
+               <font>
+                  <Font name="Comic Sans MS Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <ScrollPane layoutX="26.0" layoutY="214.0" prefHeight="98.0" prefWidth="234.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="131.0" prefWidth="254.0" />
+              </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <Button fx:id="approveBtn" layoutX="541.0" layoutY="586.0" mnemonicParsing="false" onAction="#addMovieAction" text="Approve" />
+      <Button fx:id="cancelBtn" layoutX="294.0" layoutY="586.0" mnemonicParsing="false" onAction="#returnToCatalog" text="Cancel" />
+      <Label layoutX="72.0" layoutY="145.0" prefHeight="18.0" prefWidth="107.0" text="English Movie Title:" />
+      <Label layoutX="72.0" layoutY="194.0" prefHeight="18.0" prefWidth="107.0" text="Hebrew Movie Title:" />
+      <Label layoutX="72.0" layoutY="279.0" prefHeight="18.0" prefWidth="107.0" text="Movie Description:" />
+      <Label layoutX="72.0" layoutY="360.0" prefHeight="18.0" prefWidth="107.0" text="Movie Producers:" />
+      <Label layoutX="72.0" layoutY="411.0" prefHeight="18.0" prefWidth="107.0" text="Starring Actors:" />
+      <Label layoutX="72.0" layoutY="465.0" prefHeight="18.0" prefWidth="107.0" text="Image URL:" />
    </children>
 </AnchorPane>
