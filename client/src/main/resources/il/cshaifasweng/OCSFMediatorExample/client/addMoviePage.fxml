@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" type="AnchorPane" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
    <children>
       <VBox layoutX="459.0" layoutY="145.0" spacing="15.0">
          <children>
@@ -24,4 +23,4 @@
       <Button layoutX="541.0" layoutY="586.0" mnemonicParsing="false" text="Approve" />
       <Button layoutX="294.0" layoutY="586.0" mnemonicParsing="false" text="Cancle" />
    </children>
-</fx:root>
+</AnchorPane>

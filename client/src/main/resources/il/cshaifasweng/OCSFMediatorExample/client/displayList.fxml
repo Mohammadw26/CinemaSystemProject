@@ -87,7 +87,7 @@
                </opaqueInsets>
             </GridPane>
             <FontAwesomeIconView fx:id="prevBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="303.0" onMouseClicked="#prevPage" size="50" text="" />
-            <FontAwesomeIconView fx:id="nxtBtn" fill="WHITE" glyphName="angle-double-right" layoutX="1216.0" layoutY="315.0" onMouseClicked="#nextPage" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="nxtBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1216.0" layoutY="315.0" onMouseClicked="#nextPage" size="50" text="" wrappingWidth="14.285714149475098" />
             <GridPane fx:id="gridList2" hgap="15.0" layoutX="81.0" layoutY="521.0" prefHeight="340.0" prefWidth="1119.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

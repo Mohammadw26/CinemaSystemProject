@@ -213,7 +213,7 @@ public class DisplayListController {
 	@FXML
     void addMovie(ActionEvent event) {
 		try {
-			App.setRoot("addMovePage");
+			App.setRoot("addMoviePage");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
