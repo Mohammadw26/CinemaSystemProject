@@ -23,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EditMovieScreeningsController {
 	private static CinemaMovie movie;
@@ -102,6 +103,8 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	private TableColumn<Screening, String> branchCol;
+    @FXML
+    private TableColumn<Screening, String> hallCol;
 
 	@FXML
 	private ComboBox<String> optionField;
@@ -253,6 +256,8 @@ public class EditMovieScreeningsController {
 		timeCol.setCellValueFactory(new PropertyValueFactory<>("screeningTime"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<>("screeningDate"));
 		branchCol.setCellValueFactory(new PropertyValueFactory<>("screeningBranch"));
+		hallCol.setCellValueFactory(new PropertyValueFactory<>("screeningHall"));
+
 		screeningsTable.setItems(screeningList);
 		for (int i = 0; i < 10; i++) {
 			hourField.getItems().add("0" + Integer.toString(i));
@@ -281,6 +286,9 @@ public class EditMovieScreeningsController {
 		for (SirtyaBranch brnch : allBranches) {
 			branchField.getItems().addAll(brnch.getAddress());
 		}
+		
 	}
+	
+	
 
 }

@@ -22,7 +22,7 @@
          <children>
             <FontAwesomeIconView fx:id="deleteBtn" fill="RED" glyphName="TRASH" size="25" text="" textAlignment="CENTER" visible="false" wrappingWidth="30.0" />
             <FontAwesomeIconView fx:id="editBtn" fill="WHITE" glyphName="EDIT" onMouseClicked="#uploadEditScreening" size="25" text="" textAlignment="CENTER" visible="false" wrappingWidth="30.0" />
-            <FontAwesomeIconView fx:id="addToCartBtn" fill="WHITE" glyphName="SHOPPING_CART" size="25" textAlignment="CENTER" wrappingWidth="30.0" />
+            <FontAwesomeIconView fx:id="addToCartBtn" fill="WHITE" glyphName="SHOPPING_CART" onMouseClicked="#chooseSeating" size="25" textAlignment="CENTER" wrappingWidth="30.0" />
          </children>
       </HBox>
       <Label fx:id="titleField2" alignment="CENTER" layoutX="158.0" layoutY="38.0" prefHeight="26.0" prefWidth="186.0" style="-fx-text-fill: White;" text="Movie Title" textFill="WHITE">

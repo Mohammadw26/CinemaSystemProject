@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ChooseScreeningController">
+   <children>
+      <TableView fx:id="screeningsTable" layoutX="359.0" layoutY="216.0" onMouseClicked="#setCelltoField" prefHeight="324.0" prefWidth="737.0">
+        <columns>
+          <TableColumn fx:id="dateCol" prefWidth="119.99996948242188" text="Date" />
+          <TableColumn fx:id="timeCol" prefWidth="118.39993286132812" text="Time" />
+            <TableColumn fx:id="branchCol" prefWidth="139.20001220703125" text="Branch" />
+            <TableColumn fx:id="hallCol" minWidth="0.0" prefWidth="120.79998779296875" text="Hall" />
+            <TableColumn fx:id="seatsNumCol" prefWidth="116.0" text="Seats Available" />
+        </columns>
+      </TableView>
+      <ImageView fx:id="poster" fitHeight="474.0" fitWidth="323.0" layoutX="22.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="select" layoutX="987.0" layoutY="574.0" mnemonicParsing="false" onMouseClicked="#selectScreening" style="-fx-background-color: #792f2f;" text="Select Screening" textFill="WHITE" />
+      <Label layoutX="359.0" layoutY="185.0" text="Please select the desired screening time by clicking on it.">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <ToolBar prefHeight="40.0" prefWidth="1200.0" style="-fx-background-color: #792f2f;">
+         <items>
+            <Label fx:id="title" text="Movie Title" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </items>
+      </ToolBar>
+      <Button fx:id="returnBtn" layoutX="1075.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#returnToCat" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
+   </children>
+</AnchorPane>

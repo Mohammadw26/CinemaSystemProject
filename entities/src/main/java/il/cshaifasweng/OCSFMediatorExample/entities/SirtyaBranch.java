@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,6 +36,9 @@ public class SirtyaBranch implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "inBranch")
 	private List<Screening> screenings;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
+	private List<Hall> halls;
+	
 	public SirtyaBranch() {}
 	
 	
@@ -42,12 +46,21 @@ public class SirtyaBranch implements Serializable{
 		this.address = address;
 		this.movies = new ArrayList<Movie>();
 		this.screenings = new ArrayList<Screening>();
+		this.halls = new ArrayList<Hall>();
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	public List<Hall> getHalls() {
+		return halls;
+	}
+
+
+	public void addHall(Hall hall) {
+		this.getHalls().add(hall);
+	}
 
 	public String getAddress() {
 		return address;

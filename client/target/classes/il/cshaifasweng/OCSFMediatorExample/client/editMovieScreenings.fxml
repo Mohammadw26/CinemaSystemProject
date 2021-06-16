@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.EditMovieScreeningsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.EditMovieScreeningsController">
    <children>
       <Label fx:id="TitleField" layoutX="385.0" layoutY="14.0" prefHeight="38.0" prefWidth="132.0" text="Movie Title" underline="true">
          <font>
@@ -46,7 +46,8 @@
           <TableColumn fx:id="idCol" prefWidth="48.0" text="ID" />
           <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" text="Date" />
             <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" text="Time" />
-            <TableColumn fx:id="branchCol" prefWidth="176.79998779296875" text="Branch" />
+            <TableColumn fx:id="branchCol" prefWidth="260.0" text="Branch" />
+            <TableColumn fx:id="hallCol" prefWidth="50.4000244140625" text="Hall" />
         </columns>
       </TableView>
       <TextField fx:id="idField" layoutX="472.0" layoutY="230.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
