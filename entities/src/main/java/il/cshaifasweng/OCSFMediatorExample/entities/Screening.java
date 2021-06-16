@@ -24,15 +24,30 @@ public class Screening implements Serializable {
 	private String screeningDate;
 	private String screeningTime;
 	private String screeningBranch;
-	
+	private String screeningHall;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_movie")
 	private CinemaMovie movie;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "screening_hall")
+	private Hall hall;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
 	private SirtyaBranch inBranch;
 	
+	private boolean[] seatsArray;
+	int availableSeats;
+	
+	public int getAvailableSeats() {
+		return availableSeats;
+	}
+
+	public void setAvailableSeats(int availableSeats) {
+		this.availableSeats = availableSeats;
+	}
+
 	public Screening() {}
 	
 	public Screening(String date, String time,CinemaMovie movie2,SirtyaBranch inBranch) {
@@ -46,6 +61,39 @@ public class Screening implements Serializable {
 		//movie2.addScreening(this);
 	}
 	
+	
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
+		this.setScreeningHall(hall.getHallName());
+		availableSeats = hall.getSeatsNum();
+		this.seatsArray = new boolean[availableSeats];
+		for (int i = 0; i <availableSeats ; i++ ) {
+			seatsArray[i]=false;
+		}
+		 
+	}
+	
+	public void setTakenSeatAt(int i) {
+		if (i<hall.getSeatsNum()) {
+			seatsArray[i]=true;
+		}
+	}
+	
+	
+	public void setAvailableSeatAt(int i) {
+		if (i<hall.getSeatsNum()) {
+			seatsArray[i]=false;
+		}
+	}
+	
+	public boolean getSeatStatus(int i) {
+		return seatsArray[i];
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -121,6 +169,14 @@ public class Screening implements Serializable {
 		else if (i > j)
 			return false;
 		return true;
+	}
+
+	public String getScreeningHall() {
+		return screeningHall;
+	}
+
+	public void setScreeningHall(String screeningHall) {
+		this.screeningHall = screeningHall;
 	}
 	
 }

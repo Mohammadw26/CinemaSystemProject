@@ -26,10 +26,12 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
@@ -104,6 +106,14 @@ public class SimpleServer extends AbstractServer {
 		else if(msgString.startsWith("#EditScreening")) {
 			try {
 				editScreening((ScreeningsUpdateRequest) ((Message) msg).getObject(), client);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(msgString.startsWith("#BookSeats")) {
+			try {
+				bookSeats((BookingRequest) ((Message) msg).getObject(), client);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -196,6 +206,39 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 	}
 	
+	private void bookSeats(BookingRequest request, ConnectionToClient client) throws Exception {
+		session = sessionFactory.openSession();
+		List<Screening> screeningsList = getAllScreenings();
+		for (Screening scrn : screeningsList) {
+			if (scrn.getId()==((BookingRequest) request).getScreeningID()) {
+				session.beginTransaction();
+				for(int i = 0 ; i < request.getArrSize() ; i ++) {
+					scrn.setTakenSeatAt(request.getSeats()[i]);
+				}
+				scrn.setAvailableSeats(scrn.getAvailableSeats()-request.getArrSize());;
+				session.save(scrn);
+				session.flush();
+				session.getTransaction().commit();
+				try {
+					screeningsList = getAll(Screening.class);
+					for (Screening screening : screeningsList) {
+						if (screening.getId()==request.getScreeningID()) {
+							client.sendToClient(new Message("#SeatsBooked",screening));
+						}
+					}
+				}catch(IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+		session.close();
+	}
+	
 	private void addScreening(ScreeningsUpdateRequest request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -256,6 +299,7 @@ public class SimpleServer extends AbstractServer {
 		//configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(ComingSoonMovie.class);
 		configuration.addAnnotatedClass(CinemaMovie.class);
+		configuration.addAnnotatedClass(Hall.class);
 
 
 
@@ -341,7 +385,10 @@ public class SimpleServer extends AbstractServer {
 		session.save(image_4);
 		session.save(image_5);
 		session.flush();
-
+		
+		Hall hall1 = new Hall(4,5,18, "1");
+		session.save(hall1);
+		session.flush();
 		CinemaMovie movie1 = new CinemaMovie("Haunt","רדוף", "Eli Roth", "Katie Stevens",
 				"On Halloween, a group of friends encounter an extreme haunted house that promises to feed on their darkest fears. The night turns deadly as they come to the horrifying realization that some nightmares are real.",
 				44.90, image_1);
@@ -374,8 +421,11 @@ public class SimpleServer extends AbstractServer {
 		
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
+		branch1.addHall(hall1);
 		SirtyaBranch branch2 = new SirtyaBranch("Riverdale 29, Falador");
+		branch2.addHall(hall1);
 		SirtyaBranch branch3 = new SirtyaBranch("Wa7awee7 117, Lumbrige");
+		branch3.addHall(hall1);
 		session.save(branch1);
 		session.save(branch2);
 		session.save(branch3);
@@ -399,6 +449,14 @@ public class SimpleServer extends AbstractServer {
 		Screening screening_7 = new Screening("02/06/2021", "20:45", movie3, branch1);
 		Screening screening_8 = new Screening("03/06/2021", "16:45", movie4, branch3);
 //		Screening screening_9 = new Screening("03/06/2021", "19:00", movie5, branch3);
+		screening_1.setHall(hall1);
+		screening_2.setHall(hall1);
+		screening_3.setHall(hall1);
+		screening_4.setHall(hall1);
+		screening_5.setHall(hall1);
+		screening_6.setHall(hall1);
+		screening_7.setHall(hall1);
+		screening_8.setHall(hall1);
 		session.save(screening_1);
 		session.save(screening_2);
 		session.save(screening_3);

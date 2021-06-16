@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddHallController">
+   <children>
+      <ChoiceBox fx:id="branchBox" layoutX="157.0" layoutY="69.0" prefWidth="150.0" />
+      <Text layoutX="31.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Branch:" wrappingWidth="94.22930908203125" />
+      <Text layoutX="31.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number Of Rows" wrappingWidth="94.22930908203125" />
+      <Text layoutX="31.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number Of Columns" wrappingWidth="116.62933349609375" />
+      <ChoiceBox fx:id="rowsBox" layoutX="157.0" layoutY="104.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="colsBox" layoutX="157.0" layoutY="140.0" prefWidth="150.0" />
+      <Text layoutX="31.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Seats Number:" />
+      <TextField fx:id="numField" layoutX="157.0" layoutY="176.0" />
+      <Button fx:id="confirmBtn" layoutX="128.0" layoutY="235.0" mnemonicParsing="false" text="Add Hall" />
+   </children>
+</AnchorPane>

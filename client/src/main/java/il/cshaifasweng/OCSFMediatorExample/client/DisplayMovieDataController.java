@@ -184,8 +184,19 @@ public class DisplayMovieDataController {
 			e.printStackTrace();
 		}
 	}
+	
+    @FXML
+    void chooseSeating(MouseEvent event) {
+    	ChooseScreeningController.setMovie((CinemaMovie)movie);
+    	try {
+    		App.setRoot("chooseScreening");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
-	}
+}
 	
 //    @FXML
 //    void uploadEditScreening(ActionEvent event) {

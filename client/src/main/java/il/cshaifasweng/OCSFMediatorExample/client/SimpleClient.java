@@ -9,10 +9,13 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
 
 public class SimpleClient extends AbstractClient {
-	
+	/**
+	 * 
+	 */
 	private static SimpleClient client = null;
 
 	private SimpleClient(String host, int port) {
@@ -53,6 +56,15 @@ public class SimpleClient extends AbstractClient {
 			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#SeatsBooked")) {
+			SeatChoosingController.setScreening((Screening) ((Message) msg).getObject());
+			try {
+				App.setRoot("SeatChoosing");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
