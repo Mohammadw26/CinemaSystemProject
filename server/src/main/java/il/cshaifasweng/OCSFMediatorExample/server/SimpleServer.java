@@ -332,53 +332,11 @@ public class SimpleServer extends AbstractServer {
 	}
 	
 	private static void initializeData() throws Exception {
-		File imagfile1 = new File(System.getProperty("user.dir") + "/Haunt.png");
-		File imagfile2 = new File(System.getProperty("user.dir") + "/Us.png");
-		File imagfile3 = new File(System.getProperty("user.dir") + "/ABeautifulMind.png");
-		File imagfile4 = new File(System.getProperty("user.dir") + "/TheLionKing.png");
-		File imagfile5 = new File(System.getProperty("user.dir") + "/IceAge.png");
-		byte[] pixelsArray1 = new byte[(int) imagfile1.length()];
-		byte[] pixelsArray2 = new byte[(int) imagfile2.length()];
-		byte[] pixelsArray3 = new byte[(int) imagfile3.length()];
-		byte[] pixelsArray4 = new byte[(int) imagfile4.length()];
-		byte[] pixelsArray5 = new byte[(int) imagfile5.length()];
-		try {
-			FileInputStream Image1pixels = new FileInputStream(imagfile1);
-			FileInputStream Image2pixels = new FileInputStream(imagfile2);
-			FileInputStream Image3pixels = new FileInputStream(imagfile3);
-			FileInputStream Image4pixels = new FileInputStream(imagfile4);
-			FileInputStream Image5pixels = new FileInputStream(imagfile5);
-
-
-			Image1pixels.read(pixelsArray1);
-			Image2pixels.read(pixelsArray2);
-			Image3pixels.read(pixelsArray3);
-			Image4pixels.read(pixelsArray4);
-			Image5pixels.read(pixelsArray5);
-			Image1pixels.close();
-			Image2pixels.close();
-			Image3pixels.close();
-			Image4pixels.close();
-			Image5pixels.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Image image_1 = new Image("Thumbnail", pixelsArray1);
-		Image image_2 = new Image("Thumbnail", pixelsArray2);
-		Image image_3 = new Image("Thumbnail", pixelsArray3);
-		Image image_4 = new Image("Thumbnail", pixelsArray4);
-		Image image_5 = new Image("Thumbnail", pixelsArray5);
-		/*image_1.setImgURL(System.getProperty("user.dir") + "/Haunt.png");
-		image_2.setImgURL(System.getProperty("user.dir") + "/Us.png");
-		image_3.setImgURL(System.getProperty("user.dir") + "/ABeautifulMind.png");
-		image_4.setImgURL(System.getProperty("user.dir") + "/TheLionKing.png");
-		image_5.setImgURL(System.getProperty("user.dir") + "/IceAge.png");*/
-		image_1.setImgURL("https://upload.wikimedia.org/wikipedia/en/3/36/Haunt2019Poster.jpg");
-		image_2.setImgURL("https://upload.wikimedia.org/wikipedia/en/0/00/Us_%282019%29_theatrical_poster.png");
-		image_3.setImgURL("https://upload.wikimedia.org/wikipedia/en/b/b8/A_Beautiful_Mind_Poster.jpg");
-		image_4.setImgURL("https://upload.wikimedia.org/wikipedia/en/3/3d/The_Lion_King_poster.jpg");
-		image_5.setImgURL("https://upload.wikimedia.org/wikipedia/en/3/3c/Ice_Age_%282002_film%29_poster.jpg");
+		Image image_1 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/36/Haunt2019Poster.jpg");
+		Image image_2 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/0/00/Us_%282019%29_theatrical_poster.png");
+		Image image_3 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/b/b8/A_Beautiful_Mind_Poster.jpg");
+		Image image_4 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3d/The_Lion_King_poster.jpg");
+		Image image_5 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3c/Ice_Age_%282002_film%29_poster.jpg");
 		session.save(image_1);
 		session.save(image_2);
 		session.save(image_3);

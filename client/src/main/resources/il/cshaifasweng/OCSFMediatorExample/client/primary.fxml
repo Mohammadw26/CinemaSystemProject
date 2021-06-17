@@ -8,18 +8,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrimaryController">
    <children>
-      <ImageView fitHeight="695.0" fitWidth="918.0" layoutY="-5.0" pickOnBounds="true">
+      <ImageView fitHeight="809.0" fitWidth="1280.0" layoutY="-5.0" pickOnBounds="true">
          <image>
             <Image url="@SirtyaWelcome.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="showCatalog" layoutX="398.0" layoutY="399.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" style="-fx-background-radius: 15px; -fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="show catalog">
+      <Button fx:id="showCatalog" layoutX="576.0" layoutY="399.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" style="-fx-background-radius: 15px; -fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="show catalog">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font></Button>
-      <Label fx:id="welcomeLabel" layoutX="366.0" layoutY="108.0" text="Welcome" textFill="WHITE">
+      <Label fx:id="welcomeLabel" layoutX="537.0" layoutY="108.0" text="Welcome" textFill="WHITE">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="48.0" />
          </font>
@@ -27,7 +27,7 @@
             <Glow level="0.86" />
          </effect>
       </Label>
-      <Label fx:id="cinemaLabel" layoutX="241.0" layoutY="201.0" text="The Sirtya Cinema" textFill="WHITE">
+      <Label fx:id="cinemaLabel" layoutX="423.0" layoutY="201.0" text="The Sirtya Cinema" textFill="WHITE">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="48.0" />
          </font>
@@ -35,7 +35,7 @@
             <Glow level="0.86" />
          </effect>
       </Label>
-      <Button fx:id="adminLabel" layoutX="400.0" layoutY="447.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Admin Login">
+      <Button fx:id="adminLabel" layoutX="576.0" layoutY="447.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Admin Login">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font></Button>
