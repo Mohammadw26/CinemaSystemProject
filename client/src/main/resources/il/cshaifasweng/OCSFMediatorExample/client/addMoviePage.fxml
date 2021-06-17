@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,6 +12,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
    <children>
+      <ToolBar layoutX="-2.0" prefHeight="40.0" prefWidth="920.0" style="-fx-background-color: #792f2f;">
+         <items>
+            <Label text="Movie Adding" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </items>
+      </ToolBar>
+      <Button fx:id="returnBtn" layoutX="800.0" layoutY="6.0" mnemonicParsing="false" onAction="#returnToCatalog" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
       <VBox layoutX="186.0" layoutY="136.0" spacing="15.0">
          <children>
             <TextField fx:id="engMovieTitle" onKeyTyped="#setEngTitle" prefHeight="36.0" prefWidth="268.0" promptText="Add movie title in English" />
@@ -21,7 +32,7 @@
             <TextField fx:id="urlField" onKeyTyped="#setImageURL" prefHeight="36.0" prefWidth="268.0" promptText="Add image URL" />
          </children>
       </VBox>
-      <AnchorPane layoutX="482.0" layoutY="136.0" prefHeight="354.0" prefWidth="360.0" style="-fx-border-image-width: 3px; -fx-border-color: black;">
+      <AnchorPane layoutX="482.0" layoutY="136.0" prefHeight="354.0" prefWidth="360.0" style="-fx-border-width: 5; -fx-border-color: #792f2f;">
          <children>
             <ImageView fx:id="showImage" fitHeight="158.0" fitWidth="129.0" layoutX="6.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="showProducers" layoutX="140.0" layoutY="84.0" prefHeight="18.0" prefWidth="218.0" text="showProducers" />
@@ -43,13 +54,17 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <Button fx:id="approveBtn" layoutX="541.0" layoutY="586.0" mnemonicParsing="false" onAction="#addMovieAction" text="Approve" />
-      <Button fx:id="cancelBtn" layoutX="294.0" layoutY="586.0" mnemonicParsing="false" onAction="#returnToCatalog" text="Cancel" />
       <Label layoutX="72.0" layoutY="145.0" prefHeight="18.0" prefWidth="107.0" text="English Movie Title:" />
       <Label layoutX="72.0" layoutY="194.0" prefHeight="18.0" prefWidth="107.0" text="Hebrew Movie Title:" />
       <Label layoutX="72.0" layoutY="279.0" prefHeight="18.0" prefWidth="107.0" text="Movie Description:" />
       <Label layoutX="72.0" layoutY="360.0" prefHeight="18.0" prefWidth="107.0" text="Movie Producers:" />
       <Label layoutX="72.0" layoutY="411.0" prefHeight="18.0" prefWidth="107.0" text="Starring Actors:" />
       <Label layoutX="72.0" layoutY="465.0" prefHeight="18.0" prefWidth="107.0" text="Image URL:" />
+      <Button fx:id="approveBtn" layoutX="428.0" layoutY="584.0" mnemonicParsing="false" style="-fx-background-color: #792f2f;" text="Approve" textFill="WHITE" />
+      <Label layoutX="641.0" layoutY="106.0" text="Preview" textFill="#792f2f">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

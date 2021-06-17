@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -57,16 +58,24 @@ public class AddMoviePageController {
 
     @FXML
     private Button cancelBtn;
+    
+    @FXML
+    void returnToCatalog(ActionEvent event) {
+    	try {
+			App.setRoot("DisplayList");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
 
     @FXML
     void addMovieAction(ActionEvent event) {
 
     }
 
-    @FXML
-    void returnToCatalog(ActionEvent event) {
-
-    }
+  
 
     @FXML
     void setActors(KeyEvent event) {
