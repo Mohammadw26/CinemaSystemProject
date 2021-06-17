@@ -86,8 +86,12 @@ public class DisplayMovieDataController {
     @FXML
     private TabPane tabPane;
     
-    public void setWorkerMode() {
+    public static void setWorkerMode() {
     	isWorker = true;
+    }
+    
+    public static void resetMode() {
+    	isWorker = false;
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete

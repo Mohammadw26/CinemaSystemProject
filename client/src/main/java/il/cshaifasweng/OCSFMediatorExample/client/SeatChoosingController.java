@@ -297,7 +297,7 @@ public class SeatChoosingController {
         		}
         	}
         }
-		if(confLabel.isVisible()) {
+		if(confLabel.isVisible() && confLabel.getText()!="You must choose a seat to continue.") {
 			BookingRequest request = new BookingRequest(temp, screening.getId(),counter);
 	    	try {
 			SimpleClient.getClient().sendToServer(new Message("#BookSeats", request));
@@ -305,11 +305,14 @@ public class SeatChoosingController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 		}
-    	}else {
+    	}else if (counter!=0){
     	confLabel.setText("You have selected the following seats:" + chosenSeats +
     			"\nTotal Cost: " + Double.toString(screening.getMovie().getTicketCost()*counter) +" NIS"
     			+"\nPlease click 'Book Seats' again to confirm and continue your purchase");
     	confLabel.setVisible(true);
+    	} else {
+    		confLabel.setText("You must choose a seat to continue.");
+    		confLabel.setVisible(true);
     	}
 }
 
@@ -398,6 +401,7 @@ public class SeatChoosingController {
         hall = screening.getHall();
 		Image image = new Image(screening.getMovie().getImage().getImgURL());
 		poster.setImage(image);
+		poster.setPreserveRatio(false);
 		movieInfo.setText("Movie: " + screening.getMovie().getMovieTitle() + " - " + screening.getMovie().getMovieTitleHeb()
 				+ "\nDate: " + screening.getScreeningDate() 
 		+ "\nTime: " + screening.getScreeningTime()

@@ -12,8 +12,6 @@ public class Image implements Serializable{
     private int id;
 	@Column(name = "Image_name")
 	private String name;
-    @Column(length = 100000000)
-    private byte[] imagePixels;
     private String imgURL;
     
     
@@ -31,9 +29,9 @@ public class Image implements Serializable{
     
     public Image() {}
     
-    public Image(String name, byte[] imagePixels) {
+    public Image(String name,String imgURL) {
         this.name = name;
-        this.imagePixels = imagePixels;
+		this.imgURL = imgURL;
     }
 
 	public String getName() {
@@ -42,14 +40,6 @@ public class Image implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public byte[] getImagePixels() {
-		return imagePixels;
-	}
-
-	public void setImagePixels(byte[] imagePixels) {
-		this.imagePixels = imagePixels;
 	}
 
 	public Movie getMovie() {

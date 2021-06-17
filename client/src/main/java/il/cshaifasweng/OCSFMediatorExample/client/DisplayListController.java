@@ -176,6 +176,8 @@ public class DisplayListController {
 					}
 					Node itemCell = viewData.getKey();
 					DisplayMovieDataController controller = (DisplayMovieDataController) viewData.getValue();
+					//if (worker != null)
+						//controller.setWorkerMode();
 					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
 					if (listNum==1 && index >= movieList.size() || listNum==3 && index >= soonList.size() )
 						break;
@@ -183,15 +185,11 @@ public class DisplayListController {
 						CinemaMovie item = movieList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
-						if (worker != null)
-							controller.setWorkerMode();
 					}
 					if (listNum==3) {
 						ComingSoonMovie item = soonList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
-						if (worker != null)
-							controller.setWorkerMode();
 					}
 					controller.setDisplay();
 					gridList.add(itemCell, j, i);
@@ -202,6 +200,14 @@ public class DisplayListController {
 
 	@FXML
 	void logOut(ActionEvent event) {
+		DisplayMovieDataController.resetMode();
+		compliantsBtn.setVisible(false);
+		addMovieBtn.setVisible(false);
+		salesReportsBtn.setVisible(false);
+		employeeBtn.setVisible(false);
+		reviewRequestBtn.setVisible(false);
+		logOutBtn.setVisible(false);
+		worker = null;
 		try {
 			App.setRoot("primary");
 		} catch (IOException e) {
@@ -223,33 +229,8 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		pages = movieList.size() / 3 + 1;
-		prevBtn.setVisible(false);
-		nxtBtn.setVisible(pages>1);
-//		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
-//		FileInputStream Image1pixels;
-//		try {
-//			Image1pixels = new FileInputStream(imagfile1);
-//			Image image = new Image(Image1pixels);
-//			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
-//					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-//			gridList.setPadding(new Insets(50, 0, 50, 0));
-//			
-//		} catch (FileNotFoundException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//    	gridList.setBackground(
-//    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
-		try {
-			fillGrids(gridList, 1);
-			fillGrids(gridList3, 3);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		if (worker != null) {
+			DisplayMovieDataController.setWorkerMode();
 			compliantsBtn.setVisible(true);
 			addMovieBtn.setVisible(true);
 			salesReportsBtn.setVisible(true);
@@ -289,7 +270,32 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 			}
 		}
-		
+		pages = movieList.size() / 3 + 1;
+		prevBtn.setVisible(false);
+		nxtBtn.setVisible(pages>1);
+//		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
+//		FileInputStream Image1pixels;
+//		try {
+//			Image1pixels = new FileInputStream(imagfile1);
+//			Image image = new Image(Image1pixels);
+//			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
+//					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+//			gridList.setPadding(new Insets(50, 0, 50, 0));
+//			
+//		} catch (FileNotFoundException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//    	gridList.setBackground(
+//    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
+		try {
+			fillGrids(gridList, 1);
+			fillGrids(gridList3, 3);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*

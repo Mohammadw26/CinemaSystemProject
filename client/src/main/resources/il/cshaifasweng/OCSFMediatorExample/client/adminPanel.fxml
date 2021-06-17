@@ -11,18 +11,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AdminPanelController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AdminPanelController">
    <children>
-      <ImageView fitHeight="695.0" fitWidth="918.0" layoutY="-5.0" pickOnBounds="true">
+      <ImageView fitHeight="807.0" fitWidth="1280.0" layoutY="-5.0" pickOnBounds="true">
          <image>
             <Image url="@SirtyaWelcome.jpg" />
          </image>
       </ImageView>
-      <PasswordField fx:id="passwordBar" layoutX="344.0" layoutY="372.0" onMouseClicked="#hideError" prefHeight="26.0" prefWidth="227.0" promptText="Password" />
-      <TextField fx:id="usernameField" layoutX="344.0" layoutY="335.0" onMouseClicked="#hideError" prefHeight="26.0" prefWidth="227.0" promptText="Username" />
-      <FontAwesomeIconView fx:id="userIcon" fill="WHITE" glyphName="USER" layoutX="313.0" layoutY="357.0" size="25" />
-      <FontAwesomeIconView fx:id="passwordICon" fill="WHITE" glyphName="LOCK" layoutX="313.0" layoutY="394.0" size="25" text="" />
-      <Button fx:id="LoginBtn" layoutX="344.0" layoutY="412.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="33.0" prefWidth="88.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Log in">
+      <PasswordField fx:id="passwordBar" layoutX="526.0" layoutY="416.0" onMouseClicked="#hideError" prefHeight="26.0" prefWidth="227.0" promptText="Password" />
+      <TextField fx:id="usernameField" layoutX="526.0" layoutY="379.0" onMouseClicked="#hideError" prefHeight="26.0" prefWidth="227.0" promptText="Username" />
+      <FontAwesomeIconView fx:id="userIcon" fill="WHITE" glyphName="USER" layoutX="501.0" layoutY="401.0" size="25" />
+      <FontAwesomeIconView fx:id="passwordICon" fill="WHITE" glyphName="LOCK" layoutX="501.0" layoutY="438.0" size="25" text="" />
+      <Button fx:id="LoginBtn" layoutX="526.0" layoutY="453.0" mnemonicParsing="false" onAction="#LoginAction" prefHeight="34.0" prefWidth="106.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA); -fx-background-color: -fx-outer-border,         -fx-body-color; -fx-background-insets: 1,3; -fx-background-radius: 6px, 0px; -fx-background-repeat: no-repeat; -fx-background-position: center;" text="Log in">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="10.0" />
          </font>
@@ -30,13 +30,13 @@
             <FontAwesomeIconView glyphName="SIGN_IN" size="20" />
          </graphic>
       </Button>
-      <CheckBox fx:id="passToggle" layoutX="585.0" layoutY="377.0" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="WHITE">
+      <CheckBox fx:id="passToggle" layoutX="763.0" layoutY="421.0" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="WHITE">
          <font>
             <Font size="10.0" />
          </font>
       </CheckBox>
       <TextField fx:id="passText" layoutX="344.0" layoutY="372.0" prefHeight="26.0" prefWidth="227.0" visible="false" />
-      <Button fx:id="homePage" layoutX="464.0" layoutY="412.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="34.0" prefWidth="106.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA); -fx-background-color: -fx-outer-border,         -fx-body-color; -fx-background-insets: 1, 3; -fx-background-radius: 6px, 0px; -fx-background-repeat: no-repeat; -fx-background-position: center;" text="Home Page">
+      <Button fx:id="homePage" layoutX="647.0" layoutY="453.0" mnemonicParsing="false" onAction="#goHomePage" prefHeight="34.0" prefWidth="106.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA); -fx-background-color: -fx-outer-border,         -fx-body-color; -fx-background-insets: 1, 3; -fx-background-radius: 6px, 0px; -fx-background-repeat: no-repeat; -fx-background-position: center;" text="Home Page">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="10.0" />
          </font>
