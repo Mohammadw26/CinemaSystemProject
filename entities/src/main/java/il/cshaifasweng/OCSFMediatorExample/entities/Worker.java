@@ -1,20 +1,13 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.InheritanceType;
+
 
 @Entity
 @Inheritance
@@ -27,12 +20,12 @@ public class Worker implements Serializable {
 	private static final long serialVersionUID = -4521913046405040845L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String workerId;
-	private String workerName;
-	private String workerPassword;
-	private String wokerUsername;
-	private String workerEmail;
+	protected int id;
+	protected String workerId;
+	protected String workerName;
+	protected String workerPassword;
+	protected String wokerUsername;
+	protected String workerEmail;
 	
 	public Worker() {}
 	

@@ -1,5 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -25,6 +28,7 @@ public class Screening implements Serializable {
 	private String screeningTime;
 	private String screeningBranch;
 	private String screeningHall;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_movie")
 	private CinemaMovie movie;
@@ -36,6 +40,9 @@ public class Screening implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_id")
 	private SirtyaBranch inBranch;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "screening")
+	private List<Ticket> tickets;
 	
 	private boolean[] seatsArray;
 	int availableSeats;
@@ -58,6 +65,7 @@ public class Screening implements Serializable {
 		inBranch.getScreenings().add(this);
 		this.screeningBranch = inBranch.getAddress();
 		movie2.getScreenings().add(this);
+		this.tickets = new ArrayList<Ticket>();
 		//movie2.addScreening(this);
 	}
 	

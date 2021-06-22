@@ -253,8 +253,9 @@ public class SeatChoosingController {
     void bookSeat(MouseEvent event) {
     	int counter2 = 0;
     	int[] temp = new int[counter];
+    	String[] temp2 = new String[counter];
     	int seatNum = 0;
-    	chosenSeats = " ";
+    	chosenSeats = "";
     	if ((hall.getCols()/2)*2 == (hall.getCols())) {
         	for (int k = 0 ; k < hall.getRows() ; k ++) {
         		rowsGrid.getChildren().get(k).setVisible(true);
@@ -267,12 +268,16 @@ public class SeatChoosingController {
                     		if(confLabel.isVisible()) {
                         		screening.setTakenSeatAt(seatNum);
                         		temp[counter2]=seatNum;
+                        		temp2[counter2]="";
+                        		temp2[counter2]+='A'+ k;
                         		counter2++;
                         	}
                     		if (i<3)
                     			chosenSeats += Integer.toString(i - (3 - (hall.getCols()-1)/2) + 1) + "	";
+                    			temp2[counter2-1]+= Integer.toString(i - (3 - (hall.getCols()-1)/2) + 1);
                     		if (i>3)
                     			chosenSeats += Integer.toString(i - (3 - (hall.getCols()-1)/2)) + "	";
+                    			temp2[counter2]+= Integer.toString(i - (3 - (hall.getCols()-1)/2));
                     	}
         				seatNum++;
         			}
@@ -290,6 +295,8 @@ public class SeatChoosingController {
                 		if(confLabel.isVisible()) {
                     		screening.setTakenSeatAt(seatNum);
                     		temp[counter2]=seatNum;
+                    		temp2[counter2] = "" + Character.toString((char) 65 + k);
+                    		temp2[counter2] += Integer.toString(i + 1 - (3 - (hall.getCols()-1)/2));
                     		counter2++;
                     	}
                 	}
@@ -298,15 +305,15 @@ public class SeatChoosingController {
         	}
         }
 		if(confLabel.isVisible() && confLabel.getText()!="You must choose a seat to continue.") {
-			BookingRequest request = new BookingRequest(temp, screening.getId(),counter);
+			BookingRequest request = new BookingRequest(temp, temp2 , screening, counter);
 	    	try {
-			SimpleClient.getClient().sendToServer(new Message("#BookSeats", request));
+			SimpleClient.getClient().sendToServer(new Message("#SaveSeats", request));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-		}
+			}
     	}else if (counter!=0){
-    	confLabel.setText("You have selected the following seats:" + chosenSeats +
+    	confLabel.setText("You have selected the following seats: " + chosenSeats +
     			"\nTotal Cost: " + Double.toString(screening.getMovie().getTicketCost()*counter) +" NIS"
     			+"\nPlease click 'Book Seats' again to confirm and continue your purchase");
     	confLabel.setVisible(true);

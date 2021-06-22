@@ -9,18 +9,28 @@ public class BookingRequest implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private int[] seats;
-	private int screeningID;
+	private String[] seatIds;
+	private Screening screening;
 	private int arrSize;
 
 
 	public BookingRequest() {}
 	
-	public BookingRequest(int[] seats, int id, int size) {
+	public BookingRequest(int[] seats, String[] seatIds, Screening screening, int size) {
+		this.setSeatIds(seatIds);
 		this.setSeats(seats);
-		this.setScreeningID(id);
+		this.setScreening(screening);
 		this.setArrSize(size);
 	}
 	
+	public String[] getSeatIds() {
+		return seatIds;
+	}
+
+	public void setSeatIds(String[] seatIds) {
+		this.seatIds = seatIds;
+	}
+
 	public int[] getSeats() {
 		return seats;
 	}
@@ -29,14 +39,14 @@ public class BookingRequest implements Serializable{
 		this.seats = seats;
 	}
 	
-	public int getScreeningID() {
-		return screeningID;
+	public Screening getScreening() {
+		return screening;
 	}
-	
-	public void setScreeningID(int screeningID) {
-		this.screeningID = screeningID;
+
+	public void setScreening(Screening screening) {
+		this.screening = screening;
 	}
-	
+
 	public int getArrSize() {
 		return arrSize;
 	}

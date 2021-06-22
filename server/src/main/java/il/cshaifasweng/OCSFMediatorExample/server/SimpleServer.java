@@ -26,10 +26,14 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
+import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
@@ -111,9 +115,17 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		else if(msgString.startsWith("#BookSeats")) {
+		else if(msgString.startsWith("#SaveSeats")) {
 			try {
-				bookSeats((BookingRequest) ((Message) msg).getObject(), client);
+				saveSeats((BookingRequest) ((Message) msg).getObject(), client);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(msgString.startsWith("#FinishOrder")) {
+			try {
+				finishOrder((FullOrderRequest) ((Message) msg).getObject(), client);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -206,26 +218,28 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 	}
 	
-	private void bookSeats(BookingRequest request, ConnectionToClient client) throws Exception {
+	private void saveSeats(BookingRequest request, ConnectionToClient client) throws Exception {
 		session = sessionFactory.openSession();
 		List<Screening> screeningsList = getAllScreenings();
 		for (Screening scrn : screeningsList) {
-			if (scrn.getId()==((BookingRequest) request).getScreeningID()) {
+			if (scrn.getId()==((BookingRequest) request).getScreening().getId()) {
 				session.beginTransaction();
 				for(int i = 0 ; i < request.getArrSize() ; i ++) {
 					scrn.setTakenSeatAt(request.getSeats()[i]);
 				}
-				scrn.setAvailableSeats(scrn.getAvailableSeats()-request.getArrSize());;
+				scrn.setAvailableSeats(scrn.getAvailableSeats()-request.getArrSize());
 				session.save(scrn);
 				session.flush();
 				session.getTransaction().commit();
 				try {
-					screeningsList = getAll(Screening.class);
+					client.sendToClient(new Message("#SeatsSaved",request));
+					/*screeningsList = getAll(Screening.class);
 					for (Screening screening : screeningsList) {
-						if (screening.getId()==request.getScreeningID()) {
-							client.sendToClient(new Message("#SeatsBooked",screening));
+						if (screening.getId()==request.getScreening().getId()) {
+							request.setScreening(screening);
+							client.sendToClient(new Message("#SeatsBooked",request));
 						}
-					}
+					}*/
 				}catch(IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -239,6 +253,33 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 	}
 	
+	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {
+		if(request.isNewCustomerFlag() && !request.isSignupFlag()) {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			CasualBuyer newCus = new CasualBuyer(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail());
+			session.save(newCus);
+			session.flush();
+			BookingRequest temp = request.getRequest();
+			for (int i = 0; i < temp.getArrSize(); i ++) {
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i]);
+				session.save(newTicket);
+				session.flush();
+			}
+			session.save(newCus);
+			session.flush();
+			session.getTransaction().commit();
+			try {
+				client.sendToClient(new Message("#BookedNonMember",request));
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	private void addScreening(ScreeningsUpdateRequest request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -300,6 +341,9 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(ComingSoonMovie.class);
 		configuration.addAnnotatedClass(CinemaMovie.class);
 		configuration.addAnnotatedClass(Hall.class);
+		configuration.addAnnotatedClass(Ticket.class);
+		configuration.addAnnotatedClass(CasualBuyer.class);
+		configuration.addAnnotatedClass(Complaint.class);
 
 
 
