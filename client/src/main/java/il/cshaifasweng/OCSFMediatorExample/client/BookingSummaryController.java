@@ -9,7 +9,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.text.Text;
 
 public class BookingSummaryController {
 
@@ -40,7 +39,12 @@ public class BookingSummaryController {
 
     @FXML
     void closeStage(ActionEvent event) {
-
+		try {
+			SimpleClient.getClient().sendToServer("#CatalogRequest");
+	    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML

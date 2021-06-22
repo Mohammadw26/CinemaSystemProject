@@ -113,7 +113,7 @@ public class BookingOrderController {
     	}
     	else {
     		FullOrderRequest request2 = new FullOrderRequest(nameField.getText(), lastNameField.getText()
-    				, emailField.getText(), Integer.parseInt(idField.getText()), Integer.parseInt(cardField.getText()));
+    				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()));
     		request2.setRequest(request);
     		if (signUpCheck.isPressed()) {
     			request2.setUsername(newUserField.getText());

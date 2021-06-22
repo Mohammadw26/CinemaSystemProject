@@ -4,6 +4,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 
 public class FullOrderRequest implements Serializable{
+	
 	/**
 	 * 
 	 */
@@ -12,7 +13,7 @@ public class FullOrderRequest implements Serializable{
 	private String lastName;
 	private String email;
 	private int customerID;
-	private int cardNum;
+	private long cardNum;
 	private BookingRequest request;
 	private String username;
 	private String password;
@@ -21,7 +22,7 @@ public class FullOrderRequest implements Serializable{
 
 	public FullOrderRequest() {}
 	
-	public FullOrderRequest(String firstName, String lastName, String email, int customerID, int cardNum) {
+	public FullOrderRequest(String firstName, String lastName, String email, int customerID, long cardNum) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -29,7 +30,7 @@ public class FullOrderRequest implements Serializable{
 		this.cardNum = cardNum;
 	}
 	
-	public FullOrderRequest(String firstName, String lastName, String email, int customerID, int cardNum, String username, String password) {
+	public FullOrderRequest(String firstName, String lastName, String email, int customerID, long cardNum, String username, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -71,7 +72,7 @@ public class FullOrderRequest implements Serializable{
 		return customerID;
 	}
 
-	public int getCardNum() {
+	public long getCardNum() {
 		return cardNum;
 	}
 
@@ -103,7 +104,7 @@ public class FullOrderRequest implements Serializable{
 		this.customerID = customerID;
 	}
 
-	public void setCardNum(int cardNum) {
+	public void setCardNum(long cardNum) {
 		this.cardNum = cardNum;
 	}
 

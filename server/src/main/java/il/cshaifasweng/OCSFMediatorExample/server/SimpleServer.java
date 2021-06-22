@@ -4,23 +4,16 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -46,6 +39,7 @@ public class SimpleServer extends AbstractServer {
 	private static Session session;
 	private static List<CinemaMovie> moviesList;
 	private static List<Screening> screeningsList;
+	@SuppressWarnings("unused")
 	private static List<SirtyaBranch> branchesList;
 
 	public SimpleServer(int port) {
@@ -262,12 +256,12 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i ++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i]);
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
 				session.save(newTicket);
 				session.flush();
 			}
-			session.save(newCus);
-			session.flush();
+			//session.save(newCus);
+			//session.flush();
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#BookedNonMember",request));
