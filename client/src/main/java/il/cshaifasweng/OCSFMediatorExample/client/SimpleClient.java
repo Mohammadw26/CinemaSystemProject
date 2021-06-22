@@ -6,7 +6,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
+import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -61,10 +63,20 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
-		else if (msgString.startsWith("#SeatsBooked")) {
-			SeatChoosingController.setScreening((Screening) ((Message) msg).getObject());
+		else if (msgString.startsWith("#SeatsSaved")) {
+			//SeatChoosingController.setScreening((Screening) ((Message) msg).getObject());
+			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {
-				App.setRoot("SeatChoosing");
+				App.setRoot("bookingOrder");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#BookedNonMember")) {
+			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
+			try {
+				App.setRoot("bookingSummary");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
