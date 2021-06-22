@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="63.0" layoutY="67.0" text="Username:" />
+      <Label layoutX="65.0" layoutY="101.0" text="Password:" />
+      <Label layoutX="63.0" layoutY="131.0" text="FirstName:" />
+      <Label layoutX="63.0" layoutY="163.0" text="LastName:" />
+      <Label layoutX="64.0" layoutY="252.0" text="Mail:" />
+      <Label layoutX="65.0" layoutY="222.0" text="Credit Card:" />
+      <Label layoutX="63.0" layoutY="191.0" text="ID:" />
+      <Button fx:id="signUpBtn" layoutX="33.0" layoutY="334.0" mnemonicParsing="false" onAction="#CommitChanges" text="Sign Up" />
+      <Button fx:id="signUpBtn" layoutX="509.0" layoutY="334.0" mnemonicParsing="false" onAction="#returnToCatalog" text="close" />
+      <TextField fx:id="usernameTxt" layoutX="151.0" layoutY="63.0" />
+      <TextField fx:id="passTxt" layoutX="151.0" layoutY="97.0" />
+      <TextField fx:id="firstNameTxt" layoutX="151.0" layoutY="127.0" />
+      <TextField fx:id="lastNameTxt" layoutX="151.0" layoutY="159.0" />
+      <TextField fx:id="idTxt" layoutX="151.0" layoutY="187.0" />
+      <TextField fx:id="creditCardTxt" layoutX="151.0" layoutY="218.0" />
+      <TextField fx:id="mailTxt" layoutX="151.0" layoutY="248.0" />
+   </children>
+</AnchorPane>
