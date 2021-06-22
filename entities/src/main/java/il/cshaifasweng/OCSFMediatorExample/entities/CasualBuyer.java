@@ -26,28 +26,28 @@ public class CasualBuyer implements Serializable {
 	protected String firstName;
 	protected String lastName;
 	protected int customerId;
-	protected int creditNum;
+	protected long creditNum;
 	protected String electronicMail;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-	protected List<Ticket> tickets;
+	protected List<Purchase> purchases;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client")
 	protected List<Complaint> complaints;
 	
 	public CasualBuyer() {
 		complaints = new ArrayList<Complaint>();
-		tickets = new ArrayList<Ticket>();
+		purchases = new ArrayList<Purchase>();
 	}
 	
-	public CasualBuyer(String firstName, String lastName, int customerId,int creditNum, String electronicMail) {
+	public CasualBuyer(String firstName, String lastName, int customerId,long creditNum, String electronicMail) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.customerId = customerId;
 		this.creditNum = creditNum;
 		this.electronicMail = electronicMail;
 		complaints = new ArrayList<Complaint>();
-		tickets = new ArrayList<Ticket>();
+		purchases = new ArrayList<Purchase>();
 	}
 
 	public String getFirstName() {
@@ -74,19 +74,19 @@ public class CasualBuyer implements Serializable {
 		this.customerId = customerId;
 	}
 
-	public List<Ticket> getTickets() {
-		return tickets;
+	public List<Purchase> getTickets() {
+		return purchases;
 	}
 
-	public void addTicket(Ticket ticket) {
-		this.tickets.add(ticket);
+	public void addTicket(Purchase purchase) {
+		this.purchases.add(purchase);
 	}
 
-	public int getCreditNum() {
+	public long getCreditNum() {
 		return creditNum;
 	}
 
-	public void setCreditNum(int creditNum) {
+	public void setCreditNum(long creditNum) {
 		this.creditNum = creditNum;
 	}
 

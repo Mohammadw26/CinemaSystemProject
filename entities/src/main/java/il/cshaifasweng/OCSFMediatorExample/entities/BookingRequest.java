@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 
 public class BookingRequest implements Serializable{
+	
 	/**
 	 * 
 	 */
@@ -12,15 +13,17 @@ public class BookingRequest implements Serializable{
 	private String[] seatIds;
 	private Screening screening;
 	private int arrSize;
+	private double costForEach;
 
 
 	public BookingRequest() {}
 	
-	public BookingRequest(int[] seats, String[] seatIds, Screening screening, int size) {
+	public BookingRequest(int[] seats, String[] seatIds, Screening screening, int size, double costForEach) {
 		this.setSeatIds(seatIds);
 		this.setSeats(seats);
 		this.setScreening(screening);
 		this.setArrSize(size);
+		this.costForEach = costForEach;
 	}
 	
 	public String[] getSeatIds() {
@@ -53,5 +56,13 @@ public class BookingRequest implements Serializable{
 
 	public void setArrSize(int arrSize) {
 		this.arrSize = arrSize;
+	}
+
+	public double getCost() {
+		return costForEach;
+	}
+
+	public void setCost(double costForEach) {
+		this.costForEach = costForEach;
 	}
 }

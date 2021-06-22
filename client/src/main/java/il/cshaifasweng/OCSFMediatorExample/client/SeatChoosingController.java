@@ -22,7 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+
 
 
 public class SeatChoosingController {
@@ -305,7 +305,7 @@ public class SeatChoosingController {
         	}
         }
 		if(confLabel.isVisible() && confLabel.getText()!="You must choose a seat to continue.") {
-			BookingRequest request = new BookingRequest(temp, temp2 , screening, counter);
+			BookingRequest request = new BookingRequest(temp, temp2 , screening, counter, screening.getMovie().getTicketCost());
 	    	try {
 			SimpleClient.getClient().sendToServer(new Message("#SaveSeats", request));
 			} catch (IOException e) {
