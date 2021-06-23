@@ -29,14 +29,30 @@ public class PrimaryController {
     @FXML
     private Button adminLabel;
 
+    @FXML // fx:id="identityLabel"
+    private Label identityLabel; // Value injected by FXMLLoader
+    
+
     @FXML
     void adminLogin(ActionEvent event) {
-    	try {
-			SimpleClient.getClient().sendToServer("#WorkersRequest");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	if (adminLabel.getText().equals("Log-in")) {
+    		try {
+    			App.setRoot("adminPanel");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+    	else {
+    		DisplayListController.setMember(null);
+    		DisplayListController.setWorker(null);
+    		try {
+    			App.setRoot("primary");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     }
 
 	@FXML
@@ -53,6 +69,17 @@ public class PrimaryController {
 	void initialize() {
 		assert showCatalog != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 		assert adminLabel != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
-
+		identityLabel.setVisible(false);
+		adminLabel.setText("Log-in");
+		if (DisplayListController.getWorker()!=null) {
+			identityLabel.setText("Logged in as: " + DisplayListController.getWorker().getWorkerName());
+			identityLabel.setVisible(true);
+			adminLabel.setText("Log-out");
+		}
+		if (DisplayListController.getMember()!=null) {
+			identityLabel.setText("Logged in as: " + DisplayListController.getMember().getFirstName() + " " + DisplayListController.getMember().getLastName() );
+			identityLabel.setVisible(true);
+			adminLabel.setText("Log-out");
+		}
 	}
 }

@@ -22,6 +22,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -30,6 +31,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Image;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
@@ -126,23 +128,76 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		else if (msgString.startsWith("#WorkersRequest")) {
-		try {
-			session = sessionFactory.openSession();
-			ArrayList<Worker> workersList = getAllWorkers();
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<Worker> workersList = getAllWorkers();
 			
-			client.sendToClient(new Message("#WorkersList",workersList));
-			session.close();
-		}catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				client.sendToClient(new Message("#WorkersList",workersList));
+				session.close();
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if(msgString.startsWith("#LoginRequestWhileBooking")) {
+			handleLoginRequest((Message) msg, client);
+			
+		} else if(msgString.startsWith("#LoginRequest")) {
+			handleLoginRequest((Message) msg, client);
+		}
+
+		
+	}
+	
+	
+	private void handleLoginRequest(Message msg, ConnectionToClient client) {
+		LogInRequest object = (LogInRequest) msg.getObject();
+		session = sessionFactory.openSession();
+		String username = object.getUsername();
+		String password = object.getPassword();
+		try {
+			ArrayList<Worker> workersList = getAllWorkers();
+			ArrayList<CinemaMember> membersList = getAll(CinemaMember.class);
+			if (!workersList.isEmpty()) {
+				for(Worker worker: workersList) {
+					if(worker.getWokerUsername().equals(username)) {
+						if(worker.getWorkerPassword().equals(password)) {
+							client.sendToClient(new Message("#WorkerLogIn",worker));
+							return;
+						}
+					}
+				}
+			}
+			if (!membersList.isEmpty()) {
+				for(CinemaMember member: membersList) {
+					if(member.getUsername().equals(username)) {
+						if(member.getPassword().equals(password)) {
+							if(msg.toString().equals("#LoginRequestWhileBooking")) {
+								client.sendToClient(new Message("#MemberLogIn2",member));
+							} else {
+								client.sendToClient(new Message("#MemberLogIn",member));
+							}
+							return;
+						}
+					}
+				}
+			}
+			else {
+				if(msg.toString().equals("#LoginRequestWhileBooking")) {
+					client.sendToClient(new Message("#LogInFailed2",object));
+				} else {
+					client.sendToClient(new Message("#LogInFailed",object));
+				}
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		}
 		
 	}
-	
+
 	private void deleteScreening(ScreeningsUpdateRequest request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		try {
@@ -248,7 +303,7 @@ public class SimpleServer extends AbstractServer {
 	}
 	
 	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {
-		if(request.isNewCustomerFlag() && !request.isSignupFlag()) {
+		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 			CasualBuyer newCus = new CasualBuyer(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail());
@@ -260,8 +315,8 @@ public class SimpleServer extends AbstractServer {
 				session.save(newTicket);
 				session.flush();
 			}
-			//session.save(newCus);
-			//session.flush();
+			session.save(newCus);
+			session.flush();
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#BookedNonMember",request));
@@ -271,6 +326,53 @@ public class SimpleServer extends AbstractServer {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		} else if (request.isNewCustomerFlag() && request.isSignupFlag()) {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
+			session.save(newCus);
+			session.flush();
+			BookingRequest temp = request.getRequest();
+			for (int i = 0; i < temp.getArrSize(); i ++) {
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
+				session.save(newTicket);
+				session.flush();
+			}
+			session.save(newCus);
+			session.flush();
+			session.getTransaction().commit();
+			try {
+				client.sendToClient(new Message("#BookedMember", request, newCus));
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			List<CinemaMember> membersList = getAll(CinemaMember.class);
+			if (!membersList.isEmpty()) {
+				for(CinemaMember member: membersList) {
+					if(member.getUsername().equals(request.getUsername())) {
+						if(member.getPassword().equals(request.getPassword())) {
+							BookingRequest temp = request.getRequest();
+							for (int i = 0; i < temp.getArrSize(); i ++) {
+								Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost());
+								session.save(newTicket);
+								session.flush();
+							}
+							session.save(member);
+							session.flush();
+							session.getTransaction().commit();
+							client.sendToClient(new Message("#BookedMember", request, member));
+							return;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -338,6 +440,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Ticket.class);
 		configuration.addAnnotatedClass(CasualBuyer.class);
 		configuration.addAnnotatedClass(Complaint.class);
+		configuration.addAnnotatedClass(CinemaMember.class);
 
 
 

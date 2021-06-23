@@ -9,7 +9,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import javafx.event.ActionEvent;
@@ -21,12 +23,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 
 public class BookingOrderController {
+	private static int status = 0;
 	private static BookingRequest request;
 	private static Screening screening;
 	
-    @FXML // ResourceBundle that was given to the FXMLLoader
+	
+    public static int getStatus() {
+		return status;
+	}
+
+	public static void setStatus(int status) {
+		BookingOrderController.status = status;
+	}
+
+	@FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
@@ -86,9 +99,36 @@ public class BookingOrderController {
     @FXML // fx:id="warning"
     private Label warning; // Value injected by FXMLLoader
     
+    @FXML // fx:id="memberPerksAnchor"
+    private AnchorPane memberPerksAnchor; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="loginAnchor"
+    private AnchorPane loginAnchor; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="loginAnchorLabel1"
+    private Text loginAnchorLabel1; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="loginAnchorLabel2"
+    private Text loginAnchorLabel2; // Value injected by FXMLLoader
+
+    @FXML // fx:id="logOutButton"
+    private Button logOutButton; // Value injected by FXMLLoader
+    
     public static BookingRequest getRequest() {
 		return request;
 	}
+    
+    @FXML
+    void LogOut(ActionEvent event) {
+    	DisplayListController.setMember(null);
+    	DisplayListController.setWorker(null);
+    	try {
+    		App.setRoot("bookingOrder");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 	public static void setRequest(BookingRequest request) {
 		BookingOrderController.request = request;
@@ -115,19 +155,23 @@ public class BookingOrderController {
     		FullOrderRequest request2 = new FullOrderRequest(nameField.getText(), lastNameField.getText()
     				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()));
     		request2.setRequest(request);
-    		if (signUpCheck.isPressed()) {
+    		if (signUpCheck.isSelected()) {
     			request2.setUsername(newUserField.getText());
     			request2.setPassword(newPasswordField.getText());
     			request2.setSignupFlag(true);
     			request2.setNewCustomerFlag(true);
-    		} else {
+    		} else if (DisplayListController.getMember()!=null)  {
+    			request2.setUsername(DisplayListController.getMember().getUsername());
+    			request2.setPassword(DisplayListController.getMember().getPassword());
+    			request2.setSignupFlag(false);
+    			request2.setNewCustomerFlag(false);
+    		} else if (DisplayListController.getMember()==null){
     			request2.setUsername("");
     			request2.setPassword("");
     			request2.setSignupFlag(false);
     			request2.setNewCustomerFlag(true);
     		}
     		try {
-    			warning.setVisible(true);
 				SimpleClient.getClient().sendToServer(new Message("#FinishOrder", request2));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -143,7 +187,29 @@ public class BookingOrderController {
 
     @FXML
     void logIn(ActionEvent event) {
-    	
+    	if (logInButton.getText() == "Confirm" && oldPasswordField.getText()!= "") {
+    		if (DisplayListController.getMember().getPassword().equals(oldPasswordField.getText())) {
+    			nameField.setDisable(false);
+    			lastNameField.setDisable(false);
+    			idField.setDisable(false);
+    			emailField.setDisable(false);
+    			cardField.setDisable(false);
+    			CinemaMember member = DisplayListController.getMember();
+    			nameField.setText(member.getFirstName());
+    			lastNameField.setText(member.getLastName());
+    			idField.setText(String.valueOf(member.getCustomerId()));
+    			emailField.setText(member.getElectronicMail());
+    			cardField.setText(String.valueOf(member.getCreditNum()));
+    		}
+    	} else if (oldUserField.getText()!= "" && oldPasswordField.getText()!= "") {
+        	LogInRequest newRequest = new LogInRequest(oldUserField.getText(),oldPasswordField.getText());
+        	try {
+    			SimpleClient.getClient().sendToServer(new Message("#LoginRequestWhileBooking", newRequest));
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     }
 
     @FXML
@@ -157,23 +223,8 @@ public class BookingOrderController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        assert movieInfo != null : "fx:id=\"movieInfo\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert poster != null : "fx:id=\"poster\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert nameField != null : "fx:id=\"nameField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert lastNameField != null : "fx:id=\"lastNameField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert idField != null : "fx:id=\"idField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert emailField != null : "fx:id=\"emailField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert cardField != null : "fx:id=\"cardField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert signUpCheck != null : "fx:id=\"signUpCheck\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert signUpAnchor != null : "fx:id=\"signUpAnchor\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert newUserField != null : "fx:id=\"newUserField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert newPasswordField != null : "fx:id=\"newPasswordField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert useEmailCheck != null : "fx:id=\"useEmailCheck\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert cancelButton != null : "fx:id=\"cancelButton\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert oldUserField != null : "fx:id=\"oldUserField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert oldPasswordField != null : "fx:id=\"oldPasswordField\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert logInButton != null : "fx:id=\"logInButton\" was not injected: check your FXML file 'bookingOrder.fxml'.";
-        assert confirmButton != null : "fx:id=\"confirmButton\" was not injected: check your FXML file 'bookingOrder.fxml'.";
+    	loginAnchorLabel1.setText("Already a member of the Sirtya?");
+    	loginAnchorLabel2.setText("Sign in and we'll fill the rest of your info on your behalf.");
         screening = request.getScreening();
         Image image = new Image(screening.getMovie().getImage().getImgURL());
 		poster.setImage(image);
@@ -188,5 +239,31 @@ public class BookingOrderController {
 			temp += request.getSeatIds()[i] + " ";
 		}
 		movieInfo.setText(temp);
+		if (DisplayListController.getMember()!=null && status == 0) {
+			CinemaMember member = DisplayListController.getMember();
+	    	loginAnchorLabel1.setText("You are already logged in as: " + member.getFirstName() + " " + member.getLastName());
+	    	loginAnchorLabel2.setText("please enter you password to confirm it's you");
+			nameField.setDisable(true);
+			lastNameField.setDisable(true);
+			idField.setDisable(true);
+			emailField.setDisable(true);
+			cardField.setDisable(true);
+			signUpCheck.setVisible(false);
+			memberPerksAnchor.setVisible(false);
+			oldUserField.setText(member.getUsername());
+			oldUserField.setDisable(true);
+			logInButton.setText("Confirm");
+		} else if (DisplayListController.getMember()!=null && status == 1) {
+			CinemaMember member = DisplayListController.getMember();
+			nameField.setText(member.getFirstName());
+			lastNameField.setText(member.getLastName());
+			idField.setText(String.valueOf(member.getCustomerId()));
+			emailField.setText(member.getElectronicMail());
+			cardField.setText(String.valueOf(member.getCreditNum()));
+			signUpCheck.setVisible(false);
+			memberPerksAnchor.setVisible(false);
+			loginAnchor.setVisible(false);
+			status = 0;
+		}
     }
 }

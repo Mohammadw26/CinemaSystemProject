@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
@@ -22,8 +24,19 @@ import javafx.scene.input.MouseEvent;
 
 public class AdminPanelController {
 	private static List<Worker> allWorkers;
+	private static LogInRequest request = null;
+	
+	
+    public static LogInRequest getRequest() {
+		return request;
+	}
 
-    @FXML
+
+	public static void setRequest(LogInRequest request) {
+		AdminPanelController.request = request;
+	}
+
+	@FXML
     private ResourceBundle resources;
 
     @FXML
@@ -102,7 +115,7 @@ public class AdminPanelController {
 
     @FXML
     void LoginAction(ActionEvent event) {
-		for(Worker worker: allWorkers) {
+		/*for(Worker worker: allWorkers) {
 			if(worker.getWokerUsername().equals(usernameField.getText())) {
 				if(worker.getWorkerPassword().equals(passwordBar.getText())) {
 					DisplayListController.setWorker(worker);
@@ -123,6 +136,13 @@ public class AdminPanelController {
 				
 			}
 			
+		}*/
+    	LogInRequest newRequest = new LogInRequest(usernameField.getText(),passwordBar.getText());
+    	try {
+			SimpleClient.getClient().sendToServer(new Message("#LoginRequest", newRequest));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
     }
@@ -138,7 +158,11 @@ public class AdminPanelController {
         assert invalidText != null : "fx:id=\"invalidText\" was not injected: check your FXML file 'adminPanel.fxml'.";
         assert passText != null : "fx:id=\"passText\" was not injected: check your FXML file 'adminPanel.fxml'.";
         assert passToggle != null : "fx:id=\"passToggle\" was not injected: check your FXML file 'adminPanel.fxml'.";
-
+        if (request!=null) {
+        	invalidText.setVisible(true);
+        	usernameField.setText(request.getUsername());
+        	passwordBar.setText(request.getPassword());
+        }
 
     }
 
