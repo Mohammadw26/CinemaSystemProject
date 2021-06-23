@@ -226,7 +226,7 @@ public class DisplayListController {
 	void initialize() {
 		identityLabel.setVisible(false);
 		if (worker != null) {
-			identityLabel.setText("Logged in as: " + worker.getWorkerName());
+			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
 			identityLabel.setVisible(true);
 			DisplayMovieDataController.setWorkerMode();
 			compliantsBtn.setVisible(true);
@@ -268,7 +268,7 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 			}
 		} else if (member != null) {
-			identityLabel.setText("Logged in as: " + member.getFirstName() + " " + member.getLastName());
+			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
 		}
