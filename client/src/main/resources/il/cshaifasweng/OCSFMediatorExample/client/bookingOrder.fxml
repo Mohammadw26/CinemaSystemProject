@@ -36,10 +36,6 @@
       <TextField fx:id="idField" layoutX="466.0" layoutY="170.0" />
       <TextField fx:id="emailField" layoutX="466.0" layoutY="215.0" />
       <TextField fx:id="cardField" layoutX="466.0" layoutY="260.0" />
-      <Text layoutX="334.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You can sign up to the Sirtya members club to enjoy the following features:" wrappingWidth="421.9906005859375" />
-      <Text layoutX="345.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Easier, faster and more convenient purchases." wrappingWidth="421.9906005859375" />
-      <Text layoutX="345.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- The ability to buy a package of 20 tickets at a discounted price." wrappingWidth="421.9906005859375" />
-      <Text layoutX="345.0" layoutY="380.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Receive updates about new movie arrivals, be the first to save a seat!" wrappingWidth="421.9906005859375" />
       <CheckBox fx:id="signUpCheck" layoutX="334.0" layoutY="398.0" mnemonicParsing="false" onAction="#viewSignUp" text="Sign me up!" />
       <AnchorPane fx:id="signUpAnchor" layoutX="320.0" layoutY="421.0" prefHeight="127.0" prefWidth="498.0" visible="false">
          <children>
@@ -56,24 +52,33 @@
          </children>
       </AnchorPane>
       <Button fx:id="cancelButton" layoutX="591.0" layoutY="572.0" mnemonicParsing="false" onAction="#CancelOrder" text="Cancel Purchase" />
-      <AnchorPane layoutX="927.0" layoutY="51.0" prefHeight="178.0" prefWidth="336.0">
+      <AnchorPane fx:id="loginAnchor" layoutX="902.0" layoutY="33.0" prefHeight="196.0" prefWidth="375.0">
          <children>
-            <VBox layoutX="12.0" layoutY="39.0" prefHeight="89.0" prefWidth="100.0">
+            <VBox layoutX="28.0" layoutY="68.0" prefHeight="89.0" prefWidth="100.0">
                <children>
                   <Label prefHeight="44.0" prefWidth="126.0" text="Username:" />
                   <Label prefHeight="44.0" prefWidth="126.0" text="Password:" />
                </children>
             </VBox>
-            <Text layoutX="13.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already a member of the Sirtya?" wrappingWidth="293.99072265625" />
-            <TextField fx:id="oldUserField" layoutX="144.0" layoutY="46.0" />
-            <TextField fx:id="oldPasswordField" layoutX="144.0" layoutY="91.0" />
-            <Text layoutX="13.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in and we'll fill the rest of your info on your behalf." wrappingWidth="321.9906005859375" />
-            <Button fx:id="logInButton" layoutX="243.0" layoutY="138.0" mnemonicParsing="false" onAction="#logIn" text="Log-in" />
+            <Text fx:id="loginAnchorLabel1" layoutX="13.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Already a member of the Sirtya?" wrappingWidth="293.99072265625" />
+            <TextField fx:id="oldUserField" layoutX="129.0" layoutY="76.0" />
+            <TextField fx:id="oldPasswordField" layoutX="129.0" layoutY="121.0" />
+            <Text fx:id="loginAnchorLabel2" layoutX="13.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in and we'll fill the rest of your info on your behalf." wrappingWidth="321.9906005859375" />
+            <Button fx:id="logInButton" layoutX="216.0" layoutY="165.0" mnemonicParsing="false" onAction="#logIn" prefHeight="26.0" prefWidth="61.0" text="Log-in" />
+            <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
+            <Separator layoutX="-4.0" layoutY="195.0" prefHeight="6.0" prefWidth="382.0" />
+            <Button fx:id="logOutButton" layoutX="128.0" layoutY="165.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="26.0" prefWidth="61.0" text="Log-out" visible="false" />
          </children>
       </AnchorPane>
-      <Separator layoutX="897.0" layoutY="38.0" orientation="VERTICAL" prefHeight="188.0" prefWidth="6.0" />
-      <Separator layoutX="898.0" layoutY="226.0" prefHeight="6.0" prefWidth="382.0" />
       <Button fx:id="confirmButton" layoutX="703.0" layoutY="572.0" mnemonicParsing="false" onAction="#ConfirmOrder" text="Confirm &amp; Order" />
       <Label fx:id="warning" layoutX="331.0" layoutY="541.0" prefHeight="18.0" prefWidth="221.0" text="Please fill all fields to continue." textFill="RED" visible="false" />
+      <AnchorPane fx:id="memberPerksAnchor" layoutX="327.0" layoutY="301.0" prefHeight="105.0" prefWidth="442.0">
+         <children>
+            <Text layoutX="8.0" layoutY="13.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You can sign up to the Sirtya members club to enjoy the following features:" wrappingWidth="421.9906005859375" />
+            <Text layoutX="19.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Easier, faster and more convenient purchases." wrappingWidth="421.9906005859375" />
+            <Text layoutX="19.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- The ability to buy a package of 20 tickets at a discounted price." wrappingWidth="421.9906005859375" />
+            <Text layoutX="19.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Receive updates about new movie arrivals, be the first to save a seat!" wrappingWidth="421.9906005859375" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

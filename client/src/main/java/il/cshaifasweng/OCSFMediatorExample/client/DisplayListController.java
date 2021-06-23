@@ -1,60 +1,50 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.io.File;
 import javafx.scene.input.MouseEvent;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javax.security.auth.RefreshFailedException;
-import javax.security.auth.Refreshable;
-
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.CornerRadii;
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
-
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 public class DisplayListController {
 	private static Worker worker;
+	private static CinemaMember member;
 	public static List<CinemaMovie> movieList;
 	public static List<ComingSoonMovie> soonList;
 	private static int rowsNum = 1;
 	private static int colsNum = 3;
 	private int page = 1;
 	private int pages = 1;
+
+	
+	public static CinemaMember getMember() {
+		return member;
+	}
+
+	public static void setMember(CinemaMember member) {
+		DisplayListController.member = member;
+	}
 
 	public static void setWorker(Worker worker) {
 		DisplayListController.worker = worker;
@@ -127,6 +117,10 @@ public class DisplayListController {
 
 	@FXML
 	private Button logOutBtn;
+	
+    @FXML // fx:id="identityLabel"
+    private Label identityLabel; // Value injected by FXMLLoader
+
 
 	@FXML
 	void nextPage(MouseEvent  event) throws IOException {
@@ -208,6 +202,7 @@ public class DisplayListController {
 		reviewRequestBtn.setVisible(false);
 		logOutBtn.setVisible(false);
 		worker = null;
+		member = null;
 		try {
 			App.setRoot("primary");
 		} catch (IOException e) {
@@ -229,7 +224,10 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+		identityLabel.setVisible(false);
 		if (worker != null) {
+			identityLabel.setText("Logged in as: " + worker.getWorkerName());
+			identityLabel.setVisible(true);
 			DisplayMovieDataController.setWorkerMode();
 			compliantsBtn.setVisible(true);
 			addMovieBtn.setVisible(true);
@@ -269,10 +267,15 @@ public class DisplayListController {
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
 			}
+		} else if (member != null) {
+			identityLabel.setText("Logged in as: " + member.getFirstName() + " " + member.getLastName());
+			identityLabel.setVisible(true);
+			logOutBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3 + 1;
 		prevBtn.setVisible(false);
 		nxtBtn.setVisible(pages>1);
+
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;
 //		try {

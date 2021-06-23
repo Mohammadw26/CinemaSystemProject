@@ -6,9 +6,12 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
+import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
@@ -77,6 +80,63 @@ public class SimpleClient extends AbstractClient {
 			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("bookingSummary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#BookedMember")) {
+			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject2());
+			try {
+				App.setRoot("bookingSummary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#WorkerLogIn")) {
+			DisplayListController.setWorker((Worker) ((Message) msg).getObject());
+			try {
+				App.setRoot("primary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#MemberLogIn2")) {
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
+			try {
+				BookingOrderController.setStatus(1);
+				App.setRoot("bookingOrder");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#MemberLogIn")) {
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
+			try {
+				App.setRoot("primary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#LogInFailed2")) {
+			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
+			try {
+				BookingOrderController.setStatus(2);
+				App.setRoot("bookingOrder");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#LogInFailed")) {
+			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
+			try {
+				App.setRoot("adminPanel");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

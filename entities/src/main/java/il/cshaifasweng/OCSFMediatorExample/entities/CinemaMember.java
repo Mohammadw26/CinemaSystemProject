@@ -9,13 +9,14 @@ public class CinemaMember extends CasualBuyer{
 	 * 
 	 */
 	private static final long serialVersionUID = -364482658878786871L;
+	
 	private String username;
 	private String password;
 	int ticketsCredit;
 	
 	
 	
-	public CinemaMember (String firstName, String lastName, int customerId,int creditNum, String electronicMail
+	public CinemaMember (String firstName, String lastName, int customerId, long creditNum, String electronicMail
 			, String username, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
