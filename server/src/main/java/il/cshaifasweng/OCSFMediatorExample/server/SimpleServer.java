@@ -15,6 +15,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Rent;
+import il.cshaifasweng.OCSFMediatorExample.entities.RentRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
@@ -70,8 +73,8 @@ public class SimpleServer extends AbstractServer {
 					session = sessionFactory.openSession();
 					ArrayList<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
 					ArrayList<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
-					
-					client.sendToClient(new Message("#SendLists",cinMovieList,soonMovieList));
+					ArrayList<OnDemandMovie> onDemandList = getAll(OnDemandMovie.class);
+					client.sendToClient(new Message("#SendLists",cinMovieList,soonMovieList,onDemandList));
 				}catch(IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -89,13 +92,13 @@ public class SimpleServer extends AbstractServer {
 			
 			client.sendToClient(new Message("#BranchesList",branchesList));
 			session.close();
-		}catch(IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if(msgString.startsWith("#DeleteScreening")) {
 			deleteScreening((ScreeningsUpdateRequest) ((Message) msg).getObject(), client);
@@ -127,6 +130,14 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if(msgString.startsWith("#RentingRequest")) {
+			try {
+				rentMovie((RentRequest) ((Message) msg).getObject(), client);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if (msgString.startsWith("#WorkersRequest")) {
 			try {
 				session = sessionFactory.openSession();
@@ -141,14 +152,9 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if(msgString.startsWith("#LoginRequestWhileBooking")) {
-			handleLoginRequest((Message) msg, client);
-			
-		} else if(msgString.startsWith("#LoginRequest")) {
+		}else if(msgString.startsWith("#LoginRequest")) {
 			handleLoginRequest((Message) msg, client);
 		}
-
-		
 	}
 	
 	
@@ -176,6 +182,8 @@ public class SimpleServer extends AbstractServer {
 						if(member.getPassword().equals(password)) {
 							if(msg.toString().equals("#LoginRequestWhileBooking")) {
 								client.sendToClient(new Message("#MemberLogIn2",member));
+							} else  if (msg.toString().equals("#LoginRequestWhileRenting")){
+								client.sendToClient(new Message("#MemberLogIn3",member));
 							} else {
 								client.sendToClient(new Message("#MemberLogIn",member));
 							}
@@ -187,6 +195,8 @@ public class SimpleServer extends AbstractServer {
 			else {
 				if(msg.toString().equals("#LoginRequestWhileBooking")) {
 					client.sendToClient(new Message("#LogInFailed2",object));
+				} else if(msg.toString().equals("#LoginRequestWhileRenting")) {
+					client.sendToClient(new Message("#LogInFailed3",object));
 				} else {
 					client.sendToClient(new Message("#LogInFailed",object));
 				}
@@ -376,6 +386,69 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 	}
+	
+	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {
+		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			CasualBuyer newCus = new CasualBuyer(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail());
+			session.save(newCus);
+			session.flush();
+			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+			session.save(newRent);
+			session.save(newCus);
+			session.flush();
+			session.getTransaction().commit();
+			try {
+				client.sendToClient(new Message("#RentedNonMember",request));
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (request.isNewCustomerFlag() && request.isSignupFlag()) {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
+			session.save(newCus);
+			session.flush();
+			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+			session.save(newRent);
+			session.save(newCus);
+			session.flush();
+			session.getTransaction().commit();
+			try {
+				client.sendToClient(new Message("#RentedMember", request, newCus));
+			}catch(IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			List<CinemaMember> membersList = getAll(CinemaMember.class);
+			if (!membersList.isEmpty()) {
+				for(CinemaMember member: membersList) {
+					if(member.getUsername().equals(request.getUsername())) {
+						if(member.getPassword().equals(request.getPassword())) {
+							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+							session.save(newRent);
+							session.save(member);
+							session.flush();
+							session.getTransaction().commit();
+							client.sendToClient(new Message("#RentedMember", request, member));
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
 	private void addScreening(ScreeningsUpdateRequest request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -441,6 +514,8 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(CasualBuyer.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		configuration.addAnnotatedClass(CinemaMember.class);
+		configuration.addAnnotatedClass(OnDemandMovie.class);
+		configuration.addAnnotatedClass(Rent.class);
 
 
 
@@ -478,11 +553,13 @@ public class SimpleServer extends AbstractServer {
 		Image image_3 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/b/b8/A_Beautiful_Mind_Poster.jpg");
 		Image image_4 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3d/The_Lion_King_poster.jpg");
 		Image image_5 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3c/Ice_Age_%282002_film%29_poster.jpg");
+		Image image_6 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg");
 		session.save(image_1);
 		session.save(image_2);
 		session.save(image_3);
 		session.save(image_4);
 		session.save(image_5);
+		session.save(image_6);
 		session.flush();
 		
 		Hall hall1 = new Hall(4,5,18, "1");
@@ -518,6 +595,11 @@ public class SimpleServer extends AbstractServer {
 		session.save(movie5);
 		session.flush();
 		
+		OnDemandMovie movie6 = new OnDemandMovie("Inception","התחלה ","Emma Thomas , Christopher Nolan", "Leonardo DiCaprio, Joseph Gordon-Levitt , Elliot Page" , 
+				"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.", 25.90 ,image_6);
+		movie6.setStreamingLink("https://www.youtube.com/watch?v=YoHD9XEInc0");
+		session.save(movie6);
+		session.flush();
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
 		branch1.addHall(hall1);

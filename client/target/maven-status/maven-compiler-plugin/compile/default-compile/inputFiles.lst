@@ -7,6 +7,7 @@ C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMoviePageController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ChooseScreeningController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.java
+C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RentMovieController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMovieScreeningController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SeatChoosingController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BookingSummaryController.java
@@ -15,6 +16,7 @@ C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BookingOrderController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableClient.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\PrimaryController.java
+C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RentingSummaryController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\Main.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditMovieScreeningsController.java
 C:\Users\elias\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\WorkersReceivedEvent.java

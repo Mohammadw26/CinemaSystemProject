@@ -14,6 +14,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.RentRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
 
@@ -67,7 +68,6 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		else if (msgString.startsWith("#SeatsSaved")) {
-			//SeatChoosingController.setScreening((Screening) ((Message) msg).getObject());
 			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("bookingOrder");
@@ -85,11 +85,30 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#RentedNonMember")) {
+			RentingSummaryController.setRequest((RentRequest) ((Message) msg).getObject());
+			try {
+				App.setRoot("rentingSummary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if (msgString.startsWith("#BookedMember")) {
 			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject2());
 			try {
 				App.setRoot("bookingSummary");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#RentedMember")) {
+			RentingSummaryController.setRequest((RentRequest) ((Message) msg).getObject());
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject2());
+			try {
+				App.setRoot("rentingSummary");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,6 +128,16 @@ public class SimpleClient extends AbstractClient {
 			try {
 				BookingOrderController.setStatus(1);
 				App.setRoot("bookingOrder");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#MemberLogIn3")) {
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
+			try {
+				RentMovieController.setStatus(1);
+				App.setRoot("rentMovie");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
