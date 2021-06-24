@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.RentingSummaryController">
+   <children>
+      <AnchorPane layoutX="182.0" layoutY="-6.0" prefHeight="800.0" prefWidth="801.0">
+         <children>
+            <ImageView fitHeight="810.0" fitWidth="809.0" layoutX="56.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@bookingSummary-01.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="119.0" fitWidth="556.0" layoutX="182.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@bookedSuccessfully-01.png" />
+               </image>
+            </ImageView>
+            <ToggleButton fx:id="closeButton" layoutX="407.0" layoutY="680.0" mnemonicParsing="false" onAction="#closeStage" prefHeight="44.0" prefWidth="99.0" style="-fx-background-color: white;" text="Close">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <Label fx:id="summray" alignment="TOP_LEFT" layoutX="260.0" layoutY="216.0" prefHeight="304.0" prefWidth="395.0" text="Label" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="summray1" alignment="TOP_LEFT" layoutX="249.0" layoutY="556.0" prefHeight="54.0" prefWidth="422.0" text="*A summary &amp; receipt as well as the streaming link will be sent" textFill="RED" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="summray11" alignment="TOP_LEFT" layoutX="374.0" layoutY="579.0" prefHeight="29.0" prefWidth="166.0" text=" to your E-mail shortly." textFill="RED" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

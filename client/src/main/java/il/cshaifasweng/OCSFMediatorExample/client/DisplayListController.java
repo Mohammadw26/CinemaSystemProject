@@ -17,6 +17,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class DisplayListController {
 	private static CinemaMember member;
 	public static List<CinemaMovie> movieList;
 	public static List<ComingSoonMovie> soonList;
+	public static List<OnDemandMovie> onDemandList;
 	private static int rowsNum = 1;
 	private static int colsNum = 3;
 	private int page = 1;
@@ -61,6 +63,10 @@ public class DisplayListController {
 	public static List<ComingSoonMovie> getSoonList() {
 		return soonList;
 	}
+	
+	public static List<OnDemandMovie> getOnDemandList() {
+		return onDemandList;
+	}
 
 	public static void setMovieList(List<CinemaMovie> list) {
 		DisplayListController.movieList = list;
@@ -68,6 +74,10 @@ public class DisplayListController {
 	
 	public static void setSoonList(List<ComingSoonMovie> list) {
 		DisplayListController.soonList = list;
+	}
+	
+	public static void setOnDemandList(List<OnDemandMovie> list) {
+		DisplayListController.onDemandList = list;
 	}
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
@@ -173,10 +183,15 @@ public class DisplayListController {
 					//if (worker != null)
 						//controller.setWorkerMode();
 					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
-					if (listNum==1 && index >= movieList.size() || listNum==3 && index >= soonList.size() )
+					if (listNum==1 && index >= movieList.size()|| listNum==2 && index >= onDemandList.size() || listNum==3 && index >= soonList.size() )
 						break;
 					if (listNum==1) {
 						CinemaMovie item = movieList.get(index);
+						controller.setType(listNum);
+						controller.setMovie(item);
+					}
+					if (listNum==2) {
+						OnDemandMovie item = onDemandList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
 					}
@@ -226,7 +241,7 @@ public class DisplayListController {
 	void initialize() {
 		identityLabel.setVisible(false);
 		if (worker != null) {
-			identityLabel.setText("Logged in as: " + worker.getWorkerName());
+			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
 			identityLabel.setVisible(true);
 			DisplayMovieDataController.setWorkerMode();
 			compliantsBtn.setVisible(true);
@@ -268,7 +283,7 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 			}
 		} else if (member != null) {
-			identityLabel.setText("Logged in as: " + member.getFirstName() + " " + member.getLastName());
+			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
 		}
@@ -293,6 +308,7 @@ public class DisplayListController {
 //    			new Background(new BackgroundFill(Color.LIGHTBLUE, null, null)));
 		try {
 			fillGrids(gridList, 1);
+			fillGrids(gridList2, 2);
 			fillGrids(gridList3, 3);
 			
 		} catch (IOException e) {

@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
@@ -82,6 +83,7 @@ public class App extends Application {
     public void onMovieReceivedEvent(MoviesReceivedEvent event) {
     	DisplayListController.setMovieList((List<CinemaMovie>) event.getMovieCatalog());
     	DisplayListController.setSoonList((List<ComingSoonMovie>) event.getMovieCatalog2());
+    	DisplayListController.setOnDemandList((List<OnDemandMovie>) event.getMovieCatalog3());
 		try {
 			App.setRoot("displayList");
 		} catch (IOException e) {

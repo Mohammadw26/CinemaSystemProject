@@ -64,11 +64,6 @@
                         <Font name="Arial" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="logOutBtn" mnemonicParsing="false" onAction="#logOut" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #d40b00 100%),               linear-gradient(#d40b00, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Log Out" visible="false">
-                     <font>
-                        <Font name="Arial" size="10.0" />
-                     </font>
-                  </Button>
               </items>
             </ToolBar>
             <GridPane fx:id="gridList" hgap="15.0" layoutX="81.0" layoutY="115.0" prefHeight="340.0" prefWidth="1119.0">
@@ -183,7 +178,12 @@
                   </RadialGradient>
                </fill>
             </Text>
-            <Label fx:id="identityLabel" layoutX="1023.0" layoutY="60.0" text="Label" textFill="WHITE" />
+            <Label fx:id="identityLabel" alignment="TOP_LEFT" layoutX="1049.0" layoutY="4.0" prefHeight="38.0" prefWidth="114.0" text="Logged in as:" textFill="WHITE" />
+            <Button fx:id="logOutBtn" layoutX="1164.0" layoutY="7.0" mnemonicParsing="false" onAction="#logOut" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #d40b00 100%),               linear-gradient(#d40b00, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Log Out" visible="false">
+               <font>
+                  <Font name="Arial" size="10.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </content>

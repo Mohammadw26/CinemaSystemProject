@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -119,7 +120,7 @@ public class DisplayMovieDataController {
 		//starsField.setText("Starring Actors: " +movie.getStarringActors());
 		if (typeIndex == 1 ) {
 			CinemaMovie tempCast = (CinemaMovie) movie;
-			costField.setText("Cost per Ticket: " + tempCast.getTicketCost() + "$");
+			costField.setText("Cost per Ticket: " + tempCast.getTicketCost() + " NIS");
 			counter = tempCast.getScreenings().size();
 			for (int i = 0 ; i < counter; i++) {
 				temp += tempCast.getScreenings().get(i).getScreeningDate() + " ";
@@ -128,6 +129,14 @@ public class DisplayMovieDataController {
 			screeningField.setText(temp);
 			}
 		}
+		if (typeIndex == 2 ) {
+			costField.setText("24H rent cost: " + ((OnDemandMovie) movie).getCost() + " NIS");
+		}
+		if (typeIndex == 3) {
+			addToCartBtn.setVisible(false);
+			costField.setText("");
+		}
+	
 
 		//try {
 			/*InputStream stream = new FileInputStream(movie.getImage().getImgURL());
@@ -191,13 +200,24 @@ public class DisplayMovieDataController {
 	
     @FXML
     void chooseSeating(MouseEvent event) {
-    	ChooseScreeningController.setMovie((CinemaMovie)movie);
-    	try {
-    		App.setRoot("chooseScreening");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	if (typeIndex == 1 ) {
+    		ChooseScreeningController.setMovie((CinemaMovie)movie);
+    		try {
+    			App.setRoot("chooseScreening");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	if (typeIndex == 2 ) {
+      		RentMovieController.setMovie((OnDemandMovie)movie);
+    		try {
+    			App.setRoot("rentMovie");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
 
 }

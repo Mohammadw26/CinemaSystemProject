@@ -9,10 +9,12 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 public class MoviesReceivedEvent {
 	private Object movieCatalog;
 	private Object movieCatalog2;
+	private Object movieCatalog3;
 
 	public MoviesReceivedEvent(Message msg) {
 		this.movieCatalog = msg.getObject();
 		this.movieCatalog2 = msg.getObject2();
+		this.movieCatalog3 = msg.getObject3();
 	}
 	
 	public Object getMovieCatalog() {
@@ -22,6 +24,10 @@ public class MoviesReceivedEvent {
 	
 	public Object getMovieCatalog2() {
 		return movieCatalog2;
+	}
+	
+	public Object getMovieCatalog3() {
+		return movieCatalog3;
 	}
 	
 }

@@ -10,6 +10,7 @@ public class Message implements Serializable {
 	private String message;
 	private Object object;
 	private Object object2;
+	private Object object3;
 	
 	
 	public Message() {}
@@ -23,6 +24,13 @@ public class Message implements Serializable {
 		this.message = msg;
 		this.object = obj;
 		this.object2 = obj2;
+	}
+	
+	public Message(String msg, Object obj,Object obj2, Object obj3) {
+		this.message = msg;
+		this.object = obj;
+		this.object2 = obj2;
+		this.object3 = obj3;
 	}
 	
 	public Message(String msg) {
@@ -41,6 +49,10 @@ public class Message implements Serializable {
 		return this.object2;
 	}
 	
+	public Object getObject3 () {
+		return this.object3;
+	}
+	
 	public void setMessage(String msg) {
 		this.message=msg;
 	}
@@ -51,6 +63,10 @@ public class Message implements Serializable {
 	
 	public void setObject2(Object obj) {
 		this.object2=obj;
+	}
+	
+	public void setObject3(Object obj) {
+		this.object3=obj;
 	}
 	
 	public String toString() {
