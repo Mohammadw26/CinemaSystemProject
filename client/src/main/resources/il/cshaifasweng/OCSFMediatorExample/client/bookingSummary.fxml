@@ -26,9 +26,9 @@
                   <Font size="14.0" />
                </font>
             </ToggleButton>
-            <Label fx:id="summray" alignment="TOP_LEFT" layoutX="260.0" layoutY="216.0" prefHeight="304.0" prefWidth="395.0" text="Label">
+            <Label fx:id="summray" alignment="TOP_LEFT" layoutX="260.0" layoutY="216.0" prefHeight="357.0" prefWidth="395.0" text="Label">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label fx:id="summray1" alignment="TOP_LEFT" layoutX="265.0" layoutY="576.0" prefHeight="94.0" prefWidth="395.0" text="*A summary &amp; receipt will be sent to your E-mail shortly." textFill="RED">

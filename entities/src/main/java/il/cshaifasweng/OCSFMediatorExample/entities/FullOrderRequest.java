@@ -19,8 +19,14 @@ public class FullOrderRequest implements Serializable{
 	private String password;
 	private boolean newCustomerFlag;
 	private boolean signupFlag;
+	private boolean buyPack;
+	private int usePack;
+	private String check;
 
-	public FullOrderRequest() {}
+	public FullOrderRequest() {
+		this.buyPack = false;
+		usePack = 0;
+	}
 	
 	public FullOrderRequest(String firstName, String lastName, String email, int customerID, long cardNum) {
 		this.firstName = firstName;
@@ -28,6 +34,8 @@ public class FullOrderRequest implements Serializable{
 		this.email = email;
 		this.customerID = customerID;
 		this.cardNum = cardNum;
+		this.buyPack = false;
+		this.usePack = 0;
 	}
 	
 	public FullOrderRequest(String firstName, String lastName, String email, int customerID, long cardNum, String username, String password) {
@@ -38,6 +46,32 @@ public class FullOrderRequest implements Serializable{
 		this.cardNum = cardNum;
 		this.username = username;
 		this.password = password;
+		this.buyPack = false;
+		this.usePack  = 0;
+	}
+
+	public String getCheck() {
+		return check;
+	}
+
+	public void setCheck(String check) {
+		this.check = check;
+	}
+
+	public boolean isBuyPack() {
+		return buyPack;
+	}
+
+	public void setBuyPack(boolean buyPack) {
+		this.buyPack = buyPack;
+	}
+
+	public int getUsePack() {
+		return usePack;
+	}
+
+	public void setUsePack(int usePack) {
+		this.usePack = usePack;
 	}
 
 	public boolean isNewCustomerFlag() {

@@ -114,6 +114,57 @@ public class BookingOrderController {
     @FXML // fx:id="logOutButton"
     private Button logOutButton; // Value injected by FXMLLoader
     
+    @FXML // fx:id="packageCheck"
+    private CheckBox packageCheck; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="costInfo"
+    private Label costInfo; // Value injected by FXMLLoader
+    
+    @FXML
+    void buypackage(ActionEvent event) {
+    	String temp = "";
+    	if (packageCheck.isSelected() && DisplayListController.getMember()==null) {
+    		temp = "\nCost:\n+ " + screening.getMovie().getTicketCost() + " X " + request.getArrSize();
+    		temp += "\n+ 600 (Tab - 20 tickets)\n- ";
+    		if (request.getArrSize()<=20) {
+    			temp += screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "  (" + request.getArrSize() + "/20 tickets will be used)" + "\n-------------------\nTotal: +600 NIS";
+    			temp += "\nPrevius tickets balance: 0\nNew tickets balance: " + (20 - request.getArrSize());
+    			costInfo.setText(temp);
+    		} else {
+    			temp += screening.getMovie().getTicketCost() + " X " + 20 + "  (" + request.getArrSize() + "/20 tickets will be used)" + "\n-------------------\nTotal: +" + (screening.getMovie().getTicketCost()*request.getArrSize() - screening.getMovie().getTicketCost() + 600 +" NIS\n");
+    			temp += "\nPrevius tickets balance: 0\nNew tickets balance: 0";
+    			costInfo.setText(temp);
+    		}
+    	} else if (packageCheck.isSelected() && DisplayListController.getMember()!=null){
+    		temp = "\nCost:\n+ " + screening.getMovie().getTicketCost() + " X " + request.getArrSize();
+    		temp += "\n+ 600 (Tab - 20 tickets)\n- ";
+    		if (request.getArrSize()<=DisplayListController.getMember().getTicketsCredit()+20) {
+    			temp += screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "  (" + request.getArrSize() + "/"+ (DisplayListController.getMember().getTicketsCredit() + 20) + " tickets will be used)" + "\n-------------------\nTotal: +600 NIS";
+    			temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit() + "\nNew tickets balance: "  + (DisplayListController.getMember().getTicketsCredit() + 20 - request.getArrSize());
+    			costInfo.setText(temp);
+    		} else {
+    			temp += screening.getMovie().getTicketCost() + " X " + DisplayListController.getMember().getTicketsCredit() + "  (" + request.getArrSize() + "/"+ DisplayListController.getMember().getTicketsCredit() +" tickets will be used)" + "\n-------------------\nTotal: +" + (screening.getMovie().getTicketCost()*request.getArrSize() - screening.getMovie().getTicketCost()*DisplayListController.getMember().getTicketsCredit() + 600 +" NIS"); 
+    			temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit() + "\nNew tickets balance: 0";
+    			costInfo.setText(temp);
+    		}
+    	} else if (!packageCheck.isSelected() && DisplayListController.getMember()!=null) {
+       		temp = "\nCost:\n+ " + screening.getMovie().getTicketCost() + " X " + request.getArrSize();
+    		if (request.getArrSize()<=DisplayListController.getMember().getTicketsCredit()) {
+    			temp += "\n- " + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "  (" + request.getArrSize() + "/"+ (DisplayListController.getMember().getTicketsCredit()) + " tickets will be used)" + "\n-------------------\nTotal: +0.0 NIS";
+    			temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit()  + "\nNew tickets balance: " + (DisplayListController.getMember().getTicketsCredit() - request.getArrSize());
+    			costInfo.setText(temp);
+    		} else {
+    			temp += "\n- " + screening.getMovie().getTicketCost() + " X " + DisplayListController.getMember().getTicketsCredit() + "  (" + DisplayListController.getMember().getTicketsCredit() + "/"+ DisplayListController.getMember().getTicketsCredit() +" tickets will be used)" + "\n-------------------\nTotal: +" + (screening.getMovie().getTicketCost()*request.getArrSize() - screening.getMovie().getTicketCost()*DisplayListController.getMember().getTicketsCredit() +" NIS"); 
+    			temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit() + "\nNew tickets balance: 0";
+    			costInfo.setText(temp);
+    		}
+    	}else if (!packageCheck.isSelected() && DisplayListController.getMember()==null) {
+    		temp = "\nCost:\n+ " + screening.getMovie().getTicketCost() + " X " + request.getArrSize();
+    		temp += "\n-------------------\nTotal: +" + (screening.getMovie().getTicketCost()*request.getArrSize() + " NIS"); 
+    			costInfo.setText(temp);
+    	}
+    }
+    
     public static BookingRequest getRequest() {
 		return request;
 	}
@@ -155,6 +206,7 @@ public class BookingOrderController {
     		FullOrderRequest request2 = new FullOrderRequest(nameField.getText(), lastNameField.getText()
     				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()));
     		request2.setRequest(request);
+    		request2.setCheck(costInfo.getText());
     		if (signUpCheck.isSelected()) {
     			request2.setUsername(newUserField.getText());
     			request2.setPassword(newPasswordField.getText());
@@ -172,6 +224,12 @@ public class BookingOrderController {
     			request2.setNewCustomerFlag(true);
     		}
     		try {
+    			if (packageCheck.isSelected()) {
+    				request2.setBuyPack(true);
+    				request2.setUsePack(request2.getRequest().getArrSize());
+    			} else if (DisplayListController.getMember()!=null) {
+    				request2.setUsePack(DisplayListController.getMember().getTicketsCredit());
+    			}
 				SimpleClient.getClient().sendToServer(new Message("#FinishOrder", request2));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -189,6 +247,7 @@ public class BookingOrderController {
     void logIn(ActionEvent event) {
     	if (logInButton.getText() == "Confirm" && oldPasswordField.getText()!= "") {
     		if (DisplayListController.getMember().getPassword().equals(oldPasswordField.getText())) {
+    			packageCheck.setDisable(false);
     			nameField.setDisable(false);
     			lastNameField.setDisable(false);
     			idField.setDisable(false);
@@ -200,6 +259,18 @@ public class BookingOrderController {
     			idField.setText(String.valueOf(member.getCustomerId()));
     			emailField.setText(member.getElectronicMail());
     			cardField.setText(String.valueOf(member.getCreditNum()));
+    			String temp = "\nCost:\n" + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "\n- ";
+    			if (DisplayListController.getMember().getTicketsCredit()>request.getArrSize()) {
+    				temp += screening.getMovie().getTicketCost() + " X " + request.getArrSize() + " (" + request.getArrSize()+ "/" +DisplayListController.getMember().getTicketsCredit() + " tickets will be used)";
+    				temp += "\n-------------------\nTotal: +0.0 NIS";
+    				costInfo.setText(temp);
+    			}
+    			else if (DisplayListController.getMember().getCreditNum()>0) {
+    				int temp2 = request.getArrSize() - DisplayListController.getMember().getTicketsCredit();
+    				temp += screening.getMovie().getTicketCost() + " X " + DisplayListController.getMember().getTicketsCredit() + " (" + DisplayListController.getMember().getTicketsCredit() + "/" +DisplayListController.getMember().getTicketsCredit() + " tickets will be used)";
+    				temp += "\n-------------------\nTotal: +" + temp2*screening.getMovie().getTicketCost() + " NIS";
+    				costInfo.setText(temp);
+    			}
     		}
     	} else if (oldUserField.getText()!= "" && oldPasswordField.getText()!= "") {
         	LogInRequest newRequest = new LogInRequest(oldUserField.getText(),oldPasswordField.getText());
@@ -216,8 +287,10 @@ public class BookingOrderController {
     void viewSignUp(ActionEvent event) {
     	if (signUpCheck.isSelected()) {
     		signUpAnchor.setVisible(true);
+    		packageCheck.setDisable(false);
     	} else {
     		signUpAnchor.setVisible(false);
+    		packageCheck.setDisable(true);
     	}
     }
 
@@ -232,13 +305,13 @@ public class BookingOrderController {
 		String temp = "Order Summary:\nMovie: " + screening.getMovie().getMovieTitle() + " - " + screening.getMovie().getMovieTitleHeb()
 				+ "\nDate: " + screening.getScreeningDate() 
 		+ "\nTime: " + screening.getScreeningTime()
-		+ "\nNumber of tickets: " + request.getArrSize()
-		+ "\nTotal Cost: " + screening.getMovie().getTicketCost()*request.getArrSize()
-		+ "\nSeats IDs: ";
+		+ "\nNumber of tickets: " + request.getArrSize() + "\nSeats IDs: ";
 		for (int i = 0; i < request.getArrSize(); i++) {
 			temp += request.getSeatIds()[i] + " ";
 		}
 		movieInfo.setText(temp);
+		temp = "\nCost:\n" + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "\n-------------------\nTotal: +" + screening.getMovie().getTicketCost()*request.getArrSize() + " NIS";
+		costInfo.setText(temp);
 		if (DisplayListController.getMember()!=null && status == 0) {
 			CinemaMember member = DisplayListController.getMember();
 	    	loginAnchorLabel1.setText("You are already logged in as: " + member.getFirstName() + " " + member.getLastName());
@@ -254,6 +327,7 @@ public class BookingOrderController {
 			oldUserField.setDisable(true);
 			logInButton.setText("Confirm");
 		} else if (DisplayListController.getMember()!=null && status == 1) {
+			packageCheck.setDisable(false);
 			CinemaMember member = DisplayListController.getMember();
 			nameField.setText(member.getFirstName());
 			lastNameField.setText(member.getLastName());
@@ -264,6 +338,21 @@ public class BookingOrderController {
 			memberPerksAnchor.setVisible(false);
 			loginAnchor.setVisible(false);
 			status = 0;
+			temp = "\nCost:\n" + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "\n- ";
+			if (DisplayListController.getMember().getTicketsCredit()>=request.getArrSize()) {
+				temp += screening.getMovie().getTicketCost() + " X " + request.getArrSize() + " (" + request.getArrSize()+ "/" +DisplayListController.getMember().getTicketsCredit() + " tickets will be used)";
+				temp += "\n-------------------\nTotal: +0.0 NIS";
+				temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit() + " \nNew tickets balance: " + (DisplayListController.getMember().getTicketsCredit() - request.getArrSize());
+				costInfo.setText(temp);
+			}
+			else if (DisplayListController.getMember().getCreditNum()>=0) {
+				int temp2 = request.getArrSize() - DisplayListController.getMember().getTicketsCredit();
+				temp += screening.getMovie().getTicketCost() + " X " + DisplayListController.getMember().getTicketsCredit() + " (" + DisplayListController.getMember().getTicketsCredit() + "/" +DisplayListController.getMember().getTicketsCredit() + " tickets will be used)";
+				temp += "\n-------------------\nTotal: +" + temp2*screening.getMovie().getTicketCost() + " NIS";
+				temp += "\nPrevius tickets balance: " + DisplayListController.getMember().getTicketsCredit() + "\nNew tickets balance: 0";
+				costInfo.setText(temp);
+			}
+			//+ "\n-------------------\n" + screening.getMovie().getTicketCost()*request.getArrSize() + " NIS";
 		}
     }
 }

@@ -66,7 +66,7 @@ public class BookingSummaryController {
 			for (int i = 0; i < request2.getArrSize(); i++) {
 				temp += request2.getSeatIds()[i] + " ";
 			}
-			temp += ("\nTotal Cost: " + request2.getScreening().getMovie().getTicketCost()*request2.getArrSize() + " NIS");
+			temp += ("\n"+request.getCheck());
 			summray.setText(temp);
     }
 }

@@ -22,6 +22,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.TabPurchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
@@ -343,11 +344,25 @@ public class SimpleServer extends AbstractServer {
 			CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
 			session.save(newCus);
 			session.flush();
+			if (request.isBuyPack()) {
+				newCus.setTicketsCredit(20);
+				TabPurchase newTab = new TabPurchase (request.getCardNum(), newCus);
+				session.save(newTab);
+				session.flush();
+			}
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i ++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
-				session.save(newTicket);
-				session.flush();
+				if (request.getUsePack()>0 && newCus.getTicketsCredit() > 0) {
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], 0);
+					request.setUsePack(request.getUsePack()-1);
+					newCus.setTicketsCredit(newCus.getTicketsCredit()-1);
+					session.save(newTicket);
+					session.flush();
+				}else {
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
+					session.save(newTicket);
+					session.flush();
+				}
 			}
 			session.save(newCus);
 			session.flush();
@@ -369,11 +384,25 @@ public class SimpleServer extends AbstractServer {
 				for(CinemaMember member: membersList) {
 					if(member.getUsername().equals(request.getUsername())) {
 						if(member.getPassword().equals(request.getPassword())) {
+							if (request.isBuyPack()) {
+								member.setTicketsCredit(member.getTicketsCredit()+20);
+								TabPurchase newTab = new TabPurchase (request.getCardNum(), member);
+								session.save(newTab);
+								session.flush();
+							}
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i ++) {
-								Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost());
-								session.save(newTicket);
-								session.flush();
+								if (request.getUsePack()>0 && member.getTicketsCredit() > 0) {
+									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], 0);
+									request.setUsePack(request.getUsePack()-1);
+									member.setTicketsCredit(member.getTicketsCredit()-1);
+									session.save(newTicket);
+									session.flush();
+								}else {
+									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost());
+									session.save(newTicket);
+									session.flush();
+								}
 							}
 							session.save(member);
 							session.flush();
@@ -516,6 +545,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(CinemaMember.class);
 		configuration.addAnnotatedClass(OnDemandMovie.class);
 		configuration.addAnnotatedClass(Rent.class);
+		configuration.addAnnotatedClass(TabPurchase.class);
 
 
 
