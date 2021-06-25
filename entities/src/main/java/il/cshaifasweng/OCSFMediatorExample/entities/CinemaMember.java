@@ -15,7 +15,6 @@ public class CinemaMember extends CasualBuyer{
 	int ticketsCredit;
 	
 	
-	public CinemaMember () {}
 	
 	public CinemaMember (String firstName, String lastName, int customerId, long creditNum, String electronicMail
 			, String username, String password) {
@@ -26,6 +25,17 @@ public class CinemaMember extends CasualBuyer{
 		this.electronicMail = electronicMail;
 		this.username = username;
 		this.password = password;
+	}
+
+	public CinemaMember(String username2, String password2, String firstName, String lastName, int id, int card,
+			String mail, int ticketsCredit2) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.customerId = id;
+		this.creditNum = card;
+		this.electronicMail = mail;
+		this.username = username2;
+		this.password = password2;
 	}
 
 	public String getUsername() {
