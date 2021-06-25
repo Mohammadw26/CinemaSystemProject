@@ -37,7 +37,9 @@ public class DisplayListController {
 	private static int rowsNum = 1;
 	private static int colsNum = 3;
 	private int page = 1;
+	private int pageSoon = 1;
 	private int pages = 1;
+	private int pagesSoon = 1;
 
 	
 	public static CinemaMember getMember() {
@@ -130,6 +132,12 @@ public class DisplayListController {
 	
     @FXML // fx:id="identityLabel"
     private Label identityLabel; // Value injected by FXMLLoader
+    
+    @FXML
+    private FontAwesomeIconView nxtBtn1;
+
+    @FXML
+    private FontAwesomeIconView prevBtn1;
 
 
 	@FXML
@@ -143,6 +151,19 @@ public class DisplayListController {
 			nxtBtn.setVisible(false);
 		}
 	}
+	
+
+    @FXML
+    void nextPage1(MouseEvent event) throws IOException {
+    	if (pageSoon < soonList.size() / 3 + 1) {
+			pageSoon++;
+			fillGrids(gridList3,3);
+			prevBtn1.setVisible(true);
+		} 
+		if (pageSoon == soonList.size() / 3 + 1) {
+			nxtBtn1.setVisible(false);
+		}
+    }
 
 	@FXML
 	void prevPage(MouseEvent  event) throws IOException {
@@ -156,6 +177,18 @@ public class DisplayListController {
 		}
 	}
 
+	@FXML
+    void prevPage1(MouseEvent event) throws IOException {
+		if (pageSoon > 1) {
+			pageSoon--;
+			fillGrids(gridList3,3);
+			nxtBtn1.setVisible(true);
+		}
+		if (pageSoon == 1) {
+			prevBtn1.setVisible(false);
+		}
+    }
+	
 	@FXML
 	void returnToMain(ActionEvent event) {
 		try {
@@ -290,6 +323,10 @@ public class DisplayListController {
 		pages = movieList.size() / 3 + 1;
 		prevBtn.setVisible(false);
 		nxtBtn.setVisible(pages>1);
+		
+		pagesSoon = soonList.size() / 3 + 1;
+		prevBtn1.setVisible(false);
+		nxtBtn1.setVisible(pagesSoon>1);
 
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;

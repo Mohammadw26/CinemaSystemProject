@@ -38,6 +38,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import il.cshaifasweng.OCSFMediatorExample.helpers.SendEmailTLS;
 
 
 public class SimpleServer extends AbstractServer {
@@ -394,6 +395,7 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#BookedNonMember",request));
+				SendEmail(request);
 			}catch(IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -432,6 +434,7 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#BookedMember", request, newCus));
+				SendEmail(request);
 			}catch(IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -471,12 +474,37 @@ public class SimpleServer extends AbstractServer {
 							session.flush();
 							session.getTransaction().commit();
 							client.sendToClient(new Message("#BookedMember", request, member));
+							SendEmail(request);
 							return;
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private void SendEmail(FullOrderRequest request) {
+		BookingRequest request2 = request.getRequest();
+        String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
+        		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
+        		+ "\nMovie: " + request2.getScreening().getMovie().getMovieTitle() + " - " + request2.getScreening().getMovie().getMovieTitleHeb()
+        		+"\nScreening Time: " + request2.getScreening().getScreeningDate() + " , " + request2.getScreening().getScreeningTime()
+        		+"\nNumber Of Seats: " + request2.getArrSize() + "\nSeats IDs: ");
+		for (int i = 0; i < request2.getArrSize(); i++) {
+			temp += request2.getSeatIds()[i] + " ";
+		}
+		temp += ("\n"+request.getCheck());
+		
+		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order" ,temp );
+	}
+	
+	private void SendEmail1(RentRequest request) {
+		 String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
+	        		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
+	        		+ "\nMovie: " + request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
+				temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\n\nYou can start watching the movie you ordered on the following link, Enjoy!\n" + request.getMovie().getStreamingLink());
+		
+		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order" ,temp );
 	}
 	
 	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {
@@ -493,6 +521,7 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#RentedNonMember",request));
+				SendEmail1(request);
 			}catch(IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -513,6 +542,7 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 			try {
 				client.sendToClient(new Message("#RentedMember", request, newCus));
+				SendEmail1(request);
 			}catch(IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -534,6 +564,7 @@ public class SimpleServer extends AbstractServer {
 							session.flush();
 							session.getTransaction().commit();
 							client.sendToClient(new Message("#RentedMember", request, member));
+							SendEmail1(request);
 							return;
 						}
 					}
@@ -647,12 +678,22 @@ public class SimpleServer extends AbstractServer {
 		Image image_4 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3d/The_Lion_King_poster.jpg");
 		Image image_5 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/3c/Ice_Age_%282002_film%29_poster.jpg");
 		Image image_6 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg");
+		Image image_7 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/1/17/Fury_2014_poster.jpg");
+		Image image_8 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/e/e9/Black_Widow_%282021_film%29_poster.jpg");
+		Image image_9 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/he/0/0a/Venom_Let_There_Be_Carnage_Poster.jpg");
+		Image image_10 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/8/8b/Avatar_2_logo.jpg");
+		Image image_11 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/1/1b/The_Flash_film_logo.png");
 		session.save(image_1);
 		session.save(image_2);
 		session.save(image_3);
 		session.save(image_4);
 		session.save(image_5);
 		session.save(image_6);
+		session.save(image_7);
+		session.save(image_8);
+		session.save(image_9);
+		session.save(image_10);
+		session.save(image_11);
 		session.flush();
 		
 		Hall hall1 = new Hall(4,5,18, "1");
@@ -682,9 +723,10 @@ public class SimpleServer extends AbstractServer {
 		session.save(movie4);
 		session.flush();
 		
-		ComingSoonMovie movie5 = new ComingSoonMovie("Ice Age","עידן הקרח", "Lori Forte", "Denis Leary, John Leguizamo, Ray Romano",
+		OnDemandMovie movie5 = new OnDemandMovie("Ice Age","עידן הקרח", "Lori Forte", "Denis Leary, John Leguizamo, Ray Romano",
 				"The story revolves around sub-zero heroes: a woolly mammoth, a saber-toothed tiger, a sloth and a prehistoric combination of a squirrel and rat, known as Scrat.",
-				image_5);
+				20.00,image_5);
+		movie5.setStreamingLink("https://www.youtube.com/watch?v=i4noiCRJRoE&ab_channel=MovieclipsClassicTrailers");
 		session.save(movie5);
 		session.flush();
 		
@@ -692,6 +734,36 @@ public class SimpleServer extends AbstractServer {
 				"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.", 25.90 ,image_6);
 		movie6.setStreamingLink("https://www.youtube.com/watch?v=YoHD9XEInc0");
 		session.save(movie6);
+		session.flush();
+		
+		CinemaMovie movie7 = new CinemaMovie("Fury","זעם", "David Ayer", "Brad Pitt, Shia Labeouf, Logan Lerman",
+				"A grizzled tank commander makes tough decisions as he and his crew fight their way across Germany in April, 1945.",
+				45.00, image_7);
+		session.save(movie7);
+		session.flush();
+		
+		ComingSoonMovie movie8 = new ComingSoonMovie("Black Widow (2021)","אלמנה שחורה", "Cate Shortland", "Scarlett Johansson, Florence Pugh, David Harbour",
+				"A film about Natasha Romanoff in her quests between the films Civil War and Infinity War.",
+				image_8);
+		session.save(movie8);
+		session.flush();
+		
+		ComingSoonMovie movie9 = new ComingSoonMovie("Venom 2 (2021)","ונום 2", "Andy Serkis", "Stephen Graham, Tom Hardy, Michelle Williams",
+				"Plot is yet to be announced. Sequel to 'Venom' that was released in 2018",
+				image_9);
+		session.save(movie9);
+		session.flush();
+		
+		ComingSoonMovie movie10 = new ComingSoonMovie("Avatar 2 (2022)","אווטאר 2", "James Cameron", "Sam Worthington, Zoe Saldana, Stephen Lang",
+				"Plot is yet to be announced. Sequel to its 'Avatar' that was released in 2009",
+				image_10);
+		session.save(movie10);
+		session.flush();
+		
+		ComingSoonMovie movie11 = new ComingSoonMovie("The Flash (2022)","הפלאש", "Andy Muschietti", "Ezra Miller, Ben Affleck, Michael Keaton",
+				"Barry Allen travels back in time to prevent his mother's murder, which brings unintentional consequences to his timeline",
+				image_11);
+		session.save(movie11);
 		session.flush();
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
@@ -712,7 +784,9 @@ public class SimpleServer extends AbstractServer {
 		movie2.getSirtyaBranch().add(branch3);
 		movie3.getSirtyaBranch().add(branch1);
 		movie4.getSirtyaBranch().add(branch3);
-		movie5.getSirtyaBranch().add(branch3);
+		//movie5.getSirtyaBranch().add(branch3);
+		movie7.getSirtyaBranch().add(branch1);
+		movie7.getSirtyaBranch().add(branch2);
 
 		Screening screening_1 = new Screening("01/06/2021", "22:30", movie1, branch1);
 		Screening screening_2 = new Screening("02/06/2021", "23:45", movie1, branch2);
@@ -722,7 +796,8 @@ public class SimpleServer extends AbstractServer {
 		Screening screening_6 = new Screening("02/06/2021", "23:45", movie2, branch3);
 		Screening screening_7 = new Screening("02/06/2021", "20:45", movie3, branch1);
 		Screening screening_8 = new Screening("03/06/2021", "16:45", movie4, branch3);
-//		Screening screening_9 = new Screening("03/06/2021", "19:00", movie5, branch3);
+		Screening screening_9 = new Screening("03/06/2021", "19:00", movie7, branch1);
+		Screening screening_10 = new Screening("05/06/2021", "17:00", movie7, branch2);
 		screening_1.setHall(hall1);
 		screening_2.setHall(hall1);
 		screening_3.setHall(hall1);
@@ -731,6 +806,8 @@ public class SimpleServer extends AbstractServer {
 		screening_6.setHall(hall1);
 		screening_7.setHall(hall1);
 		screening_8.setHall(hall1);
+		screening_9.setHall(hall1);
+		screening_10.setHall(hall1);
 		session.save(screening_1);
 		session.save(screening_2);
 		session.save(screening_3);
@@ -739,7 +816,8 @@ public class SimpleServer extends AbstractServer {
 		session.save(screening_6);
 		session.save(screening_7);
 		session.save(screening_8);
-//		session.save(screening_9);
+		session.save(screening_9);
+		session.save(screening_10);
 		session.flush();
 		
 		Worker worker_1 = new GeneralManager();
@@ -749,12 +827,7 @@ public class SimpleServer extends AbstractServer {
 		worker_1.setWorkerName("Mohammad Wattad");
 		worker_1.setWorkerPassword("wa7wa7");
 		
-		Worker worker_2 = new CustomerServiceEmployee();
-		worker_2.setWokerUsername("Jerry98");
-		worker_2.setWorkerEmail("Mohammadw996@gmail.com");
-		worker_2.setWorkerID("206794018");
-		worker_2.setWorkerName("Jerry wa7wa7");
-		worker_2.setWorkerPassword("wa7wa7");
+		CinemaMember worker_2 = new CinemaMember("Jerry","Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com", "Jerry98", "wa7wa7");
 		session.save(worker_1);
 		session.save(worker_2);
 		session.flush();
