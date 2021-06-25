@@ -187,9 +187,9 @@ public class BookingOrderController {
 
 	@FXML
     void CancelOrder(ActionEvent event) {
-		try {
-			SimpleClient.getClient().sendToServer("#CatalogRequest");
-	    	} catch (IOException e) {
+    	try {
+		SimpleClient.getClient().sendToServer(new Message("#UndoSaveSeats", request));
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

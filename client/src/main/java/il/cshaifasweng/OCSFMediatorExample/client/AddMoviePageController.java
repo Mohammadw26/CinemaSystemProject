@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 public class AddMoviePageController {
 
@@ -60,6 +61,15 @@ public class AddMoviePageController {
     private Button cancelBtn;
     
     @FXML
+    private Label showDescription;
+    
+    @FXML
+    private Button setImage;
+
+    @FXML // fx:id="signUpBtn"
+    private Button signUpBtn; // Value injected by FXMLLoader
+    
+    @FXML
     void returnToCatalog(ActionEvent event) {
     	try {
 			App.setRoot("DisplayList");
@@ -67,7 +77,6 @@ public class AddMoviePageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
     }
 
     @FXML
@@ -75,17 +84,14 @@ public class AddMoviePageController {
 
     }
 
-  
-
     @FXML
     void setActors(KeyEvent event) {
     	showActors.setText(actorsField.getText());
-
     }
 
     @FXML
     void setDescription(KeyEvent event) {
-
+    	showDescription.setText(descriptionField.getText());
     }
 
     @FXML
@@ -96,16 +102,13 @@ public class AddMoviePageController {
     @FXML
     void setHebTitle(KeyEvent event) {
     	showHebTitle.setText(hebMovieTitle.getText());
-
-
     }
-
+    
     @FXML
-    void setImageURL(KeyEvent event) {
+    void setImageURL(MouseEvent event) {
     	Image image = new Image(urlField.getText());
     	showImage.setImage(image);
     	showImage.setPreserveRatio(false);
-
     }
 
     @FXML
@@ -113,6 +116,11 @@ public class AddMoviePageController {
     	showProducers.setText(producersField.getText());
     }
 
+    @FXML
+    void signUp(MouseEvent event) {
+
+    }
+    
     @FXML
     void initialize() {
         assert engMovieTitle != null : "fx:id=\"engMovieTitle\" was not injected: check your FXML file 'addMoviePage.fxml'.";
