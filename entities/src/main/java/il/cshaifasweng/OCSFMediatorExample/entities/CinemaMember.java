@@ -15,7 +15,7 @@ public class CinemaMember extends CasualBuyer{
 	int ticketsCredit;
 	
 	
-	
+	public CinemaMember() {}
 	public CinemaMember (String firstName, String lastName, int customerId, long creditNum, String electronicMail
 			, String username, String password) {
 		this.firstName = firstName;

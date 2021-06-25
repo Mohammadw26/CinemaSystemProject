@@ -121,7 +121,7 @@
                   </RadialGradient>
                </fill>
             </Text>
-            <Text fontSmoothingType="LCD" layoutX="97.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Sirtya branches:">
+            <Text fontSmoothingType="LCD" layoutX="97.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Dream Palace branches:">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
@@ -184,6 +184,8 @@
                   <Font name="Arial" size="10.0" />
                </font>
             </Button>
+            <FontAwesomeIconView fx:id="nxtBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1223.0" layoutY="1133.0" onMouseClicked="#nextPage1" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="1133.0" onMouseClicked="#prevPage1" size="50" text="" />
          </children>
       </AnchorPane>
    </content>
