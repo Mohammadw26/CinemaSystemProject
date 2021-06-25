@@ -15,7 +15,7 @@
             <Image url="@SirtyaWelcome.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="showCatalog" layoutX="576.0" layoutY="399.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" style="-fx-background-radius: 15px; -fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="show catalog">
+      <Button fx:id="showCatalog" layoutX="576.0" layoutY="371.0" mnemonicParsing="false" onAction="#sendCatalogRequest" prefHeight="31.0" prefWidth="121.0" style="-fx-background-radius: 15px; -fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="show catalog">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font></Button>
@@ -35,11 +35,11 @@
             <Glow level="0.86" />
          </effect>
       </Label>
-      <Button fx:id="adminLabel" layoutX="576.0" layoutY="447.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Log-in">
+      <Button fx:id="adminLabel" layoutX="576.0" layoutY="413.0" mnemonicParsing="false" onAction="#adminLogin" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Log In">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font></Button>
-      <Label fx:id="identityLabel" alignment="CENTER" layoutX="537.0" layoutY="363.0" prefHeight="15.0" prefWidth="204.0" text="Logged in as: " textFill="WHITE" visible="false">
+      <Label fx:id="identityLabel" alignment="CENTER" layoutX="538.0" layoutY="344.0" prefHeight="15.0" prefWidth="204.0" text="Logged in as: " textFill="WHITE">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="11.0" />
          </font>
@@ -47,5 +47,10 @@
             <Glow level="0.86" />
          </effect>
       </Label>
+      <Button fx:id="signUpBtn" layoutX="575.0" layoutY="455.0" mnemonicParsing="false" onAction="#signUp" prefHeight="31.0" prefWidth="122.0" style="-fx-outer-border: white; -fx-body-color: linear-gradient(to bottom, #FAFAFA, #EAEAEA);-fx-background-color:         -fx-outer-border,         -fx-body-color;   -fx-background-insets: 0, 6;   -fx-background-radius: 6px, 0px;-fx-background-repeat: no-repeat;   -fx-background-position: center;" text="Sign Up">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

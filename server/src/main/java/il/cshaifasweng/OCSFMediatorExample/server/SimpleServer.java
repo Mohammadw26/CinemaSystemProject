@@ -123,6 +123,14 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if(msgString.startsWith("#UndoSaveSeats")) {
+			try {
+				freeSeats((BookingRequest) ((Message) msg).getObject(), client);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if(msgString.startsWith("#FinishOrder")) {
 			try {
 				finishOrder((FullOrderRequest) ((Message) msg).getObject(), client);
@@ -156,7 +164,16 @@ public class SimpleServer extends AbstractServer {
 		}else if(msgString.startsWith("#LoginRequest")) {
 			handleLoginRequest((Message) msg, client);
 		}
+		else if(msgString.startsWith("#SignUpRequest")) {
+			try {
+				signUpRequestHandler((FullOrderRequest) ((Message) msg).getObject(), client);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
+
 	
 	
 	private void handleLoginRequest(Message msg, ConnectionToClient client) {
@@ -311,6 +328,52 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		session.close();
+	}
+	
+	private void freeSeats(BookingRequest request, ConnectionToClient client) throws Exception {
+		session = sessionFactory.openSession();
+		List<Screening> screeningsList = getAllScreenings();
+		for (Screening scrn : screeningsList) {
+			if (scrn.getId()==((BookingRequest) request).getScreening().getId()) {
+				session.beginTransaction();
+				for(int i = 0 ; i < request.getArrSize() ; i ++) {
+					scrn.setAvailableSeatAt(request.getSeats()[i]);
+				}
+				scrn.setAvailableSeats(scrn.getAvailableSeats()+request.getArrSize());
+				session.save(scrn);
+				session.flush();
+				session.getTransaction().commit();
+				try {
+					client.sendToClient(new Message("#SeatsFreed",request));
+					/*screeningsList = getAll(Screening.class);
+					for (Screening screening : screeningsList) {
+						if (screening.getId()==request.getScreening().getId()) {
+							request.setScreening(screening);
+							client.sendToClient(new Message("#SeatsBooked",request));
+						}
+					}*/
+				}catch(IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+		session.close();
+	}
+	
+	private void signUpRequestHandler(FullOrderRequest request, ConnectionToClient client) throws Exception{
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
+		newCus.setTicketsCredit(0);
+		session.save(newCus);
+		session.flush();
+		session.getTransaction().commit();
+		client.sendToClient(new Message("#MemberLogIn",newCus));
 	}
 	
 	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {

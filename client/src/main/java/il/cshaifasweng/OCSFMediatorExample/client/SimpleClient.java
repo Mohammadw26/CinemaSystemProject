@@ -76,6 +76,14 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#SeatsFreed")) {
+			try {
+				SimpleClient.getClient().sendToServer("#CatalogRequest");
+		    	} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if (msgString.startsWith("#BookedNonMember")) {
 			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
 			try {

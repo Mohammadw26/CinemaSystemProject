@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddMoviePageController">
    <children>
       <ToolBar layoutX="-2.0" prefHeight="40.0" prefWidth="920.0" style="-fx-background-color: #792f2f;">
          <items>
@@ -29,42 +29,55 @@
             <TextField fx:id="descriptionField" alignment="TOP_LEFT" onKeyTyped="#setDescription" prefHeight="98.0" prefWidth="268.0" promptText="Add movie desrciption" />
             <TextField fx:id="producersField" onKeyTyped="#setProducers" prefHeight="36.0" prefWidth="268.0" promptText="Add movie producers" />
             <TextField fx:id="actorsField" onKeyTyped="#setActors" prefHeight="36.0" prefWidth="268.0" promptText="Add movie starring actors" />
-            <TextField fx:id="urlField" onKeyTyped="#setImageURL" prefHeight="36.0" prefWidth="268.0" promptText="Add image URL" />
+            <TextField fx:id="urlField" prefHeight="36.0" prefWidth="268.0" promptText="Add image URL" />
          </children>
       </VBox>
-      <AnchorPane layoutX="482.0" layoutY="136.0" prefHeight="354.0" prefWidth="360.0" style="-fx-border-width: 5; -fx-border-color: #792f2f;">
-         <children>
-            <ImageView fx:id="showImage" fitHeight="158.0" fitWidth="129.0" layoutX="6.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="showProducers" layoutX="140.0" layoutY="84.0" prefHeight="18.0" prefWidth="218.0" text="showProducers" />
-            <Label fx:id="showActors" layoutX="140.0" layoutY="115.0" prefHeight="18.0" prefWidth="218.0" text="showActors" />
-            <Label fx:id="showEngTitle" layoutX="139.0" layoutY="14.0" prefHeight="22.0" prefWidth="218.0" text="showEngTitle" textAlignment="CENTER">
-               <font>
-                  <Font name="Comic Sans MS Bold Italic" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="showHebTitle" layoutX="139.0" layoutY="40.0" prefHeight="22.0" prefWidth="218.0" text="showHebTitle" textAlignment="CENTER">
-               <font>
-                  <Font name="Comic Sans MS Bold Italic" size="14.0" />
-               </font>
-            </Label>
-            <ScrollPane layoutX="26.0" layoutY="214.0" prefHeight="98.0" prefWidth="234.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="131.0" prefWidth="254.0" />
-              </content>
-            </ScrollPane>
-         </children>
-      </AnchorPane>
       <Label layoutX="72.0" layoutY="145.0" prefHeight="18.0" prefWidth="107.0" text="English Movie Title:" />
       <Label layoutX="72.0" layoutY="194.0" prefHeight="18.0" prefWidth="107.0" text="Hebrew Movie Title:" />
       <Label layoutX="72.0" layoutY="279.0" prefHeight="18.0" prefWidth="107.0" text="Movie Description:" />
       <Label layoutX="72.0" layoutY="360.0" prefHeight="18.0" prefWidth="107.0" text="Movie Producers:" />
       <Label layoutX="72.0" layoutY="411.0" prefHeight="18.0" prefWidth="107.0" text="Starring Actors:" />
       <Label layoutX="72.0" layoutY="465.0" prefHeight="18.0" prefWidth="107.0" text="Image URL:" />
-      <Button fx:id="approveBtn" layoutX="428.0" layoutY="584.0" mnemonicParsing="false" style="-fx-background-color: #792f2f;" text="Approve" textFill="WHITE" />
-      <Label layoutX="641.0" layoutY="106.0" text="Preview" textFill="#792f2f">
+      <Button fx:id="approveBtn" disable="true" layoutX="428.0" layoutY="584.0" mnemonicParsing="false" style="-fx-background-color: #792f2f;" text="Approve" textFill="WHITE" />
+      <Label layoutX="641.0" layoutY="108.0" text="Preview" textFill="#792f2f">
          <font>
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font>
       </Label>
+      <AnchorPane fx:id="anchPane" layoutX="486.0" layoutY="142.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="341.6" prefWidth="360.2" style="-fx-border-radius: 15; -fx-background-radius: 15px; -fx-border-color: white; -fx-border-width: 2px; -fx-background-color: #792f2f;">
+         <children>
+            <Label fx:id="showEngTitle" alignment="CENTER" layoutX="158.0" layoutY="11.0" prefHeight="27.0" prefWidth="186.0" style="-fx-text-fill: White;" text="Movie Title" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="showImage" fitHeight="175.0" fitWidth="142.0" layoutX="7.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="showHebTitle" alignment="CENTER" layoutX="158.0" layoutY="38.0" prefHeight="26.0" prefWidth="186.0" style="-fx-text-fill: White;" text="Movie Title" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="showProducers" alignment="TOP_LEFT" layoutX="153.0" layoutY="64.0" prefHeight="36.0" prefWidth="196.0" style="-fx-text-fill: White;" text="Producers" textFill="#fdfdfd" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="showActors" alignment="TOP_LEFT" layoutX="154.0" layoutY="96.0" prefHeight="36.0" prefWidth="196.0" style="-fx-text-fill: White;" text="showActors" textFill="#fdfdfd" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="195.0" prefHeight="132.0" prefWidth="334.0">
+               <content>
+                  <Label fx:id="showDescription" alignment="TOP_LEFT" prefHeight="181.0" prefWidth="331.0" style="-fx-text-fill: White; -fx-background-color: #792f2f; -fx-border-color: #792f2f;" text="Description" textFill="#181212" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <Button fx:id="setImage" layoutX="424.0" layoutY="545.0" mnemonicParsing="false" onMouseClicked="#setImageURL" style="-fx-background-color: #792f2f;" text="Set Image" textFill="WHITE" />
    </children>
 </AnchorPane>

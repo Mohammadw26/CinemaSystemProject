@@ -1,27 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SignUpController">
    <children>
-      <Label layoutX="63.0" layoutY="67.0" text="Username:" />
-      <Label layoutX="65.0" layoutY="101.0" text="Password:" />
-      <Label layoutX="63.0" layoutY="131.0" text="FirstName:" />
-      <Label layoutX="63.0" layoutY="163.0" text="LastName:" />
-      <Label layoutX="64.0" layoutY="252.0" text="Mail:" />
-      <Label layoutX="65.0" layoutY="222.0" text="Credit Card:" />
-      <Label layoutX="63.0" layoutY="191.0" text="ID:" />
-      <Button fx:id="signUpBtn" layoutX="33.0" layoutY="334.0" mnemonicParsing="false" onAction="#CommitChanges" text="Sign Up" />
-      <Button fx:id="signUpBtn" layoutX="509.0" layoutY="334.0" mnemonicParsing="false" onAction="#returnToCatalog" text="close" />
-      <TextField fx:id="usernameTxt" layoutX="151.0" layoutY="63.0" />
-      <TextField fx:id="passTxt" layoutX="151.0" layoutY="97.0" />
-      <TextField fx:id="firstNameTxt" layoutX="151.0" layoutY="127.0" />
-      <TextField fx:id="lastNameTxt" layoutX="151.0" layoutY="159.0" />
-      <TextField fx:id="idTxt" layoutX="151.0" layoutY="187.0" />
-      <TextField fx:id="creditCardTxt" layoutX="151.0" layoutY="218.0" />
-      <TextField fx:id="mailTxt" layoutX="151.0" layoutY="248.0" />
+      <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
+      <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Sign Up" wrappingWidth="220.76641845703125" />
+      <VBox layoutX="35.0" layoutY="73.0" prefHeight="221.0" prefWidth="100.0">
+         <children>
+            <Label prefHeight="44.0" prefWidth="126.0" text="First Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label prefHeight="44.0" prefWidth="126.0" text="Last Name:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label prefHeight="44.0" prefWidth="126.0" text="ID:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label prefHeight="44.0" prefWidth="126.0" text="E-mail Adress:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label prefHeight="44.0" prefWidth="126.0" text="Credit Card Num:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TextField fx:id="nameField" layoutX="167.0" layoutY="84.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="lastNameField" layoutX="167.0" layoutY="126.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="idField" layoutX="167.0" layoutY="168.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="emailField" layoutX="167.0" layoutY="213.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="cardField" layoutX="167.0" layoutY="258.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <VBox layoutX="34.0" layoutY="296.0" prefHeight="89.0" prefWidth="100.0">
+         <children>
+            <Label prefHeight="44.0" prefWidth="126.0" text="Username:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label prefHeight="44.0" prefWidth="126.0" text="Password:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <TextField fx:id="newUserField" layoutX="168.0" layoutY="303.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="newPasswordField" layoutX="168.0" layoutY="348.0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <CheckBox fx:id="useEmailCheck" layoutX="351.0" layoutY="309.0" mnemonicParsing="false" onAction="#copyEmail" text="Use my e-mail as a username." />
+      <AnchorPane fx:id="memberPerksAnchor" layoutX="542.0" layoutY="98.0" prefHeight="108.0" prefWidth="738.0">
+         <children>
+            <Text layoutX="1.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Did you know? Signing up as a Sirtya member grants you the following perks!" wrappingWidth="644.1239624023438">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="19.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Easier, faster and more convenient purchases." wrappingWidth="421.9906005859375">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="19.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- The ability to buy a package of 20 tickets at a discounted price." wrappingWidth="575.5906372070312">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="19.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="- Receive updates about new movie arrivals, be the first to save a seat!" wrappingWidth="588.390625">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <Button fx:id="signUpBtn" layoutX="415.0" layoutY="413.0" mnemonicParsing="false" onMouseClicked="#signUp" text="Sign Up" />
    </children>
 </AnchorPane>

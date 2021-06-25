@@ -19,7 +19,6 @@ public class PrimaryController {
 	@FXML
 	private Button showCatalog;
 	
-
     @FXML
     private Label welcomeLabel;
 
@@ -28,6 +27,9 @@ public class PrimaryController {
 
     @FXML
     private Button adminLabel;
+    
+    @FXML
+    private Button signUpBtn;
 
     @FXML // fx:id="identityLabel"
     private Label identityLabel; // Value injected by FXMLLoader
@@ -54,6 +56,17 @@ public class PrimaryController {
     		}
     	}
     }
+    
+
+    @FXML
+    void signUp(ActionEvent event) {
+		try {
+			App.setRoot("signUp");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 	@FXML
 	void sendCatalogRequest(ActionEvent event) {
@@ -70,16 +83,19 @@ public class PrimaryController {
 		assert showCatalog != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 		assert adminLabel != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 		identityLabel.setVisible(false);
+		signUpBtn.setVisible(true);
 		adminLabel.setText("Log-in");
 		if (DisplayListController.getWorker()!=null) {
 			identityLabel.setText("Logged in as: " + DisplayListController.getWorker().getWorkerName());
 			identityLabel.setVisible(true);
 			adminLabel.setText("Log-out");
+			signUpBtn.setVisible(false);
 		}
 		if (DisplayListController.getMember()!=null) {
 			identityLabel.setText("Logged in as: " + DisplayListController.getMember().getFirstName() + " " + DisplayListController.getMember().getLastName() );
 			identityLabel.setVisible(true);
 			adminLabel.setText("Log-out");
+			signUpBtn.setVisible(false);
 		}
 	}
 }
