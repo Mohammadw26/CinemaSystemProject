@@ -102,6 +102,9 @@ public class DisplayListController {
     
     @FXML
     private GridPane gridList3;
+    
+    @FXML
+    private Button addMovieBtnNew;
 
 	@FXML
 	private FontAwesomeIconView prevBtn;
@@ -262,12 +265,22 @@ public class DisplayListController {
 	@FXML
     void addMovie(ActionEvent event) {
 		try {
-			App.setRoot("addMoviePage");
+			App.setRoot("addMovie");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+    }
+	
+    @FXML
+    void GoToAddMovie(ActionEvent event) {
+    	try {
+			App.setRoot("addMovie");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete

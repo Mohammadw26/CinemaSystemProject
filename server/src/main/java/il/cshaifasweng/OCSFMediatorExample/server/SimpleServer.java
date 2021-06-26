@@ -175,10 +175,51 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if(msgString.startsWith("#AddRegularMovie")) {
+			addRegularMovie((CinemaMovie) ((Message) msg).getObject(), client);		
+		}
+		else if(msgString.startsWith("#AddComingSoonMovie")) {
+			addComingSoonMovie((ComingSoonMovie) ((Message) msg).getObject(), client);		
+		}
+		else if(msgString.startsWith("#AddOnDemandMovie")) {
+			addOnDemandMovie((OnDemandMovie) ((Message) msg).getObject(), client);		
+		}
 	}
 
 	
 	
+	private void addOnDemandMovie(OnDemandMovie object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		OnDemandMovie request = object;
+		session.save(request);
+		session.flush();
+		session.getTransaction().commit();
+		session.close();
+		
+	}
+
+	private void addComingSoonMovie(ComingSoonMovie object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ComingSoonMovie request = object;
+		session.save(request);
+		session.flush();
+		session.getTransaction().commit();
+		session.close();
+		
+	}
+
+	private void addRegularMovie(CinemaMovie object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		CinemaMovie request = object;
+		session.save(request);
+		session.flush();
+		session.getTransaction().commit();
+		session.close();
+	}
+
 	private void handleLoginRequest(Message msg, ConnectionToClient client) {
 		LogInRequest object = (LogInRequest) msg.getObject();
 		session = sessionFactory.openSession();
