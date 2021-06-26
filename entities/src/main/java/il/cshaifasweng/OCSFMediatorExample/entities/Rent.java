@@ -23,13 +23,14 @@ public class Rent extends Purchase {
 	
 	public Rent() {}
 	
-	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum) {
+	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime) {
 		this.customer = client;
 		this.customer.addTicket(this);
 		this.setCost(cost);
 		this.expiringLink = expiringLink;
 		this.movie = movie;
 		this.creditCardNum = cardNum;
+		this.transactionTime = transactionTime;
 	}
 	
 	public String getExpiringLink() {

@@ -126,10 +126,12 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	void ApplyChanges(ActionEvent event) {
+		LocalDate newDate = datePick.getValue();
+		String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		if (optionField.getValue() == "Edit screening") {
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			request.setScrnID(Integer.parseInt(idField.getText()));
-			request.setDate(datePick.getEditor().getText());
+			request.setDate(formattedDate);
 			request.setTime(hourField.getValue() + ":" + minuteField.getValue());
 			request.setMovieID(movie.getId());
 			request.setMovie(movie);
@@ -156,7 +158,7 @@ public class EditMovieScreeningsController {
 		else if(optionField.getValue() == "Add screening" ){
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			String temp = datePick.getEditor().getText();
-			request.setDate(datePick.getEditor().getText());
+			request.setDate(formattedDate);
 			request.setTime(hourField.getValue() + ":" + minuteField.getValue());
 	    	request.setMovie(movie);
 	    	request.setBranch(branch);
@@ -261,7 +263,6 @@ public class EditMovieScreeningsController {
 		screeningsTable.setItems(screeningList);
 		for (int i = 0; i < 10; i++) {
 			hourField.getItems().add("0" + Integer.toString(i));
-			minuteField.getItems().add("0" + Integer.toString(i));
 			dayField.getItems().add("0" + Integer.toString(i));
 			monthField.getItems().add("0" + Integer.toString(i));
 
@@ -269,7 +270,7 @@ public class EditMovieScreeningsController {
 		for (int i = 10; i < 24; i++) {
 			hourField.getItems().addAll(Integer.toString(i));
 		}
-		for (int i = 10; i < 60; i++) {
+		for (int i = 0; i < 60; i = i + 5) {
 			minuteField.getItems().addAll(Integer.toString(i));
 		}
 		for (int i = 10; i < 13; i++) {

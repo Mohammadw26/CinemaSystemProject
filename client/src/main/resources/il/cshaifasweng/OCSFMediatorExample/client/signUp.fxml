@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -118,5 +119,10 @@
          </children>
       </AnchorPane>
       <Button fx:id="signUpBtn" layoutX="415.0" layoutY="413.0" mnemonicParsing="false" onMouseClicked="#signUp" text="Sign Up" />
+      <Button fx:id="backButton" contentDisplay="TOP" graphicTextGap="0.0" layoutX="1222.0" layoutY="4.0" minHeight="21.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="51.0" style="-fx-border-color: #e7d1d1; -fx-background-color: #792f2f;" text="Back" textAlignment="CENTER" textFill="#ebdfdf">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

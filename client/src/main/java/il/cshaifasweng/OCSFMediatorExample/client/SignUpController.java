@@ -8,6 +8,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -48,9 +49,28 @@ public class SignUpController {
     @FXML // fx:id="memberPerksAnchor"
     private AnchorPane memberPerksAnchor; // Value injected by FXMLLoader
 
+    @FXML // fx:id="backButton"
+    private Button backButton; // Value injected by FXMLLoader
+    
     @FXML
     void copyEmail(ActionEvent event) {
-    	newUserField.setText(emailField.getText());
+    	if (useEmailCheck.isSelected()) {
+    		newUserField.setText(emailField.getText());
+    		newUserField.setDisable(true);
+    	} else {
+    		newUserField.setDisable(false);
+    	}
+    }
+    
+
+    @FXML
+    void back(ActionEvent event) {
+		try {
+			App.setRoot("primary");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     @FXML

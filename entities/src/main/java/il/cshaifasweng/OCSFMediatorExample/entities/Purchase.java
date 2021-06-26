@@ -30,7 +30,7 @@ public class Purchase implements Serializable{
 	protected CasualBuyer customer;
 	
 	protected double cost;
-	
+	protected String transactionTime;
 	protected long creditCardNum;
 
 	public CasualBuyer getCustomer() {

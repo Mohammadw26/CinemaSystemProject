@@ -258,26 +258,31 @@ public class SeatChoosingController {
     	chosenSeats = "";
     	if ((hall.getCols()/2)*2 == (hall.getCols())) {
         	for (int k = 0 ; k < hall.getRows() ; k ++) {
-        		rowsGrid.getChildren().get(k).setVisible(true);
+        		//rowsGrid.getChildren().get(k).setVisible(true);
             	int i = 3 - hall.getCols()/2, j = 3 + hall.getCols()/2;
         		for (; i <= j && seatNum < hall.getSeatsNum() ; i ++) {
         			if (i != 3) {
         				if (gridSeats.getChildren().get(i + k*7).getStyle()
                         .equals("-fx-fill:#ff0000; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;")) {
-                    		chosenSeats += 'A'+ k;
+                    		chosenSeats += Character.toString((char) 65 + k);
+                        	if (i<3) {
+                        		chosenSeats += Integer.toString(i - (3 - (hall.getCols())/2) + 1) + " ";
+                       		}
+                       		if (i>3) {
+                       			chosenSeats += Integer.toString(i - (3 - (hall.getCols())/2)) + " ";
+                       		}
                     		if(confLabel.isVisible()) {
                         		screening.setTakenSeatAt(seatNum);
                         		temp[counter2]=seatNum;
-                        		temp2[counter2]="";
-                        		temp2[counter2]+='A'+ k;
+                        		temp2[counter2] = "" + Character.toString((char) 65 + k);
+                            	if (i<3) {
+                           			temp2[counter2]+= Integer.toString(i - (3 - (hall.getCols())/2) + 1);
+                           		}
+                           		if (i>3) {
+                       				temp2[counter2]+= Integer.toString(i - (3 - (hall.getCols())/2));
+                           		}
                         		counter2++;
-                        	}
-                    		if (i<3)
-                    			chosenSeats += Integer.toString(i - (3 - (hall.getCols()-1)/2) + 1) + "	";
-                    			temp2[counter2-1]+= Integer.toString(i - (3 - (hall.getCols()-1)/2) + 1);
-                    		if (i>3)
-                    			chosenSeats += Integer.toString(i - (3 - (hall.getCols()-1)/2)) + "	";
-                    			temp2[counter2]+= Integer.toString(i - (3 - (hall.getCols()-1)/2));
+                    		}
                     	}
         				seatNum++;
         			}
@@ -285,7 +290,6 @@ public class SeatChoosingController {
         	}
         } else {
         	for (int k = 0 ; k < hall.getRows() ; k ++) {
-        		rowsGrid.getChildren().get(k).setVisible(true);
             	int i = 3 - (hall.getCols()-1)/2, j = 3 + (hall.getCols()-1)/2;
         		for (; i <= j && seatNum < hall.getSeatsNum() ; i ++) {
         			if (gridSeats.getChildren().get(i + k*7).getStyle()

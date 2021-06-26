@@ -18,6 +18,16 @@ public class RentRequest implements Serializable{
 	private boolean newCustomerFlag;
 	private boolean signupFlag;
 	private OnDemandMovie movie;
+	private String transactionTime;
+	
+
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
+	}
 
 	public RentRequest() {}
 	
