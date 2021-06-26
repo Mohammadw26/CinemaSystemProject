@@ -170,6 +170,16 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#LogInFailed3")) {
+			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
+			try {
+				RentMovieController.setStatus(2);
+				App.setRoot("rentMovie");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		else if (msgString.startsWith("#LogInFailed")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {

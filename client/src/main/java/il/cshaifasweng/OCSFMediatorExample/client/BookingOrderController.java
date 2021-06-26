@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -86,9 +87,13 @@ public class BookingOrderController {
 
     @FXML // fx:id="oldUserField"
     private TextField oldUserField; // Value injected by FXMLLoader
+    
 
     @FXML // fx:id="oldPasswordField"
-    private TextField oldPasswordField; // Value injected by FXMLLoader
+    private PasswordField oldPasswordField; // Value injected by FXMLLoader
+
+    //@FXML // fx:id="oldPasswordField"
+    //private TextField oldPasswordField; // Value injected by FXMLLoader
 
     @FXML // fx:id="logInButton"
     private Button logInButton; // Value injected by FXMLLoader
@@ -119,6 +124,9 @@ public class BookingOrderController {
     
     @FXML // fx:id="costInfo"
     private Label costInfo; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="invalidLogin"
+    private Label invalidLogin; // Value injected by FXMLLoader
     
     @FXML
     void buypackage(ActionEvent event) {
@@ -240,7 +248,12 @@ public class BookingOrderController {
 
     @FXML
     void copyEmail(ActionEvent event) {
-    	newUserField.setText(emailField.getText());
+    	if (useEmailCheck.isSelected()) {
+    		newUserField.setText(emailField.getText());
+        	newUserField.setDisable(true);
+    	} else {
+    		newUserField.setDisable(false);
+    	}
     }
 
     @FXML
@@ -259,6 +272,7 @@ public class BookingOrderController {
     			idField.setText(String.valueOf(member.getCustomerId()));
     			emailField.setText(member.getElectronicMail());
     			cardField.setText(String.valueOf(member.getCreditNum()));
+    			loginAnchor.setVisible(false);
     			String temp = "\nCost:\n" + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "\n- ";
     			if (DisplayListController.getMember().getTicketsCredit()>request.getArrSize()) {
     				temp += screening.getMovie().getTicketCost() + " X " + request.getArrSize() + " (" + request.getArrSize()+ "/" +DisplayListController.getMember().getTicketsCredit() + " tickets will be used)";
@@ -271,6 +285,8 @@ public class BookingOrderController {
     				temp += "\n-------------------\nTotal: +" + temp2*screening.getMovie().getTicketCost() + " NIS";
     				costInfo.setText(temp);
     			}
+    		} else {
+    			invalidLogin.setVisible(true);
     		}
     	} else if (oldUserField.getText()!= "" && oldPasswordField.getText()!= "") {
         	LogInRequest newRequest = new LogInRequest(oldUserField.getText(),oldPasswordField.getText());
@@ -296,6 +312,7 @@ public class BookingOrderController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	logOutButton.setVisible(false);
     	loginAnchorLabel1.setText("Already a member of the Sirtya?");
     	loginAnchorLabel2.setText("Sign in and we'll fill the rest of your info on your behalf.");
         screening = request.getScreening();
@@ -313,6 +330,7 @@ public class BookingOrderController {
 		temp = "\nCost:\n" + screening.getMovie().getTicketCost() + " X " + request.getArrSize() + "\n-------------------\nTotal: +" + screening.getMovie().getTicketCost()*request.getArrSize() + " NIS";
 		costInfo.setText(temp);
 		if (DisplayListController.getMember()!=null && status == 0) {
+			logOutButton.setVisible(true);
 			CinemaMember member = DisplayListController.getMember();
 	    	loginAnchorLabel1.setText("You are already logged in as: " + member.getFirstName() + " " + member.getLastName());
 	    	loginAnchorLabel2.setText("please enter you password to confirm it's you");
@@ -326,6 +344,7 @@ public class BookingOrderController {
 			oldUserField.setText(member.getUsername());
 			oldUserField.setDisable(true);
 			logInButton.setText("Confirm");
+			
 		} else if (DisplayListController.getMember()!=null && status == 1) {
 			packageCheck.setDisable(false);
 			CinemaMember member = DisplayListController.getMember();
@@ -353,6 +372,9 @@ public class BookingOrderController {
 				costInfo.setText(temp);
 			}
 			//+ "\n-------------------\n" + screening.getMovie().getTicketCost()*request.getArrSize() + " NIS";
+		} else if (status == 2) {
+			invalidLogin.setVisible(true);
+			status = 0;
 		}
     }
 }

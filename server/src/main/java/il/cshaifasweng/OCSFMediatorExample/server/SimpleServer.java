@@ -4,6 +4,8 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -211,14 +213,12 @@ public class SimpleServer extends AbstractServer {
 					}
 				}
 			}
-			else {
-				if(msg.toString().equals("#LoginRequestWhileBooking")) {
-					client.sendToClient(new Message("#LogInFailed2",object));
-				} else if(msg.toString().equals("#LoginRequestWhileRenting")) {
-					client.sendToClient(new Message("#LogInFailed3",object));
-				} else {
-					client.sendToClient(new Message("#LogInFailed",object));
-				}
+			if(msg.toString().equals("#LoginRequestWhileBooking")) {
+				client.sendToClient(new Message("#LogInFailed2",object));
+			} else if(msg.toString().equals("#LoginRequestWhileRenting")) {
+				client.sendToClient(new Message("#LogInFailed3",object));
+			} else {
+				client.sendToClient(new Message("#LogInFailed",object));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -378,6 +378,8 @@ public class SimpleServer extends AbstractServer {
 	}
 	
 	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm:ss");
+		String transactionTime = formatter.format(LocalDateTime.now());
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
@@ -386,7 +388,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i ++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost(),transactionTime);
 				session.save(newTicket);
 				session.flush();
 			}
@@ -394,6 +396,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			session.getTransaction().commit();
 			try {
+				request.setTransactionTime(transactionTime);
 				client.sendToClient(new Message("#BookedNonMember",request));
 				SendEmail(request);
 			}catch(IOException e) {
@@ -411,20 +414,20 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			if (request.isBuyPack()) {
 				newCus.setTicketsCredit(20);
-				TabPurchase newTab = new TabPurchase (request.getCardNum(), newCus);
+				TabPurchase newTab = new TabPurchase (request.getCardNum(), newCus,transactionTime);
 				session.save(newTab);
 				session.flush();
 			}
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i ++) {
 				if (request.getUsePack()>0 && newCus.getTicketsCredit() > 0) {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], 0);
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], 0,transactionTime);
 					request.setUsePack(request.getUsePack()-1);
 					newCus.setTicketsCredit(newCus.getTicketsCredit()-1);
 					session.save(newTicket);
 					session.flush();
 				}else {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost());
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost(),transactionTime);
 					session.save(newTicket);
 					session.flush();
 				}
@@ -452,20 +455,20 @@ public class SimpleServer extends AbstractServer {
 						if(member.getPassword().equals(request.getPassword())) {
 							if (request.isBuyPack()) {
 								member.setTicketsCredit(member.getTicketsCredit()+20);
-								TabPurchase newTab = new TabPurchase (request.getCardNum(), member);
+								TabPurchase newTab = new TabPurchase (request.getCardNum(), member, transactionTime);
 								session.save(newTab);
 								session.flush();
 							}
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i ++) {
 								if (request.getUsePack()>0 && member.getTicketsCredit() > 0) {
-									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], 0);
+									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], 0,transactionTime);
 									request.setUsePack(request.getUsePack()-1);
 									member.setTicketsCredit(member.getTicketsCredit()-1);
 									session.save(newTicket);
 									session.flush();
 								}else {
-									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost());
+									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost(),transactionTime);
 									session.save(newTicket);
 									session.flush();
 								}
@@ -493,7 +496,7 @@ public class SimpleServer extends AbstractServer {
 		for (int i = 0; i < request2.getArrSize(); i++) {
 			temp += request2.getSeatIds()[i] + " ";
 		}
-		temp += ("\n"+request.getCheck());
+		temp += ("\n"+request.getCheck() + "\nTransactionTime: " + request.getTransactionTime());
 		
 		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order" ,temp );
 	}
@@ -502,19 +505,22 @@ public class SimpleServer extends AbstractServer {
 		 String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
 	        		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
 	        		+ "\nMovie: " + request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
-				temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\n\nYou can start watching the movie you ordered on the following link, Enjoy!\n" + request.getMovie().getStreamingLink());
+				temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:" + request.getTransactionTime() + "\n\nYou can start watching the movie you ordered on the following link, Enjoy!\n" + request.getMovie().getStreamingLink());
 		
-		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order" ,temp );
+		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment" ,temp );
 	}
 	
 	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'at' HH:mm:ss");
+		String transactionTime = formatter.format(LocalDateTime.now());
+		request.setTransactionTime(transactionTime);
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 			CasualBuyer newCus = new CasualBuyer(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail());
 			session.save(newCus);
 			session.flush();
-			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum(),transactionTime);
 			session.save(newRent);
 			session.save(newCus);
 			session.flush();
@@ -535,7 +541,7 @@ public class SimpleServer extends AbstractServer {
 			CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
 			session.save(newCus);
 			session.flush();
-			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum(),transactionTime);
 			session.save(newRent);
 			session.save(newCus);
 			session.flush();
@@ -558,7 +564,7 @@ public class SimpleServer extends AbstractServer {
 				for(CinemaMember member: membersList) {
 					if(member.getUsername().equals(request.getUsername())) {
 						if(member.getPassword().equals(request.getPassword())) {
-							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum());
+							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(), request.getMovie().getStreamingLink(),request.getCardNum(),transactionTime);
 							session.save(newRent);
 							session.save(member);
 							session.flush();
@@ -697,7 +703,28 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 		
 		Hall hall1 = new Hall(4,5,18, "1");
+		Hall hall2 = new Hall(5,5,25, "2");
+		Hall hall3 = new Hall(6,6,36, "3");
+		Hall hall4 = new Hall(5,6,28, "4");
+		Hall hall5 = new Hall(3,6,18, "1");
+		Hall hall6 = new Hall(6,5,30, "2");
+		Hall hall7 = new Hall(5,5,23, "3");
+		Hall hall8 = new Hall(5,4,20, "1");
+		Hall hall9 = new Hall(4,5,18, "2");
+		Hall hall10 = new Hall(5,5,23, "3");
+		Hall hall11 = new Hall(4,4,16, "4");
 		session.save(hall1);
+		session.save(hall2);
+		session.save(hall3);
+		session.save(hall4);
+		session.save(hall5);
+		session.save(hall6);
+		session.save(hall7);
+		session.save(hall8);
+		session.save(hall9);
+		session.save(hall10);
+		session.save(hall11);
+		
 		session.flush();
 		CinemaMovie movie1 = new CinemaMovie("Haunt","רדוף", "Eli Roth", "Katie Stevens",
 				"On Halloween, a group of friends encounter an extreme haunted house that promises to feed on their darkest fears. The night turns deadly as they come to the horrifying realization that some nightmares are real.",
@@ -768,10 +795,18 @@ public class SimpleServer extends AbstractServer {
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
 		branch1.addHall(hall1);
+		branch1.addHall(hall2);
+		branch1.addHall(hall3);
+		branch1.addHall(hall4);
 		SirtyaBranch branch2 = new SirtyaBranch("Riverdale 29, Falador");
-		branch2.addHall(hall1);
+		branch2.addHall(hall5);
+		branch1.addHall(hall6);
+		branch1.addHall(hall7);
 		SirtyaBranch branch3 = new SirtyaBranch("Wa7awee7 117, Lumbrige");
-		branch3.addHall(hall1);
+		branch3.addHall(hall8);
+		branch1.addHall(hall9);
+		branch1.addHall(hall10);
+		branch1.addHall(hall11);
 		session.save(branch1);
 		session.save(branch2);
 		session.save(branch3);
@@ -799,15 +834,15 @@ public class SimpleServer extends AbstractServer {
 		Screening screening_9 = new Screening("03/06/2021", "19:00", movie7, branch1);
 		Screening screening_10 = new Screening("05/06/2021", "17:00", movie7, branch2);
 		screening_1.setHall(hall1);
-		screening_2.setHall(hall1);
-		screening_3.setHall(hall1);
-		screening_4.setHall(hall1);
-		screening_5.setHall(hall1);
-		screening_6.setHall(hall1);
-		screening_7.setHall(hall1);
-		screening_8.setHall(hall1);
-		screening_9.setHall(hall1);
-		screening_10.setHall(hall1);
+		screening_2.setHall(hall5);
+		screening_3.setHall(hall2);
+		screening_4.setHall(hall6);
+		screening_5.setHall(hall3);
+		screening_6.setHall(hall11);
+		screening_7.setHall(hall3);
+		screening_8.setHall(hall10);
+		screening_9.setHall(hall4);
+		screening_10.setHall(hall6);
 		session.save(screening_1);
 		session.save(screening_2);
 		session.save(screening_3);
@@ -827,9 +862,9 @@ public class SimpleServer extends AbstractServer {
 		worker_1.setWorkerName("Mohammad Wattad");
 		worker_1.setWorkerPassword("wa7wa7");
 		
-		CinemaMember worker_2 = new CinemaMember("Jerry","Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com", "Jerry98", "wa7wa7");
+		CinemaMember client_1 = new CinemaMember("Jerry","Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com", "Jerry98", "wa7wa7");
 		session.save(worker_1);
-		session.save(worker_2);
+		session.save(client_1);
 		session.flush();
 		session.getTransaction().commit();
 

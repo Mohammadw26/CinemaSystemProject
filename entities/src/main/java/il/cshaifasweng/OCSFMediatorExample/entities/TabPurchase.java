@@ -16,9 +16,10 @@ public class TabPurchase extends Purchase {
 		this.cost = 600;
 	}
 	
-	public TabPurchase(long cridNum, CinemaMember member) {
+	public TabPurchase(long cridNum, CinemaMember member, String transactionTime) {
 		this.cost = 600;
 		this.creditCardNum = cridNum;
 		this.customer = member;
+		this.transactionTime = transactionTime;
 	}
 }

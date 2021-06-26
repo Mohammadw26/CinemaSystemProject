@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -83,7 +84,7 @@ public class RentMovieController {
     private TextField oldUserField; // Value injected by FXMLLoader
 
     @FXML // fx:id="oldPasswordField"
-    private TextField oldPasswordField; // Value injected by FXMLLoader
+    private PasswordField oldPasswordField; // Value injected by FXMLLoader
 
     @FXML // fx:id="logInButton"
     private Button logInButton; // Value injected by FXMLLoader
@@ -108,6 +109,9 @@ public class RentMovieController {
 
     @FXML // fx:id="logOutButton"
     private Button logOutButton; // Value injected by FXMLLoader
+    
+    @FXML
+    private Label invalidLogin;
     
     
     public static OnDemandMovie getMovie() {
@@ -177,7 +181,12 @@ public class RentMovieController {
 
     @FXML
     void copyEmail(ActionEvent event) {
-    	newUserField.setText(emailField.getText());
+    	if (useEmailCheck.isSelected()) {
+    		newUserField.setText(emailField.getText());
+        	newUserField.setDisable(true);
+    	} else {
+    		newUserField.setDisable(false);
+    	}
     }
 
     @FXML
@@ -195,6 +204,9 @@ public class RentMovieController {
     			idField.setText(String.valueOf(member.getCustomerId()));
     			emailField.setText(member.getElectronicMail());
     			cardField.setText(String.valueOf(member.getCreditNum()));
+    			status = 1;
+    		} else {
+    			invalidLogin.setVisible(true);
     		}
     	} else if (oldUserField.getText()!= "" && oldPasswordField.getText()!= "") {
         	LogInRequest newRequest = new LogInRequest(oldUserField.getText(),oldPasswordField.getText());
@@ -218,6 +230,7 @@ public class RentMovieController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	logOutButton.setVisible(false);
     	loginAnchorLabel1.setText("Already a member of the Sirtya?");
     	loginAnchorLabel2.setText("Sign in and we'll fill the rest of your info on your behalf.");
         Image image = new Image(movie.getImage().getImgURL());
@@ -227,6 +240,7 @@ public class RentMovieController {
 		+ "\nCost for 24 hours Rent: " + movie.getCost() + " NIS";
 		movieInfo.setText(temp);
 		if (DisplayListController.getMember()!=null && status == 0) {
+			logOutButton.setVisible(true);
 			CinemaMember member = DisplayListController.getMember();
 	    	loginAnchorLabel1.setText("You are already logged in as: " + member.getFirstName() + " " + member.getLastName());
 	    	loginAnchorLabel2.setText("please enter you password to confirm it's you");
@@ -250,6 +264,9 @@ public class RentMovieController {
 			signUpCheck.setVisible(false);
 			memberPerksAnchor.setVisible(false);
 			loginAnchor.setVisible(false);
+			status = 0;
+		} else if (status == 2) {
+			invalidLogin.setVisible(true);
 			status = 0;
 		}
     }

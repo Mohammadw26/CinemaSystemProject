@@ -66,7 +66,7 @@ public class BookingSummaryController {
 			for (int i = 0; i < request2.getArrSize(); i++) {
 				temp += request2.getSeatIds()[i] + " ";
 			}
-			temp += ("\n"+request.getCheck());
+			temp += ("\n"+request.getCheck() + "\nTransactionTime: " + request.getTransactionTime() );
 			summray.setText(temp);
     }
 }

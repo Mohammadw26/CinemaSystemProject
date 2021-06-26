@@ -22,6 +22,17 @@ public class FullOrderRequest implements Serializable{
 	private boolean buyPack;
 	private int usePack;
 	private String check;
+	private String transactionTime;
+	
+	
+
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
+	}
 
 	public FullOrderRequest() {
 		this.buyPack = false;

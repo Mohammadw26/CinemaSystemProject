@@ -22,12 +22,13 @@ public class Ticket extends Purchase {
 	
 	public Ticket() {}
 	
-	public Ticket(Screening screening, CasualBuyer user, String seatID, double cost) {
+	public Ticket(Screening screening, CasualBuyer user, String seatID, double cost, String transactionTime) {
 	this.screening = screening;
 	this.customer = user;
 	this.seat = seatID;
 	this.customer.addTicket(this);
 	this.cost = cost;
+	this.transactionTime = transactionTime;
 	}
 	
 	public Screening getScreening() {
