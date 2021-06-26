@@ -20,8 +20,7 @@ public class CinemaMovie extends Movie {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
 	private List<Screening> screenings;
 
-	CinemaMovie() {
-	}
+	public CinemaMovie() {}
 	
 	public CinemaMovie (String title,String titleHeb, String producer, String actors, String description, double cost, Image image) {
 		this.movieTitle = title;
