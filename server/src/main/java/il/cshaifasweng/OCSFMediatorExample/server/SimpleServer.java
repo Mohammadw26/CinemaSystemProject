@@ -421,6 +421,7 @@ public class SimpleServer extends AbstractServer {
 	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm:ss");
 		String transactionTime = formatter.format(LocalDateTime.now());
+		
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
@@ -433,6 +434,16 @@ public class SimpleServer extends AbstractServer {
 				session.save(newTicket);
 				session.flush();
 			}
+			moviesList = getAll(CinemaMovie.class);
+			for(CinemaMovie movie : moviesList) {
+				if(temp.getScreening().getMovie().getId() == movie.getId()) {
+					movie.setTicketsSold(temp.getArrSize());
+					movie.calcMovieIncome();
+					session.save(movie);
+					session.flush();
+				}
+			}
+			
 			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();

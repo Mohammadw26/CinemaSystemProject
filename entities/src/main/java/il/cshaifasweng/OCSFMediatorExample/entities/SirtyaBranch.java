@@ -28,6 +28,11 @@ public class SirtyaBranch implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	String address;
+	private double totalTicketsIncome;
+	private int totalTicketsSold;
+	private double totalLinksIncome;
+	private int totalLinksSold;
+	
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = Movie.class)
 	@JoinTable(name = "branches_movies", joinColumns = @JoinColumn(name = "branch_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
@@ -47,6 +52,10 @@ public class SirtyaBranch implements Serializable{
 		this.movies = new ArrayList<Movie>();
 		this.screenings = new ArrayList<Screening>();
 		this.halls = new ArrayList<Hall>();
+		this.setTotalLinksIncome(0.0);
+		this.setTotalLinksSold(0);
+		this.setTotalTicketsIncome(0.0);
+		this.setTotalTicketsSold(0);
 	}
 
 	public int getId() {
@@ -85,4 +94,47 @@ public class SirtyaBranch implements Serializable{
 	public void setScreenings(List<Screening> screenings) {
 		this.screenings = screenings;
 	}
+
+
+	public double getTotalTicketsIncome() {
+		return totalTicketsIncome;
+	}
+
+
+	public void setTotalTicketsIncome(double totalTicketsIncome) {
+		this.totalTicketsIncome = totalTicketsIncome;
+	}
+
+
+	public int getTotalTicketsSold() {
+		return totalTicketsSold;
+	}
+
+
+	public void setTotalTicketsSold(int totalTicketsSold) {
+		this.totalTicketsSold = totalTicketsSold;
+	}
+
+
+	public double getTotalLinksIncome() {
+		return totalLinksIncome;
+	}
+
+
+	public void setTotalLinksIncome(double totalLinksIncome) {
+		this.totalLinksIncome = totalLinksIncome;
+	}
+
+
+	public int getTotalLinksSold() {
+		return totalLinksSold;
+	}
+
+
+	public void setTotalLinksSold(int totalLinksSold) {
+		this.totalLinksSold = totalLinksSold;
+	}
+
+
+	
 }

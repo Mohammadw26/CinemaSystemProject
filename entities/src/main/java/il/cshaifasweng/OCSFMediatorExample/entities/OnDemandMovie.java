@@ -14,6 +14,8 @@ public class OnDemandMovie extends Movie {
 	private static final long serialVersionUID = 1L;
 	private double costPer24h;
 	private String streamingLink;
+	private int ticketsSold;
+	private double movieIncome;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
 	private List<Rent> rents;
@@ -45,7 +47,26 @@ public class OnDemandMovie extends Movie {
 	public void setStreamingLink(String streamingLink) {
 		this.streamingLink = streamingLink;
 	}
+
+	public int getTicketsSold() {
+		return ticketsSold;
+	}
+
+	public void setTicketsSold(int ticketsSold) {
+		this.ticketsSold = ticketsSold;
+	}
+
+	public double getMovieIncome() {
+		return movieIncome;
+	}
+
+	public void setMovieIncome(double movieIncome) {
+		this.movieIncome = movieIncome;
+	}
 	
+	public double calcMovieIncome() {
+		return this.getCost() * this.getTicketsSold();
+	}
 	
 	
 }
