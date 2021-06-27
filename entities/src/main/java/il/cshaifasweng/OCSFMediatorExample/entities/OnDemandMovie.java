@@ -18,6 +18,7 @@ public class OnDemandMovie extends Movie {
 	private double movieIncome;
 	
 	
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
 	private List<Rent> rents;
 	

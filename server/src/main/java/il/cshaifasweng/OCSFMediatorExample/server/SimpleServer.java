@@ -447,6 +447,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();
+			
 			try {
 				request.setTransactionTime(transactionTime);
 				client.sendToClient(new Message("#BookedNonMember",request));

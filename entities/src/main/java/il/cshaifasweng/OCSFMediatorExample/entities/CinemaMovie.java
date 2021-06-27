@@ -19,6 +19,7 @@ public class CinemaMovie extends Movie {
 	private int ticketsSold;
 	private double movieIncome;
 	
+	
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
 	private List<Screening> screenings;
