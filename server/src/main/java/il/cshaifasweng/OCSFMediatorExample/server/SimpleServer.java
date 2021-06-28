@@ -1018,6 +1018,7 @@ public class SimpleServer extends AbstractServer {
 		
 		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"Jerry98", "wa7wa7");
+		
 		session.save(worker_2);
 		session.save(worker_1);
 		session.save(client_1);
