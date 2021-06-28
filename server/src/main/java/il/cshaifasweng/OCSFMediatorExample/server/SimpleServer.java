@@ -58,6 +58,7 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
+	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// movieList.setMoviesList(getAll(Movie.class));
