@@ -39,6 +39,23 @@ public class CinemaMovie extends Movie {
 		setTicketsSold(0);
 		setMovieIncome(0.0);
 	}
+	
+	public CinemaMovie (int id,String title,String titleHeb, String producer, String actors, String description, double cost, Image image) {
+		this.id = id;
+		this.movieTitle = title;
+		this.movieTitleHeb = titleHeb;
+		this.movieProducer = producer;
+		this.starringActors = actors;
+		this.movieDescription = description;
+		this.ticketCost = cost;
+		this.setImage(image);
+		this.screenings = new ArrayList<Screening>();
+		this.sirtyaBranch = new ArrayList<SirtyaBranch>();
+		setTicketsSold(0);
+		setMovieIncome(0.0);
+	}
+	
+
 
 	public double getTicketCost() {
 		return ticketCost;

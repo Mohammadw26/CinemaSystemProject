@@ -61,6 +61,7 @@ public class BookingSummaryController {
         String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
         		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
         		+ "\nMovie: " + request2.getScreening().getMovie().getMovieTitle() + " - " + request2.getScreening().getMovie().getMovieTitleHeb()
+        		+ "\nBranch: " + request2.getScreening().getBranch().getAddress()
         		+"\nScreening Time: " + request2.getScreening().getScreeningDate() + " , " + request2.getScreening().getScreeningTime()
         		+"\nNumber Of Seats: " + request2.getArrSize() + "\nSeats IDs: ");
 			for (int i = 0; i < request2.getArrSize(); i++) {

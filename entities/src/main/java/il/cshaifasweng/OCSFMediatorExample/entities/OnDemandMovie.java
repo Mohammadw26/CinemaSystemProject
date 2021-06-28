@@ -33,6 +33,17 @@ public class OnDemandMovie extends Movie {
 		this.costPer24h = cost;
 		this.setImage(image);
 	}
+	
+	public OnDemandMovie (int id,String title,String titleHeb, String producer, String actors, String description, double cost, Image image) {
+		this.id = id;
+		this.movieTitle = title;
+		this.movieTitleHeb = titleHeb;
+		this.movieProducer = producer;
+		this.starringActors = actors;
+		this.movieDescription = description;
+		this.costPer24h = cost;
+		this.setImage(image);
+	}
 
 	public double getCost() {
 		return costPer24h;
