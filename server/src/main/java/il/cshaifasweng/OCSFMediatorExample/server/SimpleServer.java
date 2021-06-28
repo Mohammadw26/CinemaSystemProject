@@ -58,6 +58,7 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
+	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// movieList.setMoviesList(getAll(Movie.class));
@@ -1008,9 +1009,18 @@ public class SimpleServer extends AbstractServer {
 		worker_1.setWorkerID("206794018");
 		worker_1.setWorkerName("Mohammad Wattad");
 		worker_1.setWorkerPassword("wa7wa7");
-
+		
+		Worker worker_2 = new GeneralManager();
+		worker_2.setWokerUsername("Jerryaa1");
+		worker_2.setWorkerEmail("jerryabuayob@gmail.com");
+		worker_2.setWorkerID("318156171");
+		worker_2.setWorkerName("Jerry Manager account");
+		worker_2.setWorkerPassword("wa7wa7");
+		
 		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"Jerry98", "wa7wa7");
+		
+		session.save(worker_2);
 		session.save(worker_1);
 		session.save(client_1);
 		session.flush();
