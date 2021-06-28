@@ -20,7 +20,7 @@
       <ImageView fx:id="imageField" fitHeight="175.0" fitWidth="142.0" layoutX="3.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
       <HBox layoutX="240.0" layoutY="159.0" spacing="5.0">
          <children>
-            <FontAwesomeIconView fx:id="deleteBtn" fill="RED" glyphName="TRASH" size="25" text="" textAlignment="CENTER" visible="false" wrappingWidth="30.0" />
+            <FontAwesomeIconView fx:id="deleteBtn" fill="RED" glyphName="TRASH" onMouseClicked="#deleteCurrentMovie" size="25" text="" textAlignment="CENTER" visible="false" wrappingWidth="30.0" />
             <FontAwesomeIconView fx:id="editBtn" fill="WHITE" glyphName="EDIT" onMouseClicked="#uploadEditScreening" size="25" text="" textAlignment="CENTER" visible="false" wrappingWidth="30.0" />
             <FontAwesomeIconView fx:id="addToCartBtn" fill="WHITE" glyphName="SHOPPING_CART" onMouseClicked="#chooseSeating" size="25" textAlignment="CENTER" wrappingWidth="30.0" />
          </children>

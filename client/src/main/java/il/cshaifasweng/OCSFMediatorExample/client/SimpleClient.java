@@ -189,6 +189,15 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if(msgString.startsWith("#RefreshMovieDelete")) {
+			System.out.println("At RefreshDeleteMovie\n");
+			try {
+				SimpleClient.getClient().sendToServer("#CatalogRequest");
+		    	} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 			
 			

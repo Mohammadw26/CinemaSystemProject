@@ -126,9 +126,9 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	void ApplyChanges(ActionEvent event) {
-		LocalDate newDate = datePick.getValue();
-		String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		if (optionField.getValue() == "Edit screening") {
+			LocalDate newDate = datePick.getValue();
+			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			request.setScrnID(Integer.parseInt(idField.getText()));
 			request.setDate(formattedDate);
@@ -156,6 +156,8 @@ public class EditMovieScreeningsController {
 			
 		}
 		else if(optionField.getValue() == "Add screening" ){
+			LocalDate newDate = datePick.getValue();
+			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			String temp = datePick.getEditor().getText();
 			request.setDate(formattedDate);

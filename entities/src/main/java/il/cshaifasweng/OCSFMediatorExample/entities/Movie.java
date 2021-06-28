@@ -26,7 +26,7 @@ public class Movie implements Serializable {
 	private static final long serialVersionUID = 6631717836650221159L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	public int id;
 	protected String movieTitle;
 	protected String movieTitleHeb;
 	protected String movieProducer;

@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import javafx.event.ActionEvent;
@@ -197,6 +198,39 @@ public class DisplayMovieDataController {
 			e.printStackTrace();
 		}
 	}
+	
+    @FXML
+    void deleteCurrentMovie(MouseEvent event) {
+    	System.out.println("At MovieDataController\n");
+
+    	if (typeIndex == 1) {
+    		CinemaMovie request = new CinemaMovie (movie.getId(),movie.getMovieTitle(),movie.getMovieTitleHeb(),movie.getMovieProducer(),movie.getStarringActors(),movie.getMovieDescription(),0.0, movie.getImage());
+	    	try {
+	    		SimpleClient.getClient().sendToServer(new Message("#DeleteMovieRegular",request));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	else if(typeIndex == 2) {
+    		OnDemandMovie request = new OnDemandMovie (movie.getId(),movie.getMovieTitle(),movie.getMovieTitleHeb(),movie.getMovieProducer(),movie.getStarringActors(),movie.getMovieDescription(),0.0, movie.getImage());
+				try {
+					SimpleClient.getClient().sendToServer(new Message("#DeleteMovieDemand", request));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    	}
+    	else if(typeIndex == 3) {
+    		ComingSoonMovie request = new ComingSoonMovie (movie.getId(),movie.getMovieTitle(),movie.getMovieTitleHeb(),movie.getMovieProducer(),movie.getStarringActors(),movie.getMovieDescription(), movie.getImage());
+    		try {
+				SimpleClient.getClient().sendToServer(new Message("#DeleteMovieComingSoon", request));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
 	
     @FXML
     void chooseSeating(MouseEvent event) {
