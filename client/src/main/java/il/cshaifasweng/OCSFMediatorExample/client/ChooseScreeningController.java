@@ -136,7 +136,7 @@ public class ChooseScreeningController {
     	coronaCombo.setVisible(false);
     	coronaLabel.setVisible(false);
     	restrictions = TavSagoal.getTavSagoal();
-    	TavSagoal.setEffective(true);
+    	TavSagoal.setEffective(false);
     	TavSagoal.setY(20);
     	
     	

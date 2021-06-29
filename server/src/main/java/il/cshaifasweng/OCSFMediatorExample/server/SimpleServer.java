@@ -446,6 +446,7 @@ public class SimpleServer extends AbstractServer {
 					scrn.setTakenSeatAt(request.getSeats()[i]);
 				}
 				scrn.setAvailableSeats(scrn.getAvailableSeats() - request.getArrSize());
+				scrn.setSoldSeats(scrn.getSoldSeats() + request.getArrSize());
 				session.save(scrn);
 				session.flush();
 				session.getTransaction().commit();
@@ -480,6 +481,7 @@ public class SimpleServer extends AbstractServer {
 					scrn.setAvailableSeatAt(request.getSeats()[i]);
 				}
 				scrn.setAvailableSeats(scrn.getAvailableSeats() + request.getArrSize());
+				scrn.setSoldSeats(scrn.getSoldSeats() - request.getArrSize());
 				session.save(scrn);
 				session.flush();
 				session.getTransaction().commit();
@@ -519,47 +521,34 @@ public class SimpleServer extends AbstractServer {
 	private void finishOrder(FullOrderRequest request, ConnectionToClient client) throws Exception {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm:ss");
 		String transactionTime = formatter.format(LocalDateTime.now());
+		request.setTransactionTime(transactionTime);
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		List<Screening> tempList = getAll(Screening.class);
+		for (Screening tempScrn : tempList) {
+			if (tempScrn.getId()==request.getRequest().getScreening().getId()) {
+				request.getRequest().setScreening(tempScrn);
+			}
+		}
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			moviesList = getAll(CinemaMovie.class);
-			branchesList = getAll(SirtyaBranch.class);
-			CasualBuyer newCus = new CasualBuyer(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail());
+			CasualBuyer newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
+					request.getCardNum(), request.getEmail());
 			session.save(newCus);
 			session.flush();
 			BookingRequest temp = request.getRequest();
-			for (int i = 0; i < temp.getArrSize(); i ++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost(),transactionTime);
+			for (int i = 0; i < temp.getArrSize(); i++) {
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(), request.getCardNum(),transactionTime);
+				session.save(temp.getScreening());
 				session.save(newTicket);
 				session.flush();
 			}
-			
-			for(CinemaMovie movie : moviesList) {
-				if(temp.getScreening().getMovie().getId() == movie.getId()) {
-					movie.setTicketsSold(temp.getArrSize() + movie.getTicketsSold());
-					movie.calcMovieIncome();
-					session.save(movie);
-					session.flush();
-					for(SirtyaBranch branch : branchesList) {
-						if(temp.getScreening().getBranch().getId() == branch.getId()) {
-							branch.setTotalTicketsSold(branch.getTotalTicketsSold()+ temp.getArrSize());
-							branch.setTotalTicketsIncome(branch.getTotalTicketsIncome() + temp.getArrSize()*movie.getTicketCost());
-							session.save(branch);
-							session.flush();
-						}
-					
-					}
-				}
-			}
-			
 			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();
 			try {
-				request.setTransactionTime(transactionTime);
-				client.sendToClient(new Message("#BookedNonMember",request));
+				client.sendToClient(new Message("#BookedNonMember", request));
 				SendEmail(request);
-			}catch(IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -567,57 +556,28 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		} else if (request.isNewCustomerFlag() && request.isSignupFlag()) {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			moviesList = getAll(CinemaMovie.class);
-			branchesList = getAll(SirtyaBranch.class);
-			CinemaMember newCus = new CinemaMember(request.getFirstName(),request.getLastName(),request.getCustomerID(),request.getCardNum(),request.getEmail(), request.getUsername(), request.getPassword());
+			CinemaMember newCus = new CinemaMember(request.getFirstName(), request.getLastName(),
+					request.getCustomerID(), request.getCardNum(), request.getEmail(), request.getUsername(),
+					request.getPassword());
 			session.save(newCus);
 			session.flush();
 			if (request.isBuyPack()) {
 				newCus.setTicketsCredit(20);
-				TabPurchase newTab = new TabPurchase (request.getCardNum(), newCus,transactionTime);
-				TabPurchase.tabNum = TabPurchase.tabNum + 1;
-				TabPurchase.tabTotalIncome = TabPurchase.tabTotalIncome + 600;
+				TabPurchase newTab = new TabPurchase(request.getCardNum(), newCus, transactionTime);
 				session.save(newTab);
 				session.flush();
-				
 			}
 			BookingRequest temp = request.getRequest();
-			for (int i = 0; i < temp.getArrSize(); i ++) {
-				if (request.getUsePack()>0 && newCus.getTicketsCredit() > 0) {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], 0,transactionTime);
-					request.setUsePack(request.getUsePack()-1);
-					newCus.setTicketsCredit(newCus.getTicketsCredit()-1);
-					for(SirtyaBranch branch : branchesList) {
-						if(temp.getScreening().getBranch().getId() == branch.getId()) {
-							branch.setTotalTabTicketsSold(branch.getTotalTabTicketsSold()+1);
-							session.save(branch);
-							session.flush();
-						}
-					
-					}
+			for (int i = 0; i < temp.getArrSize(); i++) {
+				if (request.getUsePack() > 0 && newCus.getTicketsCredit() > 0) {
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], 0, request.getCardNum(),transactionTime);
+					request.setUsePack(request.getUsePack() - 1);
+					newCus.setTicketsCredit(newCus.getTicketsCredit() - 1);
 					session.save(newTicket);
 					session.flush();
-				}else {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus , temp.getSeatIds()[i], temp.getCost(),transactionTime);
-					for(CinemaMovie movie : moviesList) {
-						if(temp.getScreening().getMovie().getId() == movie.getId()) {
-							movie.setTicketsSold(movie.getTicketsSold()+1);
-							movie.calcMovieIncome();
-							session.save(movie);
-							session.flush();
-							for(SirtyaBranch branch : branchesList) {
-								if(temp.getScreening().getBranch().getId() == branch.getId()) {
-									branch.setTotalTicketsSold(1 + branch.getTotalTicketsSold());
-									branch.setTotalTicketsIncome(branch.getTotalTicketsIncome() + movie.getTicketCost());
-									session.save(branch);
-									session.flush();
-								}
-							
-							}
-						}
-					}
+				} else {
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),request.getCardNum(),transactionTime);
+					session.save(temp.getScreening());
 					session.save(newTicket);
 					session.flush();
 				}
@@ -628,7 +588,7 @@ public class SimpleServer extends AbstractServer {
 			try {
 				client.sendToClient(new Message("#BookedMember", request, newCus));
 				SendEmail(request);
-			}catch(IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -636,59 +596,29 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		} else {
-			session = sessionFactory.openSession();
-			session.beginTransaction();
-			moviesList = getAll(CinemaMovie.class);
-			branchesList = getAll(SirtyaBranch.class);
 			List<CinemaMember> membersList = getAll(CinemaMember.class);
 			if (!membersList.isEmpty()) {
-				for(CinemaMember member: membersList) {
-					if(member.getUsername().equals(request.getUsername())) {
-						if(member.getPassword().equals(request.getPassword())) {
+				for (CinemaMember member : membersList) {
+					if (member.getUsername().equals(request.getUsername())) {
+						if (member.getPassword().equals(request.getPassword())) {
 							if (request.isBuyPack()) {
-								member.setTicketsCredit(member.getTicketsCredit()+20);
-								TabPurchase newTab = new TabPurchase (request.getCardNum(), member, transactionTime);
-								TabPurchase.tabNum = TabPurchase.tabNum + 1;
-								TabPurchase.tabTotalIncome = TabPurchase.tabTotalIncome + 600;
+								member.setTicketsCredit(member.getTicketsCredit() + 20);
+								TabPurchase newTab = new TabPurchase(request.getCardNum(), member, transactionTime);
 								session.save(newTab);
 								session.flush();
 							}
-							
 							BookingRequest temp = request.getRequest();
-							for (int i = 0; i < temp.getArrSize(); i ++) {
-								if (request.getUsePack()>0 && member.getTicketsCredit() > 0) {
-									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], 0,transactionTime);
-									request.setUsePack(request.getUsePack()-1);
-									member.setTicketsCredit(member.getTicketsCredit()-1);
-									for(SirtyaBranch branch : branchesList) {
-										if(temp.getScreening().getBranch().getId() == branch.getId()) {
-											branch.setTotalTabTicketsSold(branch.getTotalTabTicketsSold()+1);
-											session.save(branch);
-											session.flush();
-										}
-									
-									}
+							for (int i = 0; i < temp.getArrSize(); i++) {
+								if (request.getUsePack() > 0 && member.getTicketsCredit() > 0) {
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], 0, request.getCardNum() ,transactionTime);
+									request.setUsePack(request.getUsePack() - 1);
+									member.setTicketsCredit(member.getTicketsCredit() - 1);
+									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
-								}else {
-									Ticket newTicket = new Ticket(temp.getScreening(), member , temp.getSeatIds()[i], temp.getCost(),transactionTime);
-									for(CinemaMovie movie : moviesList) {
-										if(temp.getScreening().getMovie().getId() == movie.getId()) {
-											movie.setTicketsSold(movie.getTicketsSold()+1);
-											movie.calcMovieIncome();
-											session.save(movie);
-											session.flush();
-											for(SirtyaBranch branch : branchesList) {
-												if(temp.getScreening().getBranch().getId() == branch.getId()) {
-													branch.setTotalTicketsSold(1 + branch.getTotalTicketsSold());
-													branch.setTotalTicketsIncome(branch.getTotalTicketsIncome() + movie.getTicketCost());
-													session.save(branch);
-													session.flush();
-												}
-											
-											}
-										}
-									}
+								} else {
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getCost(), request.getCardNum(), transactionTime);
+									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
 								}
@@ -705,7 +635,6 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 	}
-
 	private void SendEmail(FullOrderRequest request) {
 		BookingRequest request2 = request.getRequest();
 		String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n" + "Customer ID: "
