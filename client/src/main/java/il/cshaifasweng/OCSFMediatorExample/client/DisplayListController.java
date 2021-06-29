@@ -153,12 +153,10 @@ public class DisplayListController {
     
     @FXML
     void nextPage2(MouseEvent event) throws IOException {
-    	if (pageDemand < onDemandList.size() / 3 + 1) {
-			pageDemand++;
-			fillGrids(gridList2,2);
-			prevBtn2.setVisible(true);
-		} 
-		if (pageDemand == onDemandList.size() / 3 + 1) {
+		pageDemand++;
+		fillGrids(gridList2,2);
+		prevBtn2.setVisible(true);
+		if (pageDemand >= pagesDemand) {
 			nxtBtn2.setVisible(false);
 		}
     }
@@ -178,25 +176,19 @@ public class DisplayListController {
 
 	@FXML
 	void nextPage(MouseEvent  event) throws IOException {
-		if (page < movieList.size() / 3 + 1) {
-			page++;
-			fillGrids(gridList,1);
-			prevBtn.setVisible(true);
-		} 
-		if (page == movieList.size() / 3 + 1) {
+		page++;
+		fillGrids(gridList,1);
+		prevBtn.setVisible(true);
+		if (page >= pages)
 			nxtBtn.setVisible(false);
-		}
 	}
-	
 
     @FXML
     void nextPage1(MouseEvent event) throws IOException {
-    	if (pageSoon < soonList.size() / 3 + 1) {
 			pageSoon++;
 			fillGrids(gridList3,3);
 			prevBtn1.setVisible(true);
-		} 
-		if (pageSoon == soonList.size() / 3 + 1) {
+		if (pageSoon >= pagesSoon) {
 			nxtBtn1.setVisible(false);
 		}
     }
@@ -251,7 +243,14 @@ public class DisplayListController {
 					DisplayMovieDataController controller = (DisplayMovieDataController) viewData.getValue();
 					//if (worker != null)
 						//controller.setWorkerMode();
-					int index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
+					int index;
+					if (listNum==1)
+						index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
+					else if (listNum==2)
+						index = (pageDemand - 1) * colsNum * rowsNum + i * colsNum + j;
+					else {
+						index = (pageSoon - 1) * colsNum * rowsNum + i * colsNum + j;
+					}
 					if (listNum==1 && index >= movieList.size()|| listNum==2 && index >= onDemandList.size() || listNum==3 && index >= soonList.size() )
 						break;
 					if (listNum==1) {
@@ -366,17 +365,27 @@ public class DisplayListController {
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
 		}
-		pages = movieList.size() / 3 + 1;
+		pages = movieList.size() / 3;
+		if ((movieList.size() / 3) * 3 < movieList.size()) {
+			pages = pages + 1;
+		}
 		prevBtn.setVisible(false);
 		nxtBtn.setVisible(pages>1);
 		
-		pagesSoon = soonList.size() / 3 + 1;
+		pagesSoon = soonList.size() / 3;
+		if ((soonList.size() / 3) * 3 < soonList.size()) {
+			pagesSoon = pagesSoon + 1;
+		}
 		prevBtn1.setVisible(false);
 		nxtBtn1.setVisible(pagesSoon>1);
 		
-		pagesDemand = onDemandList.size() / 3 + 1;
+		pagesDemand = onDemandList.size() / 3;
+		if ((onDemandList.size() / 3) * 3 < onDemandList.size()) {
+			pagesDemand = pagesDemand + 1;
+		}
 		prevBtn2.setVisible(false);
 		nxtBtn2.setVisible(pagesDemand>1);
+		
 
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;
