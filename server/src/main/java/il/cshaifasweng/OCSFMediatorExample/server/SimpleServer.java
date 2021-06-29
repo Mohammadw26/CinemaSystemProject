@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -60,6 +61,7 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
+	
 	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {

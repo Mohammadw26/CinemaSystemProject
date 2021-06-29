@@ -29,6 +29,7 @@ public class Screening implements Serializable {
 	private String screeningBranch;
 	private String screeningHall;
 	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_movie")
 	private CinemaMovie movie;

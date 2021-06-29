@@ -8,6 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Restrictions")
 public class TavSagoal implements Serializable {
+	
 	/**
 	 * 
 	 */

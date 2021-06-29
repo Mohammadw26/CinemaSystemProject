@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ChooseScreeningController">
    <children>
       <TableView fx:id="screeningsTable" layoutX="359.0" layoutY="216.0" onMouseClicked="#setCelltoField" prefHeight="324.0" prefWidth="737.0">

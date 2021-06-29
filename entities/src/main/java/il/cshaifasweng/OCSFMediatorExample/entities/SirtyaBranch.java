@@ -33,8 +33,7 @@ public class SirtyaBranch implements Serializable{
 	private int totalTicketsSold;
 	private int totalTabTicketsSold;
 	
-	
-	
+
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = Movie.class)
 	@JoinTable(name = "branches_movies", joinColumns = @JoinColumn(name = "branch_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
 	private List<Movie> movies;

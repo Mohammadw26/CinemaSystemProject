@@ -33,6 +33,7 @@ public class ChooseScreeningController {
 		return restrictions;
 	}
 
+	
 	public void setRestrictions(TavSagoal restrictions) {
 		this.restrictions = restrictions;
 	}
