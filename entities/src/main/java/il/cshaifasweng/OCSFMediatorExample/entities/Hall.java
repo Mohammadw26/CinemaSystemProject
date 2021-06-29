@@ -39,7 +39,7 @@ public class Hall implements Serializable {
 	private SirtyaBranch branch;
 
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "hall")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")
 	private List<Screening> screenings;
 	
 	public Hall() {};

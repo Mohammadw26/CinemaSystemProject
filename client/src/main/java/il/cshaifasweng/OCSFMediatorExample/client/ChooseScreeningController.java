@@ -13,10 +13,12 @@ import javafx.scene.control.TableColumn;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,7 +27,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class ChooseScreeningController {
+	private TavSagoal restrictions;
+	private Screening screening;
+	public TavSagoal getRestrictions() {
+		return restrictions;
+	}
 
+	public void setRestrictions(TavSagoal restrictions) {
+		this.restrictions = restrictions;
+	}
 	private static CinemaMovie movie;
 	
 	private static List<SirtyaBranch> allBranches;
@@ -70,6 +80,12 @@ public class ChooseScreeningController {
     @FXML // fx:id="returnBtn"
     private Button returnBtn; // Value injected by FXMLLoader
     
+    @FXML // fx:id="coronaLabel"
+    private Label coronaLabel; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="coronaCombo"
+    private ComboBox<String> coronaCombo; // Value injected by FXMLLoader
+    
     @FXML
     void returnToCat(MouseEvent event) {
 		try {
@@ -82,22 +98,62 @@ public class ChooseScreeningController {
 
     @FXML
     void selectScreening(MouseEvent event) {
-    	try {
-    		App.setRoot("SeatChoosing");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	if(!TavSagoal.isEffective()) {
+    		try {
+    			App.setRoot("SeatChoosing");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	} else if (coronaCombo.getValue() == null){
+    		for (int i = 1; i <= screening.getAvailableSeats(); i++) {
+    			coronaCombo.getItems().addAll(Integer.toString(i));
+    		}
+    		coronaCombo.setVisible(true);
+    		coronaLabel.setVisible(true);
+    	}
+    	else {
+    		SeatChoosingController.setRequestedNum(Integer.parseInt(coronaCombo.getValue()));
+    		try {
+    			App.setRoot("SeatChoosing");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
     }
 
     @FXML
     void setCelltoField(MouseEvent event) {
 		Screening temp = screeningsTable.getItems().get(screeningsTable.getSelectionModel().getSelectedIndex());
 		SeatChoosingController.setScreening(temp);
+		screening = temp;
 	}
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	coronaCombo.setVisible(false);
+    	coronaLabel.setVisible(false);
+    	restrictions = TavSagoal.getTavSagoal();
+    	TavSagoal.setEffective(true);
+    	TavSagoal.setY(20);
+    	if (TavSagoal.isEffective()) {
+    		for (Screening screening: movie.getScreenings()) {
+    			int temp;
+    			if (screening.getHall().getSeatsNum() > 1.2*TavSagoal.getY()) {
+    				temp = TavSagoal.getY();
+    			} else if (screening.getHall().getSeatsNum() > 0.8*TavSagoal.getY()) {
+    				temp = (int) (0.8 * ((double) TavSagoal.getY()));
+    			} else {
+    				temp = screening.getHall().getSeatsNum()/2;
+    			}
+    			screening.setAvailableSeats(temp - screening.getSoldSeats());
+    		}
+    	} else {
+    		for (Screening screening: movie.getScreenings()) {
+    			screening.setAvailableSeats(screening.getHall().getSeatsNum() - screening.getSoldSeats());
+    		}
+    	}
     	title.setText(movie.getMovieTitle() + " - " + movie.getMovieTitleHeb());
 		Image image = new Image(movie.getImage().getImgURL());
 		poster.setImage(image);

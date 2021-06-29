@@ -39,10 +39,10 @@ public class SirtyaBranch implements Serializable{
 	@JoinTable(name = "branches_movies", joinColumns = @JoinColumn(name = "branch_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
 	private List<Movie> movies;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "inBranch")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "inBranch")
 	private List<Screening> screenings;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "branch")
 	private List<Hall> halls;
 	
     private BranchManager manager;

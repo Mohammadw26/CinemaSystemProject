@@ -312,6 +312,7 @@ public class BookingOrderController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	invalidLogin.setVisible(false);
     	logOutButton.setVisible(false);
     	loginAnchorLabel1.setText("Already a member of the Sirtya?");
     	loginAnchorLabel2.setText("Sign in and we'll fill the rest of your info on your behalf.");
