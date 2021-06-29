@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -60,6 +61,7 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
+	
 	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -1034,6 +1036,7 @@ public class SimpleServer extends AbstractServer {
 				image_11);
 		session.save(movie11);
 		session.flush();
+		
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
 		branch1.addHall(hall1);

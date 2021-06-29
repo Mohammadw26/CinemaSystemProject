@@ -22,17 +22,35 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
+import javafx.scene.layout.AnchorPane;
 
 
 public class SeatChoosingController {
-	
+    private static int requestedNum;
 	private Hall hall;
 	private static Screening screening;
 	private int counter = 0;
 	private String chosenSeats;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
+
+    
+	
+    public int getRequestedNum() {
+                return requestedNum;
+        }
+    
+    public static void setRequestedNum(int requestedNum) {	
+    	SeatChoosingController.requestedNum = requestedNum;
+    }	
+
+    @FXML
+    private AnchorPane seatChoosingScene;
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
@@ -250,7 +268,7 @@ public class SeatChoosingController {
     }
 
     @FXML
-    void bookSeat(MouseEvent event) {
+    void bookSeat() {
     	int counter2 = 0;
     	int[] temp = new int[counter];
     	String[] temp2 = new String[counter];
@@ -357,6 +375,9 @@ public class SeatChoosingController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        if (TavSagoal.isEffective()) {
+                seatChoosingScene.setDisable(true);
+        }
         assert gridSeats != null : "fx:id=\"gridSeats\" was not injected: check your FXML file 'SeatChoosing.fxml'.";
         assert s1 != null : "fx:id=\"s1\" was not injected: check your FXML file 'SeatChoosing.fxml'.";
         assert s2 != null : "fx:id=\"s2\" was not injected: check your FXML file 'SeatChoosing.fxml'.";
@@ -419,7 +440,15 @@ public class SeatChoosingController {
 		+ "\nCost per ticket: " + screening.getMovie().getTicketCost());
         chosenNum.setText("Number of chosen seats: " + Integer.toString(counter));
         availableSeatsLabel.setText("Available seats: " + Integer.toString(screening.getAvailableSeats()));
+        if (TavSagoal.isEffective()) {
+                AutomaticBooking();
+                bookSeat.setDisable(false);
+                bookSeat();
+                bookSeat();
+        } else {
         drawSeats();
+                drawSeats();
+        }
     }
     
     private void drawSeats() {
@@ -478,4 +507,75 @@ public class SeatChoosingController {
     		}
         }
     }
+    
+    private void AutomaticBooking() {
+    	counter = 0;
+        int seatNum = 0;
+        if ((hall.getCols()/2)*2 == (hall.getCols())) {
+        	for (int k = 0 ; k < hall.getRows() ; k ++) {
+        		rowsGrid.getChildren().get(k).setVisible(true);
+            	int i = 3 - hall.getCols()/2, j = 3 + hall.getCols()/2;
+        		for (; i <= j && seatNum < hall.getSeatsNum() ; i ++) {
+        			if (i != 3) {
+        				if (!screening.getSeatStatus(seatNum)) {
+        					if (counter < requestedNum) {
+            					gridSeats.getChildren().get(i + k*7).setStyle(
+                						"-fx-fill:#ff0000; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+            					counter++;
+        					}else {
+        						gridSeats.getChildren().get(i + k*7).setStyle(
+        								"-fx-fill:#792f2f; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+        					}
+        				} else {
+        					gridSeats.getChildren().get(i + k*7).setStyle(
+            					"-fx-fill:#e7d1d1; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+        				}
+        				seatNum++;
+        			}
+        		}
+        	}
+       		int k = 1;
+    		int i = 3 - hall.getCols()/2;
+    		int j = 3 + hall.getCols()/2;
+    		for (; i <= j ; i ++) {
+    			if (i != 3) {
+    			Label text = new Label("hi");
+    			text.setText(Integer.toString(k));
+    			colsGrids.add(text, i, 0);
+    			k++;
+    			}
+    		}
+        } else {
+        	for (int k = 0 ; k < hall.getRows() ; k ++) {
+        		rowsGrid.getChildren().get(k).setVisible(true);
+            	int i = 3 - (hall.getCols()-1)/2, j = 3 + (hall.getCols()-1)/2;
+        		for (; i <= j && seatNum < hall.getSeatsNum() ; i ++) {
+    				if (!screening.getSeatStatus(seatNum)) {
+    					if (counter < requestedNum) {
+        					gridSeats.getChildren().get(i + k*7).setStyle(
+            						"-fx-fill:#ff0000; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+        					counter++;
+    					}else {
+    						gridSeats.getChildren().get(i + k*7).setStyle(
+    								"-fx-fill:#792f2f; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+    					}
+    				} else {
+    					gridSeats.getChildren().get(i + k*7).setStyle(
+        					"-fx-fill:#e7d1d1; -fx-font-family: 'Material Icons'; -fx-font-size: 40.0;");
+    				}
+    				seatNum++;
+        		}
+        	}
+       		int k = 1;
+    		int i = 3 - hall.getCols()/2;
+    		int j = 3 + hall.getCols()/2;
+    		for (; i <= j ; i ++) {
+    			Label text = new Label("hi");
+    			text.setText(Integer.toString(k));
+    			colsGrids.add(text, i, 0);
+    			k++;
+    		}
+        }
+    }
+
 }
