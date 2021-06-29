@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -30,9 +31,7 @@ public class SirtyaBranch implements Serializable{
 	String address;
 	private double totalTicketsIncome;
 	private int totalTicketsSold;
-	private double totalLinksIncome;
-	private int totalLinksSold;
-	
+	private int totalTabTicketsSold;
 	
 	
 	
@@ -46,6 +45,8 @@ public class SirtyaBranch implements Serializable{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
 	private List<Hall> halls;
 	
+    private BranchManager manager;
+	
 	public SirtyaBranch() {}
 	
 	
@@ -54,10 +55,10 @@ public class SirtyaBranch implements Serializable{
 		this.movies = new ArrayList<Movie>();
 		this.screenings = new ArrayList<Screening>();
 		this.halls = new ArrayList<Hall>();
-		this.setTotalLinksIncome(0.0);
-		this.setTotalLinksSold(0);
 		this.setTotalTicketsIncome(0.0);
 		this.setTotalTicketsSold(0);
+		this.setTotalTabTicketsSold(0);
+
 	}
 
 	public int getId() {
@@ -71,6 +72,14 @@ public class SirtyaBranch implements Serializable{
 
 	public void addHall(Hall hall) {
 		this.getHalls().add(hall);
+	}
+	
+	public void setManager(BranchManager manager) {
+		this.manager = manager;
+	}
+	
+	public BranchManager getManager() {
+		return manager;
 	}
 
 	public String getAddress() {
@@ -104,7 +113,7 @@ public class SirtyaBranch implements Serializable{
 
 
 	public void setTotalTicketsIncome(double totalTicketsIncome) {
-		this.totalTicketsIncome = totalTicketsIncome;
+		this.totalTicketsIncome =  totalTicketsIncome;
 	}
 
 
@@ -118,24 +127,18 @@ public class SirtyaBranch implements Serializable{
 	}
 
 
-	public double getTotalLinksIncome() {
-		return totalLinksIncome;
+
+
+	public int getTotalTabTicketsSold() {
+		return totalTabTicketsSold;
 	}
 
 
-	public void setTotalLinksIncome(double totalLinksIncome) {
-		this.totalLinksIncome = totalLinksIncome;
+	public void setTotalTabTicketsSold(int totalTabTicketsSold) {
+		this.totalTabTicketsSold =totalTabTicketsSold;
 	}
 
 
-	public int getTotalLinksSold() {
-		return totalLinksSold;
-	}
-
-
-	public void setTotalLinksSold(int totalLinksSold) {
-		this.totalLinksSold = totalLinksSold;
-	}
 
 
 	

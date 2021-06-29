@@ -13,6 +13,7 @@ public class CinemaMovie extends Movie {
 
 	/**
 	 * 
+	 * 
 	 */
 	private static final long serialVersionUID = -364482658878786871L;
 	double ticketCost;
@@ -21,6 +22,7 @@ public class CinemaMovie extends Movie {
 	
 	
 
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "movie")
 	private List<Screening> screenings;
 
@@ -101,7 +103,7 @@ public class CinemaMovie extends Movie {
 	}
 
 	public void setMovieIncome(double movieIncome) {
-		this.movieIncome = movieIncome;
+		this.movieIncome =  movieIncome;
 	}
 
 }
