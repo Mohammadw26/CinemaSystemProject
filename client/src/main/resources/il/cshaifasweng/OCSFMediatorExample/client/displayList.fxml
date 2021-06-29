@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayListController">
+<ScrollPane hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.DisplayListController">
    <content>
       <AnchorPane fx:id="anchorpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1331.0" prefWidth="1280.0" style="-fx-background-color: transparent;">
          <children>
@@ -187,6 +187,8 @@
             </Button>
             <FontAwesomeIconView fx:id="nxtBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1223.0" layoutY="1133.0" onMouseClicked="#nextPage1" size="50" text="" wrappingWidth="14.285714149475098" />
             <FontAwesomeIconView fx:id="prevBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="1133.0" onMouseClicked="#prevPage1" size="50" text="" />
+            <FontAwesomeIconView fx:id="nxtBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1216.0" layoutY="715.0" onMouseClicked="#nextPage2" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="715.0" onMouseClicked="#prevPage2" size="50" text="" />
          </children>
       </AnchorPane>
    </content>
