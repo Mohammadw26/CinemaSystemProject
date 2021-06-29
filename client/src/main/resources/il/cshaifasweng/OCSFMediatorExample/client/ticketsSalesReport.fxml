@@ -1,13 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #792f2f;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.TicketsSalesReportController">
    <children>
-      <Text layoutX="247.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets Sales Report" />
+      <Text fill="#fafafa" layoutX="335.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets Sales Report">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Text>
+      <TableView fx:id="branchesTable" layoutX="26.0" layoutY="132.0" prefHeight="438.0" prefWidth="317.0">
+        <columns>
+          <TableColumn fx:id="branchCol" prefWidth="86.4000244140625" text="Branch" />
+          <TableColumn fx:id="ticketsSoldCol" prefWidth="72.79998779296875" text="Tickets Sold" />
+            <TableColumn fx:id="totalIncomeCol" resizable="false" text="Total Income" />
+            <TableColumn fx:id="tabTicketsCol" prefWidth="75.0" text="Tab Tickets" />
+        </columns>
+      </TableView>
+      <BarChart fx:id="inCompanyChart" layoutX="367.0" layoutY="369.0" prefHeight="230.0" prefWidth="375.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" tickLabelFill="WHITE" />
+        </yAxis>
+      </BarChart>
+      <Text fill="#fafafa" layoutX="366.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tickets Sold">
+         <font>
+            <Font name="Andalus" size="14.0" />
+         </font>
+      </Text>
+      <Text fill="#fafafa" layoutX="366.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Branches Income">
+         <font>
+            <Font name="Andalus" size="14.0" />
+         </font>
+      </Text>
+      <BarChart fx:id="inBranchChart" layoutX="367.0" layoutY="121.0" prefHeight="230.0" prefWidth="375.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" tickLabelFill="WHITE" />
+        </yAxis>
+      </BarChart>
    </children>
-   
-   
 </AnchorPane>
