@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -14,8 +15,10 @@ import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.RentRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 
 
 public class SimpleClient extends AbstractClient {
@@ -67,6 +70,16 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#ReportsList")) {
+			TicketsSalesReportController.setAllBranches((List<SirtyaBranch>) ((Message) msg).getObject());
+			RentLinksReportsController.setOthersList((List<Purchase>)((Message)msg).getObject2());
+			try {
+				App.setRoot("ReportsReview");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
 		else if (msgString.startsWith("#SeatsSaved")) {
 			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {

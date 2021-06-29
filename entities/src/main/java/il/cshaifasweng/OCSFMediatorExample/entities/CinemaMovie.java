@@ -101,7 +101,7 @@ public class CinemaMovie extends Movie {
 	}
 
 	public void setMovieIncome(double movieIncome) {
-		this.movieIncome = movieIncome;
+		this.movieIncome =  movieIncome;
 	}
 
 }
