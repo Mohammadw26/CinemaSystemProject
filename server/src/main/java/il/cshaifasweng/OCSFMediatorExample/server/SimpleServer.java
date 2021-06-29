@@ -1034,6 +1034,7 @@ public class SimpleServer extends AbstractServer {
 				image_11);
 		session.save(movie11);
 		session.flush();
+		
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
 		branch1.addHall(hall1);

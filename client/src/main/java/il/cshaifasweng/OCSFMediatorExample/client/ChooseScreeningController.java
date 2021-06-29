@@ -137,6 +137,8 @@ public class ChooseScreeningController {
     	restrictions = TavSagoal.getTavSagoal();
     	TavSagoal.setEffective(true);
     	TavSagoal.setY(20);
+    	
+    	
     	if (TavSagoal.isEffective()) {
     		for (Screening screening: movie.getScreenings()) {
     			int temp;

@@ -27,6 +27,7 @@ public class RentMovieController {
 	private static OnDemandMovie movie;
 	
 	
+	
     public static int getStatus() {
 		return status;
 	}

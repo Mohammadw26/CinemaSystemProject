@@ -59,6 +59,7 @@ public class SirtyaBranch implements Serializable{
 		this.setTotalTicketsSold(0);
 		this.setTotalTabTicketsSold(0);
 
+		
 	}
 
 	public int getId() {

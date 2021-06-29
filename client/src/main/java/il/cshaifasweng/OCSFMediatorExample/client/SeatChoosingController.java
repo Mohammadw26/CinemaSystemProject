@@ -39,6 +39,7 @@ public class SeatChoosingController {
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
+    
 	
     public int getRequestedNum() {
                 return requestedNum;
