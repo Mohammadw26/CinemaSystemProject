@@ -22,6 +22,7 @@ public class Tab implements Serializable {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 762012672556720919L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

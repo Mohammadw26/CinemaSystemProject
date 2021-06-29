@@ -42,6 +42,7 @@ public class DisplayListController {
 	private int pagesSoon = 1;
 
 	
+	
 	public static CinemaMember getMember() {
 		return member;
 	}
@@ -367,6 +368,15 @@ public class DisplayListController {
 		}
 	}
 
+	@FXML
+    void ViewReports(ActionEvent event) {
+		try {
+			SimpleClient.getClient().sendToServer("#ReportsRequest");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    }
 	/*
 	 * @FXML void startDisplay(ActionEvent event) { Platform.runLater(() -> {
 	 * gridList.getChildren().clear(); for (int i = 0; i < rowsNum; i++) { for (int
