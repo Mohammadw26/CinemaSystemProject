@@ -211,6 +211,7 @@ public class DisplayMovieDataController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	    	
     	}
     	else if(typeIndex == 2) {
     		OnDemandMovie request = new OnDemandMovie (movie.getId(),movie.getMovieTitle(),movie.getMovieTitleHeb(),movie.getMovieProducer(),movie.getStarringActors(),movie.getMovieDescription(),0.0, movie.getImage());

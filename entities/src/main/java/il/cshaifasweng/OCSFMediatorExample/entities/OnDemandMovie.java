@@ -19,6 +19,7 @@ public class OnDemandMovie extends Movie {
 	
 	
 	
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "movie")
 	private List<Rent> rents;
 	
@@ -77,9 +78,11 @@ public class OnDemandMovie extends Movie {
 		this.movieIncome = movieIncome;
 	}
 	
+	
 	public double calcMovieIncome() {
 		return this.getCost() * this.getTicketsSold();
 	}
+	
 	
 	
 }

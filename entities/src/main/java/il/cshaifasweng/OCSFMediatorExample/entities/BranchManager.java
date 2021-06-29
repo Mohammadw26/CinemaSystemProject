@@ -18,6 +18,7 @@ public class BranchManager extends Worker {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = -3084916657789526938L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

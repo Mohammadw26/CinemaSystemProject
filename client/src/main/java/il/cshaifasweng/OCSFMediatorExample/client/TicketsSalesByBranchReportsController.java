@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 
 public class TicketsSalesByBranchReportsController {
 
+	
 	@FXML
 	private ResourceBundle resources;
 

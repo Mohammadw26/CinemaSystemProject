@@ -10,6 +10,7 @@ public class TabPurchase extends Purchase {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static int tabNum = 0 ;

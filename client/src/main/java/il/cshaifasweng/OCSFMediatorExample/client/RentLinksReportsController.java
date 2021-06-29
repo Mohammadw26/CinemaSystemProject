@@ -21,6 +21,7 @@ public class RentLinksReportsController {
 	private static double linksCost = 0;
 	private static double tabsCost = 0;
 
+	
 	@FXML
 	private ResourceBundle resources;
 

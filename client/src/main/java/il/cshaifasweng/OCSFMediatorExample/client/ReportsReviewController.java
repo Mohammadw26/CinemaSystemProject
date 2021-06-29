@@ -18,6 +18,7 @@ import javafx.scene.layout.Pane;
 
 public class ReportsReviewController {
 
+	
 	@FXML
 	private ResourceBundle resources;
 

@@ -80,6 +80,7 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 			}
+		
 		else if (msgString.startsWith("#SeatsSaved")) {
 			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {

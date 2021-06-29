@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 public class TicketsSalesReportController {
 	private static List<SirtyaBranch> allBranches;
 //	private static SirtyaBranch branch;
+	
 
 	public static List<SirtyaBranch> getAllBranches() {
 		return allBranches;

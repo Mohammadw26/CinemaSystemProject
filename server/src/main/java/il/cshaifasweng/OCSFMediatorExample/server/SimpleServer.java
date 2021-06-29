@@ -54,6 +54,7 @@ public class SimpleServer extends AbstractServer {
 	@SuppressWarnings("unused")
 	private static List<SirtyaBranch> branchesList;
 
+	
 	public SimpleServer(int port) {
 		super(port);
 
@@ -650,6 +651,7 @@ public class SimpleServer extends AbstractServer {
 								session.save(newTab);
 								session.flush();
 							}
+							
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i ++) {
 								if (request.getUsePack()>0 && member.getTicketsCredit() > 0) {

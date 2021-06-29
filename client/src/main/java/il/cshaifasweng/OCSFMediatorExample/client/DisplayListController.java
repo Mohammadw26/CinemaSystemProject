@@ -42,6 +42,7 @@ public class DisplayListController {
 	private int pagesSoon = 1;
 
 	
+	
 	public static CinemaMember getMember() {
 		return member;
 	}
