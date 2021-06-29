@@ -38,8 +38,10 @@ public class DisplayListController {
 	private static int colsNum = 3;
 	private int page = 1;
 	private int pageSoon = 1;
+	private int pageDemand = 1;
 	private int pages = 1;
 	private int pagesSoon = 1;
+	private int pagesDemand = 1;
 
 	
 	public static CinemaMember getMember() {
@@ -142,6 +144,36 @@ public class DisplayListController {
     @FXML
     private FontAwesomeIconView prevBtn1;
 
+    @FXML
+    private FontAwesomeIconView nxtBtn2;
+
+    @FXML
+    private FontAwesomeIconView prevBtn2;
+    
+    @FXML
+    void nextPage2(MouseEvent event) throws IOException {
+    	if (pageDemand < onDemandList.size() / 3 + 1) {
+			pageDemand++;
+			fillGrids(gridList2,2);
+			prevBtn2.setVisible(true);
+		} 
+		if (pageDemand == onDemandList.size() / 3 + 1) {
+			nxtBtn2.setVisible(false);
+		}
+    }
+    
+
+    @FXML
+    void prevPage2(MouseEvent event) throws IOException {
+    	if (pageDemand > 1) {
+			pageDemand--;
+			fillGrids(gridList2,2);
+			nxtBtn2.setVisible(true);
+		}
+		if (pageDemand == 1) {
+			prevBtn2.setVisible(false);
+		}
+    }
 
 	@FXML
 	void nextPage(MouseEvent  event) throws IOException {
@@ -340,6 +372,10 @@ public class DisplayListController {
 		pagesSoon = soonList.size() / 3 + 1;
 		prevBtn1.setVisible(false);
 		nxtBtn1.setVisible(pagesSoon>1);
+		
+		pagesDemand = onDemandList.size() / 3 + 1;
+		prevBtn2.setVisible(false);
+		nxtBtn2.setVisible(pagesDemand>1);
 
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;

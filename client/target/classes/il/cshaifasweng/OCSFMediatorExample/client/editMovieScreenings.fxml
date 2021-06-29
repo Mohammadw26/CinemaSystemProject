@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="695.0" prefWidth="918.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.EditMovieScreeningsController">
    <children>
-      <Label fx:id="TitleField" alignment="CENTER" layoutX="-2.0" layoutY="14.0" prefHeight="38.0" prefWidth="918.0" text="Movie Title" underline="true">
+      <Label fx:id="TitleField" alignment="CENTER" prefHeight="38.0" prefWidth="918.0" style="-fx-background-color: #792f2f;" text="Movie Title" textFill="WHITE" underline="true">
          <font>
             <Font size="26.0" />
          </font>
@@ -29,8 +29,8 @@
          <font>
             <Font name="Comic Sans MS Bold Italic" size="12.0" />
          </font></Label>
-      <Button fx:id="applyBtn" layoutX="834.0" layoutY="642.0" mnemonicParsing="false" onAction="#ApplyChanges" text="Apply" />
-      <Button fx:id="cancelBtn" layoutX="723.0" layoutY="642.0" mnemonicParsing="false" onAction="#ReturnToCatalog" text="Cancel request" />
+      <Button fx:id="applyBtn" layoutX="392.0" layoutY="613.0" mnemonicParsing="false" onAction="#ApplyChanges" prefHeight="38.0" prefWidth="129.0" style="-fx-background-color: #792f2f;" text="Apply" textFill="WHITE" />
+      <Button fx:id="cancelBtn" layoutX="782.0" mnemonicParsing="false" onAction="#ReturnToCatalog" prefHeight="38.0" prefWidth="129.0" style="-fx-background-color: #792f2f;" text="Cancel request" textFill="WHITE" />
       <ComboBox fx:id="hourField" disable="true" layoutX="512.0" layoutY="383.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
       <ComboBox fx:id="minuteField" disable="true" layoutX="512.0" layoutY="435.0" prefHeight="26.0" prefWidth="76.0" promptText="Select" />
       <Label layoutX="473.0" layoutY="387.0" prefHeight="18.0" prefWidth="36.0" text="Hour:">
@@ -43,11 +43,11 @@
          </font></Label>
       <TableView fx:id="screeningsTable" layoutX="195.0" layoutY="100.0" onMouseClicked="#setCelltoField" prefHeight="173.0" prefWidth="565.0">
         <columns>
-          <TableColumn fx:id="idCol" prefWidth="48.0" text="ID" />
-          <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" text="Date" />
-            <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" text="Time" />
-            <TableColumn fx:id="branchCol" prefWidth="260.0" text="Branch" />
-            <TableColumn fx:id="hallCol" prefWidth="50.4000244140625" text="Hall" />
+          <TableColumn fx:id="idCol" prefWidth="48.0" style="-fx-background-color: #792f2f; -fx-text-fill: #ffffff;" text="ID" />
+          <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" style="-fx-background-color: #792f2f;" text="Date" />
+            <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" style="-fx-background-color: #792f2f;" text="Time" />
+            <TableColumn fx:id="branchCol" prefWidth="260.0" style="-fx-background-color: #792f2f;" text="Branch" />
+            <TableColumn fx:id="hallCol" prefWidth="50.4000244140625" style="-fx-background-color: #792f2f;" text="Hall" />
         </columns>
       </TableView>
       <TextField fx:id="idField" layoutX="472.0" layoutY="230.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
