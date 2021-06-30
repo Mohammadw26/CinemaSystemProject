@@ -4,6 +4,7 @@
 
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +31,7 @@ public class BookingOrderController {
 	private static int status = 0;
 	private static BookingRequest request;
 	private static Screening screening;
+	
 	
 	
     public static int getStatus() {
@@ -312,6 +314,7 @@ public class BookingOrderController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	invalidLogin.setVisible(false);
     	logOutButton.setVisible(false);
     	loginAnchorLabel1.setText("Already a member of the Sirtya?");
     	loginAnchorLabel2.setText("Sign in and we'll fill the rest of your info on your behalf.");

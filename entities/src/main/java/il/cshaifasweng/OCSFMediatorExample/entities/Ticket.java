@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "tickets")
 public class Ticket extends Purchase {
@@ -20,15 +21,17 @@ public class Ticket extends Purchase {
 	private Screening screening;
 	private String seat;
 	
+	
 	public Ticket() {}
 	
-	public Ticket(Screening screening, CasualBuyer user, String seatID, double cost, String transactionTime) {
+	public Ticket(Screening screening, CasualBuyer user, String seatID, double cost, long cardNum, String transactionTime) {
 	this.screening = screening;
 	this.customer = user;
 	this.seat = seatID;
 	this.customer.addTicket(this);
 	this.cost = cost;
 	this.transactionTime = transactionTime;
+	this.creditCardNum = cardNum;
 	}
 	
 	public Screening getScreening() {

@@ -29,6 +29,7 @@ public class Screening implements Serializable {
 	private String screeningBranch;
 	private String screeningHall;
 	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "screening_movie")
 	private CinemaMovie movie;
@@ -45,7 +46,16 @@ public class Screening implements Serializable {
 	private List<Ticket> tickets;
 	
 	private boolean[] seatsArray;
-	int availableSeats;
+	private int availableSeats;
+	private int soldSeats;
+	
+    public int getSoldSeats() {	
+            return soldSeats;
+    }	
+    
+    public void setSoldSeats(int soldSeats) {
+            this.soldSeats = soldSeats;
+    }
 	
 	public int getAvailableSeats() {
 		return availableSeats;

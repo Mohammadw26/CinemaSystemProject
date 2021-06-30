@@ -79,8 +79,8 @@
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </opaqueInsets>
             </GridPane>
-            <FontAwesomeIconView fx:id="prevBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="303.0" onMouseClicked="#prevPage" size="50" text="" />
-            <FontAwesomeIconView fx:id="nxtBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1216.0" layoutY="315.0" onMouseClicked="#nextPage" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="40.0" layoutY="299.0" onMouseClicked="#prevPage" size="50" text="" />
+            <FontAwesomeIconView fx:id="nxtBtn" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1213.0" layoutY="303.0" onMouseClicked="#nextPage" size="50" text="" wrappingWidth="14.285714149475098" />
             <GridPane fx:id="gridList2" hgap="15.0" layoutX="81.0" layoutY="521.0" prefHeight="340.0" prefWidth="1119.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -133,10 +133,10 @@
                   <Font name="Arial" size="10.0" />
                </font>
             </Button>
-            <FontAwesomeIconView fx:id="nxtBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1223.0" layoutY="1133.0" onMouseClicked="#nextPage1" size="50" text="" wrappingWidth="14.285714149475098" />
-            <FontAwesomeIconView fx:id="prevBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="1133.0" onMouseClicked="#prevPage1" size="50" text="" />
-            <FontAwesomeIconView fx:id="nxtBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1216.0" layoutY="715.0" onMouseClicked="#nextPage2" size="50" text="" wrappingWidth="14.285714149475098" />
-            <FontAwesomeIconView fx:id="prevBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="46.0" layoutY="715.0" onMouseClicked="#prevPage2" size="50" text="" />
+            <FontAwesomeIconView fx:id="nxtBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1213.0" layoutY="1107.0" onMouseClicked="#nextPage1" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="39.0" layoutY="1105.0" onMouseClicked="#prevPage1" size="50" text="" />
+            <FontAwesomeIconView fx:id="nxtBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1214.0" layoutY="709.0" onMouseClicked="#nextPage2" size="50" text="" wrappingWidth="14.285714149475098" />
+            <FontAwesomeIconView fx:id="prevBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="43.0" layoutY="706.0" onMouseClicked="#prevPage2" size="50" text="" />
          </children>
       </AnchorPane>
    </content>
