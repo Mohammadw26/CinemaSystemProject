@@ -20,6 +20,8 @@ public class Rent extends Purchase {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rent_movie")
 	private OnDemandMovie movie;
+	private boolean notified;
+	private boolean sentLink;
 	
 	public Rent() {}
 	
@@ -31,6 +33,16 @@ public class Rent extends Purchase {
 		this.movie = movie;
 		this.creditCardNum = cardNum;
 		this.transactionTime = transactionTime;
+		this.notified = false;
+		this.sentLink = false;
+	}
+	
+	public void setNotified(boolean notified) {
+		this.notified = notified;
+	}
+	
+	public boolean getNotified() {
+		return notified;
 	}
 	
 	public String getExpiringLink() {
@@ -47,6 +59,14 @@ public class Rent extends Purchase {
 
 	public void setMovie(OnDemandMovie movie) {
 		this.movie = movie;
+	}
+
+	public boolean getSentLink() {
+		return sentLink;
+	}
+
+	public void setSentLink(boolean sentLink) {
+		this.sentLink = sentLink;
 	}	
 	
 	

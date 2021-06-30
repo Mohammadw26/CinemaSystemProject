@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
@@ -132,6 +135,9 @@ public class DisplayMovieDataController {
 		}
 		if (typeIndex == 2 ) {
 			costField.setText("24H rent cost: " + ((OnDemandMovie) movie).getCost() + " NIS");
+			ZonedDateTime date =  ((OnDemandMovie) movie).getDateTimeStart();
+			String formatted = DateTimeFormatter.ofPattern("dd/mm/yyyy - hh:mm").format(date);
+			screeningField.setText(formatted);
 		}
 		if (typeIndex == 3) {
 			addToCartBtn.setVisible(false);
@@ -214,7 +220,7 @@ public class DisplayMovieDataController {
 	    	
     	}
     	else if(typeIndex == 2) {
-    		OnDemandMovie request = new OnDemandMovie (movie.getId(),movie.getMovieTitle(),movie.getMovieTitleHeb(),movie.getMovieProducer(),movie.getStarringActors(),movie.getMovieDescription(),0.0, movie.getImage());
+    		OnDemandMovie request = new OnDemandMovie (movie.getId());
 				try {
 					SimpleClient.getClient().sendToServer(new Message("#DeleteMovieDemand", request));
 				} catch (IOException e) {

@@ -1,8 +1,12 @@
+il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesReportController.class
+il\cshaifasweng\OCSFMediatorExample\client\RentLinksReportsController.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\AbstractClient.class
 il\cshaifasweng\OCSFMediatorExample\client\AddMovieScreeningController.class
 il\cshaifasweng\OCSFMediatorExample\client\BookingOrderController.class
+il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesByBranchReportsController.class
 il\cshaifasweng\OCSFMediatorExample\client\BookingSummaryController.class
 il\cshaifasweng\OCSFMediatorExample\client\EditMovieScreeningsController.class
+il\cshaifasweng\OCSFMediatorExample\client\ReportsReviewController.class
 il\cshaifasweng\OCSFMediatorExample\client\Main.class
 il\cshaifasweng\OCSFMediatorExample\client\AddHallController.class
 il\cshaifasweng\OCSFMediatorExample\client\SignUpController.class
