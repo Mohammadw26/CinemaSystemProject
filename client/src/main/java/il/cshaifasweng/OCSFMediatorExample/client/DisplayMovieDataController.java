@@ -103,6 +103,7 @@ public class DisplayMovieDataController {
     void initialize() {
     	editBtn.setVisible(isWorker);
     	deleteBtn.setVisible(isWorker);
+    	
     	tabPane.getStyleClass().add("floating");
         assert imageField != null : "fx:id=\"imageField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert titleField != null : "fx:id=\"titleField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
@@ -114,6 +115,7 @@ public class DisplayMovieDataController {
         assert addToCartBtn != null : "fx:id=\"addToCartBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert editBtn != null : "fx:id=\"editBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
         assert deleteBtn != null : "fx:id=\"deleteBtn\" was not injected: check your FXML file 'displayMovieData.fxml'.";
+     
     }
     
 	public void setDisplay () {
@@ -136,7 +138,7 @@ public class DisplayMovieDataController {
 		if (typeIndex == 2 ) {
 			costField.setText("24H rent cost: " + ((OnDemandMovie) movie).getCost() + " NIS");
 			ZonedDateTime date =  ((OnDemandMovie) movie).getDateTimeStart();
-			String formatted = DateTimeFormatter.ofPattern("dd/mm/yyyy - hh:mm").format(date);
+			String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(date);
 			screeningField.setText(formatted);
 		}
 		if (typeIndex == 3) {
@@ -196,12 +198,23 @@ public class DisplayMovieDataController {
 
 	@FXML
     void uploadEditScreening(MouseEvent event) {
-		EditMovieScreeningsController.setMovie((CinemaMovie) movie);
-    	try {
-			SimpleClient.getClient().sendToServer("#BranchesListRequest");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(typeIndex == 1) {
+			EditMovieScreeningsController.setMovieRegular((CinemaMovie) movie);
+	    	try {
+				SimpleClient.getClient().sendToServer("#BranchesListRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(typeIndex == 2) {
+			EditMoviesController.setMovie((OnDemandMovie) movie);
+			try {
+				App.setRoot("editMovies");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

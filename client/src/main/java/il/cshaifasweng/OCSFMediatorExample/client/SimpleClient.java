@@ -44,7 +44,7 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new WorkersReceivedEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#RefreshAdd")) {
-			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
@@ -53,7 +53,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		else if (msgString.startsWith("#RefreshEdit")) {
-			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
@@ -62,7 +62,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		else if (msgString.startsWith("#RefreshDelete")) {
-			EditMovieScreeningsController.setMovie((CinemaMovie) ((Message) msg).getObject());
+			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
 			} catch (IOException e) {
