@@ -6,6 +6,7 @@ import java.util.List;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
@@ -27,6 +28,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EditMovieScreeningsController {
 	private static CinemaMovie movie;
+	private static OnDemandMovie movie1;
 
 	private static List<SirtyaBranch> allBranches;
 	private static SirtyaBranch branch;
@@ -48,11 +50,11 @@ public class EditMovieScreeningsController {
 		}
 	}
 
-	public static CinemaMovie getMovie() {
+	public static CinemaMovie getMovieRegular() {
 		return movie;
 	}
 
-	public static void setMovie(CinemaMovie set) {
+	public static void setMovieRegular(CinemaMovie set) {
 		movie = set;
 	}
 
@@ -290,6 +292,14 @@ public class EditMovieScreeningsController {
 			branchField.getItems().addAll(brnch.getAddress());
 		}
 		
+	}
+
+	public static OnDemandMovie getMovieonDemand() {
+		return movie1;
+	}
+
+	public static void setOnDemandMovie(OnDemandMovie movie1) {
+		EditMovieScreeningsController.movie1 = movie1;
 	}
 	
 	
