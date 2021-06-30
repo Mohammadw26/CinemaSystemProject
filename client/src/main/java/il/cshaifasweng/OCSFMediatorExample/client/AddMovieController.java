@@ -2,6 +2,9 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
@@ -14,6 +17,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
@@ -106,6 +111,15 @@ public class AddMovieController {
 
     @FXML
     private TextField streaming;
+    
+    @FXML
+    private ComboBox<Integer> hourField;
+
+    @FXML
+    private ComboBox<Integer> minuteField;
+
+    @FXML
+    private DatePicker datePick;
 
     @FXML
     void CancelAddition(ActionEvent event) {
@@ -124,6 +138,9 @@ public class AddMovieController {
     		price.setDisable(true);
     		regularCheck.setSelected(false);
     		onDemandCheck.setSelected(false);
+    		hourField.setDisable(true);
+    		minuteField.setDisable(true);
+    		datePick.setDisable(true);
     	}
     }
 
@@ -172,7 +189,12 @@ public class AddMovieController {
     		}
 			else if (onDemandCheck.isSelected() == true) {
     			Image newImage = new Image ("Thumbnail", thumbnail.getText());
-    			OnDemandMovie newMovie = new OnDemandMovie (engName.getText(), hebName.getText(),  producer.getText(), actors.getText(), description.getText(), Double.parseDouble(price.getText()), newImage);
+    			ZonedDateTime start = LocalDateTime.of(datePick.getValue().getYear(),datePick.getValue().getMonthValue(),
+    									datePick.getValue().getDayOfMonth(),hourField.getValue(),minuteField.getValue())
+    					.atZone(ZoneId.of("Asia/Jerusalem"));
+    			OnDemandMovie newMovie = new OnDemandMovie (engName.getText(), hebName.getText(),
+    									producer.getText(), actors.getText(), description.getText(), 
+    									Double.parseDouble(price.getText()), newImage, start, start.plusHours(10));
     			newMovie.setStreamingLink(streaming.getText());
     			try {
 					SimpleClient.getClient().sendToServer(new Message("#AddOnDemandMovie", newMovie));
@@ -203,6 +225,9 @@ public class AddMovieController {
     		price.setDisable(false);
     		comingSoonCheck.setSelected(false);
     		regularCheck.setSelected(false);
+    		hourField.setDisable(false);
+    		minuteField.setDisable(false);
+    		datePick.setDisable(false);
     	}
     	
     }
@@ -214,6 +239,9 @@ public class AddMovieController {
     		price.setDisable(false);
     		comingSoonCheck.setSelected(false);
     		onDemandCheck.setSelected(false);
+    		hourField.setDisable(true);
+    		minuteField.setDisable(true);
+    		datePick.setDisable(true);
     	}
     }
 
@@ -255,6 +283,13 @@ public class AddMovieController {
         assert price != null : "fx:id=\"price\" was not injected: check your FXML file 'addMovie.fxml'.";
         assert thumbnail != null : "fx:id=\"thumbnail\" was not injected: check your FXML file 'addMovie.fxml'.";
         assert streaming != null : "fx:id=\"streaming\" was not injected: check your FXML file 'addMovie.fxml'.";
+        
+        for (int i = 0; i < 24; i++) {
+			hourField.getItems().addAll(i);
+		}
+		for (int i = 0; i < 60; i = i + 5) {
+			minuteField.getItems().addAll(i);
+		}
         
         regularCheck.setSelected(true);
         onDemandCheck.setSelected(false);

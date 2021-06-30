@@ -6,6 +6,8 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -658,8 +660,10 @@ public class SimpleServer extends AbstractServer {
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
 				+ request.getTransactionTime()
-				+ "\n\nYou can start watching the movie you ordered on the following link, Enjoy!\n"
-				+ request.getMovie().getStreamingLink());
+				+"\n Start:" + request.getMovie().getDateTimeStart() + "\n Finish: " + request.getMovie().getDateTimeFinish()
+				+ "\n\nA link will be sent to you when the movie begins streaming\n"
+				+ "We ask of you to be patient until then, Enjoy!"
+				);
 
 		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
 	}
@@ -919,10 +923,12 @@ public class SimpleServer extends AbstractServer {
 		session.save(movie4);
 		session.flush();
 
+		ZonedDateTime start = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
+		
 		OnDemandMovie movie5 = new OnDemandMovie("Ice Age", "עידן הקרח", "Lori Forte",
 				"Denis Leary, John Leguizamo, Ray Romano",
 				"The story revolves around sub-zero heroes: a woolly mammoth, a saber-toothed tiger, a sloth and a prehistoric combination of a squirrel and rat, known as Scrat.",
-				20.00, image_5);
+				20.00, image_5,start.plusMinutes(5),start.plusHours(3).plusMinutes(5));
 		movie5.setStreamingLink("https://www.youtube.com/watch?v=i4noiCRJRoE&ab_channel=MovieclipsClassicTrailers");
 		session.save(movie5);
 		session.flush();
@@ -930,10 +936,11 @@ public class SimpleServer extends AbstractServer {
 		OnDemandMovie movie6 = new OnDemandMovie("Inception", "התחלה ", "Emma Thomas , Christopher Nolan",
 				"Leonardo DiCaprio, Joseph Gordon-Levitt , Elliot Page",
 				"A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-				25.90, image_6);
+				25.90, image_6, start.plusMinutes(3), start.plusHours(5).plusMinutes(3));
 		movie6.setStreamingLink("https://www.youtube.com/watch?v=YoHD9XEInc0");
 		session.save(movie6);
 		session.flush();
+		
 
 		CinemaMovie movie7 = new CinemaMovie("Fury", "זעם", "David Ayer", "Brad Pitt, Shia Labeouf, Logan Lerman",
 				"A grizzled tank commander makes tough decisions as he and his crew fight their way across Germany in April, 1945.",
@@ -1050,7 +1057,14 @@ public class SimpleServer extends AbstractServer {
 		session.save(worker_1);
 		session.save(client_1);
 		session.flush();
+		
+		Rent rent = new Rent(client_1, 25.0, movie6,
+				"https://www.youtube.com/watch?v=YoHD9XEInc0", 123654789, null) ;
+		session.save(rent);
+		session.flush();
 		session.getTransaction().commit();
+
+		
 
 	}
 

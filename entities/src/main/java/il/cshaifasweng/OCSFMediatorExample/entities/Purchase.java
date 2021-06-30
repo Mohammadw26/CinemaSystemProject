@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "purchases")
 @Inheritance
-public class Purchase implements Serializable{
+public class Purchase implements Serializable {
 
 	/**
 	 * 
@@ -24,11 +24,11 @@ public class Purchase implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "purchase_customer")
 	protected CasualBuyer customer;
-	
+
 	protected double cost;
 	protected String transactionTime;
 	protected long creditCardNum;
@@ -60,7 +60,5 @@ public class Purchase implements Serializable{
 	public void setCreditCardNum(long creditCardNum) {
 		this.creditCardNum = creditCardNum;
 	}
-	
-	
-	
+
 }

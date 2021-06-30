@@ -28,7 +28,7 @@
             </ToggleButton>
             <Label fx:id="summray" alignment="TOP_LEFT" layoutX="260.0" layoutY="216.0" prefHeight="304.0" prefWidth="395.0" text="Label" wrapText="true">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
             </Label>
             <Label fx:id="summray1" alignment="TOP_LEFT" layoutX="249.0" layoutY="556.0" prefHeight="54.0" prefWidth="422.0" text="*A summary &amp; receipt as well as the streaming link will be sent" textFill="RED" wrapText="true">

@@ -43,11 +43,11 @@
          </font></Label>
       <TableView fx:id="screeningsTable" layoutX="195.0" layoutY="100.0" onMouseClicked="#setCelltoField" prefHeight="173.0" prefWidth="565.0">
         <columns>
-          <TableColumn fx:id="idCol" prefWidth="48.0" style="-fx-background-color: #792f2f; -fx-text-fill: #ffffff;" text="ID" />
-          <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" style="-fx-background-color: #792f2f;" text="Date" />
-            <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" style="-fx-background-color: #792f2f;" text="Time" />
-            <TableColumn fx:id="branchCol" prefWidth="260.0" style="-fx-background-color: #792f2f;" text="Branch" />
-            <TableColumn fx:id="hallCol" prefWidth="50.4000244140625" style="-fx-background-color: #792f2f;" text="Hall" />
+          <TableColumn fx:id="idCol" prefWidth="48.0" text="ID" />
+          <TableColumn fx:id="dateCol" prefWidth="109.5999755859375" text="Date" />
+            <TableColumn fx:id="timeCol" prefWidth="96.79998779296875" text="Time" />
+            <TableColumn fx:id="branchCol" prefWidth="260.0" text="Branch" />
+            <TableColumn fx:id="hallCol" prefWidth="50.4000244140625" text="Hall" />
         </columns>
       </TableView>
       <TextField fx:id="idField" layoutX="472.0" layoutY="230.0" prefHeight="26.0" prefWidth="47.0" visible="false" />

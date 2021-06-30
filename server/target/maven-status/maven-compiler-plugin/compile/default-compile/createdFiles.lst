@@ -1,5 +1,6 @@
 il\cshaifasweng\OCSFMediatorExample\server\App.class
 il\cshaifasweng\OCSFMediatorExample\server\ocsf\ConnectionToClient.class
+il\cshaifasweng\OCSFMediatorExample\helpers\ScheduledTask.class
 il\cshaifasweng\OCSFMediatorExample\helpers\SendEmailTLS$1.class
 il\cshaifasweng\OCSFMediatorExample\server\ocsf\ObservableOriginatorServer.class
 il\cshaifasweng\OCSFMediatorExample\server\ocsf\AbstractServer.class

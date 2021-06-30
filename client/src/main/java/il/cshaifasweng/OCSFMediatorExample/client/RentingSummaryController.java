@@ -61,7 +61,10 @@ public class RentingSummaryController {
         String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
         		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
         		+ "\nMovie: " + request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
-			temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time: " + request.getTransactionTime() + "\n\nYou can start watching the movie you ordered on the following link, Enjoy!\n" + request.getMovie().getStreamingLink());
+			temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time: " + request.getTransactionTime()
+			+"\n Start:" + request.getMovie().getDateTimeStart() + "\n Finish: " + request.getMovie().getDateTimeFinish()
+					+ "\n\nA link will be sent to you when the movie begins streaming\n"
+					+ "We ask of you to be patient until then, Enjoy!");
 			summray.setText(temp);
     }
 }
