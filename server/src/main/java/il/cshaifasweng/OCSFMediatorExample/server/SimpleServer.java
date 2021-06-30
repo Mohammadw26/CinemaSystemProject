@@ -1057,11 +1057,7 @@ public class SimpleServer extends AbstractServer {
 		session.save(worker_1);
 		session.save(client_1);
 		session.flush();
-		
-		Rent rent = new Rent(client_1, 25.0, movie6,
-				"https://www.youtube.com/watch?v=YoHD9XEInc0", 123654789, null) ;
-		session.save(rent);
-		session.flush();
+	
 		session.getTransaction().commit();
 
 		
