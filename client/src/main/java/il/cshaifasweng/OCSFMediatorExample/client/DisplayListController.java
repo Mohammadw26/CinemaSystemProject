@@ -152,6 +152,19 @@ public class DisplayListController {
     private FontAwesomeIconView prevBtn2;
     
     @FXML
+    private Button tavSagoalBtn;
+    
+    @FXML
+    void loadTavSagoalUpdate(ActionEvent event) {
+		try {
+			App.setRoot("TavSagoalUpdating");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
     void nextPage2(MouseEvent event) throws IOException {
 		pageDemand++;
 		fillGrids(gridList2,2);
@@ -328,6 +341,7 @@ public class DisplayListController {
 			employeeBtn.setVisible(true);
 			reviewRequestBtn.setVisible(true);
 			logOutBtn.setVisible(true);
+			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(false);
@@ -335,7 +349,7 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				reviewRequestBtn.setDisable(false);
 				logOutBtn.setDisable(false);
-
+				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(ContentManager.class)) {
 				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
@@ -343,7 +357,6 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
-
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
@@ -351,7 +364,7 @@ public class DisplayListController {
 				employeeBtn.setDisable(true);
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
-
+				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
