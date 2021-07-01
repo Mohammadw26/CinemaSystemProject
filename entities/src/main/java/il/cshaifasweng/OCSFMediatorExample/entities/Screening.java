@@ -193,6 +193,30 @@ public class Screening implements Serializable {
 		return screeningHall;
 	}
 
+	public SirtyaBranch getInBranch() {
+		return inBranch;
+	}
+
+	public void setInBranch(SirtyaBranch inBranch) {
+		this.inBranch = inBranch;
+	}
+
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+
+	public boolean[] getSeatsArray() {
+		return seatsArray;
+	}
+
+	public void setSeatsArray(boolean[] seatsArray) {
+		this.seatsArray = seatsArray;
+	}
+
 	public void setScreeningHall(String screeningHall) {
 		this.screeningHall = screeningHall;
 	}

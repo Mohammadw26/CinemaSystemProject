@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.TavSagoalUpdatingController">
+   <children>
+      <ToolBar prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #792f2f;">
+         <items>
+            <Label text="Updating Tav-Sagoal restrictions" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+         </items>
+      </ToolBar>
+      <Button fx:id="returnBtn" layoutX="1164.0" layoutY="6.0" mnemonicParsing="false" onAction="#returnToCatalog" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
+      <CheckBox fx:id="toggle" layoutX="65.0" layoutY="81.0" mnemonicParsing="false" text="Toggle Tav-Sagoal restrictions." />
+      <DatePicker fx:id="fromDate" layoutX="381.0" layoutY="169.0" />
+      <DatePicker fx:id="toDate" layoutX="585.0" layoutY="169.0" />
+      <TextField fx:id="maxNum" layoutX="370.0" layoutY="123.0" />
+      <Label layoutX="65.0" layoutY="127.0" text="Maximum number of people allowed on a closed area:" />
+      <Label layoutX="65.0" layoutY="173.0" text="Restrictions of unessencial activities are in effect between:" />
+      <Label layoutX="566.0" layoutY="172.0" prefHeight="18.0" prefWidth="17.0" text="&amp;" />
+      <Label fx:id="warn" layoutX="65.0" layoutY="269.0" text="You must fill all fields to update/ toggle restrictions." textFill="RED" visible="false" />
+      <Label fx:id="msg" layoutX="739.0" layoutY="269.0" text="Updated successfully." textFill="GREEN" visible="false" />
+      <Button fx:id="updateButton" layoutX="647.0" layoutY="265.0" mnemonicParsing="false" onAction="#update" text="Update" />
+      <ImageView fx:id="img" fitHeight="40.0" fitWidth="31.0" layoutX="704.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@Loading.gif" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

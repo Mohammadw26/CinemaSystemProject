@@ -3,6 +3,9 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -13,32 +16,45 @@ public class TavSagoal implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static TavSagoal singleton;
-	private static int y;
-	private static Boolean effective;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private int y;
+	private Boolean effective;
+	private String fromDate;
+	private String toDate;
 	
-	private TavSagoal() {}
-	
-	public static TavSagoal getTavSagoal() {
-		if (singleton == null) {
-			singleton = new TavSagoal();
-		}
-		return singleton;
-	}
+	public TavSagoal() {}
 
-	public static int getY() {
+	public int getY() {
 		return y;
 	}
 
-	public static void setY(int y) {
-		TavSagoal.y = y;
+	public void setY(int y) {
+		this.y = y;
 	}
 
-	public static Boolean isEffective() {
+	public Boolean isEffective() {
 		return effective;
 	}
 
-	public static void setEffective(Boolean effective) {
-		TavSagoal.effective = effective;
+	public void setEffective(Boolean effective) {
+		this.effective = effective;
+	}
+
+	public String getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public String getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
 }

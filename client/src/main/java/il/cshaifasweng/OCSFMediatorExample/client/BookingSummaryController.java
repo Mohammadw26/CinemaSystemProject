@@ -31,11 +31,11 @@ public class BookingSummaryController {
     @FXML // fx:id="closeButton"
     private ToggleButton closeButton; // Value injected by FXMLLoader
 
-    @FXML // fx:id="emailButton"
-    private ToggleButton emailButton; // Value injected by FXMLLoader
-
     @FXML // fx:id="summray"
     private Label summray; // Value injected by FXMLLoader
+
+    @FXML // fx:id="summray1"
+    private Label summray1; // Value injected by FXMLLoader
 
     @FXML
     void closeStage(ActionEvent event) {
@@ -47,16 +47,12 @@ public class BookingSummaryController {
 		}
     }
 
-    @FXML
-    void emailReminder(ActionEvent event) {
-
-    }
-
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert closeButton != null : "fx:id=\"closeButton\" was not injected: check your FXML file 'bookingSummary.fxml'.";
-        assert emailButton != null : "fx:id=\"emailButton\" was not injected: check your FXML file 'bookingSummary.fxml'.";
         assert summray != null : "fx:id=\"summray\" was not injected: check your FXML file 'bookingSummary.fxml'.";
+        assert summray1 != null : "fx:id=\"summray1\" was not injected: check your FXML file 'bookingSummary.fxml'.";
+        
         BookingRequest request2 = request.getRequest();
         String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n"
         		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()

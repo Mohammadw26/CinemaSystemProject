@@ -27,23 +27,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class ChooseScreeningController {
-	private TavSagoal restrictions;
+	private static TavSagoal restrictions;
 	private Screening screening;
-	public TavSagoal getRestrictions() {
-		return restrictions;
-	}
-
-	
-	public void setRestrictions(TavSagoal restrictions) {
-		this.restrictions = restrictions;
-	}
 	private static CinemaMovie movie;
-	
 	private static List<SirtyaBranch> allBranches;
 	
-	public static void setMovie(CinemaMovie movay) {
-		movie = movay;
-	}
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -87,6 +75,18 @@ public class ChooseScreeningController {
     @FXML // fx:id="coronaCombo"
     private ComboBox<String> coronaCombo; // Value injected by FXMLLoader
     
+	public static TavSagoal getRestrictions() {
+		return restrictions;
+	}
+
+	public static void setRestrictions(TavSagoal newRests) {
+		restrictions = newRests;
+	}
+	
+	public static void setMovie(CinemaMovie movay) {
+		movie = movay;
+	}
+    
     @FXML
     void returnToCat(MouseEvent event) {
 		try {
@@ -99,7 +99,7 @@ public class ChooseScreeningController {
 
     @FXML
     void selectScreening(MouseEvent event) {
-    	if(!TavSagoal.isEffective()) {
+    	if(!restrictions.isEffective()) {
     		try {
     			App.setRoot("SeatChoosing");
     		} catch (IOException e) {
@@ -133,20 +133,25 @@ public class ChooseScreeningController {
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-    	coronaCombo.setVisible(false);
-    	coronaLabel.setVisible(false);
-    	restrictions = TavSagoal.getTavSagoal();
-    	TavSagoal.setEffective(false);
-    	TavSagoal.setY(20);
-    	
-    	
-    	if (TavSagoal.isEffective()) {
+        assert screeningsTable != null : "fx:id=\"screeningsTable\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert dateCol != null : "fx:id=\"dateCol\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert timeCol != null : "fx:id=\"timeCol\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert branchCol != null : "fx:id=\"branchCol\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert hallCol != null : "fx:id=\"hallCol\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert seatsNumCol != null : "fx:id=\"seatsNumCol\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert poster != null : "fx:id=\"poster\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert select != null : "fx:id=\"select\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert returnBtn != null : "fx:id=\"returnBtn\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert coronaCombo != null : "fx:id=\"coronaCombo\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+        assert coronaLabel != null : "fx:id=\"coronaLabel\" was not injected: check your FXML file 'chooseScreening.fxml'.";
+    	if (restrictions.isEffective()) {
     		for (Screening screening: movie.getScreenings()) {
     			int temp;
-    			if (screening.getHall().getSeatsNum() > 1.2*TavSagoal.getY()) {
-    				temp = TavSagoal.getY();
-    			} else if (screening.getHall().getSeatsNum() > 0.8*TavSagoal.getY()) {
-    				temp = (int) (0.8 * ((double) TavSagoal.getY()));
+    			if (screening.getHall().getSeatsNum() > 1.2*restrictions.getY()) {
+    				temp = restrictions.getY();
+    			} else if (screening.getHall().getSeatsNum() > 0.8*restrictions.getY()) {
+    				temp = (int) (0.8 * ((double) restrictions.getY()));
     			} else {
     				temp = screening.getHall().getSeatsNum()/2;
     			}

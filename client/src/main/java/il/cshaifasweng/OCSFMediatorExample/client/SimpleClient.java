@@ -19,6 +19,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.RentRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 
 
 public class SimpleClient extends AbstractClient {
@@ -61,6 +62,24 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		 else if(msgString.startsWith("#TavSagoalUpdated")) {
+				TavSagoalUpdatingController.setFlag(true);
+				try {
+					App.setRoot("TavSagoalUpdating");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else if(msgString.startsWith("#TavSagoalStatus")) {
+				ChooseScreeningController.setRestrictions((TavSagoal) (((Message) msg).getObject()));
+				try {
+					App.setRoot("chooseScreening");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		else if (msgString.startsWith("#RefreshDelete")) {
 			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {

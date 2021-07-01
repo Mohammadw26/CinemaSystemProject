@@ -375,7 +375,7 @@ public class SeatChoosingController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        if (TavSagoal.isEffective()) {
+    	if (ChooseScreeningController.getRestrictions().isEffective()) {
                 seatChoosingScene.setDisable(true);
         }
         assert gridSeats != null : "fx:id=\"gridSeats\" was not injected: check your FXML file 'SeatChoosing.fxml'.";
@@ -440,7 +440,7 @@ public class SeatChoosingController {
 		+ "\nCost per ticket: " + screening.getMovie().getTicketCost());
         chosenNum.setText("Number of chosen seats: " + Integer.toString(counter));
         availableSeatsLabel.setText("Available seats: " + Integer.toString(screening.getAvailableSeats()));
-        if (TavSagoal.isEffective()) {
+        if (ChooseScreeningController.getRestrictions().isEffective()) {
                 AutomaticBooking();
                 bookSeat.setDisable(false);
                 bookSeat();

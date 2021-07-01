@@ -29,6 +29,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.TabPurchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
@@ -44,6 +45,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import il.cshaifasweng.OCSFMediatorExample.helpers.ScreeningTimeComparator;
 import il.cshaifasweng.OCSFMediatorExample.helpers.SendEmailTLS;
 
 public class SimpleServer extends AbstractServer {
@@ -206,6 +208,92 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.startsWith("#DeleteMovieComingSoon")) {
 			DeleteMovieComingSoon((ComingSoonMovie) ((Message) msg).getObject(), client);
 		}
+		else if (msgString.startsWith("#UpdateTav")) {
+			UpdateTav((Message) msg, client);
+		}
+		else if (msgString.startsWith("#TavSagoalStatus")) {
+			sendTavSagoal(client);
+		}
+	}
+	
+	private void sendTavSagoal(ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ArrayList<TavSagoal> temp = getAll(TavSagoal.class);
+		//TavSagoal temp2 = temp.get(0);
+		
+		try {
+			client.sendToClient(new Message("#TavSagoalStatus",temp.get(0)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+	
+	private void UpdateTav(Message msg,ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ArrayList<TavSagoal> temp = getAll(TavSagoal.class);
+		TavSagoal temp2 = temp.get(0);
+		TavSagoal temp3 = (TavSagoal)msg.getObject();
+		temp2.setEffective(temp3.isEffective());
+		temp2.setFromDate(temp3.getFromDate());
+		temp2.setToDate(temp3.getToDate());
+		temp2.setY(temp3.getY());
+		session.save(temp2);
+		session.flush();
+		String str1 = temp2.getFromDate();
+		String str2 = temp2.getToDate();
+		if (str1 != "" && str2 != "") {
+			ArrayList<Screening> screeningTemp = getAll(Screening.class);
+			ScreeningTimeComparator util = new ScreeningTimeComparator();
+			for (Screening screening : screeningTemp) {
+				if (util.compare(screening, str1) != -1 && util.compare(screening, str2) != 1) {
+					ScreeningCancelationEmail(screening);
+//					screening.getMovie().getScreenings().remove(screening);
+//					screening.getBranch().getScreenings().remove(screening);
+//					screening.getHall().getScreening().remove(screening);
+//					screening.setMovie(null);
+//					screening.setBranch(null);
+//					screening.setHall(null);
+					session.save(screening);
+					session.delete(screening);
+					session.flush();
+				}
+			}
+		}
+		session.getTransaction().commit();
+		try {
+			client.sendToClient(new Message("#TavSagoalUpdated"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+	
+	private void ScreeningCancelationEmail(Screening screening) {
+		List<Ticket> list = screening.getTickets();
+		if (list.size()==0)
+			return;
+		for (Ticket ticket : list) {
+			session.save(screening);
+			String temp = "Dear Mr/Ms " + ticket.getCustomer().getFirstName() + " " + ticket.getCustomer().getLastName() + ",\n\nWe're Sorry to inform you that due to the Tav-Sagoal restrictions the screening of the movie \"" + screening.getMovie().getMovieTitle();
+			temp += "\" on " + screening.getScreeningDate() + " at " + screening.getScreeningTime() + " has been canceled.\n";
+			temp += "That includes the cancelation of your reservation over ticket ID " + ticket.getId() + ", Seat ID " + ticket.getSeat() + ".\n";
+			if (ticket.getCost()>0) {
+				String temp2 = String.valueOf(ticket.getCreditCardNum()); 
+				temp2 = temp2.substring(temp2.length()-4);
+				temp += "A refund to your credit card, *" + temp2 + ", will be made.\n\n -Dream Palace Cinema.";
+				ticket.setRefunded(true);
+				ticket.setScreening(null);
+				session.save(ticket);
+				session.flush();
+			}
+			SendEmailTLS.SendMailTo(ticket.getCustomer().getElectronicMail(), "Screening Cancelation Refund", temp);
+		}
+		return;
 	}
 
 	private void DeleteMovieRegular(CinemaMovie object, ConnectionToClient client) {
@@ -811,6 +899,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(OnDemandMovie.class);
 		configuration.addAnnotatedClass(Rent.class);
 		configuration.addAnnotatedClass(TabPurchase.class);
+		configuration.addAnnotatedClass(TavSagoal.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -841,6 +930,13 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private static void initializeData() throws Exception {
+		TavSagoal temp = new TavSagoal();
+		temp.setEffective(true);
+		temp.setFromDate("");
+		temp.setToDate("");
+		temp.setY(200);
+		session.save(temp);
+		session.flush();
 		Image image_1 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/36/Haunt2019Poster.jpg");
 		Image image_2 = new Image("Thumbnail",
 				"https://upload.wikimedia.org/wikipedia/en/0/00/Us_%282019%29_theatrical_poster.png");
