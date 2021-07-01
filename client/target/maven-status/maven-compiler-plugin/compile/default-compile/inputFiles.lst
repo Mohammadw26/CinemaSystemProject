@@ -1,4 +1,5 @@
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\App.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SubmitComplaintController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddHallController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ReportsReviewController.java
@@ -16,6 +17,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SimpleClient.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableSWRClient.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMovieController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditMoviesController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesReportController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditMovieScreeningsController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesByBranchReportsController.java
@@ -26,6 +28,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\DeleteMovieScreeningController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BookingOrderController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ChooseScreeningController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditStreemingLinkAndDateController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SeatChoosingController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SignUpController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.java

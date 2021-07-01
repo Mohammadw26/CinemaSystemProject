@@ -125,6 +125,21 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	private DatePicker datePick;
+	
+    @FXML
+    private Button editMovieBtn;
+	
+	 @FXML
+	    void goToEditMovies(ActionEvent event) {
+	    	EditMoviesController.setMovie((CinemaMovie) movie);
+			EditMoviesController.setTypeIndex(1);
+			try {
+				App.setRoot("editMovies");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
 
 	@FXML
 	void ApplyChanges(ActionEvent event) {
@@ -257,6 +272,8 @@ public class EditMovieScreeningsController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+        assert editMovieBtn != null : "fx:id=\"editMovieBtn\" was not injected: check your FXML file 'editMovieScreenings.fxml'.";
+
 		TitleField.setText(movie.getMovieTitle());
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<>("screeningTime"));

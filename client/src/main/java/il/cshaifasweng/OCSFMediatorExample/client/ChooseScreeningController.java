@@ -11,11 +11,13 @@ import java.util.ResourceBundle;
 
 import javafx.scene.control.TableColumn;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -70,6 +72,9 @@ public class ChooseScreeningController {
 	
     @FXML
     private TableColumn<Screening, String> hallCol;
+    
+    @FXML
+    private Button editMovieProperties;
     
 
     @FXML // fx:id="seatsNumCol"
@@ -133,6 +138,7 @@ public class ChooseScreeningController {
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+
     	coronaCombo.setVisible(false);
     	coronaLabel.setVisible(false);
     	restrictions = TavSagoal.getTavSagoal();

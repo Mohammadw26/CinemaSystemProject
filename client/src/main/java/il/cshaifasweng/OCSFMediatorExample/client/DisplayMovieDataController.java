@@ -34,7 +34,7 @@ import javafx.scene.layout.BackgroundSize;
 
 
 public class DisplayMovieDataController {
-	private int typeIndex; // 1 - Cinema Movie || 2 - On-Demand || 3 - Coming soon
+	public int typeIndex; // 1 - Cinema Movie || 2 - On-Demand || 3 - Coming soon
 	private Movie movie;
 	private int counter;
 	private static boolean isWorker = false;
@@ -209,6 +209,17 @@ public class DisplayMovieDataController {
 		}
 		else if(typeIndex == 2) {
 			EditMoviesController.setMovie((OnDemandMovie) movie);
+			EditMoviesController.setTypeIndex(typeIndex);
+			try {
+				App.setRoot("editMovies");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(typeIndex == 3) {
+			EditMoviesController.setMovie((ComingSoonMovie) movie);
+			EditMoviesController.setTypeIndex(typeIndex);
 			try {
 				App.setRoot("editMovies");
 			} catch (IOException e) {
