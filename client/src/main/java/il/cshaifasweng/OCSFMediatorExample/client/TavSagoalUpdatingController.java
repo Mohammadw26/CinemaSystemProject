@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 
 public class TavSagoalUpdatingController {
 	private static boolean flag = false;
+	private static TavSagoal updateValues;
 
     public static boolean isFlag() {
 		return flag;
@@ -30,6 +31,16 @@ public class TavSagoalUpdatingController {
 	public static void setFlag(boolean flag) {
 		TavSagoalUpdatingController.flag = flag;
 	}
+
+	public static TavSagoal getUpdateValues() {
+		return updateValues;
+	}
+
+	public static void setUpdateValues(TavSagoal updateValues) {
+		TavSagoalUpdatingController.updateValues = updateValues;
+	}
+
+
 
 	@FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -63,6 +74,9 @@ public class TavSagoalUpdatingController {
     
     @FXML // fx:id="img"
     private ImageView img; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="toggle1"
+    private CheckBox toggle1; // Value injected by FXMLLoader
    
 
     @FXML
@@ -110,6 +124,22 @@ public class TavSagoalUpdatingController {
 			e.printStackTrace();
 		}
     }
+    
+    @FXML
+    void noRestrictionToggle(ActionEvent event) {
+    	toggle.setSelected(false);
+        maxNum.setDisable(true);
+        fromDate.setDisable(true);
+        toDate.setDisable(true);
+    }
+
+    @FXML
+    void restricionToggle(ActionEvent event) {
+    	toggle1.setSelected(false);
+        maxNum.setDisable(false);
+        fromDate.setDisable(false);
+        toDate.setDisable(false);
+    }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
@@ -122,10 +152,31 @@ public class TavSagoalUpdatingController {
         assert msg != null : "fx:id=\"msg\" was not injected: check your FXML file 'TavSagoalUpdating.fxml'.";
         assert updateButton != null : "fx:id=\"updateButton\" was not injected: check your FXML file 'TavSagoalUpdating.fxml'.";
         assert img != null : "fx:id=\"img\" was not injected: check your FXML file 'TavSagoalUpdating.fxml'.";
+        assert toggle1 != null : "fx:id=\"toggle1\" was not injected: check your FXML file 'TavSagoalUpdating.fxml'.";
         if (isFlag()) {
         	img.setVisible(false);
         	msg.setVisible(true);
         	flag = false;
+        	if (updateValues.isEffective()) {
+            	toggle1.setSelected(false);
+            	toggle.setSelected(true);
+            	maxNum.setDisable(false);
+            	fromDate.setDisable(false);
+            	toDate.setDisable(false);
+            	maxNum.setText(String.valueOf(updateValues.getY()));
+        	} else {
+            	toggle1.setSelected(true);
+            	toggle.setSelected(false);
+            	maxNum.setDisable(true);
+            	fromDate.setDisable(true);
+            	toDate.setDisable(true);
+        	}
+        }else {
+        	toggle1.setSelected(true);
+        	toggle.setSelected(false);
+        	maxNum.setDisable(true);
+        	fromDate.setDisable(true);
+        	toDate.setDisable(true);
         }
     }
 }

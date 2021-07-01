@@ -23,20 +23,22 @@
          </items>
       </ToolBar>
       <Button fx:id="returnBtn" layoutX="1164.0" layoutY="6.0" mnemonicParsing="false" onAction="#returnToCatalog" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
-      <CheckBox fx:id="toggle" layoutX="65.0" layoutY="81.0" mnemonicParsing="false" text="Toggle Tav-Sagoal restrictions." />
-      <DatePicker fx:id="fromDate" layoutX="381.0" layoutY="169.0" />
-      <DatePicker fx:id="toDate" layoutX="585.0" layoutY="169.0" />
-      <TextField fx:id="maxNum" layoutX="370.0" layoutY="123.0" />
-      <Label layoutX="65.0" layoutY="127.0" text="Maximum number of people allowed on a closed area:" />
-      <Label layoutX="65.0" layoutY="173.0" text="Restrictions of unessencial activities are in effect between:" />
-      <Label layoutX="566.0" layoutY="172.0" prefHeight="18.0" prefWidth="17.0" text="&amp;" />
-      <Label fx:id="warn" layoutX="65.0" layoutY="269.0" text="You must fill all fields to update/ toggle restrictions." textFill="RED" visible="false" />
-      <Label fx:id="msg" layoutX="739.0" layoutY="269.0" text="Updated successfully." textFill="GREEN" visible="false" />
-      <Button fx:id="updateButton" layoutX="647.0" layoutY="265.0" mnemonicParsing="false" onAction="#update" text="Update" />
-      <ImageView fx:id="img" fitHeight="40.0" fitWidth="31.0" layoutX="704.0" layoutY="262.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <CheckBox fx:id="toggle" layoutX="65.0" layoutY="118.0" mnemonicParsing="false" onAction="#restricionToggle" text="There are Tav-sagoal restrictions" />
+      <DatePicker fx:id="fromDate" layoutX="381.0" layoutY="205.0" />
+      <DatePicker fx:id="toDate" layoutX="585.0" layoutY="205.0" />
+      <TextField fx:id="maxNum" layoutX="370.0" layoutY="159.0" />
+      <Label layoutX="65.0" layoutY="163.0" text="Maximum number of people allowed on a closed area:" />
+      <Label layoutX="65.0" layoutY="209.0" text="Restrictions of unessential activities are in effect between:" />
+      <Label layoutX="566.0" layoutY="208.0" prefHeight="18.0" prefWidth="17.0" text="&amp;" />
+      <Label fx:id="warn" layoutX="65.0" layoutY="325.0" text="You must fill all fields to update/ toggle restrictions." textFill="RED" visible="false" />
+      <Label fx:id="msg" layoutX="708.0" layoutY="325.0" text="Updated successfully." textFill="GREEN" visible="false" />
+      <Button fx:id="updateButton" layoutX="647.0" layoutY="321.0" mnemonicParsing="false" onAction="#update" text="Update" />
+      <ImageView fx:id="img" fitHeight="40.0" fitWidth="31.0" layoutX="704.0" layoutY="318.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@Loading.gif" />
          </image>
       </ImageView>
+      <CheckBox fx:id="toggle1" layoutX="65.0" layoutY="76.0" mnemonicParsing="false" onAction="#noRestrictionToggle" text="There are no restrictions." />
+      <Label layoutX="771.0" layoutY="209.0" prefHeight="18.0" prefWidth="318.0" text="(If there are no such restrictions, keep dates fields empty.)" />
    </children>
 </AnchorPane>
