@@ -202,7 +202,8 @@ public class SimpleServer extends AbstractServer {
 			UpdateTav((Message) msg, client);
 		} else if (msgString.startsWith("#TavSagoalStatus")) {
 			sendTavSagoal(client);
-
+		} else if (msgString.startsWith("#getAllMovies")) {
+			sendRefreshcatalogevent();
 		} else if (msgString.startsWith("#AddPriceRequest")) {
 			addPriceRequest((Price) ((Message) msg).getObject(), client);
 		} else if (msgString.startsWith("#changePrice")) {
@@ -223,6 +224,18 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	private void sendRefreshcatalogevent() {
+		try {
+			List<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
+			List<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
+			List<OnDemandMovie> onDemandList = getAll(OnDemandMovie.class);
+			Message msg = new Message("#RefreshCatalog", cinMovieList, soonMovieList, onDemandList);
+			this.sendToAllClients(msg);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -302,6 +315,9 @@ public class SimpleServer extends AbstractServer {
 		session.save(request);
 		session.flush();
 		session.getTransaction().commit();
+		priceList = getAll(Price.class);
+		Message msg = new Message("#RefreshPriceRequest",priceList );
+		this.sendToAllClients(msg);
 		session.close();
 
 	}

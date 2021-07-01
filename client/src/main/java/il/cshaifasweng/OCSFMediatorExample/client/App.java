@@ -79,19 +79,19 @@ public class App extends Application {
 //    	});
     }
     
-    @SuppressWarnings("unchecked")
-	@Subscribe
-	public void onPriceReceivedEvent(PriceReceivedEvent event) {
-		PriceRequestsController.setAllPrices((List<Price>) event.getPriceList());
-
-		try {
-			App.setRoot("priceRequest");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+//    @SuppressWarnings("unchecked")
+//	@Subscribe
+//	public void onPriceReceivedEvent(PriceReceivedEvent event) {
+//		PriceRequestsController.setAllPrices((List<Price>) event.getPriceList());
+//
+//		try {
+//			App.setRoot("priceRequest");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//	}
     
     @SuppressWarnings("unchecked")
 	@Subscribe

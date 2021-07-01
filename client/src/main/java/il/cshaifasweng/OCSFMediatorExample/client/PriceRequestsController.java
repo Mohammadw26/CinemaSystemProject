@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,15 +21,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PriceRequestsController {
-	private static List<Price> allPrices;
-	private static Price temp;
-	public static List<Price> getAllPrices() {
-		return allPrices;
-	}
+	ObservableList<Price> list =  FXCollections.observableArrayList();
 
-	public static void setAllPrices(List<Price> list) {
-		PriceRequestsController.allPrices = list;
-	}
+//	private static List<Price> allPrices;
+	private static Price temp;
+//	public static List<Price> getAllPrices() {
+//		return allPrices;
+//	}
+//
+//	public static void setAllPrices(List<Price> list) {
+//		PriceRequestsController.allPrices = list;
+//	}
 
 	@FXML
 	private Button backButton;
@@ -104,19 +107,18 @@ public class PriceRequestsController {
 		 temp = priceReqTable.getItems().get(priceReqTable.getSelectionModel().getSelectedIndex());
 	    }
 	
-	ObservableList<Price> list = FXCollections.observableArrayList(getAllPrices());
+	
 
 	@FXML
 	void initialize() {
-//		EventBus.getDefault().register(this);
-		
+		EventBus.getDefault().register(this);
 		movieNameCol.setCellValueFactory(new PropertyValueFactory<Price, String>("movieName"));
 		newPriceCol.setCellValueFactory(new PropertyValueFactory<Price, Double>("newPrice"));
 		oldPriceCol.setCellValueFactory(new PropertyValueFactory<Price, Double>("oldPrice"));
 		submittedbyCol.setCellValueFactory(new PropertyValueFactory<Price, String>("workerName"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestDate"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestTime"));
-		priceReqTable.setItems(list);
+//		priceReqTable.setItems(list);
 		
 		assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert priceReqTable != null
@@ -136,19 +138,26 @@ public class PriceRequestsController {
 
 	}
 	
-//
-//	@SuppressWarnings("unchecked")
-//	@Subscribe
-//	public void onPriceReceivedEvent(PriceReceivedEvent event) {
+
+	@SuppressWarnings("unchecked")
+	@Subscribe
+	public void onPriceReceivedEvent(PriceReceivedEvent event) {
 //		EventBus.getDefault().register(this);
 //		PriceRequestsController.setAllPrices((List<Price>) event.getPriceList());
-
-//		try {
-//			App.setRoot("priceRequest");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
+		Platform.runLater(()->{
+			list.clear();
+			list.addAll((List<Price>)event.getPriceList());
+			priceReqTable.getItems().clear();
+			priceReqTable.getItems().addAll(list);
+		});
+	}
+	
+//	@Subscribe
+//	public void onRefreshPriceRequest(RefreshPriceRequest event) {
+//			list.clear();
+//			list.addAll((List<Price>)event.getPricesList());
+//			priceReqTable.getItems().clear();
+//			priceReqTable.getItems().addAll(list);
+//			initialize();
 //	}
 }

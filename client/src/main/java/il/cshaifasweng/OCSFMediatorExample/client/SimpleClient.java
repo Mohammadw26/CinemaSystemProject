@@ -40,6 +40,10 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new BranchesReceivedEvent((Message) msg));
 		} else if (msgString.startsWith("#WorkersList")) {
 			EventBus.getDefault().post(new WorkersReceivedEvent((Message) msg));
+		} else if (msgString.startsWith("#RefreshCatalog")) {
+			EventBus.getDefault().post(new RefreshCatalogEvent((Message) msg));
+		} else if (msgString.startsWith("#RefreshPriceRequest")) {
+			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
 		} else if (msgString.startsWith("#RefreshAdd")) {
 			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
@@ -210,10 +214,15 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		} else if (msgString.startsWith("#PricesList")) {
+			try {
+				App.setRoot("priceRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
-		}
+		} else if (msgString.startsWith("#RefreshDeletePrice")) {
 
-		else if (msgString.startsWith("#RefreshDeletePrice")) {
 			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
 //			PriceRequestsController.setAllPrices((List<Price>)((Message) msg).getObject());
 //			try {
