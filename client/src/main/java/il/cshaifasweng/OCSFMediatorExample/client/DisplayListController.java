@@ -435,6 +435,18 @@ public class DisplayListController {
 			e1.printStackTrace();
 		}
     }
+	
+	 @FXML
+	    void ViewRequests(ActionEvent event) {
+	    	
+	    	try {
+				SimpleClient.getClient().sendToServer("#PricesListRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	    }
 	/*
 	 * @FXML void startDisplay(ActionEvent event) { Platform.runLater(() -> {
 	 * gridList.getChildren().clear(); for (int i = 0; i < rowsNum; i++) { for (int

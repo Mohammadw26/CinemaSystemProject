@@ -21,7 +21,6 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 
-
 public class SimpleClient extends AbstractClient {
 	/**
 	 * 
@@ -37,14 +36,11 @@ public class SimpleClient extends AbstractClient {
 		String msgString = ((Message) msg).getMessage();
 		if (msgString.startsWith("#SendLists")) {
 			EventBus.getDefault().post(new MoviesReceivedEvent((Message) msg));
-		}
-		else if (msgString.startsWith("#BranchesList")) {
+		} else if (msgString.startsWith("#BranchesList")) {
 			EventBus.getDefault().post(new BranchesReceivedEvent((Message) msg));
-		}
-		else if (msgString.startsWith("#WorkersList")) {
+		} else if (msgString.startsWith("#WorkersList")) {
 			EventBus.getDefault().post(new WorkersReceivedEvent((Message) msg));
-		}
-		else if (msgString.startsWith("#RefreshAdd")) {
+		} else if (msgString.startsWith("#RefreshAdd")) {
 			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
@@ -52,8 +48,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#RefreshEdit")) {
+		} else if (msgString.startsWith("#RefreshEdit")) {
 			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
@@ -61,27 +56,24 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		 else if(msgString.startsWith("#TavSagoalUpdated")) {
-			 	TavSagoalUpdatingController.setUpdateValues((TavSagoal) ((Message) msg).getObject());
-				TavSagoalUpdatingController.setFlag(true);
-				try {
-					App.setRoot("TavSagoalUpdating");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		} else if (msgString.startsWith("#TavSagoalUpdated")) {
+			TavSagoalUpdatingController.setUpdateValues((TavSagoal) ((Message) msg).getObject());
+			TavSagoalUpdatingController.setFlag(true);
+			try {
+				App.setRoot("TavSagoalUpdating");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			else if(msgString.startsWith("#TavSagoalStatus")) {
-				ChooseScreeningController.setRestrictions((TavSagoal) (((Message) msg).getObject()));
-				try {
-					App.setRoot("chooseScreening");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		} else if (msgString.startsWith("#TavSagoalStatus")) {
+			ChooseScreeningController.setRestrictions((TavSagoal) (((Message) msg).getObject()));
+			try {
+				App.setRoot("chooseScreening");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		else if (msgString.startsWith("#RefreshDelete")) {
+		} else if (msgString.startsWith("#RefreshDelete")) {
 			EditMovieScreeningsController.setMovieRegular((CinemaMovie) ((Message) msg).getObject());
 			try {
 				App.setRoot("editMovieScreenings");
@@ -89,18 +81,17 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#ReportsList")) {
+		} else if (msgString.startsWith("#ReportsList")) {
 			TicketsSalesReportController.setAllBranches((List<SirtyaBranch>) ((Message) msg).getObject());
-			RentLinksReportsController.setOthersList((List<Purchase>)((Message)msg).getObject2());
+			RentLinksReportsController.setOthersList((List<Purchase>) ((Message) msg).getObject2());
 			try {
 				App.setRoot("ReportsReview");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			}
-		
+		}
+
 		else if (msgString.startsWith("#SeatsSaved")) {
 			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {
@@ -109,16 +100,14 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#SeatsFreed")) {
+		} else if (msgString.startsWith("#SeatsFreed")) {
 			try {
 				SimpleClient.getClient().sendToServer("#CatalogRequest");
-		    	} catch (IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#BookedNonMember")) {
+		} else if (msgString.startsWith("#BookedNonMember")) {
 			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("bookingSummary");
@@ -126,8 +115,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#RentedNonMember")) {
+		} else if (msgString.startsWith("#RentedNonMember")) {
 			RentingSummaryController.setRequest((RentRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("rentingSummary");
@@ -135,8 +123,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#BookedMember")) {
+		} else if (msgString.startsWith("#BookedMember")) {
 			BookingSummaryController.setRequest((FullOrderRequest) ((Message) msg).getObject());
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject2());
 			try {
@@ -145,8 +132,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#RentedMember")) {
+		} else if (msgString.startsWith("#RentedMember")) {
 			RentingSummaryController.setRequest((RentRequest) ((Message) msg).getObject());
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject2());
 			try {
@@ -155,8 +141,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#WorkerLogIn")) {
+		} else if (msgString.startsWith("#WorkerLogIn")) {
 			DisplayListController.setWorker((Worker) ((Message) msg).getObject());
 			try {
 				App.setRoot("primary");
@@ -164,8 +149,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#MemberLogIn2")) {
+		} else if (msgString.startsWith("#MemberLogIn2")) {
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
 			try {
 				BookingOrderController.setStatus(1);
@@ -174,8 +158,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#MemberLogIn3")) {
+		} else if (msgString.startsWith("#MemberLogIn3")) {
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
 			try {
 				RentMovieController.setStatus(1);
@@ -184,8 +167,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#MemberLogIn")) {
+		} else if (msgString.startsWith("#MemberLogIn")) {
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
 			try {
 				App.setRoot("primary");
@@ -193,8 +175,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#LogInFailed2")) {
+		} else if (msgString.startsWith("#LogInFailed2")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {
 				BookingOrderController.setStatus(2);
@@ -203,8 +184,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#LogInFailed3")) {
+		} else if (msgString.startsWith("#LogInFailed3")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {
 				RentMovieController.setStatus(2);
@@ -213,8 +193,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#LogInFailed")) {
+		} else if (msgString.startsWith("#LogInFailed")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("adminPanel");
@@ -222,27 +201,45 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if(msgString.startsWith("#RefreshMovieDelete")) {
+		} else if (msgString.startsWith("#RefreshMovieDelete")) {
 			System.out.println("At RefreshDeleteMovie\n");
 			try {
 				SimpleClient.getClient().sendToServer("#CatalogRequest");
-		    	} catch (IOException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (msgString.startsWith("#PricesList")) {
+			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
+		}
+
+		else if (msgString.startsWith("#RefreshDeletePrice")) {
+			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
+//			PriceRequestsController.setAllPrices((List<Price>)((Message) msg).getObject());
+//			try {
+//				App.setRoot("priceRequest");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		} else if (msgString.startsWith("#RefreshChangePrice")) {
+			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
+//			PriceRequestsController.setAllPrices((List<Price>)((Message) msg).getObject());
+//			try {
+//				App.setRoot("priceRequest");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		}
 	}
-			
-			
+
 //		if (msg.getClass().equals(MovieList.class)) {
 //			EventBus.getDefault().register(this);
 //			EventBus.getDefault().post(new MoviesReceivedEvent((MovieList) msg));
 //		}
 //	}
 
-	
-	
 	public static SimpleClient getClient() {
 		if (client == null) {
 			client = new SimpleClient("localhost", 3000);

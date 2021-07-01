@@ -7,6 +7,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
@@ -22,8 +23,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EditMovieScreeningsController {
@@ -125,6 +128,8 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	private DatePicker datePick;
+	@FXML
+    private Text requestSent;
 
 	@FXML
 	void ApplyChanges(ActionEvent event) {
@@ -177,8 +182,23 @@ public class EditMovieScreeningsController {
 			}
 			
 		}
-		else if(optionField.getValue() == "change price" ){
-			
+		else if(optionField.getValue() == "Change price" ){
+			requestSent.setVisible(true);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm:ss");
+			String transactionTime = formatter.format(LocalDateTime.now());
+			String time = transactionTime.substring(transactionTime.lastIndexOf(",") + 1);
+			String date = transactionTime.substring(0,10);
+			Price request = 
+					new Price(movie.getMovieTitle(),DisplayListController.getWorker().getWorkerName(),
+							movie.getTicketCost(),Double.parseDouble(priceField.getText()),date,time);
+			request.setMovieID(movie.getId());
+			request.setWorkerID(DisplayListController.getWorker().getWorkerID());
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#AddPriceRequest",request));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	}
