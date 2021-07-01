@@ -63,6 +63,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		}
 		 else if(msgString.startsWith("#TavSagoalUpdated")) {
+			 	TavSagoalUpdatingController.setUpdateValues((TavSagoal) ((Message) msg).getObject());
 				TavSagoalUpdatingController.setFlag(true);
 				try {
 					App.setRoot("TavSagoalUpdating");

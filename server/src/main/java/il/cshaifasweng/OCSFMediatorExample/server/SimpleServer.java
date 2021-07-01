@@ -265,7 +265,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.getTransaction().commit();
 		try {
-			client.sendToClient(new Message("#TavSagoalUpdated"));
+			client.sendToClient(new Message("#TavSagoalUpdated",temp2));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
