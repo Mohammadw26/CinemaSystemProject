@@ -20,6 +20,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Platform;
@@ -153,16 +154,17 @@ public class DisplayListController {
 
     @FXML
     void GoToAddComplaint(ActionEvent event) {
-    	if (member != null) SubmitComplaintController.setBuyer(member);
-    	else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
+    	if (member != null) {
+    		SubmitComplaintController.setBuyer(member);
+    	} else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
     		SubmitComplaintController.setWorker((CustomerServiceEmployee)worker);
     	}
     	try {
-				App.setRoot("submitComplaint");
-			}	catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				}
+			SimpleClient.getClient().sendToServer(new Message("#GetComplaints", member));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 

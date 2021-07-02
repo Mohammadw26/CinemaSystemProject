@@ -11,6 +11,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
 import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
@@ -240,6 +241,15 @@ public class SimpleClient extends AbstractClient {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
+		}
+		else if (msgString.startsWith("#ShowComplaintsInTable")) {
+			SubmitComplaintController.setComplaints((List<Complaint>) ((Message) msg).getObject());
+			try {
+    			App.setRoot("submitComplaint");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

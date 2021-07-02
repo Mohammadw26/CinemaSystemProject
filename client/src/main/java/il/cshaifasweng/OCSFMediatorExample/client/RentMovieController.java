@@ -163,16 +163,13 @@ public class RentMovieController {
     void ConfirmOrder(ActionEvent event) {
     	if (nameField.getText() == "" || lastNameField.getText() == "" 
     		|| idField.getText() == "" || emailField.getText() == "" || cardField.getText() == "" 
-    		|| (signUpCheck.isSelected() & (newUserField.getText() == "" || newPasswordField.getText() == ""))) {
+    		|| (signUpCheck.isSelected() & (newUserField.getText() == "" || newPasswordField.getText() == "") || datePick.getAccessibleText() == "" || hourField.getAccessibleText() == "")) {
     		warning.setVisible(true);
     	}
     	else {
     		RentRequest request = new RentRequest(nameField.getText(), lastNameField.getText()
-    				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()),movie);
-    		LocalDate newDate = datePick.getValue();
-			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    		request.setStreamingTime(formattedDate);
-    		request.setStreamingHour(Integer.toString(hourField.getValue())+ ":00");
+    								, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()), 
+    								 movie, datePick.getValue(), hourField.getValue());
     		if (signUpCheck.isSelected()) {
     			request.setUsername(newUserField.getText());
     			request.setPassword(newPasswordField.getText());
@@ -217,6 +214,8 @@ public class RentMovieController {
     			idField.setDisable(false);
     			emailField.setDisable(false);
     			cardField.setDisable(false);
+    			datePick.setDisable(false);
+    			hourField.setDisable(false);
     			CinemaMember member = DisplayListController.getMember();
     			nameField.setText(member.getFirstName());
     			lastNameField.setText(member.getLastName());
@@ -266,6 +265,8 @@ public class RentMovieController {
 	    	loginAnchorLabel2.setText("please enter you password to confirm it's you");
 			nameField.setDisable(true);
 			lastNameField.setDisable(true);
+			datePick.setDisable(true);
+			hourField.setDisable(true);
 			idField.setDisable(true);
 			emailField.setDisable(true);
 			cardField.setDisable(true);
@@ -281,6 +282,8 @@ public class RentMovieController {
 			idField.setText(String.valueOf(member.getCustomerId()));
 			emailField.setText(member.getElectronicMail());
 			cardField.setText(String.valueOf(member.getCreditNum()));
+			datePick.setDisable(false);
+			hourField.setDisable(false);
 			signUpCheck.setVisible(false);
 			memberPerksAnchor.setVisible(false);
 			loginAnchor.setVisible(false);

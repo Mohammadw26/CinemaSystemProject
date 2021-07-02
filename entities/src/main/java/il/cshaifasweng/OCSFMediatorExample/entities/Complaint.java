@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,7 +26,7 @@ public class Complaint implements Serializable {
 	private int id;
 	
 	private String description;
-	private String submissionDate;
+	private ZonedDateTime submissionDate;
 	private String response;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -37,10 +39,18 @@ public class Complaint implements Serializable {
 		
 	public Complaint() {}
 	
-	public Complaint(CasualBuyer client, String description, String submissionDate) {
+	public Complaint(CasualBuyer client, String description) {
 		this.client = client;
 		this.description = description;
-		this.submissionDate = submissionDate;
+		this.submissionDate = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public CustomerServiceEmployee getRepresentetive() {
@@ -67,11 +77,11 @@ public class Complaint implements Serializable {
 		this.description = description;
 	}
 
-	public  String getSubmissionDate() {
+	public  ZonedDateTime getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(String submissionDate) {
+	public void setSubmissionDate(ZonedDateTime submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 
@@ -81,6 +91,12 @@ public class Complaint implements Serializable {
 
 	public void setResponse(String response) {
 		this.response = response;
+	}
+	
+
+	public String getCustomerName() {
+		return (this.client.getFirstName() + " " + this.client.getLastName());
+		
 	}
 }
 	

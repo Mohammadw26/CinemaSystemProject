@@ -235,6 +235,57 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.startsWith("#SubmitComplaint")) {
 			SubmitComplaints((Complaint) ((Message) msg).getObject(), client);
 		}
+		else if (msgString.startsWith("#GetComplaints")) {
+			GetComplaints((CasualBuyer) ((Message) msg).getObject(), client);
+		}
+		else if (msgString.startsWith("#SubmitResponseForComplaint")) {
+			StoreComplaintResponse((Complaint) ((Message) msg).getObject());
+		}
+	}
+
+	private void StoreComplaintResponse(Complaint object) {
+		session = sessionFactory.openSession();
+		List<Complaint> complaintList = null;
+		try {
+			complaintList = getAllComplaints();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (Complaint complaint : complaintList) {
+			if (complaint.getId() == object.getId()) {
+				session.beginTransaction();
+				complaint.setResponse(object.getResponse());
+				complaint.setRepresentetive(object.getRepresentetive());
+				session.save(complaint);
+				session.flush();
+				session.getTransaction().commit();
+				break;
+			}
+		}
+		session.close();
+	}
+
+	private void GetComplaints(CasualBuyer casualBuyer, ConnectionToClient client) {
+		try {
+			ArrayList<Complaint> complaintsList = getAllComplaints();
+			if(casualBuyer != null) {
+				ArrayList<Complaint> complaintsList1 = new ArrayList<Complaint>();
+				for(Complaint complaint : complaintsList) {
+					//System.out.print(complaint.getClient().getCustomerId());
+					
+					if(complaint.getClient().getCustomerId() == casualBuyer.getCustomerId()) {
+						complaintsList1.add(complaint);
+					}
+				}
+				complaintsList = complaintsList1;
+			}
+			Message msg = new Message("#ShowComplaintsInTable", complaintsList);
+			this.sendToAllClients(msg);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void SubmitComplaints(Complaint object, ConnectionToClient client) {
@@ -244,8 +295,6 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 		session.getTransaction().commit();
 		session.close();
-
-		
 	}
 
 	private void EditPriceAndStreamingLink(OnDemandMovie object, ConnectionToClient client) {
@@ -933,7 +982,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		temp += ("\n" + request.getCheck() + "\nTransactionTime: " + request.getTransactionTime());
 
-		//SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
+		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
 	}
 
 	private void SendEmail1(RentRequest request) {
@@ -941,11 +990,11 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime() + "\n Start:" + request.getStreamingTime() 
+				+ request.getTransactionTime() + "\n Start:" + request.getStreamingDatetime() 
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
-		//SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
+		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
 	}
 
 	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {
@@ -960,7 +1009,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingTime());
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingDatetime());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -983,7 +1032,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingTime());
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingDatetime());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -1006,7 +1055,7 @@ public class SimpleServer extends AbstractServer {
 					if (member.getUsername().equals(request.getUsername())) {
 						if (member.getPassword().equals(request.getPassword())) {
 							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(),
-									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingTime());
+									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingDatetime());
 							session.save(newRent);
 							session.flush();
 							session.getTransaction().commit();
@@ -1344,11 +1393,33 @@ public class SimpleServer extends AbstractServer {
 
 		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"Jerry98", "wa7wa7");
-
+		CinemaMember client_2 = new CinemaMember("Naruto", "Uzumaki", 125874569, 0000000, "jerryabuayob@gmail.com",
+				"naruto1", "wa7wa7");
+		
+		session.save(client_2);
 		session.save(worker_2);
 		session.save(worker_1);
 		session.save(worker_3);
 		session.save(client_1);
+		session.flush();
+		
+		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
+		Rent purchase1 = new Rent(client_1, 3.0, movie6, "sfdfsfsdf", 4563210,"22/06/2021",now.minusHours(1));
+		Rent purchase2 = new Rent(client_1, 3.0, movie6, "llllllllllll", 4563210,"24/06/2021",now.minusHours(25));
+
+		//tests for purchases
+		//session.save(purchase2);
+		//session.save(purchase1);
+		//session.flush();
+		
+		Complaint complaint0 = new Complaint(client_1, "Your seats are uncomfortable");
+		Complaint complaint1 = new Complaint(client_1, "The screen is too bright!");
+		Complaint complaint2 = new Complaint(client_2, "The screen is too dark!");
+		complaint0.setResponse("hahaha");
+
+		session.save(complaint2);
+		session.save(complaint1);
+		session.save(complaint0);
 		session.flush();
 
 		session.getTransaction().commit();
@@ -1360,6 +1431,15 @@ public class SimpleServer extends AbstractServer {
 		CriteriaQuery<T> query = builder.createQuery(object);
 		query.from(object);
 		ArrayList<T> data = (ArrayList<T>) session.createQuery(query).getResultList();
+		return data;
+	}
+	
+	static ArrayList<Complaint> getAllComplaints() throws Exception {
+		session = sessionFactory.openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Complaint> query = builder.createQuery(Complaint.class);
+		query.from(Complaint.class);
+		ArrayList<Complaint> data = (ArrayList<Complaint>) session.createQuery(query).getResultList();
 		return data;
 	}
 

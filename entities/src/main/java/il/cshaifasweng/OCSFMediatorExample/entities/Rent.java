@@ -1,6 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 
+import java.time.ZonedDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,11 +24,14 @@ public class Rent extends Purchase {
 	private OnDemandMovie movie;
 	private boolean notified;
 	private boolean sentLink;
-	private String streamingDate;
+	private boolean expired;
+
+	private ZonedDateTime streamingDateTime;
+	
 	
 	public Rent() {}
 	
-	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime, String streamingDate) {
+	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime, ZonedDateTime date) {
 		this.customer = client;
 		this.customer.addTicket(this);
 		this.setCost(cost);
@@ -36,7 +41,8 @@ public class Rent extends Purchase {
 		this.transactionTime = transactionTime;
 		this.notified = false;
 		this.sentLink = false;
-		this.setStreamingDate(streamingDate);
+		this.sentLink = false;
+		this.streamingDateTime = date;
 	}
 	
 	
@@ -72,12 +78,20 @@ public class Rent extends Purchase {
 		this.sentLink = sentLink;
 	}
 
-	public String getStreamingDate() {
-		return streamingDate;
+	public ZonedDateTime getStreamingDateTime() {
+		return streamingDateTime;
 	}
 
-	public void setStreamingDate(String streamingDate) {
-		this.streamingDate = streamingDate;
+	public void setStreamingDateTime(ZonedDateTime streamingDateTime) {
+		this.streamingDateTime = streamingDateTime;
+	}
+
+	public boolean isExpired() {
+		return expired;
+	}
+
+	public void setExpired(boolean expired) {
+		this.expired = expired;
 	}	
 	
 	

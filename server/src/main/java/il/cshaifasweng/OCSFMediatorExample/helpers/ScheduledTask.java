@@ -50,15 +50,16 @@ public class ScheduledTask extends TimerTask {
     	for(Rent rent : rentList) {
     		String email = rent.getCustomer().getElectronicMail();
     		try {
-				ArrayList<OnDemandMovie> tmp = getMoviesById(rent.getMovie().getId());
+    			
 //				System.out.println(tmp.get(0).getId());
 //				System.out.println(tmp.get(0).getDateTimeStart());
 //				System.out.println(tmp.get(0).getDateTimeFinish());
-				long diffHours = now.until(tmp.get(0).getDateTimeStart(), ChronoUnit.HOURS);
-				long diffMins = now.until(tmp.get(0).getDateTimeStart(), ChronoUnit.MINUTES);
-				//System.out.println(diff);
+    			
+				long diffHours = now.until(rent.getStreamingDateTime(), ChronoUnit.HOURS);
+				long diffMins = now.until(rent.getStreamingDateTime(), ChronoUnit.MINUTES);
+				//System.out.println(diffHours);
 				if (diffHours < 1 && rent.getNotified() == false) {
-					//SendEmailTLS.SendMailTo(email, "Reminder", "the movie you ordered starts within the hour!\n So grab a popcorn and get ready for some entertainment :D");
+					SendEmailTLS.SendMailTo(email, "Reminder", "the movie you ordered starts within the hour!\n So grab a popcorn and get ready for some entertainment :D");
 					rent.setNotified(true);
 					session.beginTransaction();
 					session.save(rent);
@@ -66,13 +67,22 @@ public class ScheduledTask extends TimerTask {
 					session.getTransaction().commit();
 				}
 				if(diffMins < 1 && rent.getSentLink() == false) {
-					//SendEmailTLS.SendMailTo(email, "The Movie", rent.getMovie().getStreamingLink());
+					SendEmailTLS.SendMailTo(email, "The Movie", rent.getMovie().getStreamingLink());
 					rent.setSentLink(true);
 					session.beginTransaction();
 					session.save(rent);
 					session.flush();
 					session.getTransaction().commit();
 				}
+				if(diffHours < -24 && rent.isExpired() == false) {
+					SendEmailTLS.SendMailTo(email, "Link Expired", "Thank you for choosing Dream Palace Cinema for streaming your movies!");
+					rent.setExpired(true);
+					session.beginTransaction();
+					session.save(rent);
+					session.flush();
+					session.getTransaction().commit();
+				}
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

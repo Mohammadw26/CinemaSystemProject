@@ -32,6 +32,17 @@ public class Purchase implements Serializable {
 	protected double cost;
 	protected String transactionTime;
 	protected long creditCardNum;
+	
+	public Purchase () {}
+	
+	public Purchase (CasualBuyer customer, double cost, String transactionTime, long creditCardNum) {
+		this.customer = customer;
+		this.cost= cost;
+		this.transactionTime = transactionTime;
+		this.creditCardNum = creditCardNum;
+	}
+	
+	
 
 	public CasualBuyer getCustomer() {
 		return customer;
@@ -76,6 +87,7 @@ public class Purchase implements Serializable {
 	public void setTransactionTime(String transactionTime) {
 		this.transactionTime = transactionTime;
 	}
+	
 	
 	
 }
