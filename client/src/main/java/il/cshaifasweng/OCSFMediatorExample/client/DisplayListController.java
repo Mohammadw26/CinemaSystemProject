@@ -2,11 +2,14 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import javafx.scene.input.MouseEvent;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.AnchorPane;
@@ -43,8 +46,6 @@ public class DisplayListController {
 	private int pagesSoon = 1;
 	private int pagesDemand = 1;
 
-	
-	
 	public static CinemaMember getMember() {
 		return member;
 	}
@@ -64,11 +65,11 @@ public class DisplayListController {
 	public static List<CinemaMovie> getMovieList() {
 		return movieList;
 	}
-	
+
 	public static List<ComingSoonMovie> getSoonList() {
 		return soonList;
 	}
-	
+
 	public static List<OnDemandMovie> getOnDemandList() {
 		return onDemandList;
 	}
@@ -76,11 +77,11 @@ public class DisplayListController {
 	public static void setMovieList(List<CinemaMovie> list) {
 		DisplayListController.movieList = list;
 	}
-	
+
 	public static void setSoonList(List<ComingSoonMovie> list) {
 		DisplayListController.soonList = list;
 	}
-	
+
 	public static void setOnDemandList(List<OnDemandMovie> list) {
 		DisplayListController.onDemandList = list;
 	}
@@ -99,15 +100,15 @@ public class DisplayListController {
 
 	@FXML // fx:id="gridList"
 	private GridPane gridList; // Value injected by FXMLLoader
-	
-    @FXML
-    private GridPane gridList2;
-    
-    @FXML
-    private GridPane gridList3;
-    
-    @FXML
-    private Button addMovieBtnNew;
+
+	@FXML
+	private GridPane gridList2;
+
+	@FXML
+	private GridPane gridList3;
+
+	@FXML
+	private Button addMovieBtnNew;
 
 	@FXML
 	private FontAwesomeIconView prevBtn;
@@ -132,16 +133,16 @@ public class DisplayListController {
 
 	@FXML
 	private Button salesReportsBtn;
-	
+
     @FXML
     private Button purchasesBtn;
 
 	@FXML
 	private Button logOutBtn;
-	
+
     @FXML // fx:id="identityLabel"
     private Label identityLabel; // Value injected by FXMLLoader
-    
+
     @FXML
     private FontAwesomeIconView nxtBtn1;
 
@@ -153,72 +154,89 @@ public class DisplayListController {
 
     @FXML
     private FontAwesomeIconView prevBtn2;
-    
+
     @FXML
     void GoToAddComplaint(ActionEvent event) {
     	if (member != null) SubmitComplaintController.setBuyer(member);
     	else if (worker != null) SubmitComplaintController.setWorker(worker);
     	try {
-			App.setRoot("submitComplaint");
+				App.setRoot("submitComplaint");
+			}	catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+    }
+
+
+
+
+	@FXML
+	private Button tavSagoalBtn;
+
+	@FXML
+	void loadTavSagoalUpdate(ActionEvent event) {
+		try {
+			App.setRoot("TavSagoalUpdating");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+			}
     }
-    
-    
+
+
     @FXML
     void goToCancelPurchase(ActionEvent event) {
-    	
+
     }
+
     
-    @FXML
-    void nextPage2(MouseEvent event) throws IOException {
+
+	@FXML
+	void nextPage2(MouseEvent event) throws IOException {
 		pageDemand++;
-		fillGrids(gridList2,2);
+		fillGrids(gridList2, 2);
 		prevBtn2.setVisible(true);
 		if (pageDemand >= pagesDemand) {
 			nxtBtn2.setVisible(false);
 		}
-    }
-    
+	}
 
-    @FXML
-    void prevPage2(MouseEvent event) throws IOException {
-    	if (pageDemand > 1) {
+	@FXML
+	void prevPage2(MouseEvent event) throws IOException {
+		if (pageDemand > 1) {
 			pageDemand--;
-			fillGrids(gridList2,2);
+			fillGrids(gridList2, 2);
 			nxtBtn2.setVisible(true);
 		}
 		if (pageDemand == 1) {
 			prevBtn2.setVisible(false);
 		}
-    }
+	}
 
 	@FXML
-	void nextPage(MouseEvent  event) throws IOException {
+	void nextPage(MouseEvent event) throws IOException {
 		page++;
-		fillGrids(gridList,1);
+		fillGrids(gridList, 1);
 		prevBtn.setVisible(true);
 		if (page >= pages)
 			nxtBtn.setVisible(false);
 	}
 
-    @FXML
-    void nextPage1(MouseEvent event) throws IOException {
-			pageSoon++;
-			fillGrids(gridList3,3);
-			prevBtn1.setVisible(true);
+	@FXML
+	void nextPage1(MouseEvent event) throws IOException {
+		pageSoon++;
+		fillGrids(gridList3, 3);
+		prevBtn1.setVisible(true);
 		if (pageSoon >= pagesSoon) {
 			nxtBtn1.setVisible(false);
 		}
-    }
+	}
 
 	@FXML
-	void prevPage(MouseEvent  event) throws IOException {
+	void prevPage(MouseEvent event) throws IOException {
 		if (page > 1) {
 			page--;
-			fillGrids(gridList,1);
+			fillGrids(gridList, 1);
 			nxtBtn.setVisible(true);
 		}
 		if (page == 1) {
@@ -227,17 +245,17 @@ public class DisplayListController {
 	}
 
 	@FXML
-    void prevPage1(MouseEvent event) throws IOException {
+	void prevPage1(MouseEvent event) throws IOException {
 		if (pageSoon > 1) {
 			pageSoon--;
-			fillGrids(gridList3,3);
+			fillGrids(gridList3, 3);
 			nxtBtn1.setVisible(true);
 		}
 		if (pageSoon == 1) {
 			prevBtn1.setVisible(false);
 		}
-    }
-	
+	}
+
 	@FXML
 	void returnToMain(ActionEvent event) {
 		try {
@@ -248,7 +266,7 @@ public class DisplayListController {
 		}
 	}
 
-	private void fillGrids(GridPane gridList, int listNum ) throws IOException {
+	private void fillGrids(GridPane gridList, int listNum) throws IOException {
 		Platform.runLater(() -> {
 			gridList.getChildren().clear();
 			for (int i = 0; i < rowsNum; i++) {
@@ -256,35 +274,36 @@ public class DisplayListController {
 					Pair<Parent, Object> viewData = null;
 					try {
 						viewData = LayoutManager.getInstance().getFXML("displayMovieData");
-						
+
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					Node itemCell = viewData.getKey();
 					DisplayMovieDataController controller = (DisplayMovieDataController) viewData.getValue();
-					//if (worker != null)
-						//controller.setWorkerMode();
+					// if (worker != null)
+					// controller.setWorkerMode();
 					int index;
-					if (listNum==1)
+					if (listNum == 1)
 						index = (page - 1) * colsNum * rowsNum + i * colsNum + j;
-					else if (listNum==2)
+					else if (listNum == 2)
 						index = (pageDemand - 1) * colsNum * rowsNum + i * colsNum + j;
 					else {
 						index = (pageSoon - 1) * colsNum * rowsNum + i * colsNum + j;
 					}
-					if (listNum==1 && index >= movieList.size()|| listNum==2 && index >= onDemandList.size() || listNum==3 && index >= soonList.size() )
+					if (listNum == 1 && index >= movieList.size() || listNum == 2 && index >= onDemandList.size()
+							|| listNum == 3 && index >= soonList.size())
 						break;
-					if (listNum==1) {
+					if (listNum == 1) {
 						CinemaMovie item = movieList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
 					}
-					if (listNum==2) {
+					if (listNum == 2) {
 						OnDemandMovie item = onDemandList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
 					}
-					if (listNum==3) {
+					if (listNum == 3) {
 						ComingSoonMovie item = soonList.get(index);
 						controller.setType(listNum);
 						controller.setMovie(item);
@@ -316,9 +335,9 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
-    void addMovie(ActionEvent event) {
+	void addMovie(ActionEvent event) {
 		try {
 			App.setRoot("addMovie");
 		} catch (IOException e) {
@@ -326,22 +345,23 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 
-    }
-	
-    @FXML
-    void GoToAddMovie(ActionEvent event) {
-    	try {
+	}
+
+	@FXML
+	void GoToAddMovie(ActionEvent event) {
+		try {
 			App.setRoot("addMovie");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
         assert reviewRequestBtn != null : "fx:id=\"reviewRequestBtn\" was not injected: check your FXML file 'displayList.fxml'.";
 
+		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
 			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
@@ -354,6 +374,7 @@ public class DisplayListController {
 			reviewRequestBtn.setVisible(true);
 			logOutBtn.setVisible(true);
 			reviewRequestBtn.setVisible(true);
+			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(false);
@@ -363,9 +384,7 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 				reviewRequestBtn.setVisible(true);
 				reviewRequestBtn.setDisable(false);
-
-
-
+				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(ContentManager.class)) {
 				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
@@ -375,9 +394,6 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 				reviewRequestBtn.setVisible(true);
 				reviewRequestBtn.setDisable(false);
-
-
-
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
@@ -387,9 +403,7 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 				reviewRequestBtn.setVisible(true);
 				reviewRequestBtn.setDisable(false);
-
-
-
+				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
@@ -398,7 +412,6 @@ public class DisplayListController {
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
 				reviewRequestBtn.setDisable(false);
-
 			}
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
@@ -415,22 +428,21 @@ public class DisplayListController {
 			pages = pages + 1;
 		}
 		prevBtn.setVisible(false);
-		nxtBtn.setVisible(pages>1);
-		
+		nxtBtn.setVisible(pages > 1);
+
 		pagesSoon = soonList.size() / 3;
 		if ((soonList.size() / 3) * 3 < soonList.size()) {
 			pagesSoon = pagesSoon + 1;
 		}
 		prevBtn1.setVisible(false);
-		nxtBtn1.setVisible(pagesSoon>1);
-		
+		nxtBtn1.setVisible(pagesSoon > 1);
+
 		pagesDemand = onDemandList.size() / 3;
 		if ((onDemandList.size() / 3) * 3 < onDemandList.size()) {
 			pagesDemand = pagesDemand + 1;
 		}
 		prevBtn2.setVisible(false);
-		nxtBtn2.setVisible(pagesDemand>1);
-		
+		nxtBtn2.setVisible(pagesDemand > 1);
 
 //		File imagfile1 = new File(System.getProperty("user.dir") + "/Drapes.jpeg");
 //		FileInputStream Image1pixels;
@@ -440,7 +452,7 @@ public class DisplayListController {
 //			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
 //					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 //			gridList.setPadding(new Insets(50, 0, 50, 0));
-//			
+//
 //		} catch (FileNotFoundException e1) {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();
@@ -451,7 +463,7 @@ public class DisplayListController {
 			fillGrids(gridList, 1);
 			fillGrids(gridList2, 2);
 			fillGrids(gridList3, 3);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -459,14 +471,26 @@ public class DisplayListController {
 	}
 
 	@FXML
-    void ViewReports(ActionEvent event) {
+	void ViewReports(ActionEvent event) {
 		try {
 			SimpleClient.getClient().sendToServer("#ReportsRequest");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    }
+	}
+
+	@FXML
+	void ViewRequests(ActionEvent event) {
+
+		try {
+			SimpleClient.getClient().sendToServer("#PricesListRequest");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 	/*
 	 * @FXML void startDisplay(ActionEvent event) { Platform.runLater(() -> {
 	 * gridList.getChildren().clear(); for (int i = 0; i < rowsNum; i++) { for (int
@@ -479,5 +503,18 @@ public class DisplayListController {
 	 * controller.setMovie(item); controller.setDisplay(); gridList.add(itemCell, j,
 	 * i); } } }); }
 	 */
-	
+
+	@Subscribe
+	public void onRefreshCatalogEvent(RefreshCatalogEvent event) {
+		movieList = event.getMoviesList();
+		soonList = event.getSoonMovieList();
+		onDemandList = event.getMoviesListDemand();
+		try {
+			fillGrids(gridList, 1);
+			fillGrids(gridList2, 2);
+			fillGrids(gridList3, 3);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

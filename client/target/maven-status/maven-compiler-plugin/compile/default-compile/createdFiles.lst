@@ -23,6 +23,8 @@ il\cshaifasweng\OCSFMediatorExample\client\AddMovieController.class
 il\cshaifasweng\OCSFMediatorExample\client\DisplayMovieDataController.class
 il\cshaifasweng\OCSFMediatorExample\client\DeleteMovieScreeningController.class
 il\cshaifasweng\OCSFMediatorExample\client\SubmitComplaintController.class
+
+il\cshaifasweng\OCSFMediatorExample\client\TavSagoalUpdatingController.class
 il\cshaifasweng\OCSFMediatorExample\client\RentingSummaryController.class
 il\cshaifasweng\OCSFMediatorExample\client\RentMovieController.class
 il\cshaifasweng\OCSFMediatorExample\client\BranchesReceivedEvent.class

@@ -268,11 +268,11 @@ public class DisplayMovieDataController {
     	if (typeIndex == 1 ) {
     		ChooseScreeningController.setMovie((CinemaMovie)movie);
     		try {
-    			App.setRoot("chooseScreening");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    			SimpleClient.getClient().sendToServer(new Message("#TavSagoalStatus"));
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
     	}
     	if (typeIndex == 2 ) {
       		RentMovieController.setMovie((OnDemandMovie)movie);

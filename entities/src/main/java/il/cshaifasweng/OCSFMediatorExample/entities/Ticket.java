@@ -20,7 +20,7 @@ public class Ticket extends Purchase {
 	@JoinColumn(name = "ticket_screening")
 	private Screening screening;
 	private String seat;
-	
+	private boolean refunded;
 	
 	public Ticket() {}
 	
@@ -52,7 +52,15 @@ public class Ticket extends Purchase {
 	public void setSeat(String seat) {
 		this.seat = seat;
 	}
-	
+
+	public boolean isRefunded() {
+		return refunded;
+	}
+
+	public void setRefunded(boolean refunded) {
+		this.refunded = refunded;
+	}
+
 }
 	
 

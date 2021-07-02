@@ -61,4 +61,21 @@ public class Purchase implements Serializable {
 		this.creditCardNum = creditCardNum;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(String transactionTime) {
+		this.transactionTime = transactionTime;
+	}
+	
+	
 }

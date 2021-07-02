@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
@@ -22,6 +21,7 @@ import org.hibernate.service.ServiceRegistry;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandEditRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Rent;
 import il.cshaifasweng.OCSFMediatorExample.entities.RentRequest;
@@ -30,6 +30,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.TabPurchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.TavSagoal;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
@@ -45,6 +46,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Image;
 import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import il.cshaifasweng.OCSFMediatorExample.helpers.ScreeningTimeComparator;
 import il.cshaifasweng.OCSFMediatorExample.helpers.SendEmailTLS;
 
 public class SimpleServer extends AbstractServer {
@@ -53,19 +55,15 @@ public class SimpleServer extends AbstractServer {
 	private static List<Movie> allmoviesList;
 	private static List<CinemaMovie> moviesList;
 	private static List<OnDemandMovie> moviesListDemand;
-
+	private static List<Price> priceList;
 	private static List<Screening> screeningsList;
-	@SuppressWarnings("unused")
 	private static List<SirtyaBranch> branchesList;
 
-	
 	public SimpleServer(int port) {
 		super(port);
 
 	}
 
-	
-	
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		// movieList.setMoviesList(getAll(Movie.class));
@@ -111,26 +109,23 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#ReportsRequest")) {
-			//movieList.setMoviesList(getAll(Movie.class));
-		try {
-			session = sessionFactory.openSession();
-			ArrayList<SirtyaBranch> branchesList = getAllBranches();
-			ArrayList<Purchase> linksList = getAll(Purchase.class);
+		} else if (msgString.startsWith("#ReportsRequest")) {
+			// movieList.setMoviesList(getAll(Movie.class));
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<SirtyaBranch> branchesList = getAllBranches();
+				ArrayList<Purchase> linksList = getAll(Purchase.class);
 
-			
-			client.sendToClient(new Message("#ReportsList",branchesList,linksList));
-			session.close();
-			}catch(IOException e) {
+				client.sendToClient(new Message("#ReportsList", branchesList, linksList));
+				session.close();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#DeleteScreening")) {
+		} else if (msgString.startsWith("#DeleteScreening")) {
 			deleteScreening((ScreeningsUpdateRequest) ((Message) msg).getObject(), client);
 		} else if (msgString.startsWith("#AddScreening")) {
 			addScreening((ScreeningsUpdateRequest) ((Message) msg).getObject(), client);
@@ -200,12 +195,36 @@ public class SimpleServer extends AbstractServer {
 			addOnDemandMovie((OnDemandMovie) ((Message) msg).getObject(), client);
 		} else if (msgString.startsWith("#DeleteMovieRegular")) {
 			DeleteMovieRegular((CinemaMovie) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#DeleteMovieDemand")) {
+		} else if (msgString.startsWith("#DeleteMovieDemand")) {
 			DeleteMovieDemand((OnDemandMovie) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#DeleteMovieComingSoon")) {
+		} else if (msgString.startsWith("#DeleteMovieComingSoon")) {
 			DeleteMovieComingSoon((ComingSoonMovie) ((Message) msg).getObject(), client);
+		} else if (msgString.startsWith("#UpdateTav")) {
+			UpdateTav((Message) msg, client);
+		} else if (msgString.startsWith("#TavSagoalStatus")) {
+			sendTavSagoal(client);
+		} else if (msgString.startsWith("#getAllMovies")) {
+			sendRefreshcatalogevent();
+		} else if (msgString.startsWith("#AddPriceRequest")) {
+			addPriceRequest((Price) ((Message) msg).getObject(), client);
+		} else if (msgString.startsWith("#changePrice")) {
+			changePriceRequest((Price) ((Message) msg).getObject(), client);
+		} else if (msgString.startsWith("#deletePrice")) {
+			deletePriceRequest((Price) ((Message) msg).getObject(), client);
+		} else if (msgString.startsWith("#PricesListRequest")) {
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<Price> pricesList = getAll(Price.class);
+
+				client.sendToClient(new Message("#PricesList", pricesList));
+				session.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if (msgString.startsWith("#EditMovieAbstract")) {
 			EditMovieAbstract((Movie) ((Message) msg).getObject(), client);
@@ -269,6 +288,185 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 				
 	}
+	
+	private void sendRefreshcatalogevent() {
+		try {
+			List<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
+			List<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
+			List<OnDemandMovie> onDemandList = getAll(OnDemandMovie.class);
+			Message msg = new Message("#RefreshCatalog", cinMovieList, soonMovieList, onDemandList);
+			this.sendToAllClients(msg);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void deletePriceRequest(Price request, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		try {
+			priceList = getAll(Price.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.beginTransaction();
+		Price temp = new Price();
+		for (Price price: priceList) {
+			if (price.getID() == request.getPriceId()) {
+				temp = price;
+				break;
+			}
+			
+		}
+		session.delete(temp);
+		session.flush();
+		session.getTransaction().commit();
+		priceList = getAll(Price.class);
+		try {
+				client.sendToClient(new Message("#PricesList", priceList));
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+	
+
+	private void changePriceRequest(Price request, ConnectionToClient client){
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		moviesList = getAll(CinemaMovie.class);
+		for (CinemaMovie movie : moviesList) {
+			if (movie.getId() == request.getMovieID()) {
+				movie.setTicketCost(request.getNewPrice());
+				session.save(movie);
+				session.flush();
+				try {
+					priceList = getAll(Price.class);
+					Price temp = new Price();
+					for (Price price: priceList) {
+						if (price.getID() == request.getPriceId()) {
+							temp = price;
+							break;
+						}
+						
+					}
+					session.delete(temp);
+					session.flush();
+					session.getTransaction().commit();
+					priceList = getAll(Price.class);
+					client.sendToClient(new Message("#RefreshChangePrice", priceList));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+		session.close();
+	}
+
+	private void addPriceRequest(Price object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		Price request = object;
+		session.save(request);
+		session.flush();
+		session.getTransaction().commit();
+		priceList = getAll(Price.class);
+		Message msg = new Message("#RefreshPriceRequest",priceList );
+		this.sendToAllClients(msg);
+		session.close();
+
+	}
+
+	private void sendTavSagoal(ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ArrayList<TavSagoal> temp = getAll(TavSagoal.class);
+		// TavSagoal temp2 = temp.get(0);
+
+		try {
+			client.sendToClient(new Message("#TavSagoalStatus", temp.get(0)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+
+	private void UpdateTav(Message msg, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		ArrayList<TavSagoal> temp = getAll(TavSagoal.class);
+		TavSagoal temp2 = temp.get(0);
+		TavSagoal temp3 = (TavSagoal) msg.getObject();
+		temp2.setEffective(temp3.isEffective());
+		temp2.setFromDate(temp3.getFromDate());
+		temp2.setToDate(temp3.getToDate());
+		temp2.setY(temp3.getY());
+		session.save(temp2);
+		session.flush();
+		String str1 = temp2.getFromDate();
+		String str2 = temp2.getToDate();
+		if (str1 != "" && str2 != "") {
+			ArrayList<Screening> screeningTemp = getAll(Screening.class);
+			ScreeningTimeComparator util = new ScreeningTimeComparator();
+			for (Screening screening : screeningTemp) {
+				if (util.compare(screening, str1) != -1 && util.compare(screening, str2) != 1) {
+					ScreeningCancelationEmail(screening);
+//					screening.getMovie().getScreenings().remove(screening);
+//					screening.getBranch().getScreenings().remove(screening);
+//					screening.getHall().getScreening().remove(screening);
+//					screening.setMovie(null);
+//					screening.setBranch(null);
+//					screening.setHall(null);
+					session.save(screening);
+					session.delete(screening);
+					session.flush();
+				}
+			}
+		}
+		session.getTransaction().commit();
+		try {
+			client.sendToClient(new Message("#TavSagoalUpdated", temp2));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+	}
+
+	private void ScreeningCancelationEmail(Screening screening) {
+		List<Ticket> list = screening.getTickets();
+		if (list.size() == 0)
+			return;
+		for (Ticket ticket : list) {
+			session.save(screening);
+			String temp = "Dear Mr/Ms " + ticket.getCustomer().getFirstName() + " " + ticket.getCustomer().getLastName()
+					+ ",\n\nWe're Sorry to inform you that due to the Tav-Sagoal restrictions the screening of the movie \""
+					+ screening.getMovie().getMovieTitle();
+			temp += "\" on " + screening.getScreeningDate() + " at " + screening.getScreeningTime()
+					+ " has been canceled.\n";
+			temp += "That includes the cancelation of your reservation over ticket ID " + ticket.getId() + ", Seat ID "
+					+ ticket.getSeat() + ".\n";
+			if (ticket.getCost() > 0) {
+				String temp2 = String.valueOf(ticket.getCreditCardNum());
+				temp2 = temp2.substring(temp2.length() - 4);
+				temp += "A refund to your credit card, *" + temp2 + ", will be made.\n\n -Dream Palace Cinema.";
+				ticket.setRefunded(true);
+				ticket.setScreening(null);
+				session.save(ticket);
+				session.flush();
+			}
+			SendEmailTLS.SendMailTo(ticket.getCustomer().getElectronicMail(), "Screening Cancelation Refund", temp);
+		}
+		return;
+	}
 
 
 
@@ -286,7 +484,7 @@ public class SimpleServer extends AbstractServer {
 				break;
 			}
 		}
-		for(Screening screening : temp.getScreenings()  ) {
+		for (Screening screening : temp.getScreenings()) {
 			session.delete(screening);
 		}
 		session.delete(temp);
@@ -300,7 +498,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.close();
 	}
-	
+
 	private void DeleteMovieDemand(OnDemandMovie object, ConnectionToClient client) {
 		System.out.println("in delete function");
 		session = sessionFactory.openSession();
@@ -326,7 +524,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.close();
 	}
-	
+
 	private void DeleteMovieComingSoon(ComingSoonMovie object, ConnectionToClient client) {
 		System.out.println("in delete function");
 		session = sessionFactory.openSession();
@@ -592,7 +790,7 @@ public class SimpleServer extends AbstractServer {
 		session.beginTransaction();
 		List<Screening> tempList = getAll(Screening.class);
 		for (Screening tempScrn : tempList) {
-			if (tempScrn.getId()==request.getRequest().getScreening().getId()) {
+			if (tempScrn.getId() == request.getRequest().getScreening().getId()) {
 				request.getRequest().setScreening(tempScrn);
 			}
 		}
@@ -603,7 +801,8 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(), request.getCardNum(),transactionTime);
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),
+						request.getCardNum(), transactionTime);
 				session.save(temp.getScreening());
 				session.save(newTicket);
 				session.flush();
@@ -636,13 +835,15 @@ public class SimpleServer extends AbstractServer {
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
 				if (request.getUsePack() > 0 && newCus.getTicketsCredit() > 0) {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], 0, request.getCardNum(),transactionTime);
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], 0,
+							request.getCardNum(), transactionTime);
 					request.setUsePack(request.getUsePack() - 1);
 					newCus.setTicketsCredit(newCus.getTicketsCredit() - 1);
 					session.save(newTicket);
 					session.flush();
 				} else {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),request.getCardNum(),transactionTime);
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),
+							request.getCardNum(), transactionTime);
 					session.save(temp.getScreening());
 					session.save(newTicket);
 					session.flush();
@@ -676,14 +877,16 @@ public class SimpleServer extends AbstractServer {
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i++) {
 								if (request.getUsePack() > 0 && member.getTicketsCredit() > 0) {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], 0, request.getCardNum() ,transactionTime);
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], 0,
+											request.getCardNum(), transactionTime);
 									request.setUsePack(request.getUsePack() - 1);
 									member.setTicketsCredit(member.getTicketsCredit() - 1);
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
 								} else {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getCost(), request.getCardNum(), transactionTime);
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i],
+											temp.getCost(), request.getCardNum(), transactionTime);
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
@@ -701,6 +904,7 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 	}
+
 	private void SendEmail(FullOrderRequest request) {
 		BookingRequest request2 = request.getRequest();
 		String temp = ("Mr/Mrs " + request.getFirstName() + " " + request.getLastName() + "\n" + "Customer ID: "
@@ -723,11 +927,10 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime()
-				+"\n Start:" + request.getMovie().getDateTimeStart() + "\n Finish: " + request.getMovie().getDateTimeFinish()
+				+ request.getTransactionTime() + "\n Start:" + request.getMovie().getDateTimeStart() + "\n Finish: "
+				+ request.getMovie().getDateTimeFinish()
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
-				+ "We ask of you to be patient until then, Enjoy!"
-				);
+				+ "We ask of you to be patient until then, Enjoy!");
 
 		//SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
 	}
@@ -875,6 +1078,8 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(OnDemandMovie.class);
 		configuration.addAnnotatedClass(Rent.class);
 		configuration.addAnnotatedClass(TabPurchase.class);
+		configuration.addAnnotatedClass(TavSagoal.class);
+		configuration.addAnnotatedClass(Price.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).build();
@@ -905,6 +1110,13 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private static void initializeData() throws Exception {
+		TavSagoal temp = new TavSagoal();
+		temp.setEffective(true);
+		temp.setFromDate("");
+		temp.setToDate("");
+		temp.setY(200);
+		session.save(temp);
+		session.flush();
 		Image image_1 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/36/Haunt2019Poster.jpg");
 		Image image_2 = new Image("Thumbnail",
 				"https://upload.wikimedia.org/wikipedia/en/0/00/Us_%282019%29_theatrical_poster.png");
@@ -988,11 +1200,11 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 
 		ZonedDateTime start = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
-		
+
 		OnDemandMovie movie5 = new OnDemandMovie("Ice Age", "עידן הקרח", "Lori Forte",
 				"Denis Leary, John Leguizamo, Ray Romano",
 				"The story revolves around sub-zero heroes: a woolly mammoth, a saber-toothed tiger, a sloth and a prehistoric combination of a squirrel and rat, known as Scrat.",
-				20.00, image_5,start.plusMinutes(5),start.plusHours(3).plusMinutes(5));
+				20.00, image_5, start.plusMinutes(5), start.plusHours(3).plusMinutes(5));
 		movie5.setStreamingLink("https://www.youtube.com/watch?v=i4noiCRJRoE&ab_channel=MovieclipsClassicTrailers");
 		session.save(movie5);
 		session.flush();
@@ -1004,7 +1216,6 @@ public class SimpleServer extends AbstractServer {
 		movie6.setStreamingLink("https://www.youtube.com/watch?v=YoHD9XEInc0");
 		session.save(movie6);
 		session.flush();
-		
 
 		CinemaMovie movie7 = new CinemaMovie("Fury", "זעם", "David Ayer", "Brad Pitt, Shia Labeouf, Logan Lerman",
 				"A grizzled tank commander makes tough decisions as he and his crew fight their way across Germany in April, 1945.",
@@ -1036,7 +1247,6 @@ public class SimpleServer extends AbstractServer {
 				image_11);
 		session.save(movie11);
 		session.flush();
-		
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
 		branch1.addHall(hall1);
@@ -1106,25 +1316,23 @@ public class SimpleServer extends AbstractServer {
 		worker_1.setWorkerID("206794018");
 		worker_1.setWorkerName("Mohammad Wattad");
 		worker_1.setWorkerPassword("wa7wa7");
-		
+
 		Worker worker_2 = new GeneralManager();
 		worker_2.setWokerUsername("Jerryaa1");
 		worker_2.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_2.setWorkerID("318156171");
 		worker_2.setWorkerName("Jerry Manager account");
 		worker_2.setWorkerPassword("wa7wa7");
-		
+
 		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"Jerry98", "wa7wa7");
-		
+
 		session.save(worker_2);
 		session.save(worker_1);
 		session.save(client_1);
 		session.flush();
-	
-		session.getTransaction().commit();
 
-		
+		session.getTransaction().commit();
 
 	}
 
