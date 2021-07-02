@@ -155,6 +155,9 @@ public class DisplayListController {
 
 	@FXML
 	private Button tavSagoalBtn;
+	
+    @FXML
+    private Button purchaseHistory;
 
 	@FXML
 	void loadTavSagoalUpdate(ActionEvent event) {
@@ -165,6 +168,16 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
+	
+    @FXML
+    void loadHistoryPage(ActionEvent event) {
+		try {
+			App.setRoot("purchaseHistory");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
 	@FXML
 	void nextPage2(MouseEvent event) throws IOException {
@@ -332,6 +345,7 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+		assert purchaseHistory != null : "fx:id=\"purchaseHistory\" was not injected: check your FXML file 'displayList.fxml'.";
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {

@@ -27,7 +27,7 @@ public class Rent extends Purchase {
 	
 	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime) {
 		this.customer = client;
-		this.customer.addTicket(this);
+		this.customer.addPurchase(this);
 		this.setCost(cost);
 		this.expiringLink = expiringLink;
 		this.movie = movie;
@@ -35,6 +35,9 @@ public class Rent extends Purchase {
 		this.transactionTime = transactionTime;
 		this.notified = false;
 		this.sentLink = false;
+		this.purchaseType = "On-Demand Movie";
+		this.details = "Ordered Movie: " + movie.getMovieTitle();
+		this.status = "Success";
 	}
 	
 	public void setNotified(boolean notified) {

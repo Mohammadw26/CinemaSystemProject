@@ -76,14 +76,6 @@ public class CasualBuyer implements Serializable {
 		this.customerId = customerId;
 	}
 
-	public List<Purchase> getTickets() {
-		return purchases;
-	}
-
-	public void addTicket(Purchase purchase) {
-		this.purchases.add(purchase);
-	}
-
 	public long getCreditNum() {
 		return creditNum;
 	}
@@ -98,6 +90,38 @@ public class CasualBuyer implements Serializable {
 
 	public void setElectronicMail(String electronicMail) {
 		this.electronicMail = electronicMail;
-	};
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<Purchase> getPurchases() {
+		return purchases;
+	}
+
+	public void setPurchases(List<Purchase> purchases) {
+		this.purchases = purchases;
+	}
+	
+	public void addPurchase(Purchase purchases) {
+		this.purchases.add(purchases);
+	}
+
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	
 }

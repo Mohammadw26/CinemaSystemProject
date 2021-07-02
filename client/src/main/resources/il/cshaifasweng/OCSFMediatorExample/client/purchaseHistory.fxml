@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseHistoryController">
+   <children>
+      <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
+      <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Purchase History" wrappingWidth="220.76641845703125" />
+      <AnchorPane fx:id="loginAnchor" layoutY="35.0" prefHeight="196.0" prefWidth="375.0">
+         <children>
+            <VBox layoutX="28.0" layoutY="68.0" prefHeight="89.0" prefWidth="100.0">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="126.0" text="Username:" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="Password:" />
+               </children>
+            </VBox>
+            <Text fx:id="loginAnchorLabel1" layoutX="13.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you a member of the Sirtya?" wrappingWidth="293.99072265625" />
+            <TextField fx:id="oldUserField" layoutX="188.0" layoutY="76.0" />
+            <PasswordField fx:id="oldPasswordField" layoutX="188.0" layoutY="118.0" />
+            <Text fx:id="loginAnchorLabel2" layoutX="13.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Sign in to view your purchase history." wrappingWidth="321.9906005859375" />
+            <Button fx:id="logInButton" layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#logIn" prefHeight="26.0" prefWidth="61.0" text="Log-in" />
+            <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
+            <Separator layoutX="-4.0" layoutY="199.0" prefHeight="6.0" prefWidth="382.0" />
+            <Button fx:id="logOutButton" layoutX="128.0" layoutY="165.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="26.0" prefWidth="61.0" text="Log-out" visible="false" />
+            <Label fx:id="invalidLogin" layoutX="29.0" layoutY="170.0" text="Invalid username or password" textFill="RED" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="loginAnchor1" layoutX="1.0" layoutY="236.0" prefHeight="196.0" prefWidth="375.0">
+         <children>
+            <VBox layoutX="28.0" layoutY="68.0" prefHeight="90.0" prefWidth="122.0">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="126.0" text="ID:" wrapText="true" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="last 4 digits of the credit card number:" wrapText="true" />
+               </children>
+            </VBox>
+            <Text fx:id="loginAnchorLabel11" layoutX="13.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you not a member of the Sirtya?" wrappingWidth="293.99072265625" />
+            <TextField fx:id="clientID" layoutX="188.0" layoutY="76.0" />
+            <PasswordField fx:id="cardDigits" layoutX="188.0" layoutY="118.0" />
+            <Text fx:id="loginAnchorLabel21" layoutX="13.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please provide you ID and the last 4 digits of the credit card used to perform the transaction." wrappingWidth="321.9906005859375" />
+            <Button fx:id="logInButton1" layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="61.0" text="Search" />
+            <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
+            <Button fx:id="logOutButton1" layoutX="128.0" layoutY="165.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="26.0" prefWidth="61.0" text="Log-out" visible="false" />
+            <Label fx:id="invalidLogin1" layoutX="28.0" layoutY="163.0" prefHeight="82.0" prefWidth="232.0" text="we could not find any transactions that match the details you provided, please make sure to insert the digits of the same card you used to perform the transaction." textFill="RED" wrapText="true" />
+         </children>
+      </AnchorPane>
+      <Separator layoutX="375.0" layoutY="35.0" orientation="VERTICAL" prefHeight="762.0" prefWidth="6.0" />
+      <AnchorPane layoutX="401.0" layoutY="40.0" prefHeight="734.0" prefWidth="858.0">
+         <children>
+            <Label fx:id="welcomeLabel" layoutX="39.0" layoutY="36.0" text="Welcome (Client name)" />
+            <TableView fx:id="historyTable" layoutX="36.0" layoutY="94.0" onMouseClicked="#setCell" prefHeight="359.0" prefWidth="786.0">
+              <columns>
+                <TableColumn fx:id="type" prefWidth="128.7999267578125" text="Purchased item" />
+                <TableColumn fx:id="time" prefWidth="130.4000244140625" text="Transaction Time" />
+                  <TableColumn fx:id="transactionID" prefWidth="75.0" text="Transaction ID" />
+                  <TableColumn fx:id="cost" prefWidth="76.0" text="Cost" />
+                  <TableColumn fx:id="details" prefWidth="298.4" text="Details" />
+                  <TableColumn fx:id="statusCol" prefWidth="75.0" text="Status" />
+              </columns>
+            </TableView>
+            <Button fx:id="cancelBtn" layoutX="719.0" layoutY="607.0" mnemonicParsing="false" onAction="#CancelPurchase" text="Cancel Purchase" />
+            <VBox layoutX="39.0" layoutY="465.0" prefHeight="164.0" prefWidth="658.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Canceling Orders policy:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    Cinema Tickets: " wrappingWidth="657.9542236328125" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        - Canceling purchase three or more hours prior to the start of the screening grants you a full refund." wrappingWidth="598.9367065429688" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        - Canceling purchase between three to one hour prior to the start of the screening grants you 50% refund." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        - Canceling purchase within the last hour before the screening time you'll be no longer eligible for any refund." />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    On-Demand Orders:" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="        - Canceling On-Demand purchase one or more hours prior to receiving the ordered link grants you 50% refund." wrappingWidth="631.1999816894531" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    Tabs:" wrappingWidth="180.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="       - Tab purchases can not be canceled." />
+               </children>
+            </VBox>
+            <Text layoutX="43.0" layoutY="661.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Refunds can only be made to the source of fund." wrappingWidth="598.9367065429688" />
+            <AnchorPane fx:id="waitingAnchor" layoutX="107.0" layoutY="321.0" prefHeight="64.0" prefWidth="266.0" style="-fx-background-color: White;" visible="false">
+               <children>
+                  <ImageView fitHeight="54.0" fitWidth="55.0" layoutX="3.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@Loading.gif" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="58.0" layoutY="10.0" prefHeight="44.0" prefWidth="206.0" text="Proccessing your request, please wait." />
+               </children>
+            </AnchorPane>
+            <Label fx:id="successLabel" layoutX="676.0" layoutY="637.0" prefHeight="54.0" prefWidth="169.0" text="Purchase cancelled successfully. A confirmation will be sent to your e-mail shortly." textFill="GREEN" visible="false" wrapText="true" />
+            <Label fx:id="warningLabel" layoutX="39.0" layoutY="68.0" text="You can not cancel a Tab purchase, please review our policy for more info." textFill="RED" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
