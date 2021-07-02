@@ -19,7 +19,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
-import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandEditRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
@@ -226,67 +225,6 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		else if (msgString.startsWith("#EditMovieAbstract")) {
-			EditMovieAbstract((Movie) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#EditMoviePriceAndLink")) {
-			EditPriceAndStreamingLink((OnDemandMovie) ((Message) msg).getObject(), client);
-		}
-	}
-
-	private void EditPriceAndStreamingLink(OnDemandMovie object, ConnectionToClient client) {
-		session = sessionFactory.openSession();
-		List<Movie> movieList = null;
-			try {
-				
-				movieList = getAllMovies();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			for (Movie movie : movieList) {
-				if (movie.getId() == object.getId()) {
-					session.beginTransaction();
-					((OnDemandMovie)movie).setCost(object.getCost());
-					((OnDemandMovie)movie).setStreamingLink(object.getStreamingLink());
-					session.save(movie);
-					session.flush();
-					session.getTransaction().commit();
-					break;
-				}
-			}
-			session.close();
-			
-	}
-
-
-
-	private void EditMovieAbstract(Movie object, ConnectionToClient client) {
-		session = sessionFactory.openSession();
-	List<Movie> movieList = null;
-		try {
-			movieList = getAllMovies();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		for (Movie movie : movieList) {
-			if (movie.getId() == object.getId()) {
-				session.beginTransaction();
-				movie.setMovieTitle(object.getMovieTitle());
-				movie.setMovieTitleHeb(object.getMovieTitleHeb());
-				movie.setMovieProducer(object.getMovieProducer());
-				movie.setStarringActors(object.getStarringActors());
-				movie.setMovieDescription(object.getMovieDescription());
-				movie.getImage().setImgURL(object.getImage().getImgURL());
-				session.save(movie);
-				session.flush();
-				session.getTransaction().commit();
-				break;
-			}
-		}
-		session.close();
-				
 	}
 	
 	private void sendRefreshcatalogevent() {
@@ -467,8 +405,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		return;
 	}
-
-
 
 	private void DeleteMovieRegular(CinemaMovie object, ConnectionToClient client) {
 		System.out.println("in delete function");
@@ -788,8 +724,6 @@ public class SimpleServer extends AbstractServer {
 		request.setTransactionTime(transactionTime);
 		session = sessionFactory.openSession();
 		session.beginTransaction();
-		moviesList = getAll(CinemaMovie.class);
-		branchesList = getAll(SirtyaBranch.class);
 		List<Screening> tempList = getAll(Screening.class);
 		for (Screening tempScrn : tempList) {
 			if (tempScrn.getId() == request.getRequest().getScreening().getId()) {
@@ -809,25 +743,6 @@ public class SimpleServer extends AbstractServer {
 				session.save(newTicket);
 				session.flush();
 			}
-			for (CinemaMovie movie : moviesList) {
-				if (temp.getScreening().getMovie().getId() == movie.getId()) {
-					movie.setTicketsSold(temp.getArrSize() + movie.getTicketsSold());
-					movie.calcMovieIncome();
-					session.save(movie);
-					session.flush();
-					for (SirtyaBranch branch : branchesList) {
-						if (temp.getScreening().getBranch().getId() == branch.getId()) {
-							branch.setTotalTicketsSold(branch.getTotalTicketsSold() + temp.getArrSize());
-							branch.setTotalTicketsIncome(
-									branch.getTotalTicketsIncome() + temp.getArrSize() * movie.getTicketCost());
-							session.save(branch);
-							session.flush();
-						}
-
-					}
-				}
-			}
-
 			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();
@@ -850,8 +765,6 @@ public class SimpleServer extends AbstractServer {
 			if (request.isBuyPack()) {
 				newCus.setTicketsCredit(20);
 				TabPurchase newTab = new TabPurchase(request.getCardNum(), newCus, transactionTime);
-				TabPurchase.tabNum = TabPurchase.tabNum + 1;
-				TabPurchase.tabTotalIncome = TabPurchase.tabTotalIncome + newTab.getCost();
 				session.save(newTab);
 				session.flush();
 			}
@@ -862,37 +775,11 @@ public class SimpleServer extends AbstractServer {
 							request.getCardNum(), transactionTime);
 					request.setUsePack(request.getUsePack() - 1);
 					newCus.setTicketsCredit(newCus.getTicketsCredit() - 1);
-					for (SirtyaBranch branch : branchesList) {
-						if (temp.getScreening().getBranch().getId() == branch.getId()) {
-							branch.setTotalTabTicketsSold(branch.getTotalTabTicketsSold() + 1);
-							session.save(branch);
-							session.flush();
-						}
-
-					}
 					session.save(newTicket);
 					session.flush();
 				} else {
 					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),
 							request.getCardNum(), transactionTime);
-					for (CinemaMovie movie : moviesList) {
-						if (temp.getScreening().getMovie().getId() == movie.getId()) {
-							movie.setTicketsSold(movie.getTicketsSold() + 1);
-							movie.calcMovieIncome();
-							session.save(movie);
-							session.flush();
-							for (SirtyaBranch branch : branchesList) {
-								if (temp.getScreening().getBranch().getId() == branch.getId()) {
-									branch.setTotalTicketsSold(1 + branch.getTotalTicketsSold());
-									branch.setTotalTicketsIncome(
-											branch.getTotalTicketsIncome() + movie.getTicketCost());
-									session.save(branch);
-									session.flush();
-								}
-
-							}
-						}
-					}
 					session.save(temp.getScreening());
 					session.save(newTicket);
 					session.flush();
@@ -920,8 +807,6 @@ public class SimpleServer extends AbstractServer {
 							if (request.isBuyPack()) {
 								member.setTicketsCredit(member.getTicketsCredit() + 20);
 								TabPurchase newTab = new TabPurchase(request.getCardNum(), member, transactionTime);
-								TabPurchase.tabNum = TabPurchase.tabNum + 1;
-								TabPurchase.tabTotalIncome = TabPurchase.tabTotalIncome + newTab.getCost();
 								session.save(newTab);
 								session.flush();
 							}
@@ -932,39 +817,12 @@ public class SimpleServer extends AbstractServer {
 											request.getCardNum(), transactionTime);
 									request.setUsePack(request.getUsePack() - 1);
 									member.setTicketsCredit(member.getTicketsCredit() - 1);
-									for (SirtyaBranch branch : branchesList) {
-										if (temp.getScreening().getBranch().getId() == branch.getId()) {
-											branch.setTotalTabTicketsSold(branch.getTotalTabTicketsSold() + 1);
-											session.save(branch);
-											session.flush();
-										}
-
-									}
-									
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
 								} else {
 									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i],
 											temp.getCost(), request.getCardNum(), transactionTime);
-									for (CinemaMovie movie : moviesList) {
-										if (temp.getScreening().getMovie().getId() == movie.getId()) {
-											movie.setTicketsSold(movie.getTicketsSold() + 1);
-											movie.calcMovieIncome();
-											session.save(movie);
-											session.flush();
-											for (SirtyaBranch branch : branchesList) {
-												if (temp.getScreening().getBranch().getId() == branch.getId()) {
-													branch.setTotalTicketsSold(1 + branch.getTotalTicketsSold());
-													branch.setTotalTicketsIncome(
-															branch.getTotalTicketsIncome() + movie.getTicketCost());
-													session.save(branch);
-													session.flush();
-												}
-
-											}
-										}
-									}
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
@@ -997,7 +855,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		temp += ("\n" + request.getCheck() + "\nTransactionTime: " + request.getTransactionTime());
 
-		//SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
+		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
 	}
 
 	private void SendEmail1(RentRequest request) {
@@ -1010,7 +868,7 @@ public class SimpleServer extends AbstractServer {
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
-		//SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
+		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
 	}
 
 	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {
@@ -1488,7 +1346,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			System.err.println("An error occured, changes have been rolled back.");
 			exception.printStackTrace();
-		} finally {
 			if (session != null) {
 				session.close();
 				// session.getSessionFactory().close();
