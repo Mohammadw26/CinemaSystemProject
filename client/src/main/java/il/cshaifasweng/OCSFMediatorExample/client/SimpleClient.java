@@ -86,14 +86,13 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		} else if (msgString.startsWith("#ReportsList")) {
-			TicketsSalesReportController.setAllBranches((List<SirtyaBranch>) ((Message) msg).getObject());
-			RentLinksReportsController.setOthersList((List<Purchase>) ((Message) msg).getObject2());
 			try {
-				App.setRoot("ReportsReview");
+				App.setRoot("rentLinksReports");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
 		}
 
 		else if (msgString.startsWith("#SeatsSaved")) {

@@ -2,12 +2,17 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import org.jboss.logging.Logger;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.BranchManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Price;
+import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
+import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +22,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class ReportsReviewController {
+	private static List<Purchase> othersList;
+	private static List<SirtyaBranch> allBranches;
 
 	
 	@FXML
@@ -50,7 +57,12 @@ public class ReportsReviewController {
 
 	@FXML
 	void OtherSalesView(ActionEvent event) {
-		loadUI("rentLinksReports.fxml");
+		try {
+			SimpleClient.getClient().sendToServer("#ReportsRequest");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 }
 
 	@FXML
@@ -61,9 +73,20 @@ public class ReportsReviewController {
 	@FXML
 	void TicketSalesView(ActionEvent event) {
 		if (DisplayListController.getWorker().getClass().equals(GeneralManager.class)) {
-			loadUI("ticketsSalesReport.fxml");
+			try {
+				App.setRoot("ticketsSalesReport");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 		} else if (DisplayListController.getWorker().getClass().equals(BranchManager.class)) {
-			loadUI("ticketsSalesByBranchReports.fxml");
+			try {
+				App.setRoot("ticketsSalesByBranchReports");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		}
 	}
@@ -94,13 +117,39 @@ public class ReportsReviewController {
 
 	}
 
-	private void loadUI(String ui) {
-		Parent root = null;
-		try {
-			root = FXMLLoader.load(getClass().getResource(ui));
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		mainPane.setCenter(root);
+//	private void loadUI(String ui) {
+//		Parent root = null;
+//		try {
+//			root = FXMLLoader.load(getClass().getResource(ui));
+//		} catch (IOException ex) {
+//			ex.printStackTrace();
+//		}
+//		mainPane.setCenter(root);
+//	}
+	
+//	@Subscribe
+//	public void onReportsViewEvent(ReportsViewEvent event) {
+//		Platform.runLater(()->{
+//			TicketsSalesReportController.setAllBranches(event.getBranchesList());
+//			RentLinksReportsController.setOthersList((List<Purchase>) event.getPurchasesListDemand());
+//			TicketSalesView(null);
+//		});
+//	}
+
+	public static List<SirtyaBranch> getAllBranches() {
+		return allBranches;
 	}
+
+	public static void setAllBranches(List<SirtyaBranch> allBranches) {
+		ReportsReviewController.allBranches = allBranches;
+	}
+
+	public static List<Purchase> getOthersList() {
+		return othersList;
+	}
+
+	public static void setOthersList(List<Purchase> othersList) {
+		ReportsReviewController.othersList = othersList;
+	}
+	
 }
