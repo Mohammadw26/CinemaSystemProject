@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 public class RentRequest implements Serializable{
 
@@ -19,6 +20,8 @@ public class RentRequest implements Serializable{
 	private boolean signupFlag;
 	private OnDemandMovie movie;
 	private String transactionTime;
+	private String streamingTime;
+	private String streamingHour;
 	
 
 	public String getTransactionTime() {
@@ -129,6 +132,22 @@ public class RentRequest implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getStreamingTime() {
+		return streamingTime;
+	}
+
+	public void setStreamingTime(String formattedDate) {
+		this.streamingTime = formattedDate;
+	}
+
+	public String getStreamingHour() {
+		return streamingHour;
+	}
+
+	public void setStreamingHour(String streamingHour) {
+		this.streamingHour = streamingHour;
 	}
 	
 	

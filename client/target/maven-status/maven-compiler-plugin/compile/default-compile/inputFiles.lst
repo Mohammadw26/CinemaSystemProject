@@ -8,6 +8,8 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\Main.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RentMovieController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMoviePageController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\TavSagoalUpdatingController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\PriceReceivedEvent.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\OrderController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BranchesReceivedEvent.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\MoviesReceivedEvent.java
@@ -19,6 +21,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMovieController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditMoviesController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesReportController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RefreshPriceRequest.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\EditMovieScreeningsController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\TicketsSalesByBranchReportsController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\AddMovieScreeningController.java
@@ -33,5 +36,7 @@ C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorE
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\SignUpController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RentLinksReportsController.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\RefreshCatalogEvent.java
+C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\PriceRequestsController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\PrimaryController.java
 C:\Users\jerry\git\OCSFSirtya\client\src\main\java\il\cshaifasweng\OCSFMediatorExample\client\BookingSummaryController.java

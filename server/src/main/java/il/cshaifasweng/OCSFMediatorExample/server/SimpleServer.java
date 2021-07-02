@@ -232,6 +232,20 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.startsWith("#EditMoviePriceAndLink")) {
 			EditPriceAndStreamingLink((OnDemandMovie) ((Message) msg).getObject(), client);
 		}
+		else if (msgString.startsWith("#SubmitComplaint")) {
+			SubmitComplaints((Complaint) ((Message) msg).getObject(), client);
+		}
+	}
+
+	private void SubmitComplaints(Complaint object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(object);
+		session.flush();
+		session.getTransaction().commit();
+		session.close();
+
+		
 	}
 
 	private void EditPriceAndStreamingLink(OnDemandMovie object, ConnectionToClient client) {
@@ -927,8 +941,7 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime() + "\n Start:" + request.getMovie().getDateTimeStart() + "\n Finish: "
-				+ request.getMovie().getDateTimeFinish()
+				+ request.getTransactionTime() + "\n Start:" + request.getStreamingTime() 
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
@@ -947,9 +960,8 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime);
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingTime());
 			session.save(newRent);
-			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();
 			try {
@@ -971,9 +983,8 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime);
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingTime());
 			session.save(newRent);
-			session.save(newCus);
 			session.flush();
 			session.getTransaction().commit();
 			try {
@@ -995,9 +1006,8 @@ public class SimpleServer extends AbstractServer {
 					if (member.getUsername().equals(request.getUsername())) {
 						if (member.getPassword().equals(request.getPassword())) {
 							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(),
-									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime);
+									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingTime());
 							session.save(newRent);
-							session.save(member);
 							session.flush();
 							session.getTransaction().commit();
 							client.sendToClient(new Message("#RentedMember", request, member));
@@ -1323,12 +1333,21 @@ public class SimpleServer extends AbstractServer {
 		worker_2.setWorkerID("318156171");
 		worker_2.setWorkerName("Jerry Manager account");
 		worker_2.setWorkerPassword("wa7wa7");
+		
+		Worker worker_3 = new CustomerServiceEmployee();
+		
+		worker_3.setWokerUsername("JerryService");
+		worker_3.setWorkerEmail("jerryabuayob@gmail.com");
+		worker_3.setWorkerID("318156171");
+		worker_3.setWorkerName("Jerry Customer Service");
+		worker_3.setWorkerPassword("wa7wa7");
 
 		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"Jerry98", "wa7wa7");
 
 		session.save(worker_2);
 		session.save(worker_1);
+		session.save(worker_3);
 		session.save(client_1);
 		session.flush();
 

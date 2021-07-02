@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
@@ -14,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -114,6 +118,16 @@ public class RentMovieController {
     @FXML
     private Label invalidLogin;
     
+    @FXML
+    private DatePicker datePick;
+
+    @FXML
+    private ComboBox<Integer> hourField;
+
+    @FXML
+    private ComboBox<Integer> minuteField;
+
+    
     
     public static OnDemandMovie getMovie() {
 		return movie;
@@ -155,6 +169,10 @@ public class RentMovieController {
     	else {
     		RentRequest request = new RentRequest(nameField.getText(), lastNameField.getText()
     				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()),movie);
+    		LocalDate newDate = datePick.getValue();
+			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    		request.setStreamingTime(formattedDate);
+    		request.setStreamingHour(Integer.toString(hourField.getValue())+ ":00");
     		if (signUpCheck.isSelected()) {
     			request.setUsername(newUserField.getText());
     			request.setPassword(newPasswordField.getText());
@@ -271,5 +289,11 @@ public class RentMovieController {
 			invalidLogin.setVisible(true);
 			status = 0;
 		}
+	    for (int i = 0; i < 24; i++) {
+			hourField.getItems().add(i);
+	    }
     }
+    
+
+    
 }

@@ -22,10 +22,11 @@ public class Rent extends Purchase {
 	private OnDemandMovie movie;
 	private boolean notified;
 	private boolean sentLink;
+	private String streamingDate;
 	
 	public Rent() {}
 	
-	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime) {
+	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime, String streamingDate) {
 		this.customer = client;
 		this.customer.addTicket(this);
 		this.setCost(cost);
@@ -35,7 +36,9 @@ public class Rent extends Purchase {
 		this.transactionTime = transactionTime;
 		this.notified = false;
 		this.sentLink = false;
+		this.setStreamingDate(streamingDate);
 	}
+	
 	
 	public void setNotified(boolean notified) {
 		this.notified = notified;
@@ -67,6 +70,14 @@ public class Rent extends Purchase {
 
 	public void setSentLink(boolean sentLink) {
 		this.sentLink = sentLink;
+	}
+
+	public String getStreamingDate() {
+		return streamingDate;
+	}
+
+	public void setStreamingDate(String streamingDate) {
+		this.streamingDate = streamingDate;
 	}	
 	
 	

@@ -126,16 +126,12 @@ public class DisplayListController {
 	private Button addMovieBtn;
 
 	@FXML
-	private Button reviewRequestBtn;
-
-	@FXML
 	private Button employeeBtn;
 
 	@FXML
 	private Button salesReportsBtn;
 
-    @FXML
-    private Button purchasesBtn;
+
 
 	@FXML
 	private Button logOutBtn;
@@ -158,7 +154,9 @@ public class DisplayListController {
     @FXML
     void GoToAddComplaint(ActionEvent event) {
     	if (member != null) SubmitComplaintController.setBuyer(member);
-    	else if (worker != null) SubmitComplaintController.setWorker(worker);
+    	else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
+    		SubmitComplaintController.setWorker((CustomerServiceEmployee)worker);
+    	}
     	try {
 				App.setRoot("submitComplaint");
 			}	catch (IOException e) {
@@ -322,7 +320,6 @@ public class DisplayListController {
 		addMovieBtn.setVisible(false);
 		salesReportsBtn.setVisible(false);
 		employeeBtn.setVisible(false);
-		reviewRequestBtn.setVisible(false);
 		logOutBtn.setVisible(false);
 		worker = null;
 		member = null;
@@ -359,7 +356,6 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-        assert reviewRequestBtn != null : "fx:id=\"reviewRequestBtn\" was not injected: check your FXML file 'displayList.fxml'.";
 
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
@@ -371,47 +367,34 @@ public class DisplayListController {
 			addMovieBtn.setVisible(true);
 			salesReportsBtn.setVisible(true);
 			employeeBtn.setVisible(true);
-			reviewRequestBtn.setVisible(true);
 			logOutBtn.setVisible(true);
-			reviewRequestBtn.setVisible(true);
 			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
-				compliantsBtn.setDisable(false);
+				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(false);
 				logOutBtn.setDisable(false);
-				reviewRequestBtn.setVisible(true);
-				reviewRequestBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(ContentManager.class)) {
 				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
 				salesReportsBtn.setDisable(true);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
-				reviewRequestBtn.setVisible(true);
-				reviewRequestBtn.setDisable(false);
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(true);
 				employeeBtn.setDisable(true);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
-				reviewRequestBtn.setVisible(true);
-				reviewRequestBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
-				compliantsBtn.setDisable(false);
+				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
-				reviewRequestBtn.setDisable(false);
 			}
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
@@ -419,9 +402,6 @@ public class DisplayListController {
 			compliantsBtn.setVisible(true);
 			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
-			reviewRequestBtn.setVisible(true);
-			reviewRequestBtn.setDisable(false);
-			purchasesBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
 		if ((movieList.size() / 3) * 3 < movieList.size()) {
