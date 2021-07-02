@@ -21,17 +21,22 @@ public class Ticket extends Purchase {
 	private Screening screening;
 	private String seat;
 	private boolean refunded;
+	private int seatNum;
 	
 	public Ticket() {}
 	
-	public Ticket(Screening screening, CasualBuyer user, String seatID, double cost, long cardNum, String transactionTime) {
+	public Ticket(Screening screening, CasualBuyer user, String seatID, int seatNum, double cost, long cardNum, String transactionTime) {
 	this.screening = screening;
 	this.customer = user;
 	this.seat = seatID;
-	this.customer.addTicket(this);
+	this.customer.addPurchase(this);
 	this.cost = cost;
 	this.transactionTime = transactionTime;
 	this.creditCardNum = cardNum;
+	this.seatNum = seatNum;
+	this.purchaseType = "Cinema Ticket";
+	this.details = "Movie: " + screening.getMovie().getMovieTitle() + ",Time: " + " " + screening.getScreeningDate() + " " + screening.getScreeningTime() + ", SeatID: " + this.seat;
+	this.status = "Success";
 	}
 	
 	public Screening getScreening() {
@@ -59,6 +64,14 @@ public class Ticket extends Purchase {
 
 	public void setRefunded(boolean refunded) {
 		this.refunded = refunded;
+	}
+
+	public int getSeatNum() {
+		return seatNum;
+	}
+
+	public void setSeatNum(int seatNum) {
+		this.seatNum = seatNum;
 	}
 
 }

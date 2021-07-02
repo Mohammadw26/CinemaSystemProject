@@ -14,10 +14,10 @@ import javax.persistence.Table;
 public class Rent extends Purchase {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String expiringLink;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "rent_movie")
@@ -27,13 +27,13 @@ public class Rent extends Purchase {
 	private boolean expired;
 
 	private ZonedDateTime streamingDateTime;
-	
-	
+
+
 	public Rent() {}
-	
+
 	public Rent(CasualBuyer client, double cost, OnDemandMovie movie, String expiringLink, long cardNum, String transactionTime, ZonedDateTime date) {
 		this.customer = client;
-		this.customer.addTicket(this);
+		this.customer.addPurchase(this);
 		this.setCost(cost);
 		this.expiringLink = expiringLink;
 		this.movie = movie;
@@ -43,17 +43,20 @@ public class Rent extends Purchase {
 		this.sentLink = false;
 		this.sentLink = false;
 		this.streamingDateTime = date;
+		this.purchaseType = "On-Demand Movie";
+		this.details = "Ordered Movie: " + movie.getMovieTitle();
+		this.status = "Success";
 	}
-	
-	
+
+
 	public void setNotified(boolean notified) {
 		this.notified = notified;
 	}
-	
+
 	public boolean getNotified() {
 		return notified;
 	}
-	
+
 	public String getExpiringLink() {
 		return expiringLink;
 	}
@@ -92,7 +95,7 @@ public class Rent extends Purchase {
 
 	public void setExpired(boolean expired) {
 		this.expired = expired;
-	}	
-	
-	
+	}
+
+
 }

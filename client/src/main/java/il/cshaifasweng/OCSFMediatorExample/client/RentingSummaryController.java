@@ -13,9 +13,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 
 public class RentingSummaryController {
-	
+
 	private static RentRequest request;
-	
+
     public RentRequest getRequest() {
 		return request;
 	}

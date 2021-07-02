@@ -132,19 +132,17 @@ public class DisplayListController {
 	@FXML
 	private Button salesReportsBtn;
 
-
-
 	@FXML
 	private Button logOutBtn;
 
-    @FXML // fx:id="identityLabel"
-    private Label identityLabel; // Value injected by FXMLLoader
-
-    @FXML
-    private FontAwesomeIconView nxtBtn1;
-
-    @FXML
+	@FXML // fx:id="identityLabel"
+	private Label identityLabel; // Value injected by FXMLLoader
+	
+	@FXML
     private FontAwesomeIconView prevBtn1;
+
+	@FXML
+	private FontAwesomeIconView nxtBtn1;
 
     @FXML
     private FontAwesomeIconView nxtBtn2;
@@ -168,10 +166,11 @@ public class DisplayListController {
     }
 
 
-
-
 	@FXML
 	private Button tavSagoalBtn;
+
+    @FXML
+    private Button purchaseHistory;
 
 	@FXML
 	void loadTavSagoalUpdate(ActionEvent event) {
@@ -180,16 +179,18 @@ public class DisplayListController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			}
-    }
-
+		}
+	}
 
     @FXML
-    void goToCancelPurchase(ActionEvent event) {
-
+    void loadHistoryPage(ActionEvent event) {
+		try {
+			App.setRoot("purchaseHistory");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-
-    
 
 	@FXML
 	void nextPage2(MouseEvent event) throws IOException {
@@ -325,8 +326,6 @@ public class DisplayListController {
 		logOutBtn.setVisible(false);
 		worker = null;
 		member = null;
-		SubmitComplaintController.setBuyer(null);
-		SubmitComplaintController.setWorker(null);
 		try {
 			App.setRoot("primary");
 		} catch (IOException e) {
@@ -358,7 +357,7 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-
+		assert purchaseHistory != null : "fx:id=\"purchaseHistory\" was not injected: check your FXML file 'displayList.fxml'.";
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
@@ -401,8 +400,6 @@ public class DisplayListController {
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
-			compliantsBtn.setVisible(true);
-			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
@@ -455,7 +452,8 @@ public class DisplayListController {
 	@FXML
 	void ViewReports(ActionEvent event) {
 		try {
-			SimpleClient.getClient().sendToServer("#ReportsRequest");
+			App.setRoot("ReportsReview");
+//			SimpleClient.getClient().sendToServer("#ReportsRequest");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -465,12 +463,12 @@ public class DisplayListController {
 	@FXML
 	void ViewRequests(ActionEvent event) {
 
-		try {
-			SimpleClient.getClient().sendToServer("#PricesListRequest");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#PricesListRequest"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 	}
 	/*

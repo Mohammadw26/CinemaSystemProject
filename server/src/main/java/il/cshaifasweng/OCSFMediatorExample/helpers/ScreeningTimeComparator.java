@@ -1,7 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.helpers;
 
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 
@@ -69,6 +71,31 @@ public class ScreeningTimeComparator implements Comparator<Screening> {
 			return -1;
 		else if (i > j)
 			return 1;
+		return 0;
+	}
+	
+	public int eligibleTicketRefund (String screeningDate, String screeningTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		screeningDate += " " + screeningTime;
+		LocalDateTime timeVar = LocalDateTime.parse(screeningDate , formatter);
+		LocalDateTime now = LocalDateTime.now().plusHours(3);
+		if (now.isBefore(timeVar)) {
+			return 3;
+		}
+		now = LocalDateTime.now().plusHours(1);
+		if (now.isBefore(timeVar)) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	public int eligibleRentRefund (String transactionTime) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm");
+		LocalDateTime timeVar = LocalDateTime.parse(transactionTime , formatter);
+		LocalDateTime now = LocalDateTime.now().plusHours(1);
+		if (now.isBefore(timeVar)) {
+			return 1;
+		}
 		return 0;
 	}
 }

@@ -1,13 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,8 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class EditMoviesController {
-	private static Movie movie;
-	public static int typeIndex; // 1 - Cinema Movie || 2 - On-Demand || 3 - Coming soon
+	private static OnDemandMovie movie;
 
 
     @FXML
@@ -77,68 +73,27 @@ public class EditMoviesController {
     private Button confirmButton;
 
     @FXML
-    private ComboBox<Integer> hourField;
+    private ComboBox<?> hourField;
 
     @FXML
-    private ComboBox<Integer> minuteField;
+    private ComboBox<?> minuteField;
 
     @FXML
     private DatePicker datePick;
-    
-    @FXML
-    private Button changePriceOrLinkBtn;
-    
-    @FXML
-    private AnchorPane buttonAnchor;
 
     @FXML
     void CancelAddition(ActionEvent event) {
-    	try {
-			App.setRoot("displayList");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
     }
 
     @FXML
     void ConfirmAddition(ActionEvent event) {
-    	if(engName.getText() != "") movie.setMovieTitle(engName.getText());
-    	if(hebName.getText() != "") movie.setMovieTitleHeb(hebName.getText());
-    	if(producer.getText() != "") movie.setMovieProducer(producer.getText());
-    	if(actors.getText() != "") movie.setStarringActors(actors.getText());
-    	if(description.getText() != "") movie.setMovieDescription(description.getText());
-    	if(thumbnail.getText() != "") movie.getImage().setImgURL(thumbnail.getText());
-    	try {
-			SimpleClient.getClient().sendToServer(new Message("#EditMovieAbstract", movie));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-    	try {
-			App.setRoot("displayList");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
 
     @FXML
     void copyEmail(ActionEvent event) {
 
-    }
-    
-    @FXML
-    void ChangePriceOrLink(ActionEvent event) {
-    	EditStreemingLinkAndDateController.setMovie((OnDemandMovie)movie);
-    	
-    	try {
-			App.setRoot("editStreemingLinkAndDate");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     }
 
     @FXML
@@ -148,17 +103,16 @@ public class EditMoviesController {
     	producer.setPromptText(movie.getMovieProducer());
     	actors.setPromptText(movie.getStarringActors());
     	description.setPromptText(movie.getMovieDescription());
+    	price.setPromptText(String.valueOf(movie.getCost()));
     	thumbnail.setPromptText(movie.getImage().getImgURL());
-    	buttonAnchor.setVisible(false);
-    	
-    	if(typeIndex == 2) {
-    		buttonAnchor.setVisible(true);
-    	}
-    	else {
-    		buttonAnchor.setVisible(false);
-
-    	}
-
+    	streaming.setPromptText(movie.getStreamingLink());
+    	ZonedDateTime date =   movie.getDateTimeStart();
+		String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+		datePick.setPromptText(formatted);
+		 formatted = DateTimeFormatter.ofPattern("hh").format(date);
+		 hourField.setPromptText(formatted);
+		 formatted = DateTimeFormatter.ofPattern("mm").format(date);
+		 minuteField.setPromptText(formatted);
         assert engName != null : "fx:id=\"engName\" was not injected: check your FXML file 'editMovies.fxml'.";
         assert hebName != null : "fx:id=\"hebName\" was not injected: check your FXML file 'editMovies.fxml'.";
         assert producer != null : "fx:id=\"producer\" was not injected: check your FXML file 'editMovies.fxml'.";
@@ -177,24 +131,14 @@ public class EditMoviesController {
         assert hourField != null : "fx:id=\"hourField\" was not injected: check your FXML file 'editMovies.fxml'.";
         assert minuteField != null : "fx:id=\"minuteField\" was not injected: check your FXML file 'editMovies.fxml'.";
         assert datePick != null : "fx:id=\"datePick\" was not injected: check your FXML file 'editMovies.fxml'.";
-        assert changePriceOrLinkBtn != null : "fx:id=\"changePriceOrLinkBtn\" was not injected: check your FXML file 'editMovies.fxml'.";
-        assert buttonAnchor != null : "fx:id=\"buttonAnchor\" was not injected: check your FXML file 'editMovies.fxml'.";
 
     }
 
-	public static Movie getMovie() {
+	public static OnDemandMovie getMovie() {
 		return movie;
 	}
 
-	public static void setMovie(Movie movie) {
+	public static void setMovie(OnDemandMovie movie) {
 		EditMoviesController.movie = movie;
-	}
-
-	public int getTypeIndex() {
-		return typeIndex;
-	}
-
-	public static void setTypeIndex(int typeIndex) {
-		EditMoviesController.typeIndex = typeIndex;
 	}
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -240,6 +241,12 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if (msgString.startsWith("#SubmitResponseForComplaint")) {
 			StoreComplaintResponse((Complaint) ((Message) msg).getObject());
+		}
+		else if (msgString.startsWith("#SearchForClient")) {
+			SearchForClient((Message) msg, client);
+		}
+		else if (msgString.startsWith("#CancelOrder")) {
+			cancelOrder((Message)msg,client);
 		}
 	}
 
@@ -864,7 +871,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i],  temp.getSeats()[i], temp.getCost(),
 						request.getCardNum(), transactionTime);
 				session.save(temp.getScreening());
 				session.save(newTicket);
@@ -898,14 +905,14 @@ public class SimpleServer extends AbstractServer {
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
 				if (request.getUsePack() > 0 && newCus.getTicketsCredit() > 0) {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], 0,
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i],temp.getSeats()[i], 0,
 							request.getCardNum(), transactionTime);
 					request.setUsePack(request.getUsePack() - 1);
 					newCus.setTicketsCredit(newCus.getTicketsCredit() - 1);
 					session.save(newTicket);
 					session.flush();
 				} else {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getCost(),
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getSeats()[i], temp.getCost(),
 							request.getCardNum(), transactionTime);
 					session.save(temp.getScreening());
 					session.save(newTicket);
@@ -940,7 +947,7 @@ public class SimpleServer extends AbstractServer {
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i++) {
 								if (request.getUsePack() > 0 && member.getTicketsCredit() > 0) {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], 0,
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getSeats()[i], 0,
 											request.getCardNum(), transactionTime);
 									request.setUsePack(request.getUsePack() - 1);
 									member.setTicketsCredit(member.getTicketsCredit() - 1);
@@ -948,7 +955,7 @@ public class SimpleServer extends AbstractServer {
 									session.save(newTicket);
 									session.flush();
 								} else {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i],
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getSeats()[i],
 											temp.getCost(), request.getCardNum(), transactionTime);
 									session.save(temp.getScreening());
 									session.save(newTicket);
@@ -1116,6 +1123,139 @@ public class SimpleServer extends AbstractServer {
 //				e.printStackTrace();
 //			}
 //		}
+	
+	private void SearchForClient (Message msg, ConnectionToClient client) {
+		LogInRequest object = (LogInRequest) msg.getObject();
+		session = sessionFactory.openSession();
+		int id = Integer.parseInt(object.getUsername());
+		String lastDigits = object.getPassword();
+		List<CasualBuyer> buyersList = getAll(CasualBuyer.class);
+		for (CasualBuyer buyer : buyersList) {
+			if (buyer.getCustomerId() == id) {
+				String temp = String.valueOf(buyer.getCreditNum());
+				temp = temp.substring(temp.length()-4);
+				if (temp.equals(lastDigits)) {
+					Hibernate.initialize(buyer.getPurchases());
+					List<Purchase> tempList = buyer.getPurchases();
+					try {
+						client.sendToClient(new Message("#CasualBuyerSearch", buyer, tempList));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					session.close();
+					return;
+				}
+			}
+		}
+		try {
+			client.sendToClient(new Message("#CasualBuyerSearch", null, null));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
+		return;
+	}
+	
+	private void cancelOrder(Message msg, ConnectionToClient client) {
+		String newText ="";
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		CasualBuyer customer = (CasualBuyer) ((Message) msg).getObject();
+		Purchase purchase = (Purchase) ((Message) msg).getObject2();
+		List<CasualBuyer> customersList = getAll(CasualBuyer.class);
+		customersList = getAll(CasualBuyer.class);
+		for (CasualBuyer buyer : customersList) {
+			if (customer.getId() == buyer.getId()) {
+				Hibernate.initialize(buyer.getPurchases());
+				List<Purchase> ordersList = buyer.getPurchases();
+				for (Purchase order : ordersList) {
+					if (order.getId() == purchase.getId()) {
+						purchase = order;
+						if (purchase.getClass() == Ticket.class) {
+							newText = "Mr/Ms " + buyer.getFirstName() + " " + buyer.getLastName() + ",\n";
+							newText += "We have received your request to cancel the purchase of the following cinema ticket: \n";
+							newText += "Movie: " + ((Ticket) purchase).getScreening().getMovie().getMovieTitle();
+							String screeningDate = ((Ticket) purchase).getScreening().getScreeningDate();
+							String screeningTime = ((Ticket) purchase).getScreening().getScreeningTime();
+							newText += "\nScreening Time: " + screeningDate + " , " + screeningTime;
+							newText += "\nSeat ID: " + ((Ticket) purchase).getSeat();
+							ScreeningTimeComparator util = new ScreeningTimeComparator();
+							int temp = util.eligibleTicketRefund(screeningDate, screeningTime);
+							if (temp == 3 && ((Ticket) purchase).getCost() > 0) {
+								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
+								tempText = tempText.substring(tempText.length()-4);
+								newText += "\nA full refund will be made to your credit card that ends with the digits *" + tempText;
+								newText += "\nRefund of: " + ((Ticket) purchase).getCost();
+							} else if (temp == 3 && ((Ticket) purchase).getCost() == 0) {
+								newText += "You'll receive the ticket credit back to your Tab.";
+							} else if (temp == 1 && ((Ticket) purchase).getCost() > 0) {
+								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
+								tempText = tempText.substring(tempText.length()-4);
+								newText += "\nYou'll receive a refund equal to 50% of the ticket cost, to the credit card that ends with the digits *" + tempText;
+								newText += "\nRefund of: " + ((Ticket) purchase).getCost()/2;
+							} else if (temp == 1 && ((Ticket) purchase).getCost() == 0) {
+								newText += "You'll receive the ticket credit back to your Tab.";
+							}
+							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
+							((Ticket) purchase).getScreening().setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats()-1);
+							purchase.setStatus("Canceled");
+							session.save(purchase);
+							session.save(buyer);
+							session.save(((Ticket) purchase).getScreening());
+							session.flush();
+							session.getTransaction().commit();
+						}
+						else if (purchase.getClass() == Rent.class) {
+							newText = "Mr/Ms " + buyer.getFirstName() + " " + buyer.getLastName() + ",\n";
+							newText += "We have received your request to cancel the purchase of the following On-Demand order: \n";
+							newText += "Movie: " + ((Rent) purchase).getMovie().getMovieTitle();
+							ScreeningTimeComparator util = new ScreeningTimeComparator();
+							if (util.eligibleRentRefund(((Rent) purchase).getTransactionTime()) == 1) {
+								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
+								tempText = tempText.substring(tempText.length()-4);
+								newText += "\nA refund equal to 50% of the renting value will be made to your credit card that ends with *" + tempText;
+								newText += "\nRefund of: " + ((Ticket) purchase).getCost()/2;
+							}
+							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
+							((Ticket) purchase).getScreening().setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats()-1);
+							purchase.setStatus("Canceled");
+							session.save(purchase);
+							session.save(buyer);
+							session.save(((Ticket) purchase).getScreening());
+							session.flush();
+							session.getTransaction().commit();
+						}
+
+						try {
+							client.sendToClient(new Message("#CanceledOrder", buyer, ordersList));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block								e.printStackTrace();
+						}
+						SendEmailTLS.SendMailTo(buyer.getElectronicMail(), "Cinema Ticket Cancelation", newText);
+						return;		
+					}
+				}
+			}
+		}
+		customersList = getAll(CasualBuyer.class);
+		for (CasualBuyer buyer : customersList) {
+			if (customer.getId() == buyer.getId()) {
+				Hibernate.initialize(buyer.getPurchases());					
+				List<Purchase> ordersList = buyer.getPurchases();
+				try {
+					client.sendToClient(new Message("#CanceledOrder", buyer, ordersList));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				SendEmailTLS.SendMailTo(buyer.getElectronicMail(), "Cinema Ticket Cancelation", newText);
+				session.close();
+				return;
+			}
+		}
+	}
 
 	private static SessionFactory getSessionFactory() throws HibernateException {
 		Configuration configuration = new Configuration();

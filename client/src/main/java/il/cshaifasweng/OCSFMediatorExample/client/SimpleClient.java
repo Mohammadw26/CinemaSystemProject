@@ -9,6 +9,7 @@ import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
@@ -87,14 +88,13 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		} else if (msgString.startsWith("#ReportsList")) {
-			TicketsSalesReportController.setAllBranches((List<SirtyaBranch>) ((Message) msg).getObject());
-			RentLinksReportsController.setOthersList((List<Purchase>) ((Message) msg).getObject2());
 			try {
-				App.setRoot("ReportsReview");
+				App.setRoot("rentLinksReports");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
 		}
 
 		else if (msgString.startsWith("#SeatsSaved")) {
@@ -172,6 +172,17 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (msgString.startsWith("#MemberLogIn4")) {
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
+			PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
+			PurchaseHistoryController.setStatus(1);
+			try {
+				RentMovieController.setStatus(1);
+				App.setRoot("purchaseHistory");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (msgString.startsWith("#MemberLogIn")) {
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
 			try {
@@ -241,6 +252,37 @@ public class SimpleClient extends AbstractClient {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
+		}		else if(msgString.startsWith("#CasualBuyerSearch")) {
+			if (((Message) msg).getObject()==null) {
+				PurchaseHistoryController.setStatus(4);
+			}
+			else {
+				PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
+				PurchaseHistoryController.setUnregClient((CasualBuyer) ((Message) msg).getObject());
+				PurchaseHistoryController.setStatus(3);
+			}
+			try {
+				App.setRoot("purchaseHistory");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#CanceledOrder")){
+			PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
+			if (((Message) msg).getObject().getClass() == CasualBuyer.class) {
+				PurchaseHistoryController.setUnregClient((CasualBuyer) ((Message) msg).getObject());
+				PurchaseHistoryController.setStatus(5);
+			} else {
+				
+				PurchaseHistoryController.setStatus(6);
+			}
+			try {
+				App.setRoot("purchaseHistory");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else if (msgString.startsWith("#ShowComplaintsInTable")) {
 			SubmitComplaintController.setComplaints((List<Complaint>) ((Message) msg).getObject());

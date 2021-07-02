@@ -38,7 +38,7 @@
          </items>
       </ToolBar>
       <Button fx:id="returnBtn" layoutX="1164.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#returnToCat" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
-   	  <ComboBox fx:id="coronaCombo" layoutX="787.0" layoutY="574.0" prefWidth="150.0" />
-   	  <Label fx:id="coronaLabel" layoutX="89.0" layoutY="577.0" prefHeight="18.0" prefWidth="690.0" text="*Due to the Corona Virus restrictions, you can not choose the seating. Please choose the number of tickets you would like to buy." textFill="RED" />
+   	  <ComboBox fx:id="coronaCombo" layoutX="787.0" layoutY="574.0" prefWidth="150.0" visible="false" />
+   	  <Label fx:id="coronaLabel" layoutX="89.0" layoutY="577.0" prefHeight="18.0" prefWidth="690.0" text="*Due to the Corona Virus restrictions, you can not choose the seating. Please choose the number of tickets you would like to buy." textFill="RED" visible="false" />
    </children>
 </AnchorPane>

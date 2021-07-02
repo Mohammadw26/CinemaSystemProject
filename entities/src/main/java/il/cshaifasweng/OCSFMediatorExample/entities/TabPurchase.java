@@ -25,6 +25,10 @@ public class TabPurchase extends Purchase {
 		this.creditCardNum = cridNum;
 		this.customer = member;
 		this.transactionTime = transactionTime;
+		this.purchaseType = "20 Tickets Credit/Tab";
+		this.details = "-";
+		member.addPurchase(this);
+		this.status = "Success";
 	}
 
 	public static int getTabNum() {

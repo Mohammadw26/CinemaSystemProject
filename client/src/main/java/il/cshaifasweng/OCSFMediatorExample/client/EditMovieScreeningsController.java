@@ -3,6 +3,9 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.util.List;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
@@ -128,21 +131,6 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	private DatePicker datePick;
-
-    @FXML
-    private Button editMovieBtn;
-
-	 @FXML
-	    void goToEditMovies(ActionEvent event) {
-		   	EditMoviesController.setMovie((CinemaMovie) movie);
-				EditMoviesController.setTypeIndex(1);
-				try {
-					App.setRoot("editMovies");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	    }
 	@FXML
     private Text requestSent;
 
@@ -175,7 +163,7 @@ public class EditMovieScreeningsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		}
 		else if(optionField.getValue() == "Add screening" ){
 			LocalDate newDate = datePick.getValue();
@@ -195,7 +183,7 @@ public class EditMovieScreeningsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		}
 		else if(optionField.getValue() == "Change price" ){
 			requestSent.setVisible(true);
@@ -203,7 +191,7 @@ public class EditMovieScreeningsController {
 			String transactionTime = formatter.format(LocalDateTime.now());
 			String time = transactionTime.substring(transactionTime.lastIndexOf(",") + 1);
 			String date = transactionTime.substring(0,10);
-			Price request =
+			Price request = 
 					new Price(movie.getMovieTitle(),DisplayListController.getWorker().getWorkerName(),
 							movie.getTicketCost(),Double.parseDouble(priceField.getText()),date,time);
 			request.setMovieID(movie.getId());
@@ -214,7 +202,7 @@ public class EditMovieScreeningsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		}
 	}
 
@@ -292,8 +280,6 @@ public class EditMovieScreeningsController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-        assert editMovieBtn != null : "fx:id=\"editMovieBtn\" was not injected: check your FXML file 'editMovieScreenings.fxml'.";
-
 		TitleField.setText(movie.getMovieTitle());
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<>("screeningTime"));
@@ -328,7 +314,7 @@ public class EditMovieScreeningsController {
 		for (SirtyaBranch brnch : allBranches) {
 			branchField.getItems().addAll(brnch.getAddress());
 		}
-
+		
 	}
 
 	public static OnDemandMovie getMovieonDemand() {
@@ -338,7 +324,6 @@ public class EditMovieScreeningsController {
 	public static void setOnDemandMovie(OnDemandMovie movie1) {
 		EditMovieScreeningsController.movie1 = movie1;
 	}
-
-
+		
 
 }
