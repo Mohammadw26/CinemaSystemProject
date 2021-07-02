@@ -48,6 +48,8 @@ public class PrimaryController {
     	else {
     		DisplayListController.setMember(null);
     		DisplayListController.setWorker(null);
+    		SubmitComplaintController.setBuyer(null);
+    		SubmitComplaintController.setWorker(null);
     		try {
     			App.setRoot("primary");
     		} catch (IOException e) {

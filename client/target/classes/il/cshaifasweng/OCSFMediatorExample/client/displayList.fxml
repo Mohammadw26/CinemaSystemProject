@@ -12,6 +12,9 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -31,7 +34,7 @@
                         <Font name="Arial" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="compliantsBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Review Compliants" visible="false">
+                  <Button fx:id="compliantsBtn" mnemonicParsing="false" onAction="#GoToAddComplaint" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Review Compliants" visible="false">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>
@@ -56,6 +59,7 @@
                         <Font name="Arial" size="10.0" />
                      </font>
                   </Button>
+                  <Button fx:id="purchasesBtn" mnemonicParsing="false" onAction="#goToCancelPurchase" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Cancel Purchase" visible="false">
                   <Button fx:id="tavSagoalBtn" mnemonicParsing="false" onAction="#loadTavSagoalUpdate" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Update TavSagoal" visible="false">
                      <font>
                         <Font name="Arial" size="10.0" />
@@ -97,15 +101,47 @@
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </opaqueInsets>
             </GridPane>
-            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="98.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies available On-Demand">
+            <Text fontSmoothingType="LCD" layoutX="98.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies available On-Demand">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.11699999868869781" green="0.15320824086666107" blue="0.8999999761581421" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
             </Text>
-            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="97.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Dream Palace branches:">
+            <Text fontSmoothingType="LCD" layoutX="97.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movies that are currently available in Dream Palace branches:">
                <font>
                   <Font name="System Bold" size="20.0" />
-               </font></Text>
+               </font>
+               <fill>
+                  <LinearGradient endX="0.7290076554276561" endY="1.0" startX="0.14122136676584493" startY="0.36259540528741496">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.1747368425130844" green="0.2679298222064972" blue="0.8736842274665833" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill></Text>
             <GridPane fx:id="gridList3" hgap="15.0" layoutX="80.0" layoutY="920.0" prefHeight="340.0" prefWidth="1119.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -122,10 +158,31 @@
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </opaqueInsets>
             </GridPane>
-            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="99.0" layoutY="904.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Coming soon">
+            <Text fontSmoothingType="LCD" layoutX="99.0" layoutY="904.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Coming soon">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
+               <fill>
+                  <LinearGradient endX="0.732824427480916" endY="0.9656488986415718">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.007680491551459294">
+                           <color>
+                              <Color red="0.12444444745779037" green="0.1624327450990677" blue="0.8842105269432068" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
             </Text>
             <Label fx:id="identityLabel" alignment="TOP_LEFT" layoutX="1049.0" layoutY="4.0" prefHeight="38.0" prefWidth="114.0" text="Logged in as:" textFill="WHITE" />
             <Button fx:id="logOutBtn" layoutX="1164.0" layoutY="7.0" mnemonicParsing="false" onAction="#logOut" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #d40b00 100%),               linear-gradient(#d40b00, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Log Out" visible="false">

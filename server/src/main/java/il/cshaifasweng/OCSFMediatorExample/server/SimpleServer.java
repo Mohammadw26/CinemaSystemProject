@@ -19,6 +19,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
+import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandEditRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Purchase;
@@ -225,6 +226,67 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#EditMovieAbstract")) {
+			EditMovieAbstract((Movie) ((Message) msg).getObject(), client);
+		}
+		else if (msgString.startsWith("#EditMoviePriceAndLink")) {
+			EditPriceAndStreamingLink((OnDemandMovie) ((Message) msg).getObject(), client);
+		}
+	}
+
+	private void EditPriceAndStreamingLink(OnDemandMovie object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		List<Movie> movieList = null;
+			try {
+				
+				movieList = getAllMovies();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			for (Movie movie : movieList) {
+				if (movie.getId() == object.getId()) {
+					session.beginTransaction();
+					((OnDemandMovie)movie).setCost(object.getCost());
+					((OnDemandMovie)movie).setStreamingLink(object.getStreamingLink());
+					session.save(movie);
+					session.flush();
+					session.getTransaction().commit();
+					break;
+				}
+			}
+			session.close();
+			
+	}
+
+
+
+	private void EditMovieAbstract(Movie object, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+	List<Movie> movieList = null;
+		try {
+			movieList = getAllMovies();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (Movie movie : movieList) {
+			if (movie.getId() == object.getId()) {
+				session.beginTransaction();
+				movie.setMovieTitle(object.getMovieTitle());
+				movie.setMovieTitleHeb(object.getMovieTitleHeb());
+				movie.setMovieProducer(object.getMovieProducer());
+				movie.setStarringActors(object.getStarringActors());
+				movie.setMovieDescription(object.getMovieDescription());
+				movie.getImage().setImgURL(object.getImage().getImgURL());
+				session.save(movie);
+				session.flush();
+				session.getTransaction().commit();
+				break;
+			}
+		}
+		session.close();
+				
 	}
 	
 	private void sendRefreshcatalogevent() {
@@ -405,6 +467,8 @@ public class SimpleServer extends AbstractServer {
 		}
 		return;
 	}
+
+
 
 	private void DeleteMovieRegular(CinemaMovie object, ConnectionToClient client) {
 		System.out.println("in delete function");
@@ -855,7 +919,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		temp += ("\n" + request.getCheck() + "\nTransactionTime: " + request.getTransactionTime());
 
-		SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
+		//SendEmailTLS.SendMailTo(request.getEmail(), "Tickets Order", temp);
 	}
 
 	private void SendEmail1(RentRequest request) {
@@ -868,7 +932,7 @@ public class SimpleServer extends AbstractServer {
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
-		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
+		//SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
 	}
 
 	private void rentMovie(RentRequest request, ConnectionToClient client) throws Exception {

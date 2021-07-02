@@ -15,12 +15,15 @@ il\cshaifasweng\OCSFMediatorExample\client\ocsf\ObservableClient.class
 il\cshaifasweng\OCSFMediatorExample\client\AddMoviePageController.class
 il\cshaifasweng\OCSFMediatorExample\client\DisplayListController.class
 il\cshaifasweng\OCSFMediatorExample\client\ocsf\AdaptableClient.class
+il\cshaifasweng\OCSFMediatorExample\client\EditStreemingLinkAndDateController.class
 il\cshaifasweng\OCSFMediatorExample\client\WorkersReceivedEvent.class
 il\cshaifasweng\OCSFMediatorExample\client\PrimaryController.class
 il\cshaifasweng\OCSFMediatorExample\client\App.class
 il\cshaifasweng\OCSFMediatorExample\client\AddMovieController.class
 il\cshaifasweng\OCSFMediatorExample\client\DisplayMovieDataController.class
 il\cshaifasweng\OCSFMediatorExample\client\DeleteMovieScreeningController.class
+il\cshaifasweng\OCSFMediatorExample\client\SubmitComplaintController.class
+
 il\cshaifasweng\OCSFMediatorExample\client\TavSagoalUpdatingController.class
 il\cshaifasweng\OCSFMediatorExample\client\RentingSummaryController.class
 il\cshaifasweng\OCSFMediatorExample\client\RentMovieController.class

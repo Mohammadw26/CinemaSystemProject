@@ -134,23 +134,41 @@ public class DisplayListController {
 	@FXML
 	private Button salesReportsBtn;
 
+    @FXML
+    private Button purchasesBtn;
+
 	@FXML
 	private Button logOutBtn;
 
-	@FXML // fx:id="identityLabel"
-	private Label identityLabel; // Value injected by FXMLLoader
+    @FXML // fx:id="identityLabel"
+    private Label identityLabel; // Value injected by FXMLLoader
 
-	@FXML
-	private FontAwesomeIconView nxtBtn1;
+    @FXML
+    private FontAwesomeIconView nxtBtn1;
 
-	@FXML
-	private FontAwesomeIconView prevBtn1;
+    @FXML
+    private FontAwesomeIconView prevBtn1;
 
-	@FXML
-	private FontAwesomeIconView nxtBtn2;
+    @FXML
+    private FontAwesomeIconView nxtBtn2;
 
-	@FXML
-	private FontAwesomeIconView prevBtn2;
+    @FXML
+    private FontAwesomeIconView prevBtn2;
+
+    @FXML
+    void GoToAddComplaint(ActionEvent event) {
+    	if (member != null) SubmitComplaintController.setBuyer(member);
+    	else if (worker != null) SubmitComplaintController.setWorker(worker);
+    	try {
+				App.setRoot("submitComplaint");
+			}	catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				}
+    }
+
+
+
 
 	@FXML
 	private Button tavSagoalBtn;
@@ -162,8 +180,16 @@ public class DisplayListController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
+			}
+    }
+
+
+    @FXML
+    void goToCancelPurchase(ActionEvent event) {
+
+    }
+
+    
 
 	@FXML
 	void nextPage2(MouseEvent event) throws IOException {
@@ -300,6 +326,8 @@ public class DisplayListController {
 		logOutBtn.setVisible(false);
 		worker = null;
 		member = null;
+		SubmitComplaintController.setBuyer(null);
+		SubmitComplaintController.setWorker(null);
 		try {
 			App.setRoot("primary");
 		} catch (IOException e) {
@@ -331,6 +359,8 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
+        assert reviewRequestBtn != null : "fx:id=\"reviewRequestBtn\" was not injected: check your FXML file 'displayList.fxml'.";
+
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
@@ -343,6 +373,7 @@ public class DisplayListController {
 			employeeBtn.setVisible(true);
 			reviewRequestBtn.setVisible(true);
 			logOutBtn.setVisible(true);
+			reviewRequestBtn.setVisible(true);
 			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
 				compliantsBtn.setDisable(false);
@@ -351,6 +382,8 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				reviewRequestBtn.setDisable(false);
 				logOutBtn.setDisable(false);
+				reviewRequestBtn.setVisible(true);
+				reviewRequestBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(ContentManager.class)) {
 				compliantsBtn.setDisable(true);
@@ -359,6 +392,8 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
+				reviewRequestBtn.setVisible(true);
+				reviewRequestBtn.setDisable(false);
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
@@ -366,6 +401,8 @@ public class DisplayListController {
 				employeeBtn.setDisable(true);
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
+				reviewRequestBtn.setVisible(true);
+				reviewRequestBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
 				compliantsBtn.setDisable(false);
@@ -374,11 +411,17 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
+				reviewRequestBtn.setDisable(false);
 			}
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
+			compliantsBtn.setVisible(true);
+			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
+			reviewRequestBtn.setVisible(true);
+			reviewRequestBtn.setDisable(false);
+			purchasesBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
 		if ((movieList.size() / 3) * 3 < movieList.size()) {
@@ -409,7 +452,7 @@ public class DisplayListController {
 //			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
 //					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 //			gridList.setPadding(new Insets(50, 0, 50, 0));
-//			
+//
 //		} catch (FileNotFoundException e1) {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();
@@ -465,7 +508,7 @@ public class DisplayListController {
 	public void onRefreshCatalogEvent(RefreshCatalogEvent event) {
 		movieList = event.getMoviesList();
 		soonList = event.getSoonMovieList();
-		onDemandList = event.getMoviesListDemand();  
+		onDemandList = event.getMoviesListDemand();
 		try {
 			fillGrids(gridList, 1);
 			fillGrids(gridList2, 2);

@@ -58,7 +58,7 @@ public class ScheduledTask extends TimerTask {
 				long diffMins = now.until(tmp.get(0).getDateTimeStart(), ChronoUnit.MINUTES);
 				//System.out.println(diff);
 				if (diffHours < 1 && rent.getNotified() == false) {
-					SendEmailTLS.SendMailTo(email, "Reminder", "the movie you ordered starts within the hour!\n So grab a popcorn and get ready for some entertainment :D");
+					//SendEmailTLS.SendMailTo(email, "Reminder", "the movie you ordered starts within the hour!\n So grab a popcorn and get ready for some entertainment :D");
 					rent.setNotified(true);
 					session.beginTransaction();
 					session.save(rent);
@@ -66,7 +66,7 @@ public class ScheduledTask extends TimerTask {
 					session.getTransaction().commit();
 				}
 				if(diffMins < 1 && rent.getSentLink() == false) {
-					SendEmailTLS.SendMailTo(email, "The Movie", rent.getMovie().getStreamingLink());
+					//SendEmailTLS.SendMailTo(email, "The Movie", rent.getMovie().getStreamingLink());
 					rent.setSentLink(true);
 					session.beginTransaction();
 					session.save(rent);
