@@ -1,6 +1,5 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -29,56 +28,45 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
  */
 public class App extends Application {
 
-    private static Scene scene;
-    private SimpleClient client;
+	private static Scene scene;
+	private SimpleClient client;
 
-    @Override
-    public void start(Stage stage) throws IOException {
-    	EventBus.getDefault().register(this);
-    	client = SimpleClient.getClient();
-    	client.openConnection();
-    	scene = new Scene(loadFXML("primary"));
-        stage.setScene(scene);
-        stage.show();
-    }
+	@Override
+	public void start(Stage stage) throws IOException {
+		EventBus.getDefault().register(this);
+		client = SimpleClient.getClient();
+		client.openConnection();
+		scene = new Scene(loadFXML("primary"));
+		stage.setScene(scene);
+		stage.show();
+	}
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
+	static void setRoot(String fxml) throws IOException {
+		scene.setRoot(loadFXML(fxml));
+	}
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
-    
-    
-    
-    @Override
-    public void stop() throws Exception {
+	private static Parent loadFXML(String fxml) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+		return fxmlLoader.load();
+	}
+
+	@Override
+	public void stop() throws Exception {
 		// TODO Auto-generated method stub
-    	EventBus.getDefault().unregister(this);
+		EventBus.getDefault().unregister(this);
 		super.stop();
 	}
-    
-    @Subscribe
-    public void onWarningEvent(WarningEvent event) {
-    	
-		try {
-			App.setRoot("ShowCatalog");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//    	Platform.runLater(() -> {
-//    		Alert alert = new Alert(AlertType.WARNING,
-//        			String.format("Message: %s\nTimestamp: %s\n",
-//        					event.getWarning().getMessage(),
-//        					event.getWarning().getTime().toString())
-//        	);
-//        	alert.show();
-//    	});
-    }
-    
+
+	@Subscribe
+	public void onWarningEvent(WarningEvent event) {
+		Platform.runLater(() -> {
+			Alert alert = new Alert(AlertType.INFORMATION, String.format("Message: %s\nTimestamp: %s\n",
+					event.getWarning().getMessage(), event.getWarning().getTime().toString()));
+			alert.show();
+		});
+
+	}
+
 //    @SuppressWarnings("unchecked")
 //	@Subscribe
 //	public void onPriceReceivedEvent(PriceReceivedEvent event) {
@@ -92,49 +80,47 @@ public class App extends Application {
 //		}
 //
 //	}
-    
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	@Subscribe
-    public void onMovieReceivedEvent(MoviesReceivedEvent event) {
-    	DisplayListController.setMovieList((List<CinemaMovie>) event.getMovieCatalog());
-    	DisplayListController.setSoonList((List<ComingSoonMovie>) event.getMovieCatalog2());
-    	DisplayListController.setOnDemandList((List<OnDemandMovie>) event.getMovieCatalog3());
+	public void onMovieReceivedEvent(MoviesReceivedEvent event) {
+		DisplayListController.setMovieList((List<CinemaMovie>) event.getMovieCatalog());
+		DisplayListController.setSoonList((List<ComingSoonMovie>) event.getMovieCatalog2());
+		DisplayListController.setOnDemandList((List<OnDemandMovie>) event.getMovieCatalog3());
 		try {
 			App.setRoot("displayList");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-    
+	}
+
 	@SuppressWarnings("unchecked")
 	@Subscribe
-    public void onBranchesReceivedEvent(BranchesReceivedEvent event) {
-    	EditMovieScreeningsController.setAllBranches((List<SirtyaBranch>) event.getBranchesList());
+	public void onBranchesReceivedEvent(BranchesReceivedEvent event) {
+		EditMovieScreeningsController.setAllBranches((List<SirtyaBranch>) event.getBranchesList());
 		try {
 			App.setRoot("editMovieScreenings");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	@Subscribe
-    public void onWorkersReceivedEvent(WorkersReceivedEvent event) {
-    	AdminPanelController.setAllWorkers((List<Worker>) event.getWorkersList());
+	public void onWorkersReceivedEvent(WorkersReceivedEvent event) {
+		AdminPanelController.setAllWorkers((List<Worker>) event.getWorkersList());
 		try {
 			App.setRoot("adminPanel");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-	
-	
+	}
 
 	public static void main(String[] args) {
-        launch();
-    }
+		launch();
+	}
 
 }

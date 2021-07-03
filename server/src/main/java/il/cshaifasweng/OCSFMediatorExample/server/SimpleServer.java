@@ -226,27 +226,20 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#EditMovieAbstract")) {
+		} else if (msgString.startsWith("#EditMovieAbstract")) {
 			EditMovieAbstract((Movie) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#EditMoviePriceAndLink")) {
+		} else if (msgString.startsWith("#EditMoviePriceAndLink")) {
 			EditPriceAndStreamingLink((OnDemandMovie) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#SubmitComplaint")) {
+		} else if (msgString.startsWith("#SubmitComplaint")) {
 			SubmitComplaints((Complaint) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#GetComplaints")) {
+		} else if (msgString.startsWith("#GetComplaints")) {
 			GetComplaints((CasualBuyer) ((Message) msg).getObject(), client);
-		}
-		else if (msgString.startsWith("#SubmitResponseForComplaint")) {
+		} else if (msgString.startsWith("#SubmitResponseForComplaint")) {
 			StoreComplaintResponse((Complaint) ((Message) msg).getObject());
-		}
-		else if (msgString.startsWith("#SearchForClient")) {
+		} else if (msgString.startsWith("#SearchForClient")) {
 			SearchForClient((Message) msg, client);
-		}
-		else if (msgString.startsWith("#CancelOrder")) {
-			cancelOrder((Message)msg,client);
+		} else if (msgString.startsWith("#CancelOrder")) {
+			cancelOrder((Message) msg, client);
 		}
 	}
 
@@ -276,12 +269,12 @@ public class SimpleServer extends AbstractServer {
 	private void GetComplaints(CasualBuyer casualBuyer, ConnectionToClient client) {
 		try {
 			ArrayList<Complaint> complaintsList = getAllComplaints();
-			if(casualBuyer != null) {
+			if (casualBuyer != null) {
 				ArrayList<Complaint> complaintsList1 = new ArrayList<Complaint>();
-				for(Complaint complaint : complaintsList) {
-					//System.out.print(complaint.getClient().getCustomerId());
-					
-					if(complaint.getClient().getCustomerId() == casualBuyer.getCustomerId()) {
+				for (Complaint complaint : complaintsList) {
+					// System.out.print(complaint.getClient().getCustomerId());
+
+					if (complaint.getClient().getCustomerId() == casualBuyer.getCustomerId()) {
 						complaintsList1.add(complaint);
 					}
 				}
@@ -289,10 +282,10 @@ public class SimpleServer extends AbstractServer {
 			}
 			Message msg = new Message("#ShowComplaintsInTable", complaintsList);
 			this.sendToAllClients(msg);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private void SubmitComplaints(Complaint object, ConnectionToClient client) {
@@ -307,33 +300,31 @@ public class SimpleServer extends AbstractServer {
 	private void EditPriceAndStreamingLink(OnDemandMovie object, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		List<Movie> movieList = null;
-			try {
-				
-				movieList = getAllMovies();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+		try {
+
+			movieList = getAllMovies();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (Movie movie : movieList) {
+			if (movie.getId() == object.getId()) {
+				session.beginTransaction();
+				((OnDemandMovie) movie).setCost(object.getCost());
+				((OnDemandMovie) movie).setStreamingLink(object.getStreamingLink());
+				session.save(movie);
+				session.flush();
+				session.getTransaction().commit();
+				break;
 			}
-			for (Movie movie : movieList) {
-				if (movie.getId() == object.getId()) {
-					session.beginTransaction();
-					((OnDemandMovie)movie).setCost(object.getCost());
-					((OnDemandMovie)movie).setStreamingLink(object.getStreamingLink());
-					session.save(movie);
-					session.flush();
-					session.getTransaction().commit();
-					break;
-				}
-			}
-			session.close();
-			
+		}
+		session.close();
+
 	}
-
-
 
 	private void EditMovieAbstract(Movie object, ConnectionToClient client) {
 		session = sessionFactory.openSession();
-	List<Movie> movieList = null;
+		List<Movie> movieList = null;
 		try {
 			movieList = getAllMovies();
 		} catch (Exception e1) {
@@ -356,21 +347,24 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		session.close();
-				
+
 	}
-	
+
 	private void sendRefreshcatalogevent() {
 		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
 			List<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
 			List<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
 			List<OnDemandMovie> onDemandList = getAll(OnDemandMovie.class);
-			Message msg = new Message("#RefreshCatalog", cinMovieList, soonMovieList, onDemandList);
+			Message msg = new Message("#RefreshCatalog", cinMovieList, onDemandList, soonMovieList);
 			this.sendToAllClients(msg);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		session.close();
 	}
-	
+
 	private void deletePriceRequest(Price request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		try {
@@ -381,20 +375,20 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.beginTransaction();
 		Price temp = new Price();
-		for (Price price: priceList) {
+		for (Price price : priceList) {
 			if (price.getID() == request.getPriceId()) {
 				temp = price;
 				break;
 			}
-			
+
 		}
 		session.delete(temp);
 		session.flush();
 		session.getTransaction().commit();
 		priceList = getAll(Price.class);
 		try {
-				client.sendToClient(new Message("#PricesList", priceList));
-			
+			client.sendToClient(new Message("#PricesList", priceList));
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -404,9 +398,8 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.close();
 	}
-	
 
-	private void changePriceRequest(Price request, ConnectionToClient client){
+	private void changePriceRequest(Price request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		moviesList = getAll(CinemaMovie.class);
@@ -418,12 +411,12 @@ public class SimpleServer extends AbstractServer {
 				try {
 					priceList = getAll(Price.class);
 					Price temp = new Price();
-					for (Price price: priceList) {
+					for (Price price : priceList) {
 						if (price.getID() == request.getPriceId()) {
 							temp = price;
 							break;
 						}
-						
+
 					}
 					session.delete(temp);
 					session.flush();
@@ -448,7 +441,7 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 		session.getTransaction().commit();
 		priceList = getAll(Price.class);
-		Message msg = new Message("#RefreshPriceRequest",priceList );
+		Message msg = new Message("#RefreshPriceRequest", priceList);
 		this.sendToAllClients(msg);
 		session.close();
 
@@ -538,8 +531,6 @@ public class SimpleServer extends AbstractServer {
 		return;
 	}
 
-
-
 	private void DeleteMovieRegular(CinemaMovie object, ConnectionToClient client) {
 		System.out.println("in delete function");
 		session = sessionFactory.openSession();
@@ -550,7 +541,7 @@ public class SimpleServer extends AbstractServer {
 		CinemaMovie temp = null;
 		for (CinemaMovie movie : movieList) {
 			if (movie.getId() == request.getId()) {
-				for(Ticket ticket : tickets) {
+				for (Ticket ticket : tickets) {
 					session.delete(ticket);
 				}
 				temp = movie;
@@ -565,6 +556,7 @@ public class SimpleServer extends AbstractServer {
 		session.getTransaction().commit();
 		try {
 			client.sendToClient(new Message("#RefreshMovieDelete"));
+			sendRefreshcatalogevent();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -582,8 +574,8 @@ public class SimpleServer extends AbstractServer {
 		OnDemandMovie temp = null;
 		for (OnDemandMovie movie : movieList) {
 			if (movie.getId() == request.getId()) {
-				for(Rent rent: rents) {
-					if(rent.getMovie().getId() == movie.getId()) {
+				for (Rent rent : rents) {
+					if (rent.getMovie().getId() == movie.getId()) {
 						session.delete(rent);
 					}
 				}
@@ -596,6 +588,7 @@ public class SimpleServer extends AbstractServer {
 		session.getTransaction().commit();
 		try {
 			client.sendToClient(new Message("#RefreshMovieDelete"));
+			sendRefreshcatalogevent();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -622,6 +615,7 @@ public class SimpleServer extends AbstractServer {
 		session.getTransaction().commit();
 		try {
 			client.sendToClient(new Message("#RefreshMovieDelete"));
+			sendRefreshcatalogevent();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -880,20 +874,20 @@ public class SimpleServer extends AbstractServer {
 			List<CasualBuyer> tempClientsList = getAll(CasualBuyer.class);
 			CasualBuyer newCus = null;
 			for (CasualBuyer buyer : tempClientsList) {
-				if (buyer.getCustomerId()== request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
+				if (buyer.getCustomerId() == request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
 					newCus = buyer;
 				}
 			}
 			if (newCus == null) {
-			 newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
-					request.getCardNum(), request.getEmail());
+				newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
+						request.getCardNum(), request.getEmail());
 			}
 			session.save(newCus);
 			session.flush();
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
-				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i],  temp.getSeats()[i], temp.getCost(),
-						request.getCardNum(), transactionTime);
+				Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getSeats()[i],
+						temp.getCost(), request.getCardNum(), transactionTime);
 				session.save(temp.getScreening());
 				session.save(newTicket);
 				session.flush();
@@ -926,15 +920,15 @@ public class SimpleServer extends AbstractServer {
 			BookingRequest temp = request.getRequest();
 			for (int i = 0; i < temp.getArrSize(); i++) {
 				if (request.getUsePack() > 0 && newCus.getTicketsCredit() > 0) {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i],temp.getSeats()[i], 0,
-							request.getCardNum(), transactionTime);
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getSeats()[i],
+							0, request.getCardNum(), transactionTime);
 					request.setUsePack(request.getUsePack() - 1);
 					newCus.setTicketsCredit(newCus.getTicketsCredit() - 1);
 					session.save(newTicket);
 					session.flush();
 				} else {
-					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getSeats()[i], temp.getCost(),
-							request.getCardNum(), transactionTime);
+					Ticket newTicket = new Ticket(temp.getScreening(), newCus, temp.getSeatIds()[i], temp.getSeats()[i],
+							temp.getCost(), request.getCardNum(), transactionTime);
 					session.save(temp.getScreening());
 					session.save(newTicket);
 					session.flush();
@@ -968,16 +962,16 @@ public class SimpleServer extends AbstractServer {
 							BookingRequest temp = request.getRequest();
 							for (int i = 0; i < temp.getArrSize(); i++) {
 								if (request.getUsePack() > 0 && member.getTicketsCredit() > 0) {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getSeats()[i], 0,
-											request.getCardNum(), transactionTime);
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i],
+											temp.getSeats()[i], 0, request.getCardNum(), transactionTime);
 									request.setUsePack(request.getUsePack() - 1);
 									member.setTicketsCredit(member.getTicketsCredit() - 1);
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
 								} else {
-									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i], temp.getSeats()[i],
-											temp.getCost(), request.getCardNum(), transactionTime);
+									Ticket newTicket = new Ticket(temp.getScreening(), member, temp.getSeatIds()[i],
+											temp.getSeats()[i], temp.getCost(), request.getCardNum(), transactionTime);
 									session.save(temp.getScreening());
 									session.save(newTicket);
 									session.flush();
@@ -1018,7 +1012,7 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime() + "\n Start:" + request.getStreamingDatetime() 
+				+ request.getTransactionTime() + "\n Start:" + request.getStreamingDatetime()
 				+ "\n\nA link will be sent to you when the movie begins streaming\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
@@ -1037,7 +1031,8 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime, request.getStreamingDatetime());
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
+					request.getStreamingDatetime());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -1060,7 +1055,8 @@ public class SimpleServer extends AbstractServer {
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
-					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingDatetime());
+					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
+					request.getStreamingDatetime());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -1083,7 +1079,8 @@ public class SimpleServer extends AbstractServer {
 					if (member.getUsername().equals(request.getUsername())) {
 						if (member.getPassword().equals(request.getPassword())) {
 							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(),
-									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,request.getStreamingDatetime());
+									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
+									request.getStreamingDatetime());
 							session.save(newRent);
 							session.flush();
 							session.getTransaction().commit();
@@ -1144,8 +1141,8 @@ public class SimpleServer extends AbstractServer {
 //				e.printStackTrace();
 //			}
 //		}
-	
-	private void SearchForClient (Message msg, ConnectionToClient client) {
+
+	private void SearchForClient(Message msg, ConnectionToClient client) {
 		LogInRequest object = (LogInRequest) msg.getObject();
 		session = sessionFactory.openSession();
 		int id = Integer.parseInt(object.getUsername());
@@ -1154,7 +1151,7 @@ public class SimpleServer extends AbstractServer {
 		for (CasualBuyer buyer : buyersList) {
 			if (buyer.getCustomerId() == id) {
 				String temp = String.valueOf(buyer.getCreditNum());
-				temp = temp.substring(temp.length()-4);
+				temp = temp.substring(temp.length() - 4);
 				if (temp.equals(lastDigits)) {
 					Hibernate.initialize(buyer.getPurchases());
 					List<Purchase> tempList = buyer.getPurchases();
@@ -1178,9 +1175,9 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 		return;
 	}
-	
+
 	private void cancelOrder(Message msg, ConnectionToClient client) {
-		String newText ="";
+		String newText = "";
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		CasualBuyer customer = (CasualBuyer) ((Message) msg).getObject();
@@ -1206,41 +1203,45 @@ public class SimpleServer extends AbstractServer {
 							int temp = util.eligibleTicketRefund(screeningDate, screeningTime);
 							if (temp == 3 && ((Ticket) purchase).getCost() > 0) {
 								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
-								tempText = tempText.substring(tempText.length()-4);
-								newText += "\nA full refund will be made to your credit card that ends with the digits *" + tempText;
+								tempText = tempText.substring(tempText.length() - 4);
+								newText += "\nA full refund will be made to your credit card that ends with the digits *"
+										+ tempText;
 								newText += "\nRefund of: " + ((Ticket) purchase).getCost();
 							} else if (temp == 3 && ((Ticket) purchase).getCost() == 0) {
 								newText += "You'll receive the ticket credit back to your Tab.";
 							} else if (temp == 1 && ((Ticket) purchase).getCost() > 0) {
 								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
-								tempText = tempText.substring(tempText.length()-4);
-								newText += "\nYou'll receive a refund equal to 50% of the ticket cost, to the credit card that ends with the digits *" + tempText;
-								newText += "\nRefund of: " + ((Ticket) purchase).getCost()/2;
+								tempText = tempText.substring(tempText.length() - 4);
+								newText += "\nYou'll receive a refund equal to 50% of the ticket cost, to the credit card that ends with the digits *"
+										+ tempText;
+								newText += "\nRefund of: " + ((Ticket) purchase).getCost() / 2;
 							} else if (temp == 1 && ((Ticket) purchase).getCost() == 0) {
 								newText += "You'll receive the ticket credit back to your Tab.";
 							}
 							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
-							((Ticket) purchase).getScreening().setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats()-1);
+							((Ticket) purchase).getScreening()
+									.setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats() - 1);
 							purchase.setStatus("Canceled");
 							session.save(purchase);
 							session.save(buyer);
 							session.save(((Ticket) purchase).getScreening());
 							session.flush();
 							session.getTransaction().commit();
-						}
-						else if (purchase.getClass() == Rent.class) {
+						} else if (purchase.getClass() == Rent.class) {
 							newText = "Mr/Ms " + buyer.getFirstName() + " " + buyer.getLastName() + ",\n";
 							newText += "We have received your request to cancel the purchase of the following On-Demand order: \n";
 							newText += "Movie: " + ((Rent) purchase).getMovie().getMovieTitle();
 							ScreeningTimeComparator util = new ScreeningTimeComparator();
 							if (util.eligibleRentRefund(((Rent) purchase).getTransactionTime()) == 1) {
 								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
-								tempText = tempText.substring(tempText.length()-4);
-								newText += "\nA refund equal to 50% of the renting value will be made to your credit card that ends with *" + tempText;
-								newText += "\nRefund of: " + ((Ticket) purchase).getCost()/2;
+								tempText = tempText.substring(tempText.length() - 4);
+								newText += "\nA refund equal to 50% of the renting value will be made to your credit card that ends with *"
+										+ tempText;
+								newText += "\nRefund of: " + ((Ticket) purchase).getCost() / 2;
 							}
 							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
-							((Ticket) purchase).getScreening().setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats()-1);
+							((Ticket) purchase).getScreening()
+									.setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats() - 1);
 							purchase.setStatus("Canceled");
 							session.save(purchase);
 							session.save(buyer);
@@ -1252,10 +1253,10 @@ public class SimpleServer extends AbstractServer {
 						try {
 							client.sendToClient(new Message("#CanceledOrder", buyer, ordersList));
 						} catch (IOException e) {
-							// TODO Auto-generated catch block								e.printStackTrace();
+							// TODO Auto-generated catch block e.printStackTrace();
 						}
 						SendEmailTLS.SendMailTo(buyer.getElectronicMail(), "Cinema Ticket Cancelation", newText);
-						return;		
+						return;
 					}
 				}
 			}
@@ -1263,7 +1264,7 @@ public class SimpleServer extends AbstractServer {
 		customersList = getAll(CasualBuyer.class);
 		for (CasualBuyer buyer : customersList) {
 			if (customer.getId() == buyer.getId()) {
-				Hibernate.initialize(buyer.getPurchases());					
+				Hibernate.initialize(buyer.getPurchases());
 				List<Purchase> ordersList = buyer.getPurchases();
 				try {
 					client.sendToClient(new Message("#CanceledOrder", buyer, ordersList));
@@ -1543,9 +1544,9 @@ public class SimpleServer extends AbstractServer {
 		worker_2.setWorkerID("318156171");
 		worker_2.setWorkerName("Jerry Manager account");
 		worker_2.setWorkerPassword("wa7wa7");
-		
+
 		Worker worker_3 = new CustomerServiceEmployee();
-		
+
 		worker_3.setWokerUsername("JerryService");
 		worker_3.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_3.setWorkerID("318156171");
@@ -1556,23 +1557,23 @@ public class SimpleServer extends AbstractServer {
 				"Jerry98", "wa7wa7");
 		CinemaMember client_2 = new CinemaMember("Naruto", "Uzumaki", 125874569, 0000000, "jerryabuayob@gmail.com",
 				"naruto1", "wa7wa7");
-		
+
 		session.save(client_2);
 		session.save(worker_2);
 		session.save(worker_1);
 		session.save(worker_3);
 		session.save(client_1);
 		session.flush();
-		
-		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
-		Rent purchase1 = new Rent(client_1, 3.0, movie6, "sfdfsfsdf", 4563210,"22/06/2021",now.minusHours(1));
-		Rent purchase2 = new Rent(client_1, 3.0, movie6, "llllllllllll", 4563210,"24/06/2021",now.minusHours(25));
 
-		//tests for purchases
-		//session.save(purchase2);
-		//session.save(purchase1);
-		//session.flush();
-		
+		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
+		Rent purchase1 = new Rent(client_1, 3.0, movie6, "sfdfsfsdf", 4563210, "22/06/2021", now.minusHours(1));
+		Rent purchase2 = new Rent(client_1, 3.0, movie6, "llllllllllll", 4563210, "24/06/2021", now.minusHours(25));
+
+		// tests for purchases
+		// session.save(purchase2);
+		// session.save(purchase1);
+		// session.flush();
+
 		Complaint complaint0 = new Complaint(client_1, "Your seats are uncomfortable");
 		Complaint complaint1 = new Complaint(client_1, "The screen is too bright!");
 		Complaint complaint2 = new Complaint(client_2, "The screen is too dark!");
@@ -1594,7 +1595,7 @@ public class SimpleServer extends AbstractServer {
 		ArrayList<T> data = (ArrayList<T>) session.createQuery(query).getResultList();
 		return data;
 	}
-	
+
 	static ArrayList<Complaint> getAllComplaints() throws Exception {
 		session = sessionFactory.openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
