@@ -220,7 +220,9 @@ public class SimpleClient extends AbstractClient {
 		} else if (msgString.startsWith("#RefreshMovieDelete")) {
 			System.out.println("At RefreshDeleteMovie\n");
 			try {
-				SimpleClient.getClient().sendToServer("#CatalogRequest");
+				Warning new_warning=new Warning("Deleting movie is in progress");
+				EventBus.getDefault().post(new WarningEvent((Warning)new_warning));
+				SimpleClient.getClient().sendToServer("#getAllMovies");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
