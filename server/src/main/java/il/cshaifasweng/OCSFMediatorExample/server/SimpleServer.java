@@ -675,7 +675,11 @@ public class SimpleServer extends AbstractServer {
 				for (CinemaMember member : membersList) {
 					if (member.getUsername().equals(username)) {
 						if (member.getPassword().equals(password)) {
-							if (msg.toString().equals("#LoginRequestWhileBooking")) {
+							if (msg.toString().equals("#LoginRequestHistory")) {
+								Hibernate.initialize(member.getPurchases());
+								List<Purchase> temp = member.getPurchases();
+								client.sendToClient(new Message("#MemberLogIn4", member, temp));
+							} else if (msg.toString().equals("#LoginRequestWhileBooking")) {
 								client.sendToClient(new Message("#MemberLogIn2", member));
 							} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
 								client.sendToClient(new Message("#MemberLogIn3", member));
@@ -865,8 +869,17 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
-			CasualBuyer newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
+			List<CasualBuyer> tempClientsList = getAll(CasualBuyer.class);
+			CasualBuyer newCus = null;
+			for (CasualBuyer buyer : tempClientsList) {
+				if (buyer.getCustomerId()== request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
+					newCus = buyer;
+				}
+			}
+			if (newCus == null) {
+			 newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
 					request.getCardNum(), request.getEmail());
+			}
 			session.save(newCus);
 			session.flush();
 			BookingRequest temp = request.getRequest();
