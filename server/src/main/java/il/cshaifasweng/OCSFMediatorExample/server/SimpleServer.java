@@ -546,10 +546,13 @@ public class SimpleServer extends AbstractServer {
 		session.beginTransaction();
 		CinemaMovie request = object;
 		ArrayList<CinemaMovie> movieList = getAll(CinemaMovie.class);
+		ArrayList<Ticket> tickets = getAll(Ticket.class);
 		CinemaMovie temp = null;
 		for (CinemaMovie movie : movieList) {
-			System.out.println("movie id:" + movie.getId() + "request id: " + request.getId());
 			if (movie.getId() == request.getId()) {
+				for(Ticket ticket : tickets) {
+					session.delete(ticket);
+				}
 				temp = movie;
 				break;
 			}
@@ -575,10 +578,15 @@ public class SimpleServer extends AbstractServer {
 		session.beginTransaction();
 		OnDemandMovie request = object;
 		ArrayList<OnDemandMovie> movieList = getAll(OnDemandMovie.class);
+		ArrayList<Rent> rents = getAll(Rent.class);
 		OnDemandMovie temp = null;
 		for (OnDemandMovie movie : movieList) {
-			System.out.println("movie id:" + movie.getId() + "request id: " + request.getId());
 			if (movie.getId() == request.getId()) {
+				for(Rent rent: rents) {
+					if(rent.getMovie().getId() == movie.getId()) {
+						session.delete(rent);
+					}
+				}
 				temp = movie;
 				break;
 			}
