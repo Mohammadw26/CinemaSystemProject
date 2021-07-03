@@ -400,6 +400,8 @@ public class DisplayListController {
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
+			compliantsBtn.setVisible(true);
+			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
