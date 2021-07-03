@@ -16,7 +16,7 @@ public class App
     {
     	Timer time = new Timer(); // Instantiate Timer Object
         ScheduledTask st = new ScheduledTask(); // Instantiate SheduledTask class
-        time.schedule(st, 0, 60000); // Create Repetitively task for every 10 secs
+        time.schedule(st, 0, 60000); // Create Repetitively task for every 60 secs
         
         server = new SimpleServer(3000);
         server.connectData();

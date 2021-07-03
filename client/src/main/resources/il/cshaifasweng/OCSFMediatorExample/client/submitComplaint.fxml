@@ -3,14 +3,16 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SubmitComplaintController">
+<AnchorPane fx:id="generalAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#dissapearWarnings" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SubmitComplaintController">
    <children>
-      <Button fx:id="submit" layoutX="1105.0" layoutY="322.0" mnemonicParsing="false" onAction="#SubmitComplaint" onMouseClicked="#selectScreening" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: #792f2f;" text="Submit Complaint" textFill="WHITE" />
+      <Button fx:id="submit" layoutX="1105.0" layoutY="322.0" mnemonicParsing="false" onAction="#SubmitComplaint" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: #792f2f;" text="Submit Complaint" textFill="WHITE" />
       <ToolBar prefHeight="40.0" prefWidth="1280.0" style="-fx-background-color: #792f2f;">
          <items>
             <Label fx:id="title" text="Submit Complaint" textFill="WHITE">
@@ -31,8 +33,8 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Separator layoutX="278.0" layoutY="57.0" orientation="VERTICAL" prefHeight="706.0" prefWidth="43.0" />
-      <Label fx:id="warning" layoutX="367.0" layoutY="74.0" prefHeight="57.0" prefWidth="500.0" text="please write your complaint in the description area below" textFill="RED">
+      <Separator layoutX="296.0" layoutY="57.0" orientation="VERTICAL" prefHeight="706.0" prefWidth="43.0" />
+      <Label fx:id="pleaseMsg" layoutX="367.0" layoutY="74.0" prefHeight="57.0" prefWidth="500.0" text="please write your complaint in the description area below" textFill="RED">
          <font>
             <Font size="18.0" />
          </font>
@@ -47,7 +49,7 @@
             <Font size="14.0" />
          </font>
       </TextArea>
-      <Separator layoutX="6.0" layoutY="159.0" prefHeight="27.0" prefWidth="290.0" />
+      <Separator layoutX="6.0" layoutY="159.0" prefHeight="27.0" prefWidth="300.0" />
       <Label layoutX="362.0" layoutY="390.0" prefHeight="40.0" prefWidth="96.0" text="Answer:" textFill="#792f2f">
          <font>
             <Font size="18.0" />
@@ -59,7 +61,24 @@
          </font>
       </TextArea>
       <Label fx:id="warning" layoutX="466.0" layoutY="314.0" text="warning: you can't submit a complaint without any justification, please fill the field above!" textFill="RED" visible="false" />
-      <Label fx:id="warning1" layoutX="458.0" layoutY="544.0" text="warning: you can't submit an empty answer, please fill the field above!" textFill="RED" visible="false" />
-      <Button fx:id="submit1" layoutX="1105.0" layoutY="541.0" mnemonicParsing="false" onAction="#SubmitAnswer" onMouseClicked="#selectScreening" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: #792f2f;" text="Submit Answer" textFill="WHITE" />
+      <Label fx:id="warning1" layoutX="367.0" layoutY="548.0" text="warning: you can't submit an empty answer, please fill the field above! or make sure that you have selected a complaint from the table" textFill="RED" visible="false" />
+      <Button fx:id="submit1" layoutX="1105.0" layoutY="541.0" mnemonicParsing="false" onAction="#SubmitAnswer" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: #792f2f;" text="Submit Answer" textFill="WHITE" />
+      <AnchorPane fx:id="comboAnchor" layoutX="14.0" layoutY="187.0" prefHeight="317.0" prefWidth="300.0">
+         <children>
+            <Label layoutX="12.0" layoutY="14.0" text="Please choose a complaint you want to answer" textFill="#792f2f">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TableView fx:id="complaintsTable" layoutX="5.0" layoutY="44.0" onMouseClicked="#setCelltoField" prefHeight="264.0" prefWidth="288.0">
+              <columns>
+                <TableColumn fx:id="dateCol" prefWidth="108.0" text="Date" />
+                <TableColumn fx:id="nameCol" prefWidth="119.0" text="Client Name" />
+                  <TableColumn fx:id="idCol" prefWidth="60.0" text="ID" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="newComplaint" layoutX="96.0" layoutY="516.0" mnemonicParsing="false" onAction="#AddNewComplaint" prefHeight="40.0" prefWidth="120.0" style="-fx-background-color: #792f2f;" text="New Complaint" textFill="WHITE" visible="false" />
    </children>
 </AnchorPane>

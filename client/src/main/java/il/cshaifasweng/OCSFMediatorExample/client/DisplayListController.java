@@ -127,9 +127,6 @@ public class DisplayListController {
 	private Button addMovieBtn;
 
 	@FXML
-	private Button reviewRequestBtn;
-
-	@FXML
 	private Button employeeBtn;
 
 	@FXML
@@ -140,22 +137,38 @@ public class DisplayListController {
 
 	@FXML // fx:id="identityLabel"
 	private Label identityLabel; // Value injected by FXMLLoader
+	
+	@FXML
+    private FontAwesomeIconView prevBtn1;
 
 	@FXML
 	private FontAwesomeIconView nxtBtn1;
 
-	@FXML
-	private FontAwesomeIconView prevBtn1;
+    @FXML
+    private FontAwesomeIconView nxtBtn2;
 
-	@FXML
-	private FontAwesomeIconView nxtBtn2;
+    @FXML
+    private FontAwesomeIconView prevBtn2;
 
-	@FXML
-	private FontAwesomeIconView prevBtn2;
+    @FXML
+    void GoToAddComplaint(ActionEvent event) {
+    	if (member != null) {
+    		SubmitComplaintController.setBuyer(member);
+    	} else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
+    		SubmitComplaintController.setWorker((CustomerServiceEmployee)worker);
+    	}
+    	try {
+			SimpleClient.getClient().sendToServer(new Message("#GetComplaints", member));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
 
 	@FXML
 	private Button tavSagoalBtn;
-	
+
     @FXML
     private Button purchaseHistory;
 
@@ -168,7 +181,7 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
-	
+
     @FXML
     void loadHistoryPage(ActionEvent event) {
 		try {
@@ -310,7 +323,6 @@ public class DisplayListController {
 		addMovieBtn.setVisible(false);
 		salesReportsBtn.setVisible(false);
 		employeeBtn.setVisible(false);
-		reviewRequestBtn.setVisible(false);
 		logOutBtn.setVisible(false);
 		worker = null;
 		member = null;
@@ -356,15 +368,13 @@ public class DisplayListController {
 			addMovieBtn.setVisible(true);
 			salesReportsBtn.setVisible(true);
 			employeeBtn.setVisible(true);
-			reviewRequestBtn.setVisible(true);
 			logOutBtn.setVisible(true);
 			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
-				compliantsBtn.setDisable(false);
+				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(false);
 				logOutBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(ContentManager.class)) {
@@ -372,27 +382,26 @@ public class DisplayListController {
 				addMovieBtn.setDisable(false);
 				salesReportsBtn.setDisable(true);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
 				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(true);
 				employeeBtn.setDisable(true);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
-				compliantsBtn.setDisable(false);
+				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
-				reviewRequestBtn.setDisable(true);
 				logOutBtn.setDisable(false);
 			}
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
+			compliantsBtn.setVisible(true);
+			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
@@ -424,7 +433,7 @@ public class DisplayListController {
 //			gridList.setBackground(new Background(new BackgroundImage(image, BackgroundRepeat.REPEAT,
 //					BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 //			gridList.setPadding(new Insets(50, 0, 50, 0));
-//			
+//
 //		} catch (FileNotFoundException e1) {
 //			// TODO Auto-generated catch block
 //			e1.printStackTrace();
@@ -455,7 +464,7 @@ public class DisplayListController {
 
 	@FXML
 	void ViewRequests(ActionEvent event) {
-		
+
 			try {
 				SimpleClient.getClient().sendToServer(new Message("#PricesListRequest"));
 			} catch (IOException e) {
@@ -481,7 +490,7 @@ public class DisplayListController {
 	public void onRefreshCatalogEvent(RefreshCatalogEvent event) {
 		movieList = event.getMoviesList();
 		soonList = event.getSoonMovieList();
-		onDemandList = event.getMoviesListDemand();  
+		onDemandList = event.getMoviesListDemand();
 		try {
 			fillGrids(gridList, 1);
 			fillGrids(gridList2, 2);

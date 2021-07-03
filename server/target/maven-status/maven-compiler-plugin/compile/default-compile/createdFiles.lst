@@ -10,4 +10,5 @@ il\cshaifasweng\OCSFMediatorExample\server\ocsf\AdaptableServer.class
 il\cshaifasweng\OCSFMediatorExample\server\ocsf\AbstractServer$1.class
 il\cshaifasweng\OCSFMediatorExample\server\SimpleServer.class
 il\cshaifasweng\OCSFMediatorExample\server\ocsf\OriginatorMessage.class
+il\cshaifasweng\OCSFMediatorExample\helpers\ScreeningTimeComparator.class
 il\cshaifasweng\OCSFMediatorExample\helpers\SendEmailTLS.class

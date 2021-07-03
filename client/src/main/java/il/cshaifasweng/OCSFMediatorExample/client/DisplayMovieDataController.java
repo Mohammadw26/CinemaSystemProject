@@ -209,7 +209,18 @@ public class DisplayMovieDataController {
 		}
 		else if(typeIndex == 2) {
 			EditMoviesController.setMovie((OnDemandMovie) movie);
+			EditMoviesController.setTypeIndex(typeIndex);
 			try {
+				App.setRoot("editMovies");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if(typeIndex == 3) {
+			EditMoviesController.setMovie((ComingSoonMovie) movie);
+			EditMoviesController.setTypeIndex(typeIndex);
+			try			 {
 				App.setRoot("editMovies");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

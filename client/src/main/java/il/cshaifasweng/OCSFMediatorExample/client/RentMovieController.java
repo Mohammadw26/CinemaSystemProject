@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
@@ -14,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -114,6 +118,16 @@ public class RentMovieController {
     @FXML
     private Label invalidLogin;
     
+    @FXML
+    private DatePicker datePick;
+
+    @FXML
+    private ComboBox<Integer> hourField;
+
+    @FXML
+    private ComboBox<Integer> minuteField;
+
+    
     
     public static OnDemandMovie getMovie() {
 		return movie;
@@ -149,12 +163,13 @@ public class RentMovieController {
     void ConfirmOrder(ActionEvent event) {
     	if (nameField.getText() == "" || lastNameField.getText() == "" 
     		|| idField.getText() == "" || emailField.getText() == "" || cardField.getText() == "" 
-    		|| (signUpCheck.isSelected() & (newUserField.getText() == "" || newPasswordField.getText() == ""))) {
+    		|| (signUpCheck.isSelected() & (newUserField.getText() == "" || newPasswordField.getText() == "") || datePick.getAccessibleText() == "" || hourField.getAccessibleText() == "")) {
     		warning.setVisible(true);
     	}
     	else {
     		RentRequest request = new RentRequest(nameField.getText(), lastNameField.getText()
-    				, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()),movie);
+    								, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()), 
+    								 movie, datePick.getValue(), hourField.getValue());
     		if (signUpCheck.isSelected()) {
     			request.setUsername(newUserField.getText());
     			request.setPassword(newPasswordField.getText());
@@ -199,6 +214,8 @@ public class RentMovieController {
     			idField.setDisable(false);
     			emailField.setDisable(false);
     			cardField.setDisable(false);
+    			datePick.setDisable(false);
+    			hourField.setDisable(false);
     			CinemaMember member = DisplayListController.getMember();
     			nameField.setText(member.getFirstName());
     			lastNameField.setText(member.getLastName());
@@ -248,6 +265,8 @@ public class RentMovieController {
 	    	loginAnchorLabel2.setText("please enter you password to confirm it's you");
 			nameField.setDisable(true);
 			lastNameField.setDisable(true);
+			datePick.setDisable(true);
+			hourField.setDisable(true);
 			idField.setDisable(true);
 			emailField.setDisable(true);
 			cardField.setDisable(true);
@@ -263,6 +282,8 @@ public class RentMovieController {
 			idField.setText(String.valueOf(member.getCustomerId()));
 			emailField.setText(member.getElectronicMail());
 			cardField.setText(String.valueOf(member.getCreditNum()));
+			datePick.setDisable(false);
+			hourField.setDisable(false);
 			signUpCheck.setVisible(false);
 			memberPerksAnchor.setVisible(false);
 			loginAnchor.setVisible(false);
@@ -271,5 +292,11 @@ public class RentMovieController {
 			invalidLogin.setVisible(true);
 			status = 0;
 		}
+	    for (int i = 0; i < 24; i++) {
+			hourField.getItems().add(i);
+	    }
     }
+    
+
+    
 }
