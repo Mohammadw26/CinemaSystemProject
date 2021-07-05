@@ -32,6 +32,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.TabPurchase;
 import il.cshaifasweng.OCSFMediatorExample.entities.Ticket;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -54,11 +55,11 @@ public class ScheduledTask extends TimerTask {
 //				System.out.println(tmp.get(0).getId());
 //				System.out.println(tmp.get(0).getDateTimeStart());
 //				System.out.println(tmp.get(0).getDateTimeFinish());
-    			
-				long diffHours = now.until(rent.getStreamingDateTime(), ChronoUnit.HOURS);
-				long diffMins = now.until(rent.getStreamingDateTime(), ChronoUnit.MINUTES);
+    			//LocalDateTime temp = LocalDateTime.now().plusHours(1);
 				//System.out.println(diffHours);
-				if (diffHours < 1 && rent.getNotified() == false) {
+    			LocalDateTime temp = LocalDateTime.now();
+    			
+				if (temp.plusSeconds(60).isAfter(rent.getActivationDate()) && rent.getNotified() == false) {
 					SendEmailTLS.SendMailTo(email, "Reminder", "the movie you ordered starts within the hour!\n So grab a popcorn and get ready for some entertainment :D");
 					rent.setNotified(true);
 					session.beginTransaction();
@@ -66,15 +67,15 @@ public class ScheduledTask extends TimerTask {
 					session.flush();
 					session.getTransaction().commit();
 				}
-				if(diffMins < 1 && rent.getSentLink() == false) {
-					SendEmailTLS.SendMailTo(email, "The Movie", rent.getMovie().getStreamingLink());
+				if(temp.plusSeconds(120).isAfter(rent.getActivationDate()) && rent.getSentLink() == false) {
+					SendEmailTLS.SendMailTo(email, "The Movie", "You can start watching the movie you ordered here:\n" + rent.getMovie().getStreamingLink() + "\nThe link will expire in 24 hours. Enjoy!");
 					rent.setSentLink(true);
 					session.beginTransaction();
 					session.save(rent);
 					session.flush();
 					session.getTransaction().commit();
 				}
-				if(diffHours < -24 && rent.isExpired() == false) {
+				if(temp.isAfter(rent.getActivationDate().plusSeconds(180)) && rent.isExpired() == false) {
 					SendEmailTLS.SendMailTo(email, "Link Expired", "Thank you for choosing Dream Palace Cinema for streaming your movies!");
 					rent.setExpired(true);
 					session.beginTransaction();

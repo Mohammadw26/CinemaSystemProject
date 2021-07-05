@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ChooseScreeningController">
    <children>
-      <TableView fx:id="screeningsTable" layoutX="359.0" layoutY="216.0" onMouseClicked="#setCelltoField" prefHeight="324.0" prefWidth="737.0">
+      <TableView fx:id="screeningsTable" layoutX="438.0" layoutY="335.0" onMouseClicked="#setCelltoField" prefHeight="324.0" prefWidth="737.0">
         <columns>
           <TableColumn fx:id="dateCol" prefWidth="119.99996948242188" text="Date" />
           <TableColumn fx:id="timeCol" prefWidth="118.39993286132812" text="Time" />
@@ -22,8 +27,8 @@
         </columns>
       </TableView>
       <ImageView fx:id="poster" fitHeight="474.0" fitWidth="323.0" layoutX="22.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="select" layoutX="987.0" layoutY="574.0" mnemonicParsing="false" onMouseClicked="#selectScreening" style="-fx-background-color: #792f2f;" text="Select Screening" textFill="WHITE" />
-      <Label layoutX="359.0" layoutY="185.0" text="Please select the desired screening time by clicking on it.">
+      <Button fx:id="select" layoutX="1066.0" layoutY="693.0" mnemonicParsing="false" onMouseClicked="#selectScreening" style="-fx-background-color: #792f2f;" text="Select Screening" textFill="WHITE" />
+      <Label layoutX="438.0" layoutY="304.0" text="Please select the desired screening time by clicking on it.">
          <font>
             <Font size="14.0" />
          </font>
@@ -38,7 +43,60 @@
          </items>
       </ToolBar>
       <Button fx:id="returnBtn" layoutX="1164.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#returnToCat" style="-fx-background-color: #792f2f; -fx-border-color: #e7d1d1;" text="Return to catalog" textFill="WHITE" />
-   	  <ComboBox fx:id="coronaCombo" layoutX="787.0" layoutY="574.0" prefWidth="150.0" visible="false" />
-   	  <Label fx:id="coronaLabel" layoutX="89.0" layoutY="577.0" prefHeight="18.0" prefWidth="690.0" text="*Due to the Corona Virus restrictions, you can not choose the seating. Please choose the number of tickets you would like to buy." textFill="RED" visible="false" />
+   	  <ComboBox fx:id="coronaCombo" layoutX="885.0" layoutY="693.0" prefWidth="150.0" visible="false">
+         <opaqueInsets>
+            <Insets top="-3.0" />
+         </opaqueInsets></ComboBox>
+   	  <Label fx:id="coronaLabel" layoutX="194.0" layoutY="697.0" prefHeight="18.0" prefWidth="690.0" text="*Due to the Corona Virus restrictions, you can not choose the seating. Please choose the number of tickets you would like to buy." textFill="RED" visible="false" />
+      <VBox layoutX="438.0" layoutY="92.0" prefHeight="201.0" prefWidth="842.0">
+         <children>
+            <HBox prefHeight="50.0" prefWidth="530.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="128.0" text="Branch preference:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="branchCombo" prefWidth="150.0" promptText="All" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="435.0">
+               <children>
+                  <Label prefHeight="27.0" prefWidth="163.0" text="Date preferences: Between">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <DatePicker fx:id="date1" />
+                  <Label prefHeight="26.0" prefWidth="30.0" text="   &amp;" />
+                  <DatePicker fx:id="date2" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="379.0">
+               <children>
+                  <Label prefHeight="26.0" prefWidth="163.0" text="Time preferences, Between">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="h1" prefHeight="26.0" prefWidth="60.0" />
+                  <Label prefHeight="26.0" prefWidth="18.0" text="  :" />
+                  <ComboBox fx:id="m1" prefWidth="60.0" />
+                  <Label prefHeight="26.0" prefWidth="24.0" text="  &amp;" />
+                  <ComboBox fx:id="h2" prefHeight="26.0" prefWidth="60.0" />
+                  <Label prefHeight="26.0" prefWidth="18.0" text="  :" />
+                  <ComboBox fx:id="m2" prefWidth="60.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#search" text="Search" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="34.13671875" />
+                  <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetFilters" text="Reset All Filters" />
+               </children>
+            </HBox>
+            <Label fx:id="warningLabel" prefHeight="18.0" prefWidth="992.0" text="Label" textFill="RED" visible="false" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

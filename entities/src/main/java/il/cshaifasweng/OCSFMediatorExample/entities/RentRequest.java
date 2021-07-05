@@ -23,7 +23,7 @@ public class RentRequest implements Serializable{
 	private boolean signupFlag;
 	private OnDemandMovie movie;
 	private String transactionTime;
-	private ZonedDateTime streamingDatetime;
+	private LocalDateTime activationDate;
 	
 
 	public String getTransactionTime() {
@@ -36,17 +36,14 @@ public class RentRequest implements Serializable{
 
 	public RentRequest() {}
 	
-	public RentRequest(String firstName, String lastName, String email, int customerID, long cardNum, OnDemandMovie movie, LocalDate date, int hour) {
+	public RentRequest(String firstName, String lastName, String email, int customerID, long cardNum, OnDemandMovie movie, LocalDateTime date) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.customerID = customerID;
 		this.cardNum = cardNum;
 		this.movie = movie;
-
-		this.streamingDatetime =  LocalDateTime.of(date.getYear(),date.getMonthValue(),
-								  date.getDayOfMonth(),hour,0).atZone(ZoneId.of("Asia/Jerusalem"));
-					
+		this.activationDate = date;
 	}
 	
 	public RentRequest(String firstName, String lastName, String email, int customerID, long cardNum, String username, String password, OnDemandMovie movie) {
@@ -140,13 +137,12 @@ public class RentRequest implements Serializable{
 		this.password = password;
 	}
 
-	public ZonedDateTime getStreamingDatetime() {
-		return streamingDatetime;
+	public LocalDateTime getActivationDate() {
+		return activationDate;
 	}
 
-	public void setStreamingDatetime(ZonedDateTime streamingDatetime) {
-		this.streamingDatetime = streamingDatetime;
+	public void setActivationDate(LocalDateTime activationDate) {
+		this.activationDate = activationDate;
 	}
-	
 	
 }
