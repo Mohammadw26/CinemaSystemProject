@@ -171,6 +171,9 @@ public class DisplayListController {
 
     @FXML
     private Button purchaseHistory;
+    
+    @FXML
+    private Button filterLists;
 
 	@FXML
 	void loadTavSagoalUpdate(ActionEvent event) {
@@ -186,6 +189,16 @@ public class DisplayListController {
     void loadHistoryPage(ActionEvent event) {
 		try {
 			App.setRoot("purchaseHistory");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    @FXML
+    void loadFiltering(ActionEvent event) {
+    	try {
+			SimpleClient.getClient().sendToServer("#BranchesListRequest2");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

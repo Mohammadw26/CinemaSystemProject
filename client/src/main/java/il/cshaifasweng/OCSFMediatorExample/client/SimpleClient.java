@@ -38,6 +38,15 @@ public class SimpleClient extends AbstractClient {
 		String msgString = ((Message) msg).getMessage();
 		if (msgString.startsWith("#SendLists")) {
 			EventBus.getDefault().post(new MoviesReceivedEvent((Message) msg));
+		} else if (msgString.startsWith("#BranchesList2")) {
+			FilteringController.setAllBranches((List<SirtyaBranch>) ((Message) msg).getObject());
+			FilteringController.setAllMovies((List<Movie>) ((Message) msg).getObject2());
+			try {
+				App.setRoot("filtering");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (msgString.startsWith("#BranchesList")) {
 			EventBus.getDefault().post(new BranchesReceivedEvent((Message) msg));
 		} else if (msgString.startsWith("#WorkersList")) {

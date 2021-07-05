@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
@@ -122,10 +123,10 @@ public class RentMovieController {
     private DatePicker datePick;
 
     @FXML
-    private ComboBox<Integer> hourField;
+    private ComboBox<String> hourField;
 
     @FXML
-    private ComboBox<Integer> minuteField;
+    private ComboBox<String> minuteField;
 
     
     
@@ -167,9 +168,11 @@ public class RentMovieController {
     		warning.setVisible(true);
     	}
     	else {
+    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm");
+    		String temp = datePick.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));	
     		RentRequest request = new RentRequest(nameField.getText(), lastNameField.getText()
     								, emailField.getText(), Integer.parseInt(idField.getText()), Long.parseLong(cardField.getText()), 
-    								 movie, datePick.getValue(), hourField.getValue());
+    								movie ,LocalDateTime.parse(temp + " , " + hourField.getValue() + ":" + minuteField.getValue() , formatter));
     		if (signUpCheck.isSelected()) {
     			request.setUsername(newUserField.getText());
     			request.setPassword(newPasswordField.getText());
@@ -292,8 +295,15 @@ public class RentMovieController {
 			invalidLogin.setVisible(true);
 			status = 0;
 		}
-	    for (int i = 0; i < 24; i++) {
-			hourField.getItems().add(i);
+		for (int i = 0; i < 10 ; i++) {
+			hourField.getItems().add("0"+i);
+		}
+	    for (int i = 10; i < 24; i++) {
+			hourField.getItems().add(String.valueOf(i));
+	    }
+	    minuteField.getItems().addAll("00","05");
+	    for (int i = 10; i < 60 ; i++) {
+	    	minuteField.getItems().add(String.valueOf(i));
 	    }
     }
     

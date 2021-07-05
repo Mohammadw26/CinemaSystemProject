@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
@@ -62,7 +63,7 @@ public class RentingSummaryController {
         		+ "Customer ID: " + request.getCustomerID() + "\nE-mail: " + request.getEmail()
         		+ "\nMovie: " + request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 			temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time: " + request.getTransactionTime()
-			+"\n Start:" + request.getStreamingDatetime()
+			+"\nStart: " + request.getActivationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm"))
 					+ "\n\nA link will be sent to you when the movie begins streaming\n"
 					+ "We ask of you to be patient until then, Enjoy!");
 			summray.setText(temp);

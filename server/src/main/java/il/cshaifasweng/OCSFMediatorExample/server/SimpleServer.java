@@ -96,12 +96,15 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.close();
 		} else if (msgString.startsWith("#BranchesListRequest")) {
-			// movieList.setMoviesList(getAll(Movie.class));
 			try {
 				session = sessionFactory.openSession();
 				ArrayList<SirtyaBranch> branchesList = getAllBranches();
-
-				client.sendToClient(new Message("#BranchesList", branchesList));
+				if (msgString.startsWith("#BranchesListRequest2")) {
+					List<Movie> temp = getAll(Movie.class);
+					client.sendToClient(new Message("#BranchesList2", branchesList,temp));
+				} else {
+					client.sendToClient(new Message("#BranchesList", branchesList));
+				}
 				session.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -1012,8 +1015,8 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime() + "\n Start:" + request.getStreamingDatetime()
-				+ "\n\nA link will be sent to you when the movie begins streaming\n"
+				+ request.getTransactionTime() + "\n Start:" + request.getActivationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm"))
+				+ "\n\nA link will be sent to you upon activation time.\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
 		SendEmailTLS.SendMailTo(request.getEmail(), "Receipt for Your Payment", temp);
@@ -1026,13 +1029,22 @@ public class SimpleServer extends AbstractServer {
 		if (request.isNewCustomerFlag() && !request.isSignupFlag()) {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
-			CasualBuyer newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
+			List<CasualBuyer> tempClientsList = getAll(CasualBuyer.class);
+			CasualBuyer newCus = null;
+			for (CasualBuyer buyer : tempClientsList) {
+				if (buyer.getCustomerId()== request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
+					newCus = buyer;
+				}
+			}
+			if (newCus == null) {
+				newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
 					request.getCardNum(), request.getEmail());
+			}
 			session.save(newCus);
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
 					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
-					request.getStreamingDatetime());
+					request.getActivationDate());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -1056,7 +1068,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 			Rent newRent = new Rent(newCus, request.getMovie().getCost(), request.getMovie(),
 					request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
-					request.getStreamingDatetime());
+					request.getActivationDate());
 			session.save(newRent);
 			session.flush();
 			session.getTransaction().commit();
@@ -1080,7 +1092,7 @@ public class SimpleServer extends AbstractServer {
 						if (member.getPassword().equals(request.getPassword())) {
 							Rent newRent = new Rent(member, request.getMovie().getCost(), request.getMovie(),
 									request.getMovie().getStreamingLink(), request.getCardNum(), transactionTime,
-									request.getStreamingDatetime());
+									request.getActivationDate());
 							session.save(newRent);
 							session.flush();
 							session.getTransaction().commit();
@@ -1207,16 +1219,12 @@ public class SimpleServer extends AbstractServer {
 								newText += "\nA full refund will be made to your credit card that ends with the digits *"
 										+ tempText;
 								newText += "\nRefund of: " + ((Ticket) purchase).getCost();
-							} else if (temp == 3 && ((Ticket) purchase).getCost() == 0) {
-								newText += "You'll receive the ticket credit back to your Tab.";
 							} else if (temp == 1 && ((Ticket) purchase).getCost() > 0) {
 								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
 								tempText = tempText.substring(tempText.length() - 4);
 								newText += "\nYou'll receive a refund equal to 50% of the ticket cost, to the credit card that ends with the digits *"
 										+ tempText;
 								newText += "\nRefund of: " + ((Ticket) purchase).getCost() / 2;
-							} else if (temp == 1 && ((Ticket) purchase).getCost() == 0) {
-								newText += "You'll receive the ticket credit back to your Tab.";
 							}
 							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
 							((Ticket) purchase).getScreening()
@@ -1231,21 +1239,17 @@ public class SimpleServer extends AbstractServer {
 							newText = "Mr/Ms " + buyer.getFirstName() + " " + buyer.getLastName() + ",\n";
 							newText += "We have received your request to cancel the purchase of the following On-Demand order: \n";
 							newText += "Movie: " + ((Rent) purchase).getMovie().getMovieTitle();
-							ScreeningTimeComparator util = new ScreeningTimeComparator();
-							if (util.eligibleRentRefund(((Rent) purchase).getTransactionTime()) == 1) {
-								String tempText = String.valueOf(((Ticket) purchase).getCreditCardNum());
+							LocalDateTime temp = LocalDateTime.now().plusHours(1);
+							if (temp.isBefore(((Rent) purchase).getActivationDate())) {
+								String tempText = String.valueOf(((Rent) purchase).getCreditCardNum());
 								tempText = tempText.substring(tempText.length() - 4);
 								newText += "\nA refund equal to 50% of the renting value will be made to your credit card that ends with *"
 										+ tempText;
-								newText += "\nRefund of: " + ((Ticket) purchase).getCost() / 2;
-							}
-							((Ticket) purchase).getScreening().setAvailableSeatAt((((Ticket) purchase).getSeatNum()));
-							((Ticket) purchase).getScreening()
-									.setSoldSeats(((Ticket) purchase).getScreening().getSoldSeats() - 1);
+								newText += "\nAmount of refund: " + ((Rent) purchase).getCost() / 2 + "NIS";
+							} 
 							purchase.setStatus("Canceled");
 							session.save(purchase);
 							session.save(buyer);
-							session.save(((Ticket) purchase).getScreening());
 							session.flush();
 							session.getTransaction().commit();
 						}
@@ -1261,6 +1265,7 @@ public class SimpleServer extends AbstractServer {
 				}
 			}
 		}
+		
 		customersList = getAll(CasualBuyer.class);
 		for (CasualBuyer buyer : customersList) {
 			if (customer.getId() == buyer.getId()) {
@@ -1564,10 +1569,6 @@ public class SimpleServer extends AbstractServer {
 		session.save(worker_3);
 		session.save(client_1);
 		session.flush();
-
-		ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Jerusalem"));
-		Rent purchase1 = new Rent(client_1, 3.0, movie6, "sfdfsfsdf", 4563210, "22/06/2021", now.minusHours(1));
-		Rent purchase2 = new Rent(client_1, 3.0, movie6, "llllllllllll", 4563210, "24/06/2021", now.minusHours(25));
 
 		// tests for purchases
 		// session.save(purchase2);

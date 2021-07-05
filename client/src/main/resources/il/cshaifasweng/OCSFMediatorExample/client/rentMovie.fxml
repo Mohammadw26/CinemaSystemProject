@@ -83,9 +83,9 @@
             <CheckBox fx:id="useEmailCheck" layoutX="305.0" layoutY="52.0" mnemonicParsing="false" onAction="#copyEmail" text="Use my e-mail as a username." />
          </children>
       </AnchorPane>
-      <DatePicker fx:id="datePick" layoutX="470.0" layoutY="447.0" />
-      <ComboBox fx:id="hourField" layoutX="660.0" layoutY="447.0" prefHeight="26.0" prefWidth="86.0" />
-      <ComboBox fx:id="minuteField" disable="true" layoutX="759.0" layoutY="447.0" prefHeight="26.0" prefWidth="86.0" visible="false" />
-      <Label layoutX="344.0" layoutY="451.0" text="Time of streaming:" />
+      <DatePicker fx:id="datePick" layoutX="475.0" layoutY="447.0" />
+      <ComboBox fx:id="hourField" layoutX="661.0" layoutY="447.0" prefHeight="26.0" prefWidth="86.0" />
+      <ComboBox fx:id="minuteField" layoutX="758.0" layoutY="447.0" prefHeight="26.0" prefWidth="86.0" />
+      <Label layoutX="344.0" layoutY="451.0" text="Choose activation time:" />
    </children>
 </AnchorPane>

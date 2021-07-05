@@ -150,6 +150,19 @@ public class PurchaseHistoryController {
     
     @FXML
     private Label warningLabel;
+    
+    @FXML
+    private AnchorPane backBtn;
+    
+    @FXML
+    void backToCatalog(MouseEvent event) {
+		try {
+			App.setRoot("displayList");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 
     @FXML
     void CancelPurchase(ActionEvent event) {
