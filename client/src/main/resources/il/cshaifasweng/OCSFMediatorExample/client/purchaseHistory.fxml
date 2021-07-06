@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseHistoryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseHistoryController">
    <children>
       <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
       <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Purchase History" wrappingWidth="220.76641845703125" />
@@ -100,6 +100,6 @@
             <Label fx:id="warningLabel" layoutX="39.0" layoutY="68.0" text="You can not cancel a Tab purchase, please review our policy for more info." textFill="RED" visible="false" />
          </children>
       </AnchorPane>
-      <Button layoutX="1221.0" layoutY="5.0" mnemonicParsing="false" style="-fx-background-color: #792f2f; -fx-border-color: ffdbdb;" text="Button" textFill="#ffdbdb" />
+      <Button fx:id="homeBtn" layoutX="1221.0" layoutY="5.0" mnemonicParsing="false" onAction="#backToCatalog" prefHeight="27.0" prefWidth="53.0" style="-fx-background-color: #792f2f; -fx-border-color: ffdbdb;" text="Back" textFill="#ffdbdb" />
    </children>
 </AnchorPane>

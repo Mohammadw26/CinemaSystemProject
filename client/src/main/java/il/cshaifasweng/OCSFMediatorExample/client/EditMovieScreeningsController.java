@@ -7,6 +7,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.Hall;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
@@ -14,6 +15,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
 import il.cshaifasweng.OCSFMediatorExample.entities.ScreeningsUpdateRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
+import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -67,9 +69,6 @@ public class EditMovieScreeningsController {
 	@FXML
 	private Label TitleField;
 
-//    @FXML
-//    private Label screeningsField;
-
 	@FXML
 	private TextField idField;
 
@@ -111,11 +110,14 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	private TableColumn<Screening, String> branchCol;
-    @FXML
-    private TableColumn<Screening, String> hallCol;
+	@FXML
+	private TableColumn<Screening, String> hallCol;
 
 	@FXML
 	private ComboBox<String> optionField;
+
+	@FXML
+	private ComboBox<String> hallField;
 
 	@FXML
 	private TextField priceField;
@@ -132,28 +134,31 @@ public class EditMovieScreeningsController {
 	@FXML
 	private DatePicker datePick;
 	@FXML
-    private Text requestSent;
-	
-    @FXML
-    private Button editMovieBtn;
+	private Text requestSent;
 
-    @FXML
-    void goToEditMovies(ActionEvent event) {
-	   	EditMoviesController.setMovie((CinemaMovie) movie);
-			EditMoviesController.setTypeIndex(1);
-			try {
-				App.setRoot("editMovies");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    }
+	@FXML
+	private Button editMovieBtn;
+
+	@FXML
+	void goToEditMovies(ActionEvent event) {
+		EditMoviesController.setMovie((CinemaMovie) movie);
+		EditMoviesController.setTypeIndex(1);
+		try {
+			App.setRoot("editMovies");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	void ApplyChanges(ActionEvent event) {
 		if (optionField.getValue() == "Edit screening") {
 			LocalDate newDate = datePick.getValue();
-			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			String formattedDate = datePick.getEditor().getText();
+			if (newDate != null) {
+				formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			}
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			request.setScrnID(Integer.parseInt(idField.getText()));
 			request.setDate(formattedDate);
@@ -167,57 +172,53 @@ public class EditMovieScreeningsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (optionField.getValue() == "Delete screening" ) {
-	    	ScreeningsUpdateRequest request = new ScreeningsUpdateRequest(Integer.parseInt(idField.getText()));
+		} else if (optionField.getValue() == "Delete screening") {
+			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest(Integer.parseInt(idField.getText()));
 			request.setMovieID(movie.getId());
-	    	request.setMovie(movie);
-	    	try {
-				SimpleClient.getClient().sendToServer(new Message("#DeleteScreening",request));
+			request.setMovie(movie);
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#DeleteScreening", request));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		}
-		else if(optionField.getValue() == "Add screening" ){
+
+		} else if (optionField.getValue() == "Add screening") {
 			LocalDate newDate = datePick.getValue();
 			String formattedDate = newDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			ScreeningsUpdateRequest request = new ScreeningsUpdateRequest();
 			String temp = datePick.getEditor().getText();
 			request.setDate(formattedDate);
 			request.setTime(hourField.getValue() + ":" + minuteField.getValue());
-	    	request.setMovie(movie);
-	    	request.setBranch(branch);
-	    	request.setMovieID(movie.getId());
-	    	request.setMovie(movie);
+			request.setMovie(movie);
+			request.setBranch(branch);
+			request.setMovieID(movie.getId());
+			request.setMovie(movie);
 
-	    	try {
-				SimpleClient.getClient().sendToServer(new Message("#AddScreening",request));
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#AddScreening", request));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		}
-		else if(optionField.getValue() == "Change price" ){
+
+		} else if (optionField.getValue() == "Change price") {
 			requestSent.setVisible(true);
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm:ss");
 			String transactionTime = formatter.format(LocalDateTime.now());
 			String time = transactionTime.substring(transactionTime.lastIndexOf(",") + 1);
-			String date = transactionTime.substring(0,10);
-			Price request = 
-					new Price(movie.getMovieTitle(),DisplayListController.getWorker().getWorkerName(),
-							movie.getTicketCost(),Double.parseDouble(priceField.getText()),date,time);
+			String date = transactionTime.substring(0, 10);
+			Price request = new Price(movie.getMovieTitle(), DisplayListController.getWorker().getWorkerName(),
+					movie.getTicketCost(), Double.parseDouble(priceField.getText()), date, time);
 			request.setMovieID(movie.getId());
 			request.setWorkerID(DisplayListController.getWorker().getWorkerID());
 			try {
-				SimpleClient.getClient().sendToServer(new Message("#AddPriceRequest",request));
+				SimpleClient.getClient().sendToServer(new Message("#AddPriceRequest", request));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
@@ -233,24 +234,21 @@ public class EditMovieScreeningsController {
 
 	@FXML
 	void getOptionField(ActionEvent event) {
-//		dayField.setDisable(true);
-//		monthField.setDisable(true);
-//		yearField.setDisable(true);
 		hourField.setDisable(true);
 		minuteField.setDisable(true);
 		branchField.setDisable(true);
 		priceField.setDisable(true);
 		editMessage.setVisible(false);
 		deleteMessage.setVisible(false);
+		requestSent.setVisible(false);
 		datePick.setDisable(true);
+		hallField.setDisable(true);
 		if (optionField.getValue() == "Change price" || optionField.getValue() == "Add screening"
 				|| optionField.getValue() == "Delete screening") {
 			hourField.setValue("Select");
 			minuteField.setValue("Select");
 			datePick.getEditor().setText("");
-//			dayField.setValue("Select");
-//			monthField.setValue("Select");
-//			yearField.setValue("Select");
+			hallField.setValue("Select");
 			if (optionField.getValue() == "Change price") {
 				priceField.setDisable(false);
 			}
@@ -266,7 +264,10 @@ public class EditMovieScreeningsController {
 			datePick.setDisable(false);
 			hourField.setDisable(false);
 			minuteField.setDisable(false);
+			hallField.setDisable(false);
 			if (optionField.getValue() == "Edit screening") {
+				Warning new_warning=new Warning("Please click on the Screening to Edit");
+				EventBus.getDefault().post(new WarningEvent((Warning)new_warning));
 				editMessage.setVisible(true);
 
 			}
@@ -284,10 +285,17 @@ public class EditMovieScreeningsController {
 		if (optionField.getValue() == "Edit screening") {
 			hourField.setValue(temp.getScreeningTime().substring(0, 2));
 			minuteField.setValue(temp.getScreeningTime().substring(3, 5));
-//			dayField.setValue(temp.getScreeningDate().substring(0, 2));
-//			monthField.setValue(temp.getScreeningDate().substring(3, 5));
-//			yearField.setValue(temp.getScreeningDate().substring(6, 10));
 			datePick.getEditor().setText(temp.getScreeningDate());
+			for (SirtyaBranch brnch : allBranches) {
+				if (brnch.getAddress() == temp.getScreeningBranch()) {
+					branch = brnch;
+					for (Hall hall : brnch.getHalls()) {
+						System.out.println("fofo");
+						hallField.getItems().addAll(hall.getHallName());
+					}
+				}
+			}
+			hallField.setValue(temp.getScreeningHall());
 		}
 	}
 
@@ -295,8 +303,9 @@ public class EditMovieScreeningsController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		assert editMovieBtn != null : "fx:id=\"editMovieBtn\" was not injected: check your FXML file 'editMovieScreenings.fxml'.";
-		
+		assert editMovieBtn != null
+				: "fx:id=\"editMovieBtn\" was not injected: check your FXML file 'editMovieScreenings.fxml'.";
+
 		TitleField.setText(movie.getMovieTitle());
 		idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<>("screeningTime"));
@@ -307,8 +316,6 @@ public class EditMovieScreeningsController {
 		screeningsTable.setItems(screeningList);
 		for (int i = 0; i < 10; i++) {
 			hourField.getItems().add("0" + Integer.toString(i));
-			dayField.getItems().add("0" + Integer.toString(i));
-			monthField.getItems().add("0" + Integer.toString(i));
 
 		}
 		for (int i = 10; i < 24; i++) {
@@ -317,21 +324,12 @@ public class EditMovieScreeningsController {
 		for (int i = 0; i < 60; i = i + 5) {
 			minuteField.getItems().addAll(Integer.toString(i));
 		}
-		for (int i = 10; i < 13; i++) {
-			monthField.getItems().addAll(Integer.toString(i));
-		}
-		for (int i = 10; i < 32; i++) {
-			dayField.getItems().addAll(Integer.toString(i));
-		}
-		for (int i = 2021; i < 2050; i++) {
-			yearField.getItems().addAll(Integer.toString(i));
-		}
 		optionField.getItems().addAll("Edit screening", "Delete screening", "Add screening", "Change price");
 		priceField.setText(Double.toString(movie.getTicketCost()));
 		for (SirtyaBranch brnch : allBranches) {
 			branchField.getItems().addAll(brnch.getAddress());
 		}
-		
+
 	}
 
 	public static OnDemandMovie getMovieonDemand() {
@@ -341,6 +339,5 @@ public class EditMovieScreeningsController {
 	public static void setOnDemandMovie(OnDemandMovie movie1) {
 		EditMovieScreeningsController.movie1 = movie1;
 	}
-		
 
 }

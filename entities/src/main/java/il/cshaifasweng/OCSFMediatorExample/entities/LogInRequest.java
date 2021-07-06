@@ -11,12 +11,15 @@ public class LogInRequest implements Serializable{
 
 	private String username;
 	private String password;
-
+	private boolean isConnected;
+	
 	public LogInRequest() {}
 	
 	public LogInRequest(String user, String pass) {
 		this.username = user;
 		this.password = pass;
+		setConnected(false);
+
 	}
 	public String getUsername() {
 		return username;
@@ -32,6 +35,14 @@ public class LogInRequest implements Serializable{
 	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 	
 }
