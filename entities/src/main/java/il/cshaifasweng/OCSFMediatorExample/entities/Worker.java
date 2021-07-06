@@ -26,6 +26,7 @@ public class Worker implements Serializable {
 	protected String workerPassword;
 	protected String wokerUsername;
 	protected String workerEmail;
+	private boolean isConnected;
 	
 	public Worker() {}
 	
@@ -35,6 +36,7 @@ public class Worker implements Serializable {
 		this.workerPassword = password;
 		this.wokerUsername = username;
 		this.workerEmail = email;
+		setConnected(false);
 	}
 	
 	public String getWorkerID(){
@@ -76,6 +78,14 @@ public class Worker implements Serializable {
 
 	public void setWokerUsername(String wokerUsername) {
 		this.wokerUsername = wokerUsername;
+	}
+	
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 	
 }

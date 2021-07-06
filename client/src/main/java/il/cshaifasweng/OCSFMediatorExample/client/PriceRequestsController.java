@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.Subscribe;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Price;
 import il.cshaifasweng.OCSFMediatorExample.entities.Screening;
+import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PriceRequestsController {
-	ObservableList<Price> list =  FXCollections.observableArrayList();
+	ObservableList<Price> list = FXCollections.observableArrayList();
 
 //	private static List<Price> allPrices;
 	private static Price temp;
@@ -65,29 +66,41 @@ public class PriceRequestsController {
 
 	@FXML
 	void AcceptReq(ActionEvent event) {
-		Price request = new Price();
-		request.setMovieID(temp.getMovieID());
-		request.setNewPrice(temp.getNewPrice());
-		request.setPriceId(temp.getID());
-		try {
-			SimpleClient.getClient().sendToServer(new Message("#changePrice",request));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (priceReqTable.getItems().isEmpty()) {
+			Warning new_warning = new Warning("You don't have any requests to accept");
+			EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
+
+		} else {
+			Price request = new Price();
+			request.setMovieID(temp.getMovieID());
+			request.setNewPrice(temp.getNewPrice());
+			request.setPriceId(temp.getID());
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#changePrice", request));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@FXML
 	void DeclineReq(ActionEvent event) {
-		Price request = new Price();
-		request.setMovieID(temp.getMovieID());
-		request.setNewPrice(temp.getNewPrice());
-		request.setPriceId(temp.getID());
-		try {
-			SimpleClient.getClient().sendToServer(new Message("#deletePrice",request));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (priceReqTable.getItems().isEmpty()) {
+			Warning new_warning = new Warning("You don't have any requests to cancel");
+			EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
+
+		} else {
+			Price request = new Price();
+			request.setMovieID(temp.getMovieID());
+			request.setNewPrice(temp.getNewPrice());
+			request.setPriceId(temp.getID());
+			try {
+				SimpleClient.getClient().sendToServer(new Message("#deletePrice", request));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -101,13 +114,11 @@ public class PriceRequestsController {
 		}
 
 	}
-	
-	 @FXML
-	    void ExtractFromTable(MouseEvent event) {
-		 temp = priceReqTable.getItems().get(priceReqTable.getSelectionModel().getSelectedIndex());
-	    }
-	
-	
+
+	@FXML
+	void ExtractFromTable(MouseEvent event) {
+		temp = priceReqTable.getItems().get(priceReqTable.getSelectionModel().getSelectedIndex());
+	}
 
 	@FXML
 	void initialize() {
@@ -118,8 +129,7 @@ public class PriceRequestsController {
 		submittedbyCol.setCellValueFactory(new PropertyValueFactory<Price, String>("workerName"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestDate"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestTime"));
-//		priceReqTable.setItems(list);
-		
+
 		assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert priceReqTable != null
 				: "fx:id=\"priceReqTable\" was not injected: check your FXML file 'priceRequests.fxml'.";
@@ -137,21 +147,20 @@ public class PriceRequestsController {
 		assert acceptBtn != null : "fx:id=\"acceptBtn\" was not injected: check your FXML file 'priceRequests.fxml'.";
 
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	@Subscribe
 	public void onPriceReceivedEvent(PriceReceivedEvent event) {
 //		EventBus.getDefault().register(this);
 //		PriceRequestsController.setAllPrices((List<Price>) event.getPriceList());
-		Platform.runLater(()->{
+		Platform.runLater(() -> {
 			list.clear();
-			list.addAll((List<Price>)event.getPriceList());
+			list.addAll((List<Price>) event.getPriceList());
 			priceReqTable.getItems().clear();
 			priceReqTable.getItems().addAll(list);
 		});
 	}
-	
+
 //	@Subscribe
 //	public void onRefreshPriceRequest(RefreshPriceRequest event) {
 //			list.clear();

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -101,7 +102,7 @@ public class SimpleServer extends AbstractServer {
 				ArrayList<SirtyaBranch> branchesList = getAllBranches();
 				if (msgString.startsWith("#BranchesListRequest2")) {
 					List<Movie> temp = getAll(Movie.class);
-					client.sendToClient(new Message("#BranchesList2", branchesList,temp));
+					client.sendToClient(new Message("#BranchesList2", branchesList, temp));
 				} else {
 					client.sendToClient(new Message("#BranchesList", branchesList));
 				}
@@ -109,6 +110,13 @@ public class SimpleServer extends AbstractServer {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (msgString.startsWith("#LogOut")) {
+			try {
+				logOutRequest(((Message) msg), client);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -658,6 +666,42 @@ public class SimpleServer extends AbstractServer {
 		session.close();
 	}
 
+	private void logOutRequest(Message msg, ConnectionToClient client) {
+		LogInRequest object = (LogInRequest) msg.getObject();
+		session = sessionFactory.openSession();
+		String username = object.getUsername();
+		try {
+			ArrayList<Worker> workersList = getAllWorkers();
+			ArrayList<CinemaMember> membersList = getAll(CinemaMember.class);
+			if (!workersList.isEmpty()) {
+				for (Worker worker : workersList) {
+					if (worker.getWokerUsername().equals(username)) {
+						worker.setConnected(false);
+						session.beginTransaction();
+						session.update(worker);
+						session.getTransaction().commit();
+						return;
+					}
+				}
+			}
+			if (!membersList.isEmpty()) {
+				for (CinemaMember member : membersList) {
+					if (member.getUsername().equals(username)) {
+						member.setConnected(false);
+						session.beginTransaction();
+						session.update(member);
+						session.getTransaction().commit();
+						return;
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	private void handleLoginRequest(Message msg, ConnectionToClient client) {
 		LogInRequest object = (LogInRequest) msg.getObject();
 		session = sessionFactory.openSession();
@@ -670,8 +714,18 @@ public class SimpleServer extends AbstractServer {
 				for (Worker worker : workersList) {
 					if (worker.getWokerUsername().equals(username)) {
 						if (worker.getWorkerPassword().equals(password)) {
-							client.sendToClient(new Message("#WorkerLogIn", worker));
-							return;
+							if (!worker.isConnected()) {
+								worker.setConnected(true);
+								session.beginTransaction();
+								session.update(worker);
+								session.getTransaction().commit();
+								client.sendToClient(new Message("#WorkerLogIn", worker));
+								return;
+							} else {
+								Warning new_warning = new Warning("Dear Worker,\nyou are already logged in");
+								client.sendToClient(new Message("#Warning", new_warning));
+								return;
+							}
 						}
 					}
 				}
@@ -680,18 +734,28 @@ public class SimpleServer extends AbstractServer {
 				for (CinemaMember member : membersList) {
 					if (member.getUsername().equals(username)) {
 						if (member.getPassword().equals(password)) {
-							if (msg.toString().equals("#LoginRequestHistory")) {
-								Hibernate.initialize(member.getPurchases());
-								List<Purchase> temp = member.getPurchases();
-								client.sendToClient(new Message("#MemberLogIn4", member, temp));
-							} else if (msg.toString().equals("#LoginRequestWhileBooking")) {
-								client.sendToClient(new Message("#MemberLogIn2", member));
-							} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
-								client.sendToClient(new Message("#MemberLogIn3", member));
+							if (!member.isConnected()) {
+								member.setConnected(true);
+								session.beginTransaction();
+								session.update(member);
+								session.getTransaction().commit();
+								if (msg.toString().equals("#LoginRequestHistory")) {
+									Hibernate.initialize(member.getPurchases());
+									List<Purchase> temp = member.getPurchases();
+									client.sendToClient(new Message("#MemberLogIn4", member, temp));
+								} else if (msg.toString().equals("#LoginRequestWhileBooking")) {
+									client.sendToClient(new Message("#MemberLogIn2", member));
+								} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
+									client.sendToClient(new Message("#MemberLogIn3", member));
+								} else {
+									client.sendToClient(new Message("#MemberLogIn", member));
+								}
+								return;
 							} else {
-								client.sendToClient(new Message("#MemberLogIn", member));
+								Warning new_warning = new Warning("Dear Customer,\nyou are already logged in");
+								client.sendToClient(new Message("#Warning", new_warning));
+								return;
 							}
-							return;
 						}
 					}
 				}
@@ -1015,7 +1079,8 @@ public class SimpleServer extends AbstractServer {
 				+ request.getCustomerID() + "\nE-mail: " + request.getEmail() + "\nMovie: "
 				+ request.getMovie().getMovieTitle() + " - " + request.getMovie().getMovieTitleHeb());
 		temp += ("\nTotal Cost: " + request.getMovie().getCost() + " NIS\nTransaction time:"
-				+ request.getTransactionTime() + "\n Start:" + request.getActivationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm"))
+				+ request.getTransactionTime() + "\n Start:"
+				+ request.getActivationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm"))
 				+ "\n\nA link will be sent to you upon activation time.\n"
 				+ "We ask of you to be patient until then, Enjoy!");
 
@@ -1032,13 +1097,13 @@ public class SimpleServer extends AbstractServer {
 			List<CasualBuyer> tempClientsList = getAll(CasualBuyer.class);
 			CasualBuyer newCus = null;
 			for (CasualBuyer buyer : tempClientsList) {
-				if (buyer.getCustomerId()== request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
+				if (buyer.getCustomerId() == request.getCustomerID() && buyer.getCreditNum() == request.getCardNum()) {
 					newCus = buyer;
 				}
 			}
 			if (newCus == null) {
 				newCus = new CasualBuyer(request.getFirstName(), request.getLastName(), request.getCustomerID(),
-					request.getCardNum(), request.getEmail());
+						request.getCardNum(), request.getEmail());
 			}
 			session.save(newCus);
 			session.flush();
@@ -1246,7 +1311,7 @@ public class SimpleServer extends AbstractServer {
 								newText += "\nA refund equal to 50% of the renting value will be made to your credit card that ends with *"
 										+ tempText;
 								newText += "\nAmount of refund: " + ((Rent) purchase).getCost() / 2 + "NIS";
-							} 
+							}
 							purchase.setStatus("Canceled");
 							session.save(purchase);
 							session.save(buyer);
@@ -1265,7 +1330,7 @@ public class SimpleServer extends AbstractServer {
 				}
 			}
 		}
-		
+
 		customersList = getAll(CasualBuyer.class);
 		for (CasualBuyer buyer : customersList) {
 			if (customer.getId() == buyer.getId()) {

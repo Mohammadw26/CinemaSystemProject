@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +20,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
@@ -127,6 +128,9 @@ public class DisplayListController {
 	private Button addMovieBtn;
 
 	@FXML
+	private Button reviewRequestBtn;
+
+	@FXML
 	private Button employeeBtn;
 
 	@FXML
@@ -137,43 +141,42 @@ public class DisplayListController {
 
 	@FXML // fx:id="identityLabel"
 	private Label identityLabel; // Value injected by FXMLLoader
-	
+
 	@FXML
-    private FontAwesomeIconView prevBtn1;
+	private FontAwesomeIconView prevBtn1;
 
 	@FXML
 	private FontAwesomeIconView nxtBtn1;
 
-    @FXML
-    private FontAwesomeIconView nxtBtn2;
+	@FXML
+	private FontAwesomeIconView nxtBtn2;
 
-    @FXML
-    private FontAwesomeIconView prevBtn2;
+	@FXML
+	private FontAwesomeIconView prevBtn2;
 
-    @FXML
-    void GoToAddComplaint(ActionEvent event) {
-    	if (member != null) {
-    		SubmitComplaintController.setBuyer(member);
-    	} else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
-    		SubmitComplaintController.setWorker((CustomerServiceEmployee)worker);
-    	}
-    	try {
+	@FXML
+	void GoToAddComplaint(ActionEvent event) {
+		if (member != null) {
+			SubmitComplaintController.setBuyer(member);
+		} else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
+			SubmitComplaintController.setWorker((CustomerServiceEmployee) worker);
+		}
+		try {
 			SimpleClient.getClient().sendToServer(new Message("#GetComplaints", member));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-
+	}
 
 	@FXML
 	private Button tavSagoalBtn;
 
-    @FXML
-    private Button purchaseHistory;
-    
-    @FXML
-    private Button filterLists;
+	@FXML
+	private Button purchaseHistory;
+
+	@FXML
+	private Button filterLists;
 
 	@FXML
 	void loadTavSagoalUpdate(ActionEvent event) {
@@ -185,25 +188,25 @@ public class DisplayListController {
 		}
 	}
 
-    @FXML
-    void loadHistoryPage(ActionEvent event) {
+	@FXML
+	void loadHistoryPage(ActionEvent event) {
 		try {
 			App.setRoot("purchaseHistory");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
-    
-    @FXML
-    void loadFiltering(ActionEvent event) {
-    	try {
+	}
+
+	@FXML
+	void loadFiltering(ActionEvent event) {
+		try {
 			SimpleClient.getClient().sendToServer("#BranchesListRequest2");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
 	@FXML
 	void nextPage2(MouseEvent event) throws IOException {
@@ -331,6 +334,19 @@ public class DisplayListController {
 
 	@FXML
 	void logOut(ActionEvent event) {
+		LogInRequest newRequest = null;
+		try {
+			if (worker != null) {
+				newRequest = new LogInRequest(worker.getWokerUsername(), worker.getWorkerPassword());
+			}
+			if (member != null) {
+				newRequest = new LogInRequest(member.getUsername(), member.getPassword());
+			}
+			SimpleClient.getClient().sendToServer(new Message("#LogOut", newRequest));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		DisplayMovieDataController.resetMode();
 		compliantsBtn.setVisible(false);
 		addMovieBtn.setVisible(false);
@@ -370,7 +386,8 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		assert purchaseHistory != null : "fx:id=\"purchaseHistory\" was not injected: check your FXML file 'displayList.fxml'.";
+		assert purchaseHistory != null
+				: "fx:id=\"purchaseHistory\" was not injected: check your FXML file 'displayList.fxml'.";
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
@@ -390,6 +407,7 @@ public class DisplayListController {
 				employeeBtn.setDisable(false);
 				logOutBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
+				reviewRequestBtn.setVisible(true);
 			} else if (worker.getClass().equals(ContentManager.class)) {
 				compliantsBtn.setDisable(true);
 				addMovieBtn.setDisable(false);
@@ -478,12 +496,12 @@ public class DisplayListController {
 	@FXML
 	void ViewRequests(ActionEvent event) {
 
-			try {
-				SimpleClient.getClient().sendToServer(new Message("#PricesListRequest"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			SimpleClient.getClient().sendToServer(new Message("#PricesListRequest"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	/*
