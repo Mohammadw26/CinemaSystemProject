@@ -11,7 +11,7 @@ public class Message implements Serializable {
 	private Object object;
 	private Object object2;
 	private Object object3;
-	
+	private Object object4;
 	
 	public Message() {}
 	
@@ -31,6 +31,14 @@ public class Message implements Serializable {
 		this.object = obj;
 		this.object2 = obj2;
 		this.object3 = obj3;
+	}
+	
+	public Message(String msg, Object obj,Object obj2, Object obj3, Object obj4) {
+		this.message = msg;
+		this.object = obj;
+		this.object2 = obj2;
+		this.object3 = obj3;
+		this.object4 = obj4;
 	}
 	
 	public Message(String msg) {
@@ -72,7 +80,12 @@ public class Message implements Serializable {
 	public String toString() {
 		return this.message;
 	}
-	
-	
-	
+
+	public Object getObject4() {
+		return object4;
+	}
+
+	public void setObject4(Object object4) {
+		this.object4 = object4;
+	}
 }

@@ -87,6 +87,7 @@ public class App extends Application {
 		DisplayListController.setMovieList((List<CinemaMovie>) event.getMovieCatalog());
 		DisplayListController.setSoonList((List<ComingSoonMovie>) event.getMovieCatalog2());
 		DisplayListController.setOnDemandList((List<OnDemandMovie>) event.getMovieCatalog3());
+		DisplayListController.setAllBranches((List<SirtyaBranch>) event.getMovieCatalog4());
 		try {
 			App.setRoot("displayList");
 		} catch (IOException e) {

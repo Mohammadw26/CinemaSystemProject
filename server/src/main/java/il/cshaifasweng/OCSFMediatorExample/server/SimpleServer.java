@@ -87,7 +87,8 @@ public class SimpleServer extends AbstractServer {
 				ArrayList<CinemaMovie> cinMovieList = getAll(CinemaMovie.class);
 				ArrayList<ComingSoonMovie> soonMovieList = getAll(ComingSoonMovie.class);
 				ArrayList<OnDemandMovie> onDemandList = getAll(OnDemandMovie.class);
-				client.sendToClient(new Message("#SendLists", cinMovieList, soonMovieList, onDemandList));
+				ArrayList<SirtyaBranch>	allBranches = getAll(SirtyaBranch.class);
+				client.sendToClient(new Message("#SendLists", cinMovieList, soonMovieList, onDemandList,allBranches));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -242,7 +243,7 @@ public class SimpleServer extends AbstractServer {
 		} else if (msgString.startsWith("#EditMoviePriceAndLink")) {
 			EditPriceAndStreamingLink((OnDemandMovie) ((Message) msg).getObject(), client);
 		} else if (msgString.startsWith("#SubmitComplaint")) {
-			SubmitComplaints((Complaint) ((Message) msg).getObject(), client);
+			SubmitComplaints(((Message) msg), client);
 		} else if (msgString.startsWith("#GetComplaints")) {
 			GetComplaints((CasualBuyer) ((Message) msg).getObject(), client);
 		} else if (msgString.startsWith("#SubmitResponseForComplaint")) {
@@ -251,7 +252,68 @@ public class SimpleServer extends AbstractServer {
 			SearchForClient((Message) msg, client);
 		} else if (msgString.startsWith("#CancelOrder")) {
 			cancelOrder((Message) msg, client);
+		} else if (msgString.startsWith("#ComplaintsList")) {
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<Complaint> temp = getAll(Complaint.class);
+
+				client.sendToClient(new Message("#ComplaintsList", temp));
+				session.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			session.close();
+		} else if (msgString.startsWith("#UpdateResponse")) {
+				updateResponse(msg,client);
 		}
+	}
+
+	private void updateResponse(Object msg, ConnectionToClient client) {
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		List<Complaint> complaints = getAll(Complaint.class);
+		for (Complaint temp : complaints) {
+			if (temp.getId() == (int) ((Message) msg).getObject()) {
+				temp.setResponse((String) ((Message) msg).getObject2());
+				temp.setRepresentetive((CustomerServiceEmployee) ((Message) msg).getObject4());
+				temp.setResponseDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm")));
+				if ((String) ((Message) msg).getObject3()==null || (String) ((Message) msg).getObject3()=="") {
+					temp.setRefundValue(Double.parseDouble("0.0"));
+				} else {
+					temp.setRefundValue(Double.parseDouble((String) ((Message) msg).getObject3()));
+				}
+				temp.setStatus("Closed");
+				String text = "Your Request: \n<" + temp.getSubmissionDate() + ">\n";
+				text+= temp.getDescription() + "\n\n" + "Representetive Response: \n<";
+				text += temp.getResponseDate() + ">\n" +  temp.getResponse();
+				if (temp.getRefundValue()>0) {
+					text += "\n\nAutomatically Generated Summary:\nYou were found eligible for a refund of value: " + temp.getRefundValue() + " NIS";
+					text += "\nThe refund will appear on your credit card balance within 7 business days.";
+				}
+				text += "\n\n -Dream Palace Cinema";
+				SendEmailTLS.SendMailTo( temp.getEmail() , "Response to your request" , text);
+				session.save(temp);
+				session.flush();
+				session.getTransaction().commit();
+				break;
+			}
+		}
+		try {
+			ArrayList<Complaint> temp = getAll(Complaint.class);
+			client.sendToClient(new Message("#ComplaintsList", temp));
+			session.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.close();
 	}
 
 	private void StoreComplaintResponse(Complaint object) {
@@ -299,10 +361,75 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
-	private void SubmitComplaints(Complaint object, ConnectionToClient client) {
+	private void SubmitComplaints(Message msg, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(object);
+		SirtyaBranch relBranch = null;
+		if ((SirtyaBranch) msg.getObject4()!=null) {
+			for (SirtyaBranch brnch : getAll(SirtyaBranch.class)) {
+				if (brnch.getId()==((SirtyaBranch) msg.getObject4()).getId()) {
+					relBranch = brnch;
+				}
+			}
+		}
+		int complainerID;
+		if (msg.getObject().getClass()==CinemaMember.class) {
+			complainerID = ((CinemaMember) msg.getObject()).getId();
+			List<CinemaMember> temp = getAll(CinemaMember.class);
+			for (CinemaMember member : temp) {
+				if (member.getCustomerId() == complainerID) {
+					Complaint newComplaint = new Complaint(member,(String) msg.getObject3(), (String) msg.getObject2(), relBranch);
+					session.save(newComplaint);
+					session.save(member);
+					session.flush();
+					SendEmailTLS.SendMailTo((String) msg.getObject2(), "Inquiry submission", "Your request [" + newComplaint.getId() + "] has been received and is being reviewed by our support team. We'll contact you as soon as we have an answer for you.\n\n - Dream Palace Cinema");
+					try {
+						client.sendToClient(new Message("#ComplaintSubmitted", newComplaint.getClient()));
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
+		} else {
+			complainerID = Integer.parseInt((String) msg.getObject());
+			Complaint newComplaint = null;
+			List<CasualBuyer> temp = getAll(CasualBuyer.class);
+			for (CasualBuyer buyer : temp) {
+				if (buyer.getCustomerId() == complainerID) {
+					newComplaint = new Complaint(buyer,(String) msg.getObject3(), (String) msg.getObject2(), relBranch);
+					session.save(newComplaint);
+					session.save(buyer);
+					session.flush();
+				}
+			}
+			if (newComplaint == null) {
+				String firstName = ((String) msg.getObject3()).substring(0, ((String) msg.getObject3()).indexOf(" "));
+				String lastName = ((String) msg.getObject3()).substring(((String) msg.getObject3()).indexOf(" ") + 1, ((String) msg.getObject3()).indexOf(":"));
+				CasualBuyer person = new CasualBuyer(firstName,lastName ,Integer.parseInt((String) msg.getObject()),0, (String) msg.getObject2());
+				newComplaint = new Complaint(person,(String) msg.getObject3(), (String) msg.getObject2(), relBranch);
+				session.save(newComplaint);
+				session.save(person);
+				session.flush();
+			}
+			try {
+				client.sendToClient(new Message("#ComplaintSubmitted", newComplaint.getClient()));
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			SendEmailTLS.SendMailTo((String) msg.getObject2(), "Inquiry submission", "Your request [" + newComplaint.getId() + "] has been received and is being reviewed by our support team. We'll contact you as soon as we have an answer for you.");
+		}
+		
 		session.flush();
 		session.getTransaction().commit();
 		session.close();
@@ -543,7 +670,6 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private void DeleteMovieRegular(CinemaMovie object, ConnectionToClient client) {
-		System.out.println("in delete function");
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		CinemaMovie request = object;
@@ -576,7 +702,6 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private void DeleteMovieDemand(OnDemandMovie object, ConnectionToClient client) {
-		System.out.println("in delete function");
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		OnDemandMovie request = object;
@@ -608,14 +733,12 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	private void DeleteMovieComingSoon(ComingSoonMovie object, ConnectionToClient client) {
-		System.out.println("in delete function");
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		ComingSoonMovie request = object;
 		ArrayList<ComingSoonMovie> movieList = getAll(ComingSoonMovie.class);
 		ComingSoonMovie temp = null;
 		for (ComingSoonMovie movie : movieList) {
-			System.out.println("movie id:" + movie.getId() + "request id: " + request.getId());
 			if (movie.getId() == request.getId()) {
 				temp = movie;
 				break;
@@ -1640,9 +1763,9 @@ public class SimpleServer extends AbstractServer {
 		// session.save(purchase1);
 		// session.flush();
 
-		Complaint complaint0 = new Complaint(client_1, "Your seats are uncomfortable");
-		Complaint complaint1 = new Complaint(client_1, "The screen is too bright!");
-		Complaint complaint2 = new Complaint(client_2, "The screen is too dark!");
+		Complaint complaint0 = new Complaint(client_1, "Your seats are uncomfortable", "eliaso_sh@hotmail.com", branch1);
+		Complaint complaint1 = new Complaint(client_1, "The screen is too bright!" ,"eliaso_sh@hotmail.com", branch1);
+		Complaint complaint2 = new Complaint(client_2, "The screen is too dark!", "eliaso_sh@hotmail.com", branch1);
 		complaint0.setResponse("hahaha");
 
 		session.save(complaint2);

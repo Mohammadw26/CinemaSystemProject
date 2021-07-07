@@ -135,8 +135,8 @@ public class SubmitComplaintController{
     
     @FXML
     void SubmitComplaint(ActionEvent event) {
-    	if(description.getText() != "") {
-	    	Complaint newComplaint = new Complaint(buyer , description.getText());
+    	/*if(description.getText() != "") {
+	    	Complaint newComplaint = new Complaint(buyer , description.getText(),"lll");
 	    	try {
 				SimpleClient.getClient().sendToServer(new Message("#SubmitComplaint", newComplaint));
 			} catch (IOException e) {
@@ -149,9 +149,9 @@ public class SubmitComplaintController{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-    	}else {
+    	}else {*/
     		warning.setVisible(true);
-    	}
+    	//}
     }
 
     @FXML

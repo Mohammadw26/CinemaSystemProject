@@ -44,6 +44,9 @@ public class SirtyaBranch implements Serializable{
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "branch")
 	private List<Hall> halls;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "branch")
+	private List<Complaint> complaints = new ArrayList<Complaint>();
+	
     private BranchManager manager;
 	
 	public SirtyaBranch() {}
@@ -136,6 +139,16 @@ public class SirtyaBranch implements Serializable{
 
 	public void setTotalTabTicketsSold(int totalTabTicketsSold) {
 		this.totalTabTicketsSold =totalTabTicketsSold;
+	}
+
+
+	public List<Complaint> getComplaints() {
+		return complaints;
+	}
+
+
+	public void setComplaints(List<Complaint> complaints) {
+		this.complaints = complaints;
 	}
 
 

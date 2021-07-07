@@ -10,11 +10,13 @@ public class MoviesReceivedEvent {
 	private Object movieCatalog;
 	private Object movieCatalog2;
 	private Object movieCatalog3;
+	private Object movieCatalog4;
 
 	public MoviesReceivedEvent(Message msg) {
 		this.movieCatalog = msg.getObject();
 		this.movieCatalog2 = msg.getObject2();
 		this.movieCatalog3 = msg.getObject3();
+		this.movieCatalog4 = msg.getObject4();
 	}
 	
 	public Object getMovieCatalog() {
@@ -28,6 +30,10 @@ public class MoviesReceivedEvent {
 	
 	public Object getMovieCatalog3() {
 		return movieCatalog3;
+	}
+	
+	public Object getMovieCatalog4() {
+		return movieCatalog4;
 	}
 	
 }

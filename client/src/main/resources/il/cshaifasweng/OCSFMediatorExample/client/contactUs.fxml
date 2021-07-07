@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ContactUsController">
+   <children>
+      <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
+      <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Purchase History" wrappingWidth="220.76641845703125" />
+      <AnchorPane fx:id="loginAnchor" layoutY="35.0" prefHeight="196.0" prefWidth="375.0">
+         <children>
+            <VBox layoutX="28.0" layoutY="68.0" prefHeight="89.0" prefWidth="100.0">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="126.0" text="Username:" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="Password:" />
+               </children>
+            </VBox>
+            <Text fx:id="loginAnchorLabel1" layoutX="13.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you a member of the Sirtya?" wrappingWidth="293.99072265625" />
+            <TextField fx:id="oldUserField" layoutX="188.0" layoutY="76.0" />
+            <PasswordField fx:id="oldPasswordField" layoutX="188.0" layoutY="118.0" />
+            <Text fx:id="loginAnchorLabel2" layoutX="13.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please Sign in to view your purchase history." wrappingWidth="321.9906005859375" />
+            <Button fx:id="logInButton" layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#logIn" prefHeight="26.0" prefWidth="61.0" text="Log-in" />
+            <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
+            <Separator layoutX="-4.0" layoutY="199.0" prefHeight="6.0" prefWidth="382.0" />
+            <Button fx:id="logOutButton" layoutX="128.0" layoutY="165.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="26.0" prefWidth="61.0" text="Log-out" visible="false" />
+            <Label fx:id="invalidLogin" layoutX="29.0" layoutY="170.0" text="Invalid username or password" textFill="RED" visible="false" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="loginAnchor1" layoutX="1.0" layoutY="236.0" prefHeight="196.0" prefWidth="375.0">
+         <children>
+            <VBox layoutX="28.0" layoutY="68.0" prefHeight="90.0" prefWidth="122.0">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="126.0" text="ID:" wrapText="true" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="E-mail address:" wrapText="true" />
+               </children>
+            </VBox>
+            <Text fx:id="loginAnchorLabel11" layoutX="13.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you not a member of the Sirtya?" wrappingWidth="293.99072265625" />
+            <TextField fx:id="clientID" layoutX="188.0" layoutY="76.0" />
+            <PasswordField fx:id="cardDigits" layoutX="188.0" layoutY="118.0" />
+            <Text fx:id="loginAnchorLabel21" layoutX="13.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you have previously submitted feedback or inquiryies that you would like to review, please enter your ID and e-mail below" wrappingWidth="321.9906005859375" />
+            <Button fx:id="logInButton1" layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="61.0" text="Search" />
+            <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
+            <Button fx:id="logOutButton1" layoutX="128.0" layoutY="165.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="26.0" prefWidth="61.0" text="Log-out" visible="false" />
+            <Label fx:id="invalidLogin1" layoutX="22.0" layoutY="163.0" prefHeight="82.0" prefWidth="250.0" text="We could not find any submissions that match those details, please make sure you are using the same information you used when you submitted your feedback or inquiry." textFill="RED" visible="false" wrapText="true" />
+         </children>
+      </AnchorPane>
+      <Separator layoutX="375.0" layoutY="35.0" orientation="VERTICAL" prefHeight="762.0" prefWidth="6.0" />
+      <Button fx:id="backBtn" layoutX="1230.0" layoutY="3.0" mnemonicParsing="false" onAction="#backToCatalog" style="-fx-background-color: #792f2f; -fx-border-color: ffdbdb;" text="Back" textFill="#ffdbdb" />
+      <AnchorPane fx:id="submissionAnchor" layoutX="422.0" layoutY="75.0" prefHeight="573.0" prefWidth="538.0" visible="false">
+         <children>
+            <VBox prefHeight="218.0" prefWidth="236.0">
+               <children>
+                  <Label prefHeight="44.0" prefWidth="126.0" text="First Name:" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="Last Name:" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="ID:" />
+                  <Label prefHeight="44.0" prefWidth="126.0" text="E-mail Adress:" />
+                  <Label prefHeight="44.0" prefWidth="225.0" text="If your feedback is related to a specific branch, please specify that here:" wrapText="true" />
+               </children>
+            </VBox>
+            <TextField fx:id="nameField" layoutX="249.0" layoutY="11.0" />
+            <TextField fx:id="lastNameField" layoutX="249.0" layoutY="53.0" />
+            <TextField fx:id="idField" layoutX="249.0" layoutY="95.0" />
+            <TextField fx:id="emailField" layoutX="249.0" layoutY="140.0" />
+            <Text layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Feed-back or inquiry description:" />
+            <TextArea fx:id="descriptionField" layoutY="248.0" prefHeight="165.0" prefWidth="537.0" />
+            <Text layoutX="1.0" layoutY="432.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*Our represetetives will review and response to your feedback within 24 buisness hours." wrappingWidth="462.97265625" />
+            <Button fx:id="submitBtn" layoutX="481.0" layoutY="454.0" mnemonicParsing="false" onAction="#submitRequest" text="Submit" />
+            <Text layoutX="1.0" layoutY="448.05078125" strokeType="OUTSIDE" strokeWidth="0.0" text="An E-mail will be sent to you once a respose is provided, you can also revisit this page to review all your submissions and responses." wrappingWidth="462.97265625" />
+            <Label fx:id="warning" layoutX="354.0" layoutY="460.0" text="All Fields are required." textFill="RED" />
+            <ComboBox fx:id="branchCombo" layoutX="248.0" layoutY="181.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <Separator layoutX="1023.0" layoutY="35.0" orientation="VERTICAL" prefHeight="762.0" prefWidth="6.0" />
+      <AnchorPane fx:id="tableAnchor" layoutX="1035.0" layoutY="69.0">
+         <children>
+            <TableView fx:id="table" layoutY="29.0" onMouseClicked="#setCell" prefHeight="514.0" prefWidth="236.0">
+              <columns>
+                <TableColumn fx:id="identifierCol" editable="false" prefWidth="117.5999755859375" text="Inquiry identifier" />
+                <TableColumn fx:id="statusCol" editable="false" prefWidth="115.199951171875" text="Status" />
+              </columns>
+            </TableView>
+            <Text layoutX="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All Submissions:" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="responseAnchor" layoutX="422.0" layoutY="77.0" prefHeight="513.0" prefWidth="544.0">
+         <children>
+            <TextArea fx:id="inquiryDetails" editable="false" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="517.0" />
+            <TextArea fx:id="responseDetails" editable="false" layoutX="14.0" layoutY="288.0" prefHeight="200.0" prefWidth="518.0" />
+            <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your inquiry description:" />
+            <Text layoutX="14.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Representetive respose:" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="modeBtn" layoutX="825.0" layoutY="646.0" mnemonicParsing="false" onAction="#changeMode" text="Submit another inquiry" />
+   </children>
+</AnchorPane>
