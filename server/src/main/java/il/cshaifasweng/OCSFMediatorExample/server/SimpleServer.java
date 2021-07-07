@@ -373,18 +373,18 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		int complainerID;
-		if (msg.getObject().getClass()==CinemaMember.class) {
+		if (msg.getObject().getClass() == CinemaMember.class) {
 			complainerID = ((CinemaMember) msg.getObject()).getId();
 			List<CinemaMember> temp = getAll(CinemaMember.class);
 			for (CinemaMember member : temp) {
-				if (member.getCustomerId() == complainerID) {
+				if (member.getId() == complainerID) {
 					Complaint newComplaint = new Complaint(member,(String) msg.getObject3(), (String) msg.getObject2(), relBranch);
 					session.save(newComplaint);
 					session.save(member);
 					session.flush();
 					SendEmailTLS.SendMailTo((String) msg.getObject2(), "Inquiry submission", "Your request [" + newComplaint.getId() + "] has been received and is being reviewed by our support team. We'll contact you as soon as we have an answer for you.\n\n - Dream Palace Cinema");
 					try {
-						client.sendToClient(new Message("#ComplaintSubmitted", newComplaint.getClient()));
+						client.sendToClient(new Message("#MemberLogIn5", newComplaint.getClient()));
 
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -873,7 +873,8 @@ public class SimpleServer extends AbstractServer {
 								} 
 								else if (msg.toString().equals("#LoginRequestContactUs")) {
 									client.sendToClient(new Message("#MemberLogIn5", member));
-								}else {
+								}
+								else {
 									client.sendToClient(new Message("#MemberLogIn", member));
 								}
 								return;
@@ -890,7 +891,12 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(new Message("#LogInFailed2", object));
 			} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
 				client.sendToClient(new Message("#LogInFailed3", object));
-			} else {
+			} else if (msg.toString().equals("#LoginRequestContactUs")) {
+				client.sendToClient(new Message("#LogInFailed5", object));
+			}
+			else if (msg.toString().equals("#LoginRequestHistory")) {
+				client.sendToClient(new Message("#LogInFailed4", object));
+			}else {
 				client.sendToClient(new Message("#LogInFailed", object));
 			}
 		} catch (Exception e) {
@@ -1384,7 +1390,7 @@ public class SimpleServer extends AbstractServer {
 			} 
 		}
 		try {
-			if (msg.toString().startsWith("SearchForClient2")) {
+			if (msg.toString().startsWith("#SearchForClient2")) {
 				client.sendToClient(new Message("#ComplainerSearch", null));
 			}
 			else {

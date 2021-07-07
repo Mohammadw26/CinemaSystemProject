@@ -226,7 +226,24 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else if (msgString.startsWith("#LogInFailed")) {
+		} else if (msgString.startsWith("#LogInFailed5")) {
+			try {
+				ContactUsController.setStatus(1);
+				App.setRoot("ContactUs");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#LogInFailed4")) {
+			try {
+				PurchaseHistoryController.setStatus(2);
+				App.setRoot("purchaseHistory");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if (msgString.startsWith("#LogInFailed")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("adminPanel");
@@ -330,7 +347,9 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		} else if (msgString.startsWith("#ComplainerSearch")) {
-			System.out.println("i'mhere");
+			if ((CasualBuyer) ((Message) msg).getObject() == null) {
+				ContactUsController.setStatus(2);
+			}
 			ContactUsController.setComplainer((CasualBuyer) ((Message) msg).getObject());
 			try {
     			App.setRoot("contactUs");

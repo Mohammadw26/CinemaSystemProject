@@ -34,10 +34,18 @@ import javafx.scene.text.Text;
 
 public class ContactUsController {
 	private static CasualBuyer complainer = null;
-	
+	private static int status;
 	private static Complaint complaint;
+	
+    public static int getStatus() {
+		return status;
+	}
 
-    public static CasualBuyer getComplainer() {
+	public static void setStatus(int status) {
+		ContactUsController.status = status;
+	}
+
+	public static CasualBuyer getComplainer() {
 		return complainer;
 	}
 
@@ -277,6 +285,12 @@ public class ContactUsController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+    	if (status == 1) {
+    		invalidLogin.setVisible(true);
+    		status = 0;
+    	} if (status == 2) {
+    		invalidLogin1.setVisible(true);
+    	}
 		responseAnchor.setVisible(false);
 		submissionAnchor.setVisible(true);
     	tableAnchor.setVisible(false);

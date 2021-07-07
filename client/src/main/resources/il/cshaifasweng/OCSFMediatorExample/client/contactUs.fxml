@@ -17,7 +17,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ContactUsController">
    <children>
       <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
-      <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Purchase History" wrappingWidth="220.76641845703125" />
+      <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="FeedBack" wrappingWidth="220.76641845703125" />
       <AnchorPane fx:id="loginAnchor" layoutY="35.0" prefHeight="196.0" prefWidth="375.0">
          <children>
             <VBox layoutX="28.0" layoutY="68.0" prefHeight="89.0" prefWidth="100.0">
