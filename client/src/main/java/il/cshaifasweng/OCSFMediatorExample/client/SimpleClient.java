@@ -229,8 +229,8 @@ public class SimpleClient extends AbstractClient {
 		} else if (msgString.startsWith("#RefreshMovieDelete")) {
 			System.out.println("At RefreshDeleteMovie\n");
 			try {
-				Warning new_warning=new Warning("Deleting movie is in progress");
-				EventBus.getDefault().post(new WarningEvent((Warning)new_warning));
+				Warning new_warning = new Warning("Deleting movie is in progress");
+				EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
 				SimpleClient.getClient().sendToServer("#getAllMovies");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -263,11 +263,10 @@ public class SimpleClient extends AbstractClient {
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
-		}		else if(msgString.startsWith("#CasualBuyerSearch")) {
-			if (((Message) msg).getObject()==null) {
+		} else if (msgString.startsWith("#CasualBuyerSearch")) {
+			if (((Message) msg).getObject() == null) {
 				PurchaseHistoryController.setStatus(4);
-			}
-			else {
+			} else {
 				PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
 				PurchaseHistoryController.setUnregClient((CasualBuyer) ((Message) msg).getObject());
 				PurchaseHistoryController.setStatus(3);
@@ -278,14 +277,13 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#CanceledOrder")){
+		} else if (msgString.startsWith("#CanceledOrder")) {
 			PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
 			if (((Message) msg).getObject().getClass() == CasualBuyer.class) {
 				PurchaseHistoryController.setUnregClient((CasualBuyer) ((Message) msg).getObject());
 				PurchaseHistoryController.setStatus(5);
 			} else {
-				
+
 				PurchaseHistoryController.setStatus(6);
 			}
 			try {
@@ -294,15 +292,16 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#ShowComplaintsInTable")) {
+		} else if (msgString.startsWith("#ShowComplaintsInTable")) {
 			SubmitComplaintController.setComplaints((List<Complaint>) ((Message) msg).getObject());
 			try {
-    			App.setRoot("submitComplaint");
+				App.setRoot("submitComplaint");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (msgString.startsWith("#Warning")) {
+			EventBus.getDefault().post(new WarningEvent((Warning) ((Message) msg).getObject()));
 		}
 		else if (msgString.startsWith("#ComplaintSubmitted")) {
 			System.out.println("Complain submitted.");

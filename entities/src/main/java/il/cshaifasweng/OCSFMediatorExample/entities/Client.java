@@ -36,6 +36,7 @@ public class Client implements Serializable {
 	private Tab ClientTab;
 	private double WalletFunds;
 	private CreditCard ClientCard;
+	private boolean isConnected;
 
 	
 	public Client() {}
@@ -53,6 +54,8 @@ public class Client implements Serializable {
 		this.ClientTab=	 _ClientTab;
 		this.WalletFunds= _WalletFunds;
 		this.ClientCard= _ClientCard;
+		setConnected(false);
+
 	}
 	
 	public int getClientId(){
@@ -136,5 +139,13 @@ public class Client implements Serializable {
 	
 	public void setClientCard(CreditCard _ClientCard){
 		this.ClientCard = _ClientCard;
+	}
+
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 }

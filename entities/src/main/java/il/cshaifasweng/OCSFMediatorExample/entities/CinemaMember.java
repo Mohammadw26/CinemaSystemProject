@@ -13,7 +13,8 @@ public class CinemaMember extends CasualBuyer{
 	private String username;
 	private String password;
 	int ticketsCredit;
-	
+	private boolean isConnected;
+
 	
 	public CinemaMember() {}
 	public CinemaMember (String firstName, String lastName, int customerId, long creditNum, String electronicMail
@@ -25,6 +26,7 @@ public class CinemaMember extends CasualBuyer{
 		this.electronicMail = electronicMail;
 		this.username = username;
 		this.password = password;
+		setConnected(false);
 	}
 
 	public CinemaMember(String username2, String password2, String firstName, String lastName, int id, int card,
@@ -60,6 +62,14 @@ public class CinemaMember extends CasualBuyer{
 
 	public void setTicketsCredit(int ticketsCredit) {
 		this.ticketsCredit = ticketsCredit;
+	}
+	
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 	
 	
