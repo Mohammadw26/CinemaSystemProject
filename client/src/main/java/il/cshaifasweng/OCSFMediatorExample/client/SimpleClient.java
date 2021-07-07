@@ -304,6 +304,25 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.startsWith("#ComplaintSubmitted")) {
+			System.out.println("Complain submitted.");
+			ContactUsController.setComplainer((CasualBuyer) ((Message) msg).getObject());
+			try {
+    			App.setRoot("contactUs");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#ComplaintsList")) {
+			RespondToComplaintsController.setAllComplaints((List<Complaint>) ((Message) msg).getObject());
+			try {
+    			App.setRoot("responseToComplaints");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 //		if (msg.getClass().equals(MovieList.class)) {

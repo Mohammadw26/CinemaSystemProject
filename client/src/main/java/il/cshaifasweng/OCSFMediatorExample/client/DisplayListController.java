@@ -22,6 +22,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -46,6 +47,15 @@ public class DisplayListController {
 	private int pages = 1;
 	private int pagesSoon = 1;
 	private int pagesDemand = 1;
+	private static List<SirtyaBranch> allBranches;
+
+	public static List<SirtyaBranch> getAllBranches() {
+		return allBranches;
+	}
+
+	public static void setAllBranches(List<SirtyaBranch> allBranches) {
+		DisplayListController.allBranches = allBranches;
+	}
 
 	public static CinemaMember getMember() {
 		return member;
@@ -152,7 +162,7 @@ public class DisplayListController {
 
     @FXML
     void GoToAddComplaint(ActionEvent event) {
-    	if (member != null) {
+    	/*if (member != null) {
     		SubmitComplaintController.setBuyer(member);
     	} else if (worker != null && worker.getClass().equals(CustomerServiceEmployee.class)) {
     		SubmitComplaintController.setWorker((CustomerServiceEmployee)worker);
@@ -162,7 +172,23 @@ public class DisplayListController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+    	if (worker == null) {
+    		try {
+				App.setRoot("contactUs");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	} else {
+        	try {
+    			SimpleClient.getClient().sendToServer("#ComplaintsList");
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
+    	
     }
 
 
@@ -332,7 +358,6 @@ public class DisplayListController {
 	@FXML
 	void logOut(ActionEvent event) {
 		DisplayMovieDataController.resetMode();
-		compliantsBtn.setVisible(false);
 		addMovieBtn.setVisible(false);
 		salesReportsBtn.setVisible(false);
 		employeeBtn.setVisible(false);
@@ -384,7 +409,7 @@ public class DisplayListController {
 			logOutBtn.setVisible(true);
 			tavSagoalBtn.setVisible(true);
 			if (worker.getClass().equals(GeneralManager.class)) {
-				compliantsBtn.setDisable(true);
+				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(false);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
@@ -413,8 +438,6 @@ public class DisplayListController {
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
-			compliantsBtn.setVisible(true);
-			compliantsBtn.setDisable(false);
 			logOutBtn.setVisible(true);
 		}
 		pages = movieList.size() / 3;
