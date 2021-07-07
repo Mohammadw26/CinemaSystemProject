@@ -105,7 +105,7 @@ public class TavSagoalUpdatingController {
     	}
     	if (!toggle.isSelected()) {
     		newTav.setEffective(toggle.isSelected());
-    		newTav.setY(100);
+    		newTav.setY(0);
     		newTav.setFromDate("");
     		newTav.setToDate("");
     	} else if (toggle.isSelected()) {

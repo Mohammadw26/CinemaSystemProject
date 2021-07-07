@@ -47,7 +47,7 @@
             </VBox>
             <Text fx:id="loginAnchorLabel11" layoutX="13.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you not a member of the Sirtya?" wrappingWidth="293.99072265625" />
             <TextField fx:id="clientID" layoutX="188.0" layoutY="76.0" />
-            <PasswordField fx:id="cardDigits" layoutX="188.0" layoutY="118.0" />
+            <PasswordField fx:id="emailSearch" layoutX="188.0" layoutY="118.0" />
             <Text fx:id="loginAnchorLabel21" layoutX="13.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="If you have previously submitted feedback or inquiryies that you would like to review, please enter your ID and e-mail below" wrappingWidth="321.9906005859375" />
             <Button fx:id="logInButton1" layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#search" prefHeight="26.0" prefWidth="61.0" text="Search" />
             <Separator layoutX="-6.0" layoutY="4.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />

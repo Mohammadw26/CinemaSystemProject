@@ -84,8 +84,8 @@ public class ContactUsController {
     @FXML // fx:id="clientID"
     private TextField clientID; // Value injected by FXMLLoader
 
-    @FXML // fx:id="cardDigits"
-    private PasswordField cardDigits; // Value injected by FXMLLoader
+    @FXML 
+    private PasswordField emailSearch; // Value injected by FXMLLoader
 
     @FXML // fx:id="loginAnchorLabel21"
     private Text loginAnchorLabel21; // Value injected by FXMLLoader
@@ -169,6 +169,7 @@ public class ContactUsController {
 
     @FXML
     void backToCatalog(ActionEvent event) {
+    	complainer = null;
     	try {
 			App.setRoot("displayList");
 		} catch (IOException e) {
@@ -206,7 +207,7 @@ public class ContactUsController {
     	if (oldUserField.getText()!= "" && oldPasswordField.getText()!= "") {
         	LogInRequest newRequest = new LogInRequest(oldUserField.getText(),oldPasswordField.getText());
         	try {
-    			SimpleClient.getClient().sendToServer(new Message("#LoginContactUs", newRequest));
+    			SimpleClient.getClient().sendToServer(new Message("#LoginRequestContactUs", newRequest));
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -216,10 +217,10 @@ public class ContactUsController {
 
     @FXML
     void search(ActionEvent event) {
-    	if (clientID.getText()!= "" && cardDigits.getText()!= "") {
-        	LogInRequest newRequest = new LogInRequest(clientID.getText(),cardDigits.getText());
+    	if (clientID.getText()!= "" && emailSearch.getText()!= "") {
+        	LogInRequest newRequest = new LogInRequest(clientID.getText(),emailSearch.getText());
         	try {
-    			SimpleClient.getClient().sendToServer(new Message("#SearchForInquiry", newRequest));
+    			SimpleClient.getClient().sendToServer(new Message("#SearchForClient2", newRequest));
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -232,6 +233,7 @@ public class ContactUsController {
     	if(descriptionField.getText() == "" || nameField.getText()=="" || lastNameField.getText() == "" || idField.getText() == "" || emailField.getText()=="") {
     		warning.setVisible(true);
     	} else {
+    		modeBtn.setVisible(true);
     		for (SirtyaBranch branch : DisplayListController.getAllBranches()) {
     			if (branch.getAddress() == branchCombo.getValue()) {
     				try {
@@ -287,18 +289,21 @@ public class ContactUsController {
     		submissionAnchor.setVisible(false);
     		loginAnchor.setVisible(false);
     		loginAnchor1.setVisible(false);
-    		nameField.setText(DisplayListController.getMember().getFirstName());
-    		lastNameField.setText(DisplayListController.getMember().getLastName());
-    		emailField.setText(DisplayListController.getMember().getElectronicMail());
-    		idField.setText(String.valueOf(DisplayListController.getMember().getId()));
-    		
+    		complainer = DisplayListController.getMember();
     	}
     	statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     	identifierCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     	if (complainer!=null) {
+    		nameField.setText(complainer.getFirstName());
+    		lastNameField.setText(complainer.getLastName());
+    		emailField.setText(complainer.getElectronicMail());
+    		idField.setText(String.valueOf(complainer.getId()));
     		complaints = FXCollections.observableArrayList(complainer.getComplaints());
     		table.setItems(complaints);
     		changeMode();
+    	}
+    	if (complainer==null) {
+    		modeBtn.setVisible(false);
     	}
     }
 }

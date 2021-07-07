@@ -870,7 +870,10 @@ public class SimpleServer extends AbstractServer {
 									client.sendToClient(new Message("#MemberLogIn2", member));
 								} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
 									client.sendToClient(new Message("#MemberLogIn3", member));
-								} else {
+								} 
+								else if (msg.toString().equals("#LoginRequestContactUs")) {
+									client.sendToClient(new Message("#MemberLogIn5", member));
+								}else {
 									client.sendToClient(new Message("#MemberLogIn", member));
 								}
 								return;
@@ -1347,9 +1350,22 @@ public class SimpleServer extends AbstractServer {
 		session = sessionFactory.openSession();
 		int id = Integer.parseInt(object.getUsername());
 		String lastDigits = object.getPassword();
+		System.out.println(object.getUsername() + " " + object.getPassword());
 		List<CasualBuyer> buyersList = getAll(CasualBuyer.class);
 		for (CasualBuyer buyer : buyersList) {
-			if (buyer.getCustomerId() == id) {
+			System.out.println(buyer.getCustomerId() + " " + buyer.getElectronicMail() + " " + msg.toString());
+			if (buyer.getCustomerId() == id && buyer.getElectronicMail().equals(object.getPassword()) && msg.toString().startsWith("#SearchForClient2") ) {
+				try {
+					System.out.println("fucking in the right place.");
+					client.sendToClient(new Message("#ComplainerSearch", buyer));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				session.close();
+				return;
+			}
+			if (buyer.getCustomerId() == id && !msg.toString().startsWith("#SearchForClient2")) {
 				String temp = String.valueOf(buyer.getCreditNum());
 				temp = temp.substring(temp.length() - 4);
 				if (temp.equals(lastDigits)) {
@@ -1364,10 +1380,16 @@ public class SimpleServer extends AbstractServer {
 					session.close();
 					return;
 				}
-			}
+				
+			} 
 		}
 		try {
-			client.sendToClient(new Message("#CasualBuyerSearch", null, null));
+			if (msg.toString().startsWith("SearchForClient2")) {
+				client.sendToClient(new Message("#ComplainerSearch", null));
+			}
+			else {
+				client.sendToClient(new Message("#CasualBuyerSearch", null, null));
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1525,10 +1547,10 @@ public class SimpleServer extends AbstractServer {
 
 	private static void initializeData() throws Exception {
 		TavSagoal temp = new TavSagoal();
-		temp.setEffective(true);
+		temp.setEffective(false);
 		temp.setFromDate("");
 		temp.setToDate("");
-		temp.setY(200);
+		temp.setY(0);
 		session.save(temp);
 		session.flush();
 		Image image_1 = new Image("Thumbnail", "https://upload.wikimedia.org/wikipedia/en/3/36/Haunt2019Poster.jpg");

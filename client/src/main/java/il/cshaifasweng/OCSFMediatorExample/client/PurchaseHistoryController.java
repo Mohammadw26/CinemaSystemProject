@@ -183,7 +183,7 @@ public class PurchaseHistoryController {
 			}
 			waitingAnchor.setVisible(true);
 			try {
-				if (unregClient != null)
+				if (DisplayListController.getMember() == null)
 					SimpleClient.getClient().sendToServer(new Message("#CancelOrder", unregClient, temp));
 				else
 					SimpleClient.getClient()
@@ -242,49 +242,6 @@ public class PurchaseHistoryController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		assert loginAnchor != null
-				: "fx:id=\"loginAnchor\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert loginAnchorLabel1 != null
-				: "fx:id=\"loginAnchorLabel1\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert oldUserField != null
-				: "fx:id=\"oldUserField\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert oldPasswordField != null
-				: "fx:id=\"oldPasswordField\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert loginAnchorLabel2 != null
-				: "fx:id=\"loginAnchorLabel2\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert logInButton != null
-				: "fx:id=\"logInButton\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert logOutButton != null
-				: "fx:id=\"logOutButton\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert invalidLogin != null
-				: "fx:id=\"invalidLogin\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert loginAnchor1 != null
-				: "fx:id=\"loginAnchor1\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert loginAnchorLabel11 != null
-				: "fx:id=\"loginAnchorLabel11\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert clientID != null : "fx:id=\"clientID\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert cardDigits != null
-				: "fx:id=\"cardDigits\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert loginAnchorLabel21 != null
-				: "fx:id=\"loginAnchorLabel21\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert logInButton1 != null
-				: "fx:id=\"logInButton1\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert logOutButton1 != null
-				: "fx:id=\"logOutButton1\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert invalidLogin1 != null
-				: "fx:id=\"invalidLogin1\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert welcomeLabel != null
-				: "fx:id=\"welcomeLabel\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert historyTable != null
-				: "fx:id=\"historyTable\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert type != null : "fx:id=\"type\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert time != null : "fx:id=\"time\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert transactionID != null
-				: "fx:id=\"transactionID\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert cost != null : "fx:id=\"cost\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert details != null : "fx:id=\"details\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert statusCol != null : "fx:id=\"statusCol\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
-		assert cancelBtn != null : "fx:id=\"cancelBtn\" was not injected: check your FXML file 'purchaseHistory.fxml'.";
 		invalidLogin.setVisible(false);
 		invalidLogin1.setVisible(false);
 		logOutButton.setVisible(false);

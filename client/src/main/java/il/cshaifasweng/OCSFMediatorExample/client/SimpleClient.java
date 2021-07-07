@@ -181,6 +181,14 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (msgString.startsWith("#MemberLogIn5")) {
+			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
+			try {
+				App.setRoot("contactUs");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (msgString.startsWith("#MemberLogIn4")) {
 			DisplayListController.setMember((CinemaMember) ((Message) msg).getObject());
 			PurchaseHistoryController.setPurchaseList((List<Purchase>) ((Message) msg).getObject2());
@@ -317,6 +325,15 @@ public class SimpleClient extends AbstractClient {
 			RespondToComplaintsController.setAllComplaints((List<Complaint>) ((Message) msg).getObject());
 			try {
     			App.setRoot("responseToComplaints");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (msgString.startsWith("#ComplainerSearch")) {
+			System.out.println("i'mhere");
+			ContactUsController.setComplainer((CasualBuyer) ((Message) msg).getObject());
+			try {
+    			App.setRoot("contactUs");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
