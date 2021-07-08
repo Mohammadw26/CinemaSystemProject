@@ -15,6 +15,7 @@ public class TabPurchase extends Purchase {
 	
 	public static int tabNum = 0 ;
 	public static double tabTotalIncome = 0 ;
+	private double cost;
 
 	public TabPurchase() {
 		this.cost = 600;
@@ -33,6 +34,13 @@ public class TabPurchase extends Purchase {
 
 	public static int getTabNum() {
 		return tabNum;
+	}
+	
+	public double getCost() {
+		return this.cost;
+	}
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 
 	public static void setTabNum(int tabNum) {

@@ -8,6 +8,7 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 import il.cshaifasweng.OCSFMediatorExample.entities.Warning;
 import il.cshaifasweng.OCSFMediatorExample.entities.Worker;
+import javafx.application.Platform;
 import il.cshaifasweng.OCSFMediatorExample.entities.BookingRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.CasualBuyer;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
@@ -103,9 +104,16 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
+			EventBus.getDefault().post(new TabReportsEvent((Message) msg));
 		}
-
+		else if (msgString.startsWith("#RefreshfreeSeats")) {
+			System.out.println("pleaeeeeeeeeeeeeeeeeeeease");
+			EventBus.getDefault().post(new SeatSavedEvent((Message) msg));
+		}
+		else if (msgString.startsWith("#RefreshSeatsSaved")) {
+			System.out.println("pleaeeeeeeeeeeeeeeeeeeease");
+			EventBus.getDefault().post(new SeatSavedEvent((Message) msg));
+		}
 		else if (msgString.startsWith("#SeatsSaved")) {
 			BookingOrderController.setRequest((BookingRequest) ((Message) msg).getObject());
 			try {
@@ -234,8 +242,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#LogInFailed4")) {
+		} else if (msgString.startsWith("#LogInFailed4")) {
 			try {
 				PurchaseHistoryController.setStatus(2);
 				App.setRoot("purchaseHistory");
@@ -243,7 +250,7 @@ public class SimpleClient extends AbstractClient {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if (msgString.startsWith("#LogInFailed")) {
+		} else if (msgString.startsWith("#LogInFailed")) {
 			AdminPanelController.setRequest((LogInRequest) ((Message) msg).getObject());
 			try {
 				App.setRoot("adminPanel");
@@ -269,25 +276,37 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
+
 		} else if (msgString.startsWith("#RefreshDeletePrice")) {
 
 			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
-//			PriceRequestsController.setAllPrices((List<Price>)((Message) msg).getObject());
-//			try {
-//				App.setRoot("priceRequest");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
 		} else if (msgString.startsWith("#RefreshChangePrice")) {
 			EventBus.getDefault().post(new PriceReceivedEvent((Message) msg));
-//			PriceRequestsController.setAllPrices((List<Price>)((Message) msg).getObject());
-//			try {
-//				App.setRoot("priceRequest");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+		} else if (msgString.startsWith("#RefreshRentSellings")) {
+			EventBus.getDefault().post(new TabReportsEvent((Message) msg));
+		} else if (msgString.startsWith("#RefreshTicketsSellings")) {
+			EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
+			EventBus.getDefault().post(new LinksBranchesReportsEvent((Message) msg));
+
+		} else if (msgString.startsWith("#SendTicketsReports")) {
+				try {
+					App.setRoot("ticketsSalesReport");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
+		} else if (msgString.startsWith("#SendBranchTicketsReport")) {
+			try {
+				App.setRoot("ticketsSalesByBranchReport");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		EventBus.getDefault().post(new LinksReportsEvent((Message) msg));
 		} else if (msgString.startsWith("#CasualBuyerSearch")) {
 			if (((Message) msg).getObject() == null) {
 				PurchaseHistoryController.setStatus(4);
@@ -327,21 +346,19 @@ public class SimpleClient extends AbstractClient {
 			}
 		} else if (msgString.startsWith("#Warning")) {
 			EventBus.getDefault().post(new WarningEvent((Warning) ((Message) msg).getObject()));
-		}
-		else if (msgString.startsWith("#ComplaintSubmitted")) {
+		} else if (msgString.startsWith("#ComplaintSubmitted")) {
 			System.out.println("Complain submitted.");
 			ContactUsController.setComplainer((CasualBuyer) ((Message) msg).getObject());
 			try {
-    			App.setRoot("contactUs");
+				App.setRoot("contactUs");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		else if (msgString.startsWith("#ComplaintsList")) {
+		} else if (msgString.startsWith("#ComplaintsList")) {
 			RespondToComplaintsController.setAllComplaints((List<Complaint>) ((Message) msg).getObject());
 			try {
-    			App.setRoot("responseToComplaints");
+				App.setRoot("responseToComplaints");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -352,7 +369,7 @@ public class SimpleClient extends AbstractClient {
 			}
 			ContactUsController.setComplainer((CasualBuyer) ((Message) msg).getObject());
 			try {
-    			App.setRoot("contactUs");
+				App.setRoot("contactUs");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

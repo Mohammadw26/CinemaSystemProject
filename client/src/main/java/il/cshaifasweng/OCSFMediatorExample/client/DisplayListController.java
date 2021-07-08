@@ -437,11 +437,16 @@ public class DisplayListController {
 				logOutBtn.setDisable(false);
 				tavSagoalBtn.setDisable(false);
 			} else if (worker.getClass().equals(BranchManager.class)) {
-				compliantsBtn.setDisable(true);
+				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(false);
 				employeeBtn.setDisable(false);
 				logOutBtn.setDisable(false);
+				salesReportsBtn.setDisable(false);
+				salesReportsBtn.setVisible(true);
+
+
+
 			}
 		} else if (member != null) {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());

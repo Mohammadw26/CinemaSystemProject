@@ -74,7 +74,7 @@ public class ReportsReviewController {
 	void TicketSalesView(ActionEvent event) {
 		if (DisplayListController.getWorker().getClass().equals(GeneralManager.class)) {
 			try {
-				App.setRoot("ticketsSalesReport");
+				SimpleClient.getClient().sendToServer("#TicketsReportsRequest");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -82,7 +82,7 @@ public class ReportsReviewController {
 		
 		} else if (DisplayListController.getWorker().getClass().equals(BranchManager.class)) {
 			try {
-				App.setRoot("ticketsSalesByBranchReports");
+				SimpleClient.getClient().sendToServer("#ReportsRequest");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

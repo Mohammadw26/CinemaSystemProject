@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "branch_managers")
 public class BranchManager extends Worker {
 
 	/**

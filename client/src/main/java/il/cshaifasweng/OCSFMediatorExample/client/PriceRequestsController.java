@@ -145,7 +145,7 @@ public class PriceRequestsController {
 		assert timeCol != null : "fx:id=\"timeCol\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert declineBtn != null : "fx:id=\"declineBtn\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert acceptBtn != null : "fx:id=\"acceptBtn\" was not injected: check your FXML file 'priceRequests.fxml'.";
-
+		
 	}
 
 	@SuppressWarnings("unchecked")

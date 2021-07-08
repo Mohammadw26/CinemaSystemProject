@@ -15,8 +15,11 @@ import java.util.List;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
+import il.cshaifasweng.OCSFMediatorExample.entities.LogInRequest;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Movie;
 import il.cshaifasweng.OCSFMediatorExample.entities.OnDemandMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Price;
@@ -53,6 +56,24 @@ public class App extends Application {
 	@Override
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
+		if(SimpleClient.getClient()!=null) {
+			LogInRequest newRequest = null;
+			Worker worker = DisplayListController.getWorker();
+			CinemaMember member = DisplayListController.getMember();
+			try {
+				if (worker != null) {
+					newRequest = new LogInRequest(worker.getWokerUsername(), worker.getWorkerPassword());
+				}
+				if (member != null) {
+					newRequest = new LogInRequest(member.getUsername(), member.getPassword());
+				}
+				SimpleClient.getClient().sendToServer(new Message("#LogOut", newRequest));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		Thread.sleep(9000);
 		EventBus.getDefault().unregister(this);
 		super.stop();
 	}

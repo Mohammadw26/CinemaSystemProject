@@ -16,7 +16,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "content_managers")
 public class ContentManager extends Worker {
 	/**
 	 * 
