@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseHistoryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PurchaseHistoryController">
    <children>
       <MenuBar prefHeight="35.0" prefWidth="1280.0" style="-fx-min-width: 100%; -fx-background-color: #792f2f;" />
       <Text fill="WHITE" layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-size: 15;" text="Purchase History" wrappingWidth="220.76641845703125" />
@@ -56,7 +56,7 @@
          </children>
       </AnchorPane>
       <Separator layoutX="375.0" layoutY="35.0" orientation="VERTICAL" prefHeight="762.0" prefWidth="6.0" />
-      <AnchorPane fx:id="backBtn" layoutX="401.0" layoutY="40.0" onMouseClicked="#backToCatalog" prefHeight="734.0" prefWidth="858.0">
+      <AnchorPane fx:id="userAnchor" layoutX="401.0" layoutY="40.0" onMouseClicked="#backToCatalog" prefHeight="734.0" prefWidth="858.0" visible="false">
          <children>
             <Label fx:id="welcomeLabel" layoutX="39.0" layoutY="36.0" text="Welcome (Client name)" />
             <TableView fx:id="historyTable" layoutX="36.0" layoutY="94.0" onMouseClicked="#setCell" prefHeight="359.0" prefWidth="786.0">

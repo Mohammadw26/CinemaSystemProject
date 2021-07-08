@@ -22,6 +22,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -55,6 +56,9 @@ public class RespondToComplaintsController {
 
     @FXML // fx:id="title"
     private Label title; // Value injected by FXMLLoader
+    
+    @FXML
+    private TabPane tabPane;
 
     @FXML // fx:id="openTab"
     private Tab openTab; // Value injected by FXMLLoader
@@ -124,6 +128,9 @@ public class RespondToComplaintsController {
     
     @FXML
     private Button backBtn;
+    
+    @FXML
+    private Label invalidInputs;
 
     @FXML
     private AnchorPane WaitingAnchor;
@@ -140,9 +147,14 @@ public class RespondToComplaintsController {
     @FXML
     private TextField feedOfBranch;
     
+    private static String branchComboBackup = "All Branches";
+    
+    private static int tabBackup = 0;
+    
 
     @FXML
     void filter() {
+    	branchComboBackup = branchCombo.getValue();
     	counter = 0;
     	String address = branchCombo.getValue();
     	highPriority.clear();
@@ -163,21 +175,27 @@ public class RespondToComplaintsController {
        	}
         if (address != "All Branches") {
     		for (int i = 0; i < highPriority.size() ; i ++) {
-    			if (!highPriority.get(i).getBranch().getAddress().equals(address)) {
-    				highPriority.remove(i);
-    				i--;
+    			if (highPriority.get(i).getBranch()!=null) {
+    				if (!highPriority.get(i).getBranch().getAddress().equals(address)) {
+    					highPriority.remove(i);
+    					i--;
+    				}
     			}
     		}
     		for (int i = 0; i < open.size() ; i ++) {
-    			if (!open.get(i).getBranch().getAddress().equals(address)) {
-    				open.remove(i);
-    				i--;
+    			if (open.get(i).getBranch()!=null) {
+    				if (!open.get(i).getBranch().getAddress().equals(address)) {
+    					open.remove(i);
+    					i--;
+    				}
     			}
     		}
     		for (int i = 0; i < closed.size() ; i ++) {
-    			if (!closed.get(i).getBranch().getAddress().equals(address)) {
-    				closed.remove(i);
-    				i--;
+    			if (closed.get(i).getBranch()!=null) {
+    				if (!closed.get(i).getBranch().getAddress().equals(address)) {
+    					closed.remove(i);
+    					i--;
+    				}
     			}
     		}
     	}
@@ -224,7 +242,9 @@ public class RespondToComplaintsController {
     
     @FXML
     void saveResponse(ActionEvent event) {
-    	if(response.getText()=="" || response.getText()==null || (refundCheck.isSelected()&& (refundValue.getText()==null || refundValue.getText()==""))) {
+    	tabBackup = tabPane.getSelectionModel().getSelectedIndex();
+    	if(response.getText()=="" || response.getText()==null || (refundCheck.isSelected() || complaint == null && (refundValue.getText()==null || refundValue.getText()==""))) {
+    		invalidInputs.setVisible(true);
     		return;
     	}
     	WaitingAnchor.setVisible(true);
@@ -252,7 +272,11 @@ public class RespondToComplaintsController {
     	complaint = table1.getItems().get(table1.getSelectionModel().getSelectedIndex());
     	customerMessage.setText(complaint.getDescription());
     	inqNumLabel.setText("Inquiry - " + complaint.getId());
-    	feedOfBranch.setText(complaint.getBranch().getAddress());
+    	if (complaint.getBranch()!=null) {
+    		feedOfBranch.setText(complaint.getBranch().getAddress());
+    	} else {
+    		feedOfBranch.setText("");
+    	}
     	response.setEditable(true);
     	refundCheck.setDisable(false);
     	saveResponseBTN.setDisable(false);
@@ -264,7 +288,11 @@ public class RespondToComplaintsController {
     	complaint = table2.getItems().get(table2.getSelectionModel().getSelectedIndex());
     	customerMessage.setText(complaint.getDescription());
     	inqNumLabel.setText("Inquiry - " + complaint.getId());
-    	feedOfBranch.setText(complaint.getBranch().getAddress());
+    	if (complaint.getBranch()!=null) {
+    		feedOfBranch.setText(complaint.getBranch().getAddress());
+    	} else {
+    		feedOfBranch.setText("");
+    	}
     	response.setEditable(true);
     	refundCheck.setDisable(false);
     	saveResponseBTN.setDisable(false);
@@ -276,7 +304,11 @@ public class RespondToComplaintsController {
     	complaint = table3.getItems().get(table3.getSelectionModel().getSelectedIndex());
     	customerMessage.setText(complaint.getDescription());
     	inqNumLabel.setText("Inquiry - " + complaint.getId());
-    	feedOfBranch.setText(complaint.getBranch().getAddress());
+    	if (complaint.getBranch()!=null) {
+    		feedOfBranch.setText(complaint.getBranch().getAddress());
+    	} else {
+    		feedOfBranch.setText("");
+    	}
     	response.setText("<" + complaint.getResponseDate() + ">\n" + complaint.getResponse());
     	response.setEditable(false);
     	refundCheck.setDisable(true);
@@ -331,7 +363,8 @@ public class RespondToComplaintsController {
     	ClosedTab.setText("Closed Tickets (" + closed.size()+ ")");
     	summuray.setText("Total Tickets: " + (closed.size() + open.size()) +"\nTickets waiting for response: " + open.size() + "\nTickets with tight response time: " + highPriority.size());
     	 */
-    	branchCombo.setValue("All Branches");
+    	branchCombo.setValue(branchComboBackup);
     	filter();
+    	tabPane.getSelectionModel().select(tabBackup);
     }
 }

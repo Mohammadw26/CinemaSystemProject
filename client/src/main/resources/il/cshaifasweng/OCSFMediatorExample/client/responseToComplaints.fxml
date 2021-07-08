@@ -30,7 +30,7 @@
             </Label>
          </items>
       </ToolBar>
-      <TabPane layoutX="11.0" layoutY="51.0" prefHeight="374.0" prefWidth="784.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" layoutX="11.0" layoutY="51.0" prefHeight="374.0" prefWidth="784.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="priorityTab" text="High priority (#)">
             <content>
@@ -93,6 +93,7 @@
             <Button fx:id="saveResponseBTN" layoutX="1067.0" layoutY="325.0" mnemonicParsing="false" onAction="#saveResponse" prefHeight="26.0" prefWidth="114.0" text="Respond &amp; Close" />
             <TextField fx:id="feedOfBranch" editable="false" layoutX="368.0" layoutY="290.0" prefHeight="26.0" prefWidth="220.0" />
             <Text layoutX="248.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Designated to branch:" />
+            <Label fx:id="invalidInputs" layoutX="607.0" layoutY="329.0" text="Please make sure that you've correctly selected a ticket, and that the inputs are valid." textFill="RED" visible="false" />
          </children>
       </AnchorPane>
       <ComboBox fx:id="branchCombo" layoutX="1041.0" layoutY="302.0" onAction="#filter" prefWidth="150.0" />

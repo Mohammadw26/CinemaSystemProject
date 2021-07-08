@@ -192,16 +192,19 @@ public class ContactUsController {
     		tableAnchor.setVisible(true);
     		responseAnchor.setVisible(true);
     		submissionAnchor.setVisible(false);
-    		modeBtn.setText("Submit another inquiry");
-    		if (complaints.size()>0)
+    		modeBtn.setText("Submit a new feedback");
+    		if (complaints.size()>0) {
     			complaint = complaints.get(0);
-        	inquiryDetails.setText(complaint.getDescription() + "\n\n" + complaint.getSubmissionDate());
-        	if (complaint.getStatus().equals("Closed")){
-        		responseDetails.setText(complaint.getResponse()+ "\n\n" + complaint.getResponseDate());
-        	} else {
-        		responseDetails.setText("Your request is pending, no answer has been received yet.");
-        		responseDetails.setDisable(true);
-        	}
+    			inquiryDetails.setText(complaint.getDescription() + "\n\n" + complaint.getSubmissionDate());
+    			if (complaint.getStatus().equals("Closed")){
+    				responseDetails.setText(complaint.getResponse()+ "\n\n" + complaint.getResponseDate());
+    			} else {
+    				responseDetails.setText("Your request is pending, no answer has been received yet.");
+    				responseDetails.setDisable(true);
+    			}
+    		} else {
+    			inquiryDetails.setText("You have no previously submitted feedbacks, your feedback is important to us, you can submit a feed back by clicking on \"submit new feedback button.\"");
+    		}
     	} else {
     		tableAnchor.setVisible(false);
     		responseAnchor.setVisible(false);
@@ -311,7 +314,7 @@ public class ContactUsController {
     		nameField.setText(complainer.getFirstName());
     		lastNameField.setText(complainer.getLastName());
     		emailField.setText(complainer.getElectronicMail());
-    		idField.setText(String.valueOf(complainer.getId()));
+    		idField.setText(String.valueOf(complainer.getCustomerId()));
     		complaints = FXCollections.observableArrayList(complainer.getComplaints());
     		table.setItems(complaints);
     		changeMode();

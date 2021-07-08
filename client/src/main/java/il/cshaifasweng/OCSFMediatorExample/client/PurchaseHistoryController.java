@@ -158,7 +158,7 @@ public class PurchaseHistoryController {
 	private Label warningLabel;
 
 	@FXML
-	private AnchorPane backBtn;
+	private AnchorPane userAnchor;
 
 
 	@FXML
@@ -246,6 +246,7 @@ public class PurchaseHistoryController {
 		invalidLogin1.setVisible(false);
 		logOutButton.setVisible(false);
 		if (DisplayListController.getMember() != null && status == 0) {
+			userAnchor.setVisible(true);
 			logOutButton.setVisible(true);
 			CinemaMember member = DisplayListController.getMember();
 			loginAnchorLabel1
@@ -256,6 +257,7 @@ public class PurchaseHistoryController {
 			logInButton.setText("Confirm");
 			loginAnchor1.setVisible(false);
 		} else if (status == 1 || status == 6) {
+			userAnchor.setVisible(true);
 			welcomeLabel.setText(DisplayListController.getMember().getFirstName() + " "
 					+ DisplayListController.getMember().getLastName());
 			loginAnchor.setVisible(false);
@@ -263,12 +265,24 @@ public class PurchaseHistoryController {
 			populateTable();
 			status = 0;
 		} else if (status == 2) {
+			if (DisplayListController.getMember()!=null) {
+				userAnchor.setVisible(true);
+				logOutButton.setVisible(true);
+				CinemaMember member = DisplayListController.getMember();
+				loginAnchorLabel1.setText("You are already logged in as: " + member.getFirstName() + " " + member.getLastName());
+				loginAnchorLabel2.setText("please enter you password to confirm it's you");
+				oldUserField.setText(member.getUsername());
+				oldUserField.setDisable(true);
+				logInButton.setText("Confirm");
+				loginAnchor1.setVisible(false);
+			}
 			invalidLogin.setVisible(true);
 			status = 0;
 		} else if (status == 4) {
 			invalidLogin1.setVisible(true);
 			status = 0;
 		} else if (status == 3 || status == 5) {
+			userAnchor.setVisible(true);
 			if (status == 5) {
 				successLabel.setVisible(true);
 			}

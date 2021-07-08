@@ -95,8 +95,8 @@
       </AnchorPane>
       <AnchorPane fx:id="responseAnchor" layoutX="422.0" layoutY="77.0" prefHeight="513.0" prefWidth="544.0">
          <children>
-            <TextArea fx:id="inquiryDetails" editable="false" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="517.0" />
-            <TextArea fx:id="responseDetails" editable="false" layoutX="14.0" layoutY="288.0" prefHeight="200.0" prefWidth="518.0" />
+            <TextArea fx:id="inquiryDetails" editable="false" layoutX="14.0" layoutY="41.0" prefHeight="200.0" prefWidth="517.0" wrapText="true" />
+            <TextArea fx:id="responseDetails" editable="false" layoutX="14.0" layoutY="288.0" prefHeight="200.0" prefWidth="518.0" wrapText="true" />
             <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your inquiry description:" />
             <Text layoutX="14.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Representetive respose:" />
          </children>
