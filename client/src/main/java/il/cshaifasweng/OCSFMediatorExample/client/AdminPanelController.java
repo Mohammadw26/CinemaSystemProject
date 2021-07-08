@@ -162,6 +162,7 @@ public class AdminPanelController {
         	invalidText.setVisible(true);
         	usernameField.setText(request.getUsername());
         	passwordBar.setText(request.getPassword());
+        	request= null;
         }
 
     }

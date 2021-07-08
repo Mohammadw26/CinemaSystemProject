@@ -52,5 +52,10 @@
             <Font name="Comic Sans MS Bold Italic" size="14.0" />
          </font>
       </Button>
+      <ImageView fx:id="loadingGif" fitHeight="150.0" fitWidth="200.0" layoutX="536.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@loading2.gif" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

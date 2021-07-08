@@ -67,7 +67,7 @@ public class Screening implements Serializable {
 
 	public Screening() {}
 	
-	public Screening(String date, String time,CinemaMovie movie2,SirtyaBranch inBranch) {
+	public Screening(String date, String time,CinemaMovie movie2,SirtyaBranch inBranch, Hall hall) {
 		this.screeningDate = date;
 		this.screeningTime = time;
 		this.movie = movie2;
@@ -76,6 +76,8 @@ public class Screening implements Serializable {
 		this.screeningBranch = inBranch.getAddress();
 		movie2.getScreenings().add(this);
 		this.tickets = new ArrayList<Ticket>();
+		this.setHall(hall);
+		hall.addScreening(this);
 		//movie2.addScreening(this);
 	}
 	

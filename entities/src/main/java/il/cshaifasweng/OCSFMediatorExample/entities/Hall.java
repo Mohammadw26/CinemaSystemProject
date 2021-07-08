@@ -31,7 +31,7 @@ public class Hall implements Serializable {
 	private int rowsNum;
 	private int colsNum;
 	private int seatsNum;
-	private int available;
+
 	private String hallName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,16 +41,16 @@ public class Hall implements Serializable {
 
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "hall")
-	private List<Screening> screenings;
+	private List<Screening> screenings = new ArrayList<Screening>();
 	
 	public Hall() {};
 	
-	public Hall(int rows, int cols, int seatsNum, String hallName){
+	public Hall(int rows, int cols, int seatsNum, String hallName,SirtyaBranch branch){
 		this.rowsNum = rows;
 		this.colsNum = cols;
 		this.seatsNum = seatsNum;
-		this.available = available;
 		this.branch = branch;
+		branch.addHall(this);
 		this.screenings = new ArrayList<Screening>();
 		this.hallName = hallName;
 	}
@@ -87,14 +87,6 @@ public class Hall implements Serializable {
 		this.seatsNum = seatsNum;
 	}
 
-	public int getAvailable() {
-		return available;
-	}
-
-	public void setAvailable(int available) {
-		this.available = available;
-	}
-
 	public SirtyaBranch getBranch() {
 		return branch;
 	}
@@ -103,12 +95,12 @@ public class Hall implements Serializable {
 		this.branch = branch;
 	}
 
-	public List<Screening> getScreening() {
-		return screenings;
-	}
-
 	public void setScreening(List<Screening> screening) {
 		this.screenings = screening;
+	}
+	
+	public void addScreening(Screening screening) {
+		this.screenings.add(screening);
 	}
 
 	public int getRowsNum() {
@@ -133,6 +125,14 @@ public class Hall implements Serializable {
 
 	public void setHallName(String hallName) {
 		this.hallName = hallName;
+	}
+
+	public List<Screening> getScreenings() {
+		return screenings;
+	}
+
+	public void setScreenings(List<Screening> screenings) {
+		this.screenings = screenings;
 	}
 	
 	

@@ -14,6 +14,7 @@ public class ScreeningsUpdateRequest implements Serializable{
 	private int branchID;
 	private CinemaMovie movie;
 	private int movieID;
+	private Hall hall;
 	public int getMovieID() {
 		return movieID;
 	}
@@ -80,4 +81,14 @@ public class ScreeningsUpdateRequest implements Serializable{
 	public void setBranchID(int branchID) {
 		this.branchID = branchID;
 	}
+
+	public Hall getHall() {
+		return hall;
+	}
+
+	public void setHall(Hall hall) {
+		this.hall = hall;
+	}
+	
+	
 }

@@ -243,7 +243,7 @@ public class RespondToComplaintsController {
     @FXML
     void saveResponse(ActionEvent event) {
     	tabBackup = tabPane.getSelectionModel().getSelectedIndex();
-    	if(response.getText()=="" || response.getText()==null || (refundCheck.isSelected() || complaint == null && (refundValue.getText()==null || refundValue.getText()==""))) {
+    	if(response.getText()=="" || response.getText()==null || complaint == null  || ((refundCheck.isSelected() && (refundValue.getText()==null || refundValue.getText()=="")))) {
     		invalidInputs.setVisible(true);
     		return;
     	}

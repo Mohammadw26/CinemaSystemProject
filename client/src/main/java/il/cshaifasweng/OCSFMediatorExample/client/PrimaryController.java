@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,6 +35,9 @@ public class PrimaryController {
 
     @FXML // fx:id="identityLabel"
     private Label identityLabel; // Value injected by FXMLLoader
+    
+    @FXML
+    private ImageView loadingGif;
     
 
     @FXML
@@ -70,6 +75,7 @@ public class PrimaryController {
 
 	@FXML
 	void sendCatalogRequest(ActionEvent event) {
+		loadingGif.setVisible(true);
 		try {
 			SimpleClient.getClient().sendToServer("#CatalogRequest");
 	    	} catch (IOException e) {
@@ -80,6 +86,7 @@ public class PrimaryController {
 
 	@FXML
 	void initialize() {
+		loadingGif.setVisible(false);
 		assert showCatalog != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 		assert adminLabel != null : "fx:id=\"showCatalog\" was not injected: check your FXML file 'primary.fxml'.";
 		identityLabel.setVisible(false);

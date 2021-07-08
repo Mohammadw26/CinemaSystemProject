@@ -81,9 +81,9 @@ public class TavSagoalUpdatingController {
 
     @FXML
     void returnToCatalog(ActionEvent event) {
-    	try {
-			App.setRoot("displayList");
-		} catch (IOException e) {
+		try {
+			SimpleClient.getClient().sendToServer("#CatalogRequest");
+	    	} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

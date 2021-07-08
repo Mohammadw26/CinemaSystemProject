@@ -54,6 +54,10 @@ public class EditMovieScreeningsController {
 		for (SirtyaBranch brnch : allBranches) {
 			if (brnch.getAddress() == branchField.getValue()) {
 				branch = brnch;
+				hallField.getItems().clear();
+				for (Hall hall : brnch.getHalls()) {
+					hallField.getItems().add(hall.getHallName());
+				}
 			}
 		}
 	}
@@ -194,6 +198,12 @@ public class EditMovieScreeningsController {
 			request.setBranch(branch);
 			request.setMovieID(movie.getId());
 			request.setMovie(movie);
+			for (Hall hall : branch.getHalls()) {
+				if (hall.getHallName() == hallField.getValue()) {
+					request.setHall(hall);
+				}
+			}
+			
 
 			try {
 				SimpleClient.getClient().sendToServer(new Message("#AddScreening", request));
