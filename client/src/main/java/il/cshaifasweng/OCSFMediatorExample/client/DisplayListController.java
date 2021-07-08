@@ -401,11 +401,11 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		assert purchaseHistory != null
-				: "fx:id=\"purchaseHistory\" was not injected: check your FXML file 'displayList.fxml'.";
+		compliantsBtn.setText("Contact Us");
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
+			compliantsBtn.setText("Customers requests");
 			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
 			identityLabel.setVisible(true);
 			DisplayMovieDataController.setWorkerMode();

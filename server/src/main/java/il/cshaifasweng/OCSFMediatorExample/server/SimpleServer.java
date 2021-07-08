@@ -105,6 +105,9 @@ public class SimpleServer extends AbstractServer {
 					List<Movie> temp = getAll(Movie.class);
 					client.sendToClient(new Message("#BranchesList2", branchesList, temp));
 				} else {
+					/*for (SirtyaBranch brnch : branchesList) {
+						System.out.println(brnch.getHalls().size());
+					}*/
 					client.sendToClient(new Message("#BranchesList", branchesList));
 				}
 				session.close();
@@ -660,8 +663,11 @@ public class SimpleServer extends AbstractServer {
 				temp2 = temp2.substring(temp2.length() - 4);
 				temp += "A refund to your credit card, *" + temp2 + ", will be made.\n\n -Dream Palace Cinema.";
 				ticket.setRefunded(true);
+				ticket.setStatus("Canceled");
 				ticket.setScreening(null);
+				//screening.getTickets().remove(ticket);
 				session.save(ticket);
+				//session.save(screening);
 				session.flush();
 			}
 			SendEmailTLS.SendMailTo(ticket.getCustomer().getElectronicMail(), "Screening Cancelation Refund", temp);
@@ -924,6 +930,7 @@ public class SimpleServer extends AbstractServer {
 		}
 		temp.getMovie().getScreenings().remove(temp);
 		temp.getBranch().getScreenings().remove(temp);
+		ScreeningCancelationEmail(temp);
 		session.delete(temp);
 		session.flush();
 		session.getTransaction().commit();
@@ -1306,8 +1313,43 @@ public class SimpleServer extends AbstractServer {
 	private void addScreening(ScreeningsUpdateRequest request, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
+		System.out.println("inside add screening");
+		/*List<Hall> searchHall = getAll(Hall.class);
+		List<SirtyaBranch> searchBranch = getAll(SirtyaBranch.class);
+		List<CinemaMovie> searchMovie = getAll(CinemaMovie.class);
+		for (Hall tempHall : searchHall) {
+			if (tempHall.getId() == request.getHall().getId())
+				request.setHall(tempHall);
+		}
+		for (SirtyaBranch tempBranch : searchBranch) {
+			if (tempBranch.getId() == request.getBranch().getId())
+				request.setBranch(tempBranch);
+		}
+		for (CinemaMovie tempMovie : searchMovie) {
+			if (tempMovie.getId() == request.getMovie().getId())
+				request.setMovie(tempMovie);
+		}*/
+		List<SirtyaBranch> searchBranch = getAll(SirtyaBranch.class);
+		List<CinemaMovie> searchMovie = getAll(CinemaMovie.class);
+		for (SirtyaBranch tempBranch : searchBranch) {
+			if (tempBranch.getId() == request.getBranch().getId())
+				request.setBranch(tempBranch);
+		}
+		for (Hall tempHall : request.getBranch().getHalls()) {
+			if (tempHall.getId() == request.getHall().getId())
+				request.setHall(tempHall);
+		}
+		for (CinemaMovie tempMovie : searchMovie) {
+			if (tempMovie.getId() == request.getMovie().getId())
+				request.setMovie(tempMovie);
+		}
+		Hibernate.initialize(request.getHall().getScreenings());
+		List<Screening> tempList = request.getHall().getScreenings();
+		System.out.println("hall screenings");
+		System.out.println(tempList.size());
 		Screening newScrn = new Screening(request.getDate(), request.getTime(), request.getMovie(),
-				request.getBranch());
+				request.getBranch(),request.getHall());
+		System.out.println("after constructing.");
 		session.save(newScrn);
 		session.flush();
 		session.getTransaction().commit();
@@ -1591,29 +1633,6 @@ public class SimpleServer extends AbstractServer {
 		session.save(image_11);
 		session.flush();
 
-		Hall hall1 = new Hall(4, 5, 18, "1");
-		Hall hall2 = new Hall(5, 5, 25, "2");
-		Hall hall3 = new Hall(6, 6, 36, "3");
-		Hall hall4 = new Hall(5, 6, 28, "4");
-		Hall hall5 = new Hall(3, 6, 18, "1");
-		Hall hall6 = new Hall(6, 5, 30, "2");
-		Hall hall7 = new Hall(5, 5, 23, "3");
-		Hall hall8 = new Hall(5, 4, 20, "1");
-		Hall hall9 = new Hall(4, 5, 18, "2");
-		Hall hall10 = new Hall(5, 5, 23, "3");
-		Hall hall11 = new Hall(4, 4, 16, "4");
-		session.save(hall1);
-		session.save(hall2);
-		session.save(hall3);
-		session.save(hall4);
-		session.save(hall5);
-		session.save(hall6);
-		session.save(hall7);
-		session.save(hall8);
-		session.save(hall9);
-		session.save(hall10);
-		session.save(hall11);
-
 		session.flush();
 		CinemaMovie movie1 = new CinemaMovie("Haunt", "רדוף", "Eli Roth", "Katie Stevens",
 				"On Halloween, a group of friends encounter an extreme haunted house that promises to feed on their darkest fears. The night turns deadly as they come to the horrifying realization that some nightmares are real.",
@@ -1691,23 +1710,41 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 
 		SirtyaBranch branch1 = new SirtyaBranch("Elm's street 25, Varrock");
-		branch1.addHall(hall1);
-		branch1.addHall(hall2);
-		branch1.addHall(hall3);
-		branch1.addHall(hall4);
 		SirtyaBranch branch2 = new SirtyaBranch("Riverdale 29, Falador");
-		branch2.addHall(hall5);
-		branch1.addHall(hall6);
-		branch1.addHall(hall7);
 		SirtyaBranch branch3 = new SirtyaBranch("Wa7awee7 117, Lumbrige");
-		branch3.addHall(hall8);
-		branch1.addHall(hall9);
-		branch1.addHall(hall10);
-		branch1.addHall(hall11);
+
 		session.save(branch1);
 		session.save(branch2);
 		session.save(branch3);
 		session.flush();
+		
+		Hall hall1 = new Hall(4, 5, 18, "1",branch1);
+		Hall hall2 = new Hall(5, 5, 25, "2",branch1);
+		Hall hall3 = new Hall(6, 6, 36, "3",branch1);
+		Hall hall4 = new Hall(5, 6, 28, "4",branch1);
+		Hall hall5 = new Hall(3, 6, 18, "1",branch2);
+		Hall hall6 = new Hall(6, 5, 30, "5",branch1);
+		Hall hall7 = new Hall(5, 5, 23, "6",branch1);
+		Hall hall8 = new Hall(5, 4, 20, "1",branch3);
+		Hall hall9 = new Hall(4, 5, 18, "7",branch1);
+		Hall hall10 = new Hall(5, 5, 23, "8",branch1);
+		Hall hall11 = new Hall(4, 4, 16, "9",branch1);
+		session.save(hall1);
+		session.save(hall2);
+		session.save(hall3);
+		session.save(hall4);
+		session.save(hall5);
+		session.save(hall6);
+		session.save(hall7);
+		session.save(hall8);
+		session.save(hall9);
+		session.save(hall10);
+		session.save(hall11);
+		session.save(branch1);
+		session.save(branch2);
+		session.save(branch3);
+		session.flush();
+		
 
 		movie1.getSirtyaBranch().add(branch1);
 		movie1.getSirtyaBranch().add(branch2);
@@ -1720,26 +1757,16 @@ public class SimpleServer extends AbstractServer {
 		movie7.getSirtyaBranch().add(branch1);
 		movie7.getSirtyaBranch().add(branch2);
 
-		Screening screening_1 = new Screening("01/06/2021", "22:30", movie1, branch1);
-		Screening screening_2 = new Screening("02/06/2021", "23:45", movie1, branch2);
-		Screening screening_3 = new Screening("01/06/2021", "20:30", movie2, branch1);
-		Screening screening_4 = new Screening("03/06/2021", "22:00", movie1, branch2);
-		Screening screening_5 = new Screening("04/06/2021", "19:30", movie2, branch1);
-		Screening screening_6 = new Screening("02/06/2021", "23:45", movie2, branch3);
-		Screening screening_7 = new Screening("02/06/2021", "20:45", movie3, branch1);
-		Screening screening_8 = new Screening("03/06/2021", "16:45", movie4, branch3);
-		Screening screening_9 = new Screening("03/06/2021", "19:00", movie7, branch1);
-		Screening screening_10 = new Screening("05/06/2021", "17:00", movie7, branch2);
-		screening_1.setHall(hall1);
-		screening_2.setHall(hall5);
-		screening_3.setHall(hall2);
-		screening_4.setHall(hall6);
-		screening_5.setHall(hall3);
-		screening_6.setHall(hall11);
-		screening_7.setHall(hall3);
-		screening_8.setHall(hall10);
-		screening_9.setHall(hall4);
-		screening_10.setHall(hall6);
+		Screening screening_1 = new Screening("01/06/2021", "22:30", movie1, branch1,hall1);
+		Screening screening_2 = new Screening("02/06/2021", "23:45", movie1, branch2,hall5);
+		Screening screening_3 = new Screening("01/06/2021", "20:30", movie2, branch1,hall2);
+		Screening screening_4 = new Screening("03/06/2021", "22:00", movie1, branch2,hall5);
+		Screening screening_5 = new Screening("04/06/2021", "19:30", movie2, branch1,hall3);
+		Screening screening_6 = new Screening("02/06/2021", "23:45", movie2, branch3,hall8);
+		Screening screening_7 = new Screening("02/06/2021", "20:45", movie3, branch1,hall3);
+		Screening screening_8 = new Screening("03/06/2021", "16:45", movie4, branch3,hall8);
+		Screening screening_9 = new Screening("03/06/2021", "19:00", movie7, branch1,hall4);
+		Screening screening_10 = new Screening("05/06/2021", "17:00", movie7, branch2,hall6);
 		session.save(screening_1);
 		session.save(screening_2);
 		session.save(screening_3);
@@ -1750,6 +1777,8 @@ public class SimpleServer extends AbstractServer {
 		session.save(screening_8);
 		session.save(screening_9);
 		session.save(screening_10);
+		session.save(hall1);
+		System.out.println(hall1.getScreenings().size());
 		session.flush();
 
 		Worker worker_1 = new GeneralManager();

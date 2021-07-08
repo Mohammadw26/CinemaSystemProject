@@ -152,6 +152,13 @@ public class ChooseScreeningController {
 		branchCombo.setValue(null);
 		branchCombo.getEditor().setText("All");
 		search();
+		branchCombo_init = null;
+    	date1_init = null;
+    	date2_init = null;
+    	h1_init = null;
+    	h2_init = null;
+    	m1_init = null;
+    	m2_init = null;
     }
 	
     @FXML
