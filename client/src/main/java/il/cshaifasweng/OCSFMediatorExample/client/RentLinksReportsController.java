@@ -75,10 +75,16 @@ public class RentLinksReportsController {
 	@FXML
 	private Text monthsTabField;
 
-	@FXML
-	void ComplaintsView(ActionEvent event) {
+	  @FXML
+	    void ComplaintsView(ActionEvent event) {
+	    	try {
+				SimpleClient.getClient().sendToServer("#ComplaintsReportsRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-	}
+	    }
 
 	@FXML
 	void OtherSalesView(ActionEvent event) {
@@ -92,7 +98,12 @@ public class RentLinksReportsController {
 
 	@FXML
 	void RefundsView(ActionEvent event) {
-
+		try {
+			SimpleClient.getClient().sendToServer("#RefundReportsRequest");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -141,8 +152,6 @@ public class RentLinksReportsController {
 		monthsTabField.setText(month1);
 		int month = LocalDate.now().getMonthValue();
 		String date = String.format("%02d", month);
-		monthlinksField.setText(date);
-		monthsTabField.setText(date);
 		if (othersList != null) {
 			for (Purchase purchase : othersList) {
 				if (purchase.getClass().equals(Rent.class)) {

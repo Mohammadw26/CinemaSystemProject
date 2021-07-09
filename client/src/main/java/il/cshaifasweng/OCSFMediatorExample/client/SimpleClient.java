@@ -105,13 +105,41 @@ public class SimpleClient extends AbstractClient {
 				e.printStackTrace();
 			}
 			EventBus.getDefault().post(new TabReportsEvent((Message) msg));
+		} else if (msgString.startsWith("#complaintsReportsList")) {
+			ComplaintsReportsController.setAllBranches(((List<SirtyaBranch>) ((Message) msg).getObject()));
+			try {
+				App.setRoot("complaintsReports");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (msgString.startsWith("#RefundReportsList")) {
+			try {
+				App.setRoot("refundReports");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			EventBus.getDefault().post(new RefundReportsEvent((Message) msg));
+		} else if (msgString.startsWith("#RefreshRefundReportsRequest")) {
+			EventBus.getDefault().post(new RefundReportsEvent((Message) msg));
+		} else if (msgString.startsWith("#SendBranchTicketsReports")) {
+			System.out.println("wa7wa7 is here");
+
+			try {
+				App.setRoot("ticketsSalesByBranchReports");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("wa7wa7 is here");
+
+			EventBus.getDefault().post(new LinksBranchesReportsEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#RefreshfreeSeats")) {
-			System.out.println("pleaeeeeeeeeeeeeeeeeeeease");
 			EventBus.getDefault().post(new SeatSavedEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#RefreshSeatsSaved")) {
-			System.out.println("pleaeeeeeeeeeeeeeeeeeeease");
 			EventBus.getDefault().post(new SeatSavedEvent((Message) msg));
 		}
 		else if (msgString.startsWith("#SeatsSaved")) {

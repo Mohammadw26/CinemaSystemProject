@@ -32,7 +32,11 @@ public class SirtyaBranch implements Serializable{
 	private double totalTicketsIncome;
 	private int totalTicketsSold;
 	private int totalTabTicketsSold;
+	private double totalPurpleRefund;
+	private int branchComplaintNum;
+	private static int generalComplaintNum;
 	
+
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, targetEntity = Movie.class)
 	@JoinTable(name = "branches_movies", joinColumns = @JoinColumn(name = "branch_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
@@ -149,6 +153,36 @@ public class SirtyaBranch implements Serializable{
 
 	public void setComplaints(List<Complaint> complaints) {
 		this.complaints = complaints;
+	}
+
+
+	public double getTotalPurpleRefund() {
+		return totalPurpleRefund;
+	}
+
+
+	public void setTotalPurpleRefund(double totalPurpleRefund) {
+		this.totalPurpleRefund += totalPurpleRefund;
+	}
+
+
+	public static int getGeneralComplaintNum() {
+		return generalComplaintNum;
+	}
+
+
+	public static void setGeneralComplaintNum(int generalComplaintNum) {
+		SirtyaBranch.generalComplaintNum = generalComplaintNum;
+	}
+
+
+	public int getBranchComplaintNum() {
+		return branchComplaintNum;
+	}
+
+
+	public void setBranchComplaintNum(int branchComplaintNum) {
+		this.branchComplaintNum = branchComplaintNum;
 	}
 
 

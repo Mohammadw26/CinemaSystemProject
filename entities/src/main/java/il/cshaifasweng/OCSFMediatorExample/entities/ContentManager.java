@@ -21,21 +21,9 @@ public class ContentManager extends Worker {
 	 * 
 	 */
 	private static final long serialVersionUID = -7646477538037466098L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private List<Refund> refunds;
+	
 	
 	public ContentManager() {}
 	
-	public ContentManager (List <Refund> _refunds){
-		this.refunds = _refunds;
-	}
 	
-	public List <Refund> getRefunds(){
-		return this.refunds;
-	}
-	
-	public void setRefunds(List <Refund> _refunds){
-		this.refunds = _refunds;
-	}
 }

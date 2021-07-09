@@ -4,6 +4,7 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -41,6 +42,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMember;
 import il.cshaifasweng.OCSFMediatorExample.entities.CinemaMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.ComingSoonMovie;
 import il.cshaifasweng.OCSFMediatorExample.entities.Complaint;
+import il.cshaifasweng.OCSFMediatorExample.entities.ContentManager;
 import il.cshaifasweng.OCSFMediatorExample.entities.CustomerServiceEmployee;
 import il.cshaifasweng.OCSFMediatorExample.entities.FullOrderRequest;
 import il.cshaifasweng.OCSFMediatorExample.entities.GeneralManager;
@@ -143,6 +145,38 @@ public class SimpleServer extends AbstractServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else if (msgString.startsWith("#ComplaintsReportsRequest")) {
+			// movieList.setMoviesList(getAll(Movie.class));
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<SirtyaBranch> branchesList = getAllBranches();
+				ArrayList<Purchase> linksList = getAll(Purchase.class);
+
+				client.sendToClient(new Message("#complaintsReportsList", branchesList, linksList));
+				session.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (msgString.startsWith("#RefundReportsRequest")) {
+			// movieList.setMoviesList(getAll(Movie.class));
+			try {
+				session = sessionFactory.openSession();
+				ArrayList<SirtyaBranch> branchesList = getAllBranches();
+				ArrayList<Purchase> linksList = getAll(Purchase.class);
+
+				client.sendToClient(new Message("#RefundReportsList", branchesList, linksList));
+				session.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (msgString.startsWith("#TicketsReportsRequest")) {
 			session = sessionFactory.openSession();
 			branchesList = getAll(SirtyaBranch.class);
@@ -156,6 +190,9 @@ public class SimpleServer extends AbstractServer {
 		} else if (msgString.startsWith("#BranchesTicketsReportsRequest")) {
 			session = sessionFactory.openSession();
 			branchesList = getAll(SirtyaBranch.class);
+			if(branchesList == null) {
+				System.out.println("aaaaaaaa7");
+			}
 			try {
 				client.sendToClient(new Message("#SendBranchTicketsReports", branchesList));
 			} catch (IOException e) {
@@ -396,8 +433,12 @@ public class SimpleServer extends AbstractServer {
 			for (SirtyaBranch brnch : getAll(SirtyaBranch.class)) {
 				if (brnch.getId() == ((SirtyaBranch) msg.getObject4()).getId()) {
 					relBranch = brnch;
+					relBranch.setBranchComplaintNum(relBranch.getBranchComplaintNum() + 1);
+					
 				}
 			}
+		} else {
+			SirtyaBranch.setGeneralComplaintNum(SirtyaBranch.getGeneralComplaintNum() +1);
 		}
 		int complainerID;
 		if (msg.getObject().getClass() == CinemaMember.class) {
@@ -407,6 +448,7 @@ public class SimpleServer extends AbstractServer {
 				if (member.getId() == complainerID) {
 					Complaint newComplaint = new Complaint(member, (String) msg.getObject3(), (String) msg.getObject2(),
 							relBranch);
+					
 					session.save(newComplaint);
 					session.save(member);
 					session.flush();
@@ -451,8 +493,9 @@ public class SimpleServer extends AbstractServer {
 				session.flush();
 			}
 			try {
+				
 				client.sendToClient(new Message("#ComplaintSubmitted", newComplaint.getClient()));
-
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -679,6 +722,7 @@ public class SimpleServer extends AbstractServer {
 
 	private void ScreeningCancelationEmail(Screening screening) {
 		List<Ticket> list = screening.getTickets();
+		System.out.println(list.size());
 		if (list.size() == 0)
 			return;
 		for (Ticket ticket : list) {
@@ -690,20 +734,30 @@ public class SimpleServer extends AbstractServer {
 					+ " has been canceled.\n";
 			temp += "That includes the cancelation of your reservation over ticket ID " + ticket.getId() + ", Seat ID "
 					+ ticket.getSeat() + ".\n";
-			if (ticket.getCost() > 0) {
+			if (ticket.getCost() > 0 || !ticket.getStatus().equals("Canceled")) {
 				String temp2 = String.valueOf(ticket.getCreditCardNum());
 				temp2 = temp2.substring(temp2.length() - 4);
 				temp += "A refund to your credit card, *" + temp2 + ", will be made.\n\n -Dream Palace Cinema.";
 				ticket.setRefunded(true);
-				ticket.setStatus("Canceled");
+				ticket.setStatus("CanceledBySystem");
 				ticket.setScreening(null);
-				// screening.getTickets().remove(ticket);
+				if (screening.getBranch()!= null) {
+					screening.getBranch().setTotalPurpleRefund(ticket.getCost());
+					System.out.println(screening.getBranch().getId());
+					session.update(screening.getBranch());
+				}
+				else
+					System.out.println("nefse amoot");
+				//screening.getTickets().remove(ticket);
 				session.save(ticket);
-				// session.save(screening);
+				//session.save(screening);
 				session.flush();
 			}
 			SendEmailTLS.SendMailTo(ticket.getCustomer().getElectronicMail(), "Screening Cancelation Refund", temp);
 		}
+		branchesList = getAll(SirtyaBranch.class);
+		List<Purchase> linksList = getAll(Purchase.class);
+		this.sendToAllClients(new Message("#RefreshRefundReportsList", branchesList, linksList));
 		return;
 	}
 
@@ -1451,16 +1505,43 @@ public class SimpleServer extends AbstractServer {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
 		System.out.println("inside add screening");
-		/*
-		 * List<Hall> searchHall = getAll(Hall.class); List<SirtyaBranch> searchBranch =
-		 * getAll(SirtyaBranch.class); List<CinemaMovie> searchMovie =
-		 * getAll(CinemaMovie.class); for (Hall tempHall : searchHall) { if
-		 * (tempHall.getId() == request.getHall().getId()) request.setHall(tempHall); }
-		 * for (SirtyaBranch tempBranch : searchBranch) { if (tempBranch.getId() ==
-		 * request.getBranch().getId()) request.setBranch(tempBranch); } for
-		 * (CinemaMovie tempMovie : searchMovie) { if (tempMovie.getId() ==
-		 * request.getMovie().getId()) request.setMovie(tempMovie); }
-		 */
+		/*List<Hall> searchHall = getAll(Hall.class);
+		List<SirtyaBranch> searchBranch = getAll(SirtyaBranch.class);
+		List<CinemaMovie> searchMovie = getAll(CinemaMovie.class);
+		for (Hall tempHall : searchHall) {
+			if (tempHall.getId() == request.getHall().getId())
+				request.setHall(tempHall);
+		}
+		for (SirtyaBranch tempBranch : searchBranch) {
+			if (tempBranch.getId() == request.getBranch().getId())
+				request.setBranch(tempBranch);
+		}
+		for (CinemaMovie tempMovie : searchMovie) {
+			if (tempMovie.getId() == request.getMovie().getId())
+				request.setMovie(tempMovie);
+		}*/
+		List<TavSagoal> tavs = getAll(TavSagoal.class);
+		TavSagoal tav = tavs.get(0);
+		if (tav.isEffective()) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate start = LocalDate.parse(tav.getFromDate() , formatter);
+			LocalDate end = LocalDate.parse(tav.getToDate() , formatter);
+			LocalDate requestedDate = LocalDate.parse(request.getDate() , formatter);
+			System.out.println(start);
+			System.out.println(end);
+			System.out.println(requestedDate);
+			if (requestedDate.isAfter(start.minusDays(1)) && requestedDate.isBefore(end.plusDays(1))) {
+				System.out.println("restricting add screening");
+				Warning new_warning = new Warning("Due to Tav-Sagoal restriction you can't add screenings to this date.");
+				try {
+					client.sendToClient(new Message("#Warning", new_warning));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return;
+			}
+		}
 		List<SirtyaBranch> searchBranch = getAll(SirtyaBranch.class);
 		List<CinemaMovie> searchMovie = getAll(CinemaMovie.class);
 		for (SirtyaBranch tempBranch : searchBranch) {
@@ -1470,6 +1551,23 @@ public class SimpleServer extends AbstractServer {
 		for (Hall tempHall : request.getBranch().getHalls()) {
 			if (tempHall.getId() == request.getHall().getId())
 				request.setHall(tempHall);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy ',' HH:mm");
+			for (Screening hakrana : tempHall.getScreenings()) {
+				LocalDateTime curr = LocalDateTime.parse(hakrana.getScreeningDate() + " , " + hakrana.getScreeningTime(), formatter);
+				LocalDateTime requestedDate = LocalDateTime.parse(request.getDate() + " , " + request.getTime() , formatter);
+				
+				if (requestedDate.plusMinutes(1).isAfter(curr) && requestedDate.minusMinutes(1).isBefore(curr.plusHours(2))) {
+					System.out.println("restricting existing screening");
+					Warning new_warning = new Warning("The chosen hall is already occupied during these hours.");
+					try {
+						client.sendToClient(new Message("#Warning", new_warning));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return;
+				}
+			}
 		}
 		for (CinemaMovie tempMovie : searchMovie) {
 			if (tempMovie.getId() == request.getMovie().getId())
@@ -1479,8 +1577,8 @@ public class SimpleServer extends AbstractServer {
 		List<Screening> tempList = request.getHall().getScreenings();
 		System.out.println("hall screenings");
 		System.out.println(tempList.size());
-		Screening newScrn = new Screening(request.getDate(), request.getTime(), request.getMovie(), request.getBranch(),
-				request.getHall());
+		Screening newScrn = new Screening(request.getDate(), request.getTime(), request.getMovie(),
+				request.getBranch(),request.getHall());
 		System.out.println("after constructing.");
 		session.save(newScrn);
 		session.flush();
@@ -1490,7 +1588,6 @@ public class SimpleServer extends AbstractServer {
 			for (Movie movie : moviesList) {
 				if (movie.getId() == request.getMovieID()) {
 					client.sendToClient(new Message("#RefreshAdd", request.getMovie()));
-					sendRefreshcatalogevent();
 				}
 			}
 		} catch (IOException e) {
@@ -1502,19 +1599,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		session.close();
 	}
-
-//				else {
-//					Warning warning = new Warning("#notEmpty");
-//					try {
-//						client.sendToClient(warning);
-//						System.out.format("Sent warning to client %s\n", client.getInetAddress().getHostAddress());
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		}
-//				
 
 //			List<Movie> catalog =getAll(Movie.class);
 //			MovieList movieList = new MovieList(catalog);
@@ -1683,6 +1767,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Image.class);
 		configuration.addAnnotatedClass(Worker.class);
 		configuration.addAnnotatedClass(GeneralManager.class);
+		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(CustomerServiceEmployee.class);
 		configuration.addAnnotatedClass(BranchManager.class);
 		// configuration.addAnnotatedClass(Movie.class);
@@ -1915,38 +2000,38 @@ public class SimpleServer extends AbstractServer {
 		session.flush();
 
 		Worker worker_1 = new GeneralManager();
-		worker_1.setWokerUsername("Mohammadw26");
+		worker_1.setWokerUsername("GeneralManager");
 		worker_1.setWorkerEmail("Mohammadw996@gmail.com");
 		worker_1.setWorkerID("206794018");
 		worker_1.setWorkerName("Mohammad Wattad");
 		worker_1.setWorkerPassword("wa7wa7");
 
-		Worker worker_2 = new GeneralManager();
-		worker_2.setWokerUsername("Jerryaa1");
+		Worker worker_2 = new ContentManager();
+		worker_2.setWokerUsername("ContentManager");
 		worker_2.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_2.setWorkerID("318156171");
 		worker_2.setWorkerName("Jerry Manager account");
 		worker_2.setWorkerPassword("wa7wa7");
 
 		BranchManager worker_4 = new BranchManager();
-		worker_4.setWokerUsername("Eliaso");
-		worker_4.setWorkerEmail("Elias@gmail.com");
-		worker_4.setWorkerID("31813456171");
+		worker_4.setWokerUsername("BranchManager");
+		worker_4.setWorkerEmail("eliaso_sh@hotmail.com");
+		worker_4.setWorkerID("205350598");
 		worker_4.setWorkerName("Elias00");
 		worker_4.setWorkerPassword("wa7wa7");
 		worker_4.setBranch(branch3);
 
 		Worker worker_3 = new CustomerServiceEmployee();
-		worker_3.setWokerUsername("JerryService");
+		worker_3.setWokerUsername("CustomerService");
 		worker_3.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_3.setWorkerID("318156171");
 		worker_3.setWorkerName("Jerry Customer Service");
 		worker_3.setWorkerPassword("wa7wa7");
 
-		CinemaMember client_1 = new CinemaMember("Jerry", "Abu Ayoub", 318156171, 123456789, "jerryabuayob@gmail.com",
-				"Jerry98", "wa7wa7");
+		CinemaMember client_1 = new CinemaMember("Sakura", "Wawaze", 318156171, 123456789, "jerryabuayob@gmail.com",
+				"CinemaMember1", "wa7wa7");
 		CinemaMember client_2 = new CinemaMember("Naruto", "Uzumaki", 125874569, 0000000, "jerryabuayob@gmail.com",
-				"naruto1", "wa7wa7");
+				"CinemaMember2", "wa7wa7");
 
 		session.save(client_2);
 		session.save(worker_2);

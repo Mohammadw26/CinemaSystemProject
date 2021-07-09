@@ -176,10 +176,23 @@ public class PurchaseHistoryController {
 		if (historyTable.getItems().isEmpty()) {
 			Warning new_warning = new Warning("You don't have any purchases to cancel");
 			EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
+			return;
+		} else if (temp == null ) {
+			Warning new_warning = new Warning("You did not select an item.");
+			EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
+			return;
 		} else {
+		}
 			if (temp.getClass() == TabPurchase.class) {
-				warningLabel.setVisible(true);
+				Warning new_warning = new Warning("You can't cancel a tab order");
+				EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
 				return;
+			}
+			else if(temp.getStatus().contains("Canceled")){
+				Warning new_warning = new Warning("This item has already been canceled");
+				EventBus.getDefault().post(new WarningEvent((Warning) new_warning));
+				return;
+				
 			}
 			waitingAnchor.setVisible(true);
 			try {
@@ -194,7 +207,7 @@ public class PurchaseHistoryController {
 			}
 		}
 
-	}
+	
 
 	@FXML
 	void LogOut(ActionEvent event) {

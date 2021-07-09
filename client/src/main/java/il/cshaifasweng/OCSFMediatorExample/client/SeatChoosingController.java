@@ -259,6 +259,18 @@ public class SeatChoosingController {
 
 	@FXML
 	private ImageView poster;
+	
+	private static boolean automaticFlag = false;
+	
+	
+
+	public static boolean isAutomaticFlag() {
+		return automaticFlag;
+	}
+
+	public static void setAutomaticFlag(boolean automaticFlag) {
+		SeatChoosingController.automaticFlag = automaticFlag;
+	}
 
 	@FXML
 	void backToPrevScene(ActionEvent event) {
@@ -447,7 +459,8 @@ public class SeatChoosingController {
 				+ screening.getScreeningTime() + "\nCost per ticket: " + screening.getMovie().getTicketCost());
 		chosenNum.setText("Number of chosen seats: " + Integer.toString(counter));
 		availableSeatsLabel.setText("Available seats: " + Integer.toString(screening.getAvailableSeats()));
-		if (ChooseScreeningController.getRestrictions().isEffective()) {
+		if (SeatChoosingController.automaticFlag) {
+			SeatChoosingController.setAutomaticFlag(false);
 			AutomaticBooking();
 			bookSeat.setDisable(false);
 			bookSeat();

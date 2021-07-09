@@ -37,6 +37,7 @@ public class DisplayMovieDataController {
 	private int typeIndex; // 1 - Cinema Movie || 2 - On-Demand || 3 - Coming soon
 	private Movie movie;
 	private int counter;
+	private static boolean isContent = false;
 	private static boolean isWorker = false;
 	private String temp = "Screening times:\n";
 	
@@ -101,8 +102,9 @@ public class DisplayMovieDataController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-    	editBtn.setVisible(isWorker);
-    	deleteBtn.setVisible(isWorker);
+    	editBtn.setVisible(isContent);
+    	deleteBtn.setVisible(isContent);
+    	addToCartBtn.setVisible(!isWorker);
     	
     	tabPane.getStyleClass().add("floating");
         assert imageField != null : "fx:id=\"imageField\" was not injected: check your FXML file 'displayMovieData.fxml'.";
@@ -284,6 +286,14 @@ public class DisplayMovieDataController {
 			}
     	}
     }
+
+	public static void resetContent() {
+		DisplayMovieDataController.isContent = false;
+	}
+
+	public static void setContent() {
+		DisplayMovieDataController.isContent = true;
+	}
 
 }
 	

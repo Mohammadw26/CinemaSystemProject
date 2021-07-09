@@ -195,6 +195,7 @@ public class ChooseScreeningController {
     	else {
     		SeatChoosingController.setRequestedNum(Integer.parseInt(coronaCombo.getValue()));
     		try {
+    			SeatChoosingController.setAutomaticFlag(true);
     			App.setRoot("SeatChoosing");
     		} catch (IOException e) {
     			// TODO Auto-generated catch block

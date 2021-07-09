@@ -86,7 +86,6 @@ public class TicketsSalesReportController {
 
 	@FXML
 	void initialize() {
-		System.out.println("saf7a");
 		EventBus.getDefault().register(this);
 		branchCol.setCellValueFactory(new PropertyValueFactory<SirtyaBranch, String>("address"));
 		ticketsSoldCol.setCellValueFactory(new PropertyValueFactory<SirtyaBranch, Integer>("totalTicketsSold"));
@@ -95,10 +94,16 @@ public class TicketsSalesReportController {
 
 	}
 	
-    @FXML
-    void ComplaintsView(ActionEvent event) {
+	  @FXML
+	    void ComplaintsView(ActionEvent event) {
+	    	try {
+				SimpleClient.getClient().sendToServer("#ComplaintsReportsRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-    }
+	    }
 
     @FXML
     void OtherSalesView(ActionEvent event) {
@@ -111,9 +116,14 @@ public class TicketsSalesReportController {
     }
 
     @FXML
-    void RefundsView(ActionEvent event) {
-
-    }
+	void RefundsView(ActionEvent event) {
+		try {
+			SimpleClient.getClient().sendToServer("#RefundReportsRequest");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
     @FXML
 	void TicketSalesView(ActionEvent event) {
@@ -151,15 +161,12 @@ public class TicketsSalesReportController {
 
 	@Subscribe
 	public void onLinksReportsEvent(LinksReportsEvent event) {
-		System.out.println("event is here");
 
 		Platform.runLater(() -> {
 			list.clear();
 			list.addAll((List<SirtyaBranch>) event.getBranchesList());
-			System.out.println(list.size());
 			branchesTable.getItems().clear();
 			branchesTable.getItems().addAll(list);
-			System.out.println(list.size());
 
 		});
 	}

@@ -50,10 +50,16 @@ public class ReportsReviewController {
 	@FXML
 	private Button backButton;
 
-	@FXML
-	void ComplaintsView(ActionEvent event) {
+	  @FXML
+	    void ComplaintsView(ActionEvent event) {
+	    	try {
+				SimpleClient.getClient().sendToServer("#ComplaintsReportsRequest");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-	}
+	    }
 
 	@FXML
 	void OtherSalesView(ActionEvent event) {
@@ -67,7 +73,12 @@ public class ReportsReviewController {
 
 	@FXML
 	void RefundsView(ActionEvent event) {
-
+		try {
+			SimpleClient.getClient().sendToServer("#RefundReportsRequest");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -82,7 +93,7 @@ public class ReportsReviewController {
 		
 		} else if (DisplayListController.getWorker().getClass().equals(BranchManager.class)) {
 			try {
-				SimpleClient.getClient().sendToServer("#ReportsRequest");
+				SimpleClient.getClient().sendToServer("#BranchesTicketsReportsRequest");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

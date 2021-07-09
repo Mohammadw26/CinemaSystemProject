@@ -33,6 +33,7 @@ import javafx.scene.control.Button;
 import javafx.util.Pair;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 
 public class DisplayListController {
 	private static Worker worker;
@@ -131,8 +132,6 @@ public class DisplayListController {
 	@FXML
 	private AnchorPane anchorpane;
 
-	@FXML
-	private Button compliantsBtn;
 
 	@FXML
 	private Button addMovieBtn;
@@ -140,8 +139,7 @@ public class DisplayListController {
 	@FXML
 	private Button reviewRequestBtn;
 
-	@FXML
-	private Button employeeBtn;
+	
 
 	@FXML
 	private Button salesReportsBtn;
@@ -163,26 +161,28 @@ public class DisplayListController {
 
 	@FXML
 	private FontAwesomeIconView prevBtn2;
+	
+	@FXML
+    private Button customersRequests;
+	
+    @FXML
+    private ToolBar workerToolBar;
+    
+    @FXML
+    private Button contanctUsBtn;
+	
+    @FXML
+    private ToolBar clientToolBar;
 
 
     @FXML
     void GoToAddComplaint(ActionEvent event) {
-    	if (worker == null) {
-    		try {
-				App.setRoot("contactUs");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	} else {
-        	try {
-    			SimpleClient.getClient().sendToServer("#ComplaintsList");
-    		} catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    	}
-    	
+    	try {
+			App.setRoot("contactUs");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	@FXML
@@ -364,10 +364,9 @@ public class DisplayListController {
 			e1.printStackTrace();
 		}
 		DisplayMovieDataController.resetMode();
-		addMovieBtn.setVisible(false);
-		salesReportsBtn.setVisible(false);
-		employeeBtn.setVisible(false);
-		logOutBtn.setVisible(false);
+		DisplayMovieDataController.resetContent();
+
+		
 		worker = null;
 		member = null;
 		try {
@@ -401,50 +400,29 @@ public class DisplayListController {
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
 	void initialize() {
-		compliantsBtn.setText("Contact Us");
 		EventBus.getDefault().register(this);
 		identityLabel.setVisible(false);
 		if (worker != null) {
-			compliantsBtn.setText("Customers requests");
+			DisplayMovieDataController.setWorkerMode();
 			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
 			identityLabel.setVisible(true);
-			DisplayMovieDataController.setWorkerMode();
-			compliantsBtn.setVisible(true);
-			addMovieBtn.setVisible(true);
-			salesReportsBtn.setVisible(true);
-			employeeBtn.setVisible(true);
 			logOutBtn.setVisible(true);
-			tavSagoalBtn.setVisible(true);
-			if (worker.getClass().equals(GeneralManager.class)) {
-				compliantsBtn.setDisable(false);
-				addMovieBtn.setDisable(false);
-				salesReportsBtn.setDisable(false);
-				employeeBtn.setDisable(false);
-				logOutBtn.setDisable(false);
-				tavSagoalBtn.setDisable(false);
-				reviewRequestBtn.setVisible(true);
-			} else if (worker.getClass().equals(ContentManager.class)) {
-				compliantsBtn.setDisable(true);
-				addMovieBtn.setDisable(false);
+			workerToolBar.setVisible(true);
+			clientToolBar.setVisible(false);
+			if (worker.getClass().equals(ContentManager.class)) {
+				DisplayMovieDataController.setContent();
 				salesReportsBtn.setDisable(true);
-				employeeBtn.setDisable(false);
-				logOutBtn.setDisable(false);
+				tavSagoalBtn.setDisable(true);
+				reviewRequestBtn.setDisable(true);
+				customersRequests.setDisable(true);
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
-				compliantsBtn.setDisable(false);
 				addMovieBtn.setDisable(true);
 				salesReportsBtn.setDisable(true);
-				employeeBtn.setDisable(true);
-				logOutBtn.setDisable(false);
-				tavSagoalBtn.setDisable(false);
-			} else if (worker.getClass().equals(BranchManager.class)) {
-				compliantsBtn.setDisable(false);
-				addMovieBtn.setDisable(true);
-				salesReportsBtn.setDisable(false);
-				employeeBtn.setDisable(false);
-				logOutBtn.setDisable(false);
-				salesReportsBtn.setDisable(false);
-				salesReportsBtn.setVisible(true);
+				reviewRequestBtn.setDisable(true);
 
+			} else if (worker.getClass().equals(BranchManager.class)) {
+				addMovieBtn.setDisable(true);
+				reviewRequestBtn.setDisable(true);
 
 
 			}
@@ -452,6 +430,11 @@ public class DisplayListController {
 			identityLabel.setText("Logged in as:\n" + member.getFirstName() + " " + member.getLastName());
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
+			clientToolBar.setVisible(true);
+		}
+		else {
+			clientToolBar.setVisible(true);
+
 		}
 		pages = movieList.size() / 3;
 		if ((movieList.size() / 3) * 3 < movieList.size()) {
@@ -548,4 +531,14 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
+	
+    @FXML
+    void goTOComplaints(ActionEvent event) {
+    	try {
+			SimpleClient.getClient().sendToServer("#ComplaintsList");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }

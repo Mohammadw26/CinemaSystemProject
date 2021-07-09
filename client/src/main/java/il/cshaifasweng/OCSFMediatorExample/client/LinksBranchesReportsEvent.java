@@ -8,11 +8,9 @@ import il.cshaifasweng.OCSFMediatorExample.entities.SirtyaBranch;
 
 public class LinksBranchesReportsEvent {
 	private List<SirtyaBranch> branchesList;
-	private List<Purchase> purchasesListDemand;
 
 	public LinksBranchesReportsEvent(Message msg) {
-		this.branchesList = (List<SirtyaBranch>) msg.getObject();
-		this.purchasesListDemand = (List<Purchase>) msg.getObject2();
+		setBranchesList( (List<SirtyaBranch>) msg.getObject());
 
 	}
 
@@ -24,12 +22,5 @@ public class LinksBranchesReportsEvent {
 		this.branchesList = branchesList;
 	}
 
-	public List<Purchase> getPurchasesListDemand() {
-		return purchasesListDemand;
-	}
-
-	public void setPurchasesListDemand(List<Purchase> purchasesListDemand) {
-		this.purchasesListDemand = purchasesListDemand;
-	}
 
 }
