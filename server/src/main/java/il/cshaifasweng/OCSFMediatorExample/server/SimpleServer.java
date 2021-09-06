@@ -598,6 +598,19 @@ public class SimpleServer extends AbstractServer {
 			}
 
 		}
+		String temp2 = ("Dear Mr/Mrs "+request.getWorkerName()+"\nSadly, your request has been denied."
+				+"\nRequest Details:"+"\nMovie name: "+request.getMovieName()+
+				"\nRequested to change price from: " + request.getOldPrice() + " to: " + request.getNewPrice()
+				+ "\nSubmission Time: " + request.getRequestDate() + " " + request.getRequestTime());
+		List<Worker> workersList = getAll(Worker.class);
+		System.out.println(request.getWorkerID());
+		for(Worker worker : workersList) {
+			if(worker.getId() == request.getWorkerID()) {
+				SendEmailTLS.SendMailTo(worker.getWorkerEmail(), "Price Change Request Response", temp2);
+				break;
+			}
+		}
+		
 		session.delete(temp);
 		session.flush();
 		session.getTransaction().commit();
@@ -634,11 +647,24 @@ public class SimpleServer extends AbstractServer {
 						}
 
 					}
+					String temp2 = ("Dear Mr/Mrs "+request.getWorkerName()+"\nYour request has been accepted."
+							+"\nRequest Details:"+"\nMovie name: "+request.getMovieName()+
+							"\nRequested to change price from: " + request.getOldPrice() + " to: " + request.getNewPrice()
+							+ "\nSubmission Time: " + request.getRequestDate() + " " + request.getRequestTime());
+					List<Worker> workersList = getAll(Worker.class);
+					System.out.println(request.getWorkerID());
+					for(Worker worker : workersList) {
+						if(worker.getId() == request.getWorkerID()) {
+							SendEmailTLS.SendMailTo(worker.getWorkerEmail(), "Price Change Request Response", temp2);
+							break;
+						}
+					}
 					session.delete(temp);
 					session.flush();
 					session.getTransaction().commit();
 					priceList = getAll(Price.class);
 					client.sendToClient(new Message("#RefreshChangePrice", priceList));
+					sendRefreshcatalogevent();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -652,7 +678,12 @@ public class SimpleServer extends AbstractServer {
 	private void addPriceRequest(Price object, ConnectionToClient client) {
 		session = sessionFactory.openSession();
 		session.beginTransaction();
+		List<GeneralManager> m = getAll(GeneralManager.class);
+		String mail = m.get(0).getWorkerEmail();
 		Price request = object;
+		String temp2 = ("Dear General Manager, you have a new price change request waiting for you response,"
+				+ "\nhave a nice day");
+		SendEmailTLS.SendMailTo(mail, "New Price Request", temp2);
 		session.save(request);
 		session.flush();
 		session.getTransaction().commit();
@@ -734,7 +765,7 @@ public class SimpleServer extends AbstractServer {
 					+ " has been canceled.\n";
 			temp += "That includes the cancelation of your reservation over ticket ID " + ticket.getId() + ", Seat ID "
 					+ ticket.getSeat() + ".\n";
-			if (ticket.getCost() > 0 || !ticket.getStatus().equals("Canceled")) {
+			if (ticket.getCost() > 0 || !ticket.getStatus().contains("Canceled")) {
 				String temp2 = String.valueOf(ticket.getCreditCardNum());
 				temp2 = temp2.substring(temp2.length() - 4);
 				temp += "A refund to your credit card, *" + temp2 + ", will be made.\n\n -Dream Palace Cinema.";
@@ -958,6 +989,7 @@ public class SimpleServer extends AbstractServer {
 								session.update(member);
 								session.getTransaction().commit();
 								if (msg.toString().equals("#LoginRequestHistory")) {
+									System.out.println("aaa7");
 									Hibernate.initialize(member.getPurchases());
 									List<Purchase> temp = member.getPurchases();
 									client.sendToClient(new Message("#MemberLogIn4", member, temp));
@@ -972,10 +1004,27 @@ public class SimpleServer extends AbstractServer {
 								}
 								return;
 							} else {
+								if (msg.toString().equals("#LoginRequestHistory")) {
+									System.out.println("aaa7");
+									Hibernate.initialize(member.getPurchases());
+									List<Purchase> temp = member.getPurchases();
+									client.sendToClient(new Message("#MemberLogIn4", member, temp));
+								} else if (msg.toString().equals("#LoginRequestWhileBooking")) {
+									client.sendToClient(new Message("#MemberLogIn2", member));
+								} else if (msg.toString().equals("#LoginRequestWhileRenting")) {
+									client.sendToClient(new Message("#MemberLogIn3", member));
+								} else if (msg.toString().equals("#LoginRequestContactUs")) {
+									client.sendToClient(new Message("#MemberLogIn5", member));
+								} else if (msg.toString().equals("#LoginRequest")) {
+									client.sendToClient(new Message("#MemberLogIn", member));
+								}
+								else {
 								Warning new_warning = new Warning("Dear Customer,\nyou are already logged in");
 								client.sendToClient(new Message("#Warning", new_warning));
 								return;
+								}
 							}
+							return;
 						}
 					}
 				}
@@ -1144,10 +1193,17 @@ public class SimpleServer extends AbstractServer {
 		session.beginTransaction();
 		CinemaMember newCus = new CinemaMember(request.getFirstName(), request.getLastName(), request.getCustomerID(),
 				request.getCardNum(), request.getEmail(), request.getUsername(), request.getPassword());
+		newCus.setConnected(true);
 		newCus.setTicketsCredit(0);
 		session.save(newCus);
 		session.flush();
 		session.getTransaction().commit();
+		String temp = ("Dear Mr/Ms " + request.getFirstName() +" "+ request.getLastName()+" ,"+
+				"\nThank you for registering to Dream Palace Cinema."
+				+"\nYour username is: " + request.getUsername()+
+				"\nYour password is: "+request.getPassword() +
+				"\nWe hope that you would have a great time! \nThank you!");
+		SendEmailTLS.SendMailTo(request.getEmail(), "Membership Details", temp);
 		client.sendToClient(new Message("#MemberLogIn", newCus));
 	}
 
@@ -1535,6 +1591,7 @@ public class SimpleServer extends AbstractServer {
 				Warning new_warning = new Warning("Due to Tav-Sagoal restriction you can't add screenings to this date.");
 				try {
 					client.sendToClient(new Message("#Warning", new_warning));
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1588,6 +1645,8 @@ public class SimpleServer extends AbstractServer {
 			for (Movie movie : moviesList) {
 				if (movie.getId() == request.getMovieID()) {
 					client.sendToClient(new Message("#RefreshAdd", request.getMovie()));
+					sendRefreshcatalogevent();
+
 				}
 			}
 		} catch (IOException e) {
@@ -2010,14 +2069,14 @@ public class SimpleServer extends AbstractServer {
 		worker_2.setWokerUsername("ContentManager");
 		worker_2.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_2.setWorkerID("318156171");
-		worker_2.setWorkerName("Jerry Manager account");
+		worker_2.setWorkerName("Jerry ");
 		worker_2.setWorkerPassword("wa7wa7");
 
 		BranchManager worker_4 = new BranchManager();
 		worker_4.setWokerUsername("BranchManager");
 		worker_4.setWorkerEmail("eliaso_sh@hotmail.com");
 		worker_4.setWorkerID("205350598");
-		worker_4.setWorkerName("Elias00");
+		worker_4.setWorkerName("Elias Shalloufi");
 		worker_4.setWorkerPassword("wa7wa7");
 		worker_4.setBranch(branch3);
 
@@ -2025,12 +2084,12 @@ public class SimpleServer extends AbstractServer {
 		worker_3.setWokerUsername("CustomerService");
 		worker_3.setWorkerEmail("jerryabuayob@gmail.com");
 		worker_3.setWorkerID("318156171");
-		worker_3.setWorkerName("Jerry Customer Service");
+		worker_3.setWorkerName("Service tester");
 		worker_3.setWorkerPassword("wa7wa7");
 
-		CinemaMember client_1 = new CinemaMember("Sakura", "Wawaze", 318156171, 123456789, "jerryabuayob@gmail.com",
+		CinemaMember client_1 = new CinemaMember("client1", "tester", 318156171, 123456789, "jerryabuayob@gmail.com",
 				"CinemaMember1", "wa7wa7");
-		CinemaMember client_2 = new CinemaMember("Naruto", "Uzumaki", 125874569, 0000000, "jerryabuayob@gmail.com",
+		CinemaMember client_2 = new CinemaMember("client2", "tester", 125874569, 0000000, "jerryabuayob@gmail.com",
 				"CinemaMember2", "wa7wa7");
 
 		session.save(client_2);

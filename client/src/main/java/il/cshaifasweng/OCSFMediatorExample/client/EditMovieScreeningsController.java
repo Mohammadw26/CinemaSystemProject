@@ -221,7 +221,8 @@ public class EditMovieScreeningsController {
 			Price request = new Price(movie.getMovieTitle(), DisplayListController.getWorker().getWorkerName(),
 					movie.getTicketCost(), Double.parseDouble(priceField.getText()), date, time);
 			request.setMovieID(movie.getId());
-			request.setWorkerID(DisplayListController.getWorker().getWorkerID());
+			request.setWorkerID(DisplayListController.getWorker().getId());
+		
 			try {
 				SimpleClient.getClient().sendToServer(new Message("#AddPriceRequest", request));
 			} catch (IOException e) {

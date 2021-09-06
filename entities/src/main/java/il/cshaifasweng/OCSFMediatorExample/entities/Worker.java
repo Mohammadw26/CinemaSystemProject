@@ -39,6 +39,10 @@ public class Worker implements Serializable {
 		setConnected(false);
 	}
 	
+	public int getId() {
+		return id;
+	}
+	
 	public String getWorkerID(){
 		return this.workerId;
 	}

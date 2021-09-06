@@ -132,14 +132,20 @@ public class DisplayListController {
 	@FXML
 	private AnchorPane anchorpane;
 
-
 	@FXML
 	private Button addMovieBtn;
 
 	@FXML
 	private Button reviewRequestBtn;
+	@FXML
+	private ToolBar branchToolBar;
+	@FXML
+	private ToolBar generalManagerToolBar;
+	@FXML
+	private ToolBar serviceToolBar;
 
-	
+	@FXML
+	private ToolBar contentToolBar;
 
 	@FXML
 	private Button salesReportsBtn;
@@ -161,29 +167,25 @@ public class DisplayListController {
 
 	@FXML
 	private FontAwesomeIconView prevBtn2;
-	
+
 	@FXML
-    private Button customersRequests;
-	
-    @FXML
-    private ToolBar workerToolBar;
-    
-    @FXML
-    private Button contanctUsBtn;
-	
-    @FXML
-    private ToolBar clientToolBar;
+	private Button customersRequests;
 
+	@FXML
+	private Button contanctUsBtn;
 
-    @FXML
-    void GoToAddComplaint(ActionEvent event) {
-    	try {
+	@FXML
+	private ToolBar clientToolBar;
+
+	@FXML
+	void GoToAddComplaint(ActionEvent event) {
+		try {
 			App.setRoot("contactUs");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
 	@FXML
 	private Button tavSagoalBtn;
@@ -366,7 +368,6 @@ public class DisplayListController {
 		DisplayMovieDataController.resetMode();
 		DisplayMovieDataController.resetContent();
 
-		
 		worker = null;
 		member = null;
 		try {
@@ -407,23 +408,18 @@ public class DisplayListController {
 			identityLabel.setText("Logged in as:\n" + worker.getWorkerName());
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
-			workerToolBar.setVisible(true);
 			clientToolBar.setVisible(false);
 			if (worker.getClass().equals(ContentManager.class)) {
+				contentToolBar.setVisible(true);
 				DisplayMovieDataController.setContent();
-				salesReportsBtn.setDisable(true);
-				tavSagoalBtn.setDisable(true);
-				reviewRequestBtn.setDisable(true);
-				customersRequests.setDisable(true);
 			} else if (worker.getClass().equals(CustomerServiceEmployee.class)) {
-				addMovieBtn.setDisable(true);
-				salesReportsBtn.setDisable(true);
-				reviewRequestBtn.setDisable(true);
+				serviceToolBar.setVisible(true);
 
 			} else if (worker.getClass().equals(BranchManager.class)) {
-				addMovieBtn.setDisable(true);
-				reviewRequestBtn.setDisable(true);
+				branchToolBar.setVisible(true);
 
+			} else if (worker.getClass().equals(GeneralManager.class)) {
+				generalManagerToolBar.setVisible(true);
 
 			}
 		} else if (member != null) {
@@ -431,8 +427,7 @@ public class DisplayListController {
 			identityLabel.setVisible(true);
 			logOutBtn.setVisible(true);
 			clientToolBar.setVisible(true);
-		}
-		else {
+		} else {
 			clientToolBar.setVisible(true);
 
 		}
@@ -486,7 +481,7 @@ public class DisplayListController {
 	@FXML
 	void ViewReports(ActionEvent event) {
 		try {
-			App.setRoot("ReportsReview");
+			App.setRoot("reportsReview");
 //			SimpleClient.getClient().sendToServer("#ReportsRequest");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -531,14 +526,14 @@ public class DisplayListController {
 			e.printStackTrace();
 		}
 	}
-	
-    @FXML
-    void goTOComplaints(ActionEvent event) {
-    	try {
+
+	@FXML
+	void goTOComplaints(ActionEvent event) {
+		try {
 			SimpleClient.getClient().sendToServer("#ComplaintsList");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 }

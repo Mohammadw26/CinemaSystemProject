@@ -63,11 +63,14 @@ public class App extends Application {
 			try {
 				if (worker != null) {
 					newRequest = new LogInRequest(worker.getWokerUsername(), worker.getWorkerPassword());
+					SimpleClient.getClient().sendToServer(new Message("#LogOut", newRequest));
+
 				}
-				if (member != null) {
+				else if (member != null) {
 					newRequest = new LogInRequest(member.getUsername(), member.getPassword());
+					SimpleClient.getClient().sendToServer(new Message("#LogOut", newRequest));
+
 				}
-				SimpleClient.getClient().sendToServer(new Message("#LogOut", newRequest));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

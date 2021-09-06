@@ -59,6 +59,9 @@ public class PriceRequestsController {
 	private TableColumn<Price, String> timeCol;
 
 	@FXML
+	private TableColumn<Price, Integer> idCol;
+
+	@FXML
 	private Button declineBtn;
 
 	@FXML
@@ -92,9 +95,18 @@ public class PriceRequestsController {
 
 		} else {
 			Price request = new Price();
+			
 			request.setMovieID(temp.getMovieID());
 			request.setNewPrice(temp.getNewPrice());
 			request.setPriceId(temp.getID());
+			request.setMovieName(temp.getMovieName());
+			request.setOldPrice(temp.getOldPrice());
+			request.setWorkerID(temp.getWorkerID());
+			request.setRequestDate(temp.getRequestDate());
+			request.setRequestTime(temp.getRequestTime());
+			request.setWorkerName(temp.getWorkerName());
+			System.out.println(temp.getWorkerID());
+			System.out.println(request.getWorkerID());
 			try {
 				SimpleClient.getClient().sendToServer(new Message("#deletePrice", request));
 			} catch (IOException e) {
@@ -129,6 +141,7 @@ public class PriceRequestsController {
 		submittedbyCol.setCellValueFactory(new PropertyValueFactory<Price, String>("workerName"));
 		dateCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestDate"));
 		timeCol.setCellValueFactory(new PropertyValueFactory<Price, String>("requestTime"));
+		idCol.setCellValueFactory(new PropertyValueFactory<Price, Integer>("workerID"));
 
 		assert backButton != null : "fx:id=\"backButton\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert priceReqTable != null
@@ -145,7 +158,7 @@ public class PriceRequestsController {
 		assert timeCol != null : "fx:id=\"timeCol\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert declineBtn != null : "fx:id=\"declineBtn\" was not injected: check your FXML file 'priceRequests.fxml'.";
 		assert acceptBtn != null : "fx:id=\"acceptBtn\" was not injected: check your FXML file 'priceRequests.fxml'.";
-		
+
 	}
 
 	@SuppressWarnings("unchecked")

@@ -138,12 +138,14 @@ public class DisplayMovieDataController {
 			}
 		}
 		if (typeIndex == 2 ) {
+			editBtn.setVisible(false);
 			costField.setText("24H rent cost: " + ((OnDemandMovie) movie).getCost() + " NIS");
 			ZonedDateTime date =  ((OnDemandMovie) movie).getDateTimeStart();
 			String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm").format(date);
 			screeningField.setText(formatted);
 		}
 		if (typeIndex == 3) {
+			editBtn.setVisible(false);
 			addToCartBtn.setVisible(false);
 			costField.setText("");
 		}

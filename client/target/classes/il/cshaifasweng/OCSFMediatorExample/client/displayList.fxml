@@ -24,34 +24,14 @@
                   <Image url="@wp2734837.jpg" />
                </image>
             </ImageView>
-            <ToolBar fx:id="workerToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);">
+            <ToolBar fx:id="contentToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);" visible="false">
               <items>
                 <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>
                   </Button>
-                  <Button fx:id="customersRequests" mnemonicParsing="false" onAction="#goTOComplaints" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Customer Requests">
-                     <font>
-                        <Font name="Arial" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="tavSagoalBtn" mnemonicParsing="false" onAction="#loadTavSagoalUpdate" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Update TavSagoal">
-                     <font>
-                        <Font name="Arial" size="10.0" />
-                     </font>
-                  </Button>
                   <Button fx:id="addMovieBtn" mnemonicParsing="false" onAction="#addMovie" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Add Movie">
-                     <font>
-                        <Font name="Arial" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="salesReportsBtn" mnemonicParsing="false" onAction="#ViewReports" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Sales Reports">
-                     <font>
-                        <Font name="Arial" size="10.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="reviewRequestBtn" mnemonicParsing="false" onAction="#ViewRequests" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Review Requests">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>
@@ -126,9 +106,9 @@
             <FontAwesomeIconView fx:id="prevBtn1" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="39.0" layoutY="1105.0" onMouseClicked="#prevPage1" size="50" text="" />
             <FontAwesomeIconView fx:id="nxtBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_RIGHT" layoutX="1214.0" layoutY="709.0" onMouseClicked="#nextPage2" size="50" text="" wrappingWidth="14.285714149475098" />
             <FontAwesomeIconView fx:id="prevBtn2" fill="WHITE" glyphName="ANGLE_DOUBLE_LEFT" layoutX="43.0" layoutY="706.0" onMouseClicked="#prevPage2" size="50" text="" />
-            <ToolBar fx:id="clientToolBar" layoutX="-2.0" layoutY="-1.0" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);">
+            <ToolBar fx:id="clientToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);" visible="false">
                <items>
-                  <Button fx:id="homeBtn1" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>
@@ -144,6 +124,58 @@
                      </font>
                   </Button>
                   <Button fx:id="compliantsBtn" mnemonicParsing="false" onAction="#GoToAddComplaint" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Contact Us">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+               </items>
+            </ToolBar>
+            <ToolBar fx:id="generalManagerToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);" visible="false">
+               <items>
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="salesReportsBtn" mnemonicParsing="false" onAction="#ViewReports" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Sales Reports">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="reviewRequestBtn" mnemonicParsing="false" onAction="#ViewRequests" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Review Requests">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+               </items>
+            </ToolBar>
+            <ToolBar fx:id="serviceToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);" visible="false">
+               <items>
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="customersRequests" mnemonicParsing="false" onAction="#goTOComplaints" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Customer Requests">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="tavSagoalBtn" mnemonicParsing="false" onAction="#loadTavSagoalUpdate" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Update TavSagoal">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+               </items>
+            </ToolBar>
+            <ToolBar fx:id="branchToolBar" prefHeight="46.0" prefWidth="1280.0" style="-fx-base: rgb(39,40,40); -fx-font-size: 12pt; -fx-background-color: linear-gradient(to bottom, derive(-fx-base,-30%), derive(-fx-base,-60%)),                linear-gradient(to bottom, rgb(74,75,78) 2%, rgb(39,40,40) 98%); -fx-background-insets: 0, 0 0 1 0; -fx-effect: dropshadow(two-pass-box,black,5,.2,0,0);" visible="false">
+               <items>
+                  <Button fx:id="homeBtn" mnemonicParsing="false" onAction="#returnToMain" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Home Page">
+                     <font>
+                        <Font name="Arial" size="10.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="salesReportsBtn" mnemonicParsing="false" onAction="#ViewReports" prefHeight="31.0" prefWidth="106.0" style="-fx-background-color: #090a0c,               linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),               linear-gradient(#20262b, #191d22),               radial-gradient(center 50% 0%, radius 100%, rgba(114,131,148,0.9), rgba(255,255,255,0)); -fx-background-radius: 5,4,3,5; -fx-background-insets: 0,1,2,0; -fx-text-fill: white; -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 ); -fx-text-fill: linear-gradient(white, #d0d0d0);" text="Sales Reports">
                      <font>
                         <Font name="Arial" size="10.0" />
                      </font>

@@ -16,7 +16,7 @@ public class Price implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int id;
 	private int movieID;
-	private String workerID;
+	private int workerID;
 	private String movieName;
 	private String workerName;
 	private String requestTime;
@@ -83,11 +83,11 @@ public class Price implements Serializable {
 	public void setWorkerName(String workerName) {
 		this.workerName = workerName;
 	}
-	public String getWorkerID() {
+	public int getWorkerID() {
 		return workerID;
 	}
-	public void setWorkerID(String string) {
-		this.workerID = string;
+	public void setWorkerID(int id) {
+		this.workerID = id;
 	}
 
 	public int getPriceId() {

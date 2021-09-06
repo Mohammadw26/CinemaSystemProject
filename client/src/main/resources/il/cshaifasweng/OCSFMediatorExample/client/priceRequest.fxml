@@ -28,7 +28,7 @@
             <TableColumn fx:id="newPriceCol" prefWidth="83.20001220703125" text="New Price" />
             <TableColumn fx:id="dateCol" prefWidth="120.0" text="Submittion Date" />
             <TableColumn fx:id="timeCol" prefWidth="136.800048828125" text="Submittion Time" />
-            <TableColumn fx:id="IdCol" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="idCol" prefWidth="75.0" text="idCol" visible="false" />
         </columns>
       </TableView>
       <Button fx:id="declineBtn" layoutX="369.0" layoutY="650.0" mnemonicParsing="false" onAction="#DeclineReq" prefHeight="26.0" prefWidth="91.0" text="Decline" />

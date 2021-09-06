@@ -259,6 +259,7 @@ public class PurchaseHistoryController {
 		invalidLogin1.setVisible(false);
 		logOutButton.setVisible(false);
 		if (DisplayListController.getMember() != null && status == 0) {
+			System.out.println("hello1");
 			userAnchor.setVisible(true);
 			logOutButton.setVisible(true);
 			CinemaMember member = DisplayListController.getMember();
@@ -270,6 +271,7 @@ public class PurchaseHistoryController {
 			logInButton.setText("Confirm");
 			loginAnchor1.setVisible(false);
 		} else if (status == 1 || status == 6) {
+			System.out.println("hello2");
 			userAnchor.setVisible(true);
 			welcomeLabel.setText(DisplayListController.getMember().getFirstName() + " "
 					+ DisplayListController.getMember().getLastName());
@@ -279,6 +281,7 @@ public class PurchaseHistoryController {
 			status = 0;
 		} else if (status == 2) {
 			if (DisplayListController.getMember()!=null) {
+				System.out.println("hello3");
 				userAnchor.setVisible(true);
 				logOutButton.setVisible(true);
 				CinemaMember member = DisplayListController.getMember();
@@ -288,15 +291,19 @@ public class PurchaseHistoryController {
 				oldUserField.setDisable(true);
 				logInButton.setText("Confirm");
 				loginAnchor1.setVisible(false);
+				welcomeLabel.setText("Welcome, " + member.getFirstName() + " " + member.getLastName());
 			}
 			invalidLogin.setVisible(true);
 			status = 0;
 		} else if (status == 4) {
+			System.out.println("hello4");
 			invalidLogin1.setVisible(true);
 			status = 0;
 		} else if (status == 3 || status == 5) {
+			System.out.println("hello5");
 			userAnchor.setVisible(true);
 			if (status == 5) {
+				System.out.println("hello6");
 				successLabel.setVisible(true);
 			}
 			welcomeLabel.setText("Welcome, " + unregClient.getFirstName() + " " + unregClient.getLastName());
