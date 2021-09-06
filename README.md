@@ -1,5 +1,13 @@
 # OCSF Cinema System Project
 
+## Description
+A project build as a cinema system in which: 
+1. Regular cutomers can book movies as guests or registered clients.
+2. Registered clients have the option to buy tickets with reduced price.
+3. Log-in panel for workers, and for every worker has different authorization level.
+4. Workers according to their authorization level can modify movies/screening times/seats or observe clients feedback and also trace the company income/outcome.
+
+
 ## Structure
 Pay attention to the three modules:
 1. **client** - a simple client built using JavaFX and OCSF. We use EventBus (which implements the mediator pattern) in order to pass events between classes (in this case: between SimpleClient and PrimaryController.
