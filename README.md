@@ -19,3 +19,8 @@ Pay attention to the three modules:
 2. Run the server using the exec:java goal in the server module.
 3. Run the client using the javafx:run goal in the client module.
 4. Press the button and see what happens!
+
+## Diving into the project
+1. First screen:
+  ![Screenshot (54)](https://user-images.githubusercontent.com/82311533/132223127-f2db26cd-789a-4aae-b380-168d30f764c6.png)
+
