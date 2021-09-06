@@ -35,12 +35,12 @@ Pay attention to the three modules:
 
 
 3. Sign-in screen:
-   a user can sign in as a client or as a worker with different authorities.
-   client user and pass: client1 - CinemaMember1 password: wa7wa7
-                         client2 - CinemaMember1 password: wa7wa7
-   workers users and pass:general manager - user: GeneralManager password: wa7wa7
-                          content manager - user: ContentManager password: wa7wa7
-                          branch manager - user: BranchManager password: wa7wa7
+   a user can sign in as a client or as a worker with different authorities.<br />
+   client user and pass: client1 - CinemaMember1 password: wa7wa7<br />
+                         client2 - CinemaMember1 password: wa7wa7<br />
+   workers users and pass:general manager - user: GeneralManager password: wa7wa7<br />
+                          content manager - user: ContentManager password: wa7wa7<br />
+                          branch manager - user: BranchManager password: wa7wa7<br />
                           customer service - user: CustomerService password: wa7wa7
                           
    ![Screenshot (56)](https://user-images.githubusercontent.com/82311533/132224536-d2f86d8c-7e31-4f9e-9b2b-8fb12f5c9fe4.png)
